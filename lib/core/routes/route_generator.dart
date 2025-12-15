@@ -1,0 +1,35 @@
+import 'package:ad_e_commerce/features/auth/pages/login_page.dart';
+import 'package:ad_e_commerce/features/auth/pages/otp_page.dart';
+import 'package:ad_e_commerce/features/auth/pages/signup_page.dart';
+import 'package:ad_e_commerce/features/auth/pages/user_details_page.dart';
+import 'package:ad_e_commerce/features/home/home_page.dart';
+import 'package:flutter/material.dart';
+import 'route_names.dart';
+
+class RouteGenerator {
+  static Route<dynamic> generate(RouteSettings settings) {
+    switch (settings.name) {
+      case RouteNames.login:
+        return MaterialPageRoute(builder: (_) => const LoginPage());
+
+      case RouteNames.otp:
+        return MaterialPageRoute(builder: (_) => const OtpPage());
+
+      case RouteNames.signup:
+        return MaterialPageRoute(builder: (_) => const SignupPage());
+
+      case RouteNames.userDetails:
+        return MaterialPageRoute(builder: (_) => const UserDetailsPage());
+
+      case RouteNames.home:
+        return MaterialPageRoute(builder: (_) => const HomePage());
+
+      default:
+        return MaterialPageRoute(
+          builder:
+              (_) =>
+                  const Scaffold(body: Center(child: Text('Route not found'))),
+        );
+    }
+  }
+}
