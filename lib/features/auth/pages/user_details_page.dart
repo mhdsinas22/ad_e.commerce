@@ -67,7 +67,7 @@ class _UserDetailsViewState extends State<_UserDetailsView> {
                   const SizedBox(height: 16),
                   const _EmailInput(),
                   const SizedBox(height: 16),
-                  const _GenderDropdown(),
+                  const _PasswordInput(),
                   const SizedBox(height: 32),
                   const _SaveButton(),
                 ],
@@ -146,39 +146,32 @@ class _EmailInput extends StatelessWidget {
   }
 }
 
-class _GenderDropdown extends StatelessWidget {
-  const _GenderDropdown();
+class _PasswordInput extends StatelessWidget {
+  const _PasswordInput();
 
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<UserDetailsBloc, UserDetailsState>(
-      buildWhen: (previous, current) => previous.gender != current.gender,
+      buildWhen: (previous, current) => previous.email != current.email,
       builder: (context, state) {
-        return DropdownButtonFormField<String>(
-          key: const Key('userDetailsForm_genderInput_dropdown'),
-          value: state.gender == 'Select Gender' ? null : state.gender,
-          onChanged: (gender) {
-            if (gender != null) {
-              context.read<UserDetailsBloc>().add(
-                UserDetailsGenderChanged(gender),
-              );
-            }
-          },
-          items:
-              ['Male', 'Female', 'Other']
-                  .map(
-                    (label) =>
-                        DropdownMenuItem(value: label, child: Text(label)),
-                  )
-                  .toList(),
+        return TextFormField(
+          key: const Key('userDetailsForm_emailInput_textField'),
+          onChanged:
+              (email) => context.read<UserDetailsBloc>().add(
+                UserDetailsEmailChanged(email),
+              ),
+          keyboardType: TextInputType.emailAddress,
           decoration: const InputDecoration(
-            labelText: 'Gender',
+            labelText: 'Password',
             border: OutlineInputBorder(),
-            prefixIcon: Icon(Icons.people),
+            prefixIcon: Icon(Icons.email),
           ),
           validator: (value) {
             if (value == null || value.isEmpty) {
-              return 'Please select your gender';
+              return 'Please enter your Password';
+            }
+            if (!RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$').hasMatch(value)) {
+              return 'Please enter a valid email';
             }
             return null;
           },
@@ -187,6 +180,47 @@ class _GenderDropdown extends StatelessWidget {
     );
   }
 }
+// class _GenderDropdown extends StatelessWidget {
+//   const _GenderDropdown();
+
+//   @override
+//   Widget build(BuildContext context) {
+//     return BlocBuilder<UserDetailsBloc, UserDetailsState>(
+//       buildWhen: (previous, current) => previous.gender != current.gender,
+//       builder: (context, state) {
+//         return DropdownButtonFormField<String>(
+//           key: const Key('userDetailsForm_genderInput_dropdown'),
+//           value: state.gender == 'Select Gender' ? null : state.gender,
+//           onChanged: (gender) {
+//             if (gender != null) {
+//               context.read<UserDetailsBloc>().add(
+//                 UserDetailsGenderChanged(gender),
+//               );
+//             }
+//           },
+//           items:
+//               ['Male', 'Female', 'Other']
+//                   .map(
+//                     (label) =>
+//                         DropdownMenuItem(value: label, child: Text(label)),
+//                   )
+//                   .toList(),
+//           decoration: const InputDecoration(
+//             labelText: 'Gender',
+//             border: OutlineInputBorder(),
+//             prefixIcon: Icon(Icons.people),
+//           ),
+//           validator: (value) {
+//             if (value == null || value.isEmpty) {
+//               return 'Please select your gender';
+//             }
+//             return null;
+//           },
+//         );
+//       },
+//     );
+//   }
+// }
 
 class _SaveButton extends StatelessWidget {
   const _SaveButton();

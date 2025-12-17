@@ -14,15 +14,18 @@ class OtpBloc extends Bloc<OtpEvent, OtpState> {
   OtpBloc({required this.phone})
     : supabase = Supabase.instance.client,
       super(const OtpState()) {
+    on<OtpTimerTicked>(_onTimerTicked);
+    _startTimer();
     // OTP input Change
     on<OtpCodeChanged>((event, emit) {
       emit(state.copyWith(otpCode: event.code));
     });
+
     // VERIFY OTP
     on<OtpVerify>(_onVerifyOtp);
     // RESEND OTP
     on<ResendOtp>(_onResendOtp);
-    // Start timer
+    // Start timerr
     _startTimer();
   }
   // VERIFY OTP LOGIC
@@ -55,7 +58,8 @@ class OtpBloc extends Bloc<OtpEvent, OtpState> {
   Future<void> _onResendOtp(ResendOtp event, Emitter<OtpState> emit) async {
     try {
       await supabase.auth.signInWithOtp(phone: "+91$phone");
-      emit(state.copyWith(timerSeconds: 30, status: OtpStatus.failed));
+      emit(state.copyWith(timerSeconds: 30, status: OtpStatus.initial));
+      _startTimer(); // restart timer properly
     } catch (e) {
       emit(
         state.copyWith(
@@ -70,18 +74,21 @@ class OtpBloc extends Bloc<OtpEvent, OtpState> {
   void _startTimer() {
     _timer?.cancel();
     _timer = Timer.periodic(Duration(seconds: 1), (timer) {
-      if (state.timerSeconds == 0) {
-        timer.cancel();
-      } else {
-        // ignore: invalid_use_of_visible_for_testing_member
-        emit(state.copyWith(timerSeconds: state.timerSeconds - 1));
-      }
+      add(OtpTimerTicked());
     });
   }
 
   Future<void> _stoptimer() {
     _timer?.cancel();
     return super.close();
+  }
+
+  void _onTimerTicked(OtpTimerTicked event, Emitter<OtpState> emit) {
+    if (state.timerSeconds == 0) {
+      _timer?.cancel();
+    } else {
+      emit(state.copyWith(timerSeconds: state.timerSeconds - 1));
+    }
   }
 
   @override

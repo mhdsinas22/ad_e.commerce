@@ -23,3 +23,5 @@ class OtpVerify extends OtpEvent {
 class ResendOtp extends OtpEvent {
   const ResendOtp();
 }
+
+class OtpTimerTicked extends OtpEvent {}

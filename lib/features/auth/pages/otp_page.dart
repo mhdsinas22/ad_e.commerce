@@ -31,6 +31,7 @@ class _OtpView extends StatelessWidget {
         elevation: 0,
       ),
       body: BlocListener<OtpBloc, OtpState>(
+        listenWhen: (previous, current) => previous.status != current.status,
         listener: (context, state) {
           if (state.status == OtpStatus.failed) {
             ScaffoldMessenger.of(context)
@@ -139,7 +140,10 @@ class _TimerAndResend extends StatelessWidget {
             ),
             const SizedBox(width: 16),
             TextButton(
-              onPressed: () => context.read<OtpBloc>().add(ResendOtp()),
+              onPressed:
+                  state.timerSeconds == 0
+                      ? () => context.read<OtpBloc>().add(ResendOtp())
+                      : null,
               child: const Text('Resend Code'),
             ),
           ],
