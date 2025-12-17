@@ -13,7 +13,8 @@ class RouteGenerator {
         return MaterialPageRoute(builder: (_) => const LoginPage());
 
       case RouteNames.otp:
-        return MaterialPageRoute(builder: (_) => const OtpPage());
+        final phone = settings.arguments as String;
+        return MaterialPageRoute(builder: (_) => OtpPage(phone: phone));
 
       case RouteNames.signup:
         return MaterialPageRoute(builder: (_) => const SignupPage());

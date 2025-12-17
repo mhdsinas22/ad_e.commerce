@@ -1,30 +1,25 @@
-part of 'signup_bloc.dart';
-
-enum SignupStatus { initial, loading, otpSent, failure }
+import 'package:equatable/equatable.dart';
+// enum SignupStatus { initial, loading, otpSent, failure }
 
 class SignupState extends Equatable {
-  final SignupStatus status;
-  final String phoneNumber;
-  final String? errorMessage;
-
-  const SignupState({
-    this.status = SignupStatus.initial,
-    this.phoneNumber = '',
-    this.errorMessage,
-  });
-
-  SignupState copyWith({
-    SignupStatus? status,
-    String? phoneNumber,
-    String? errorMessage,
-  }) {
-    return SignupState(
-      status: status ?? this.status,
-      phoneNumber: phoneNumber ?? this.phoneNumber,
-      errorMessage: errorMessage ?? this.errorMessage,
-    );
-  }
-
+  const SignupState();
   @override
-  List<Object?> get props => [status, phoneNumber, errorMessage];
+  List<Object?> get props => [];
+}
+
+class SignupInitial extends SignupState {}
+
+class SignupLoading extends SignupState {}
+
+class OtpSend extends SignupState {
+  final String phone;
+
+  const OtpSend(this.phone);
+}
+
+class SignupSuccess extends SignupState {}
+
+class SignupError extends SignupState {
+  final String message;
+  const SignupError(this.message);
 }

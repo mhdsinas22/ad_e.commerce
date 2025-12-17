@@ -1,7 +1,10 @@
+import 'package:ad_e_commerce/core/routes/route_names.dart';
 import 'package:ad_e_commerce/features/auth/bloc/signup/signup_bloc.dart';
+import 'package:ad_e_commerce/features/auth/bloc/signup/signup_event.dart';
+import 'package:ad_e_commerce/features/auth/bloc/signup/signup_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'otp_page.dart';
+import 'package:intl_phone_field/intl_phone_field.dart';
 
 class SignupPage extends StatelessWidget {
   const SignupPage({super.key});
@@ -35,27 +38,17 @@ class _SignupFormState extends State<_SignupForm> {
       ),
       body: BlocListener<SignupBloc, SignupState>(
         listener: (context, state) {
-          if (state.status == SignupStatus.failure) {
-            ScaffoldMessenger.of(context)
-              ..hideCurrentSnackBar()
-              ..showSnackBar(
-                SnackBar(
-                  content: Text(state.errorMessage ?? 'Signup Failure'),
-                  backgroundColor: Colors.red,
-                ),
-              );
-          } else if (state.status == SignupStatus.otpSent) {
-            ScaffoldMessenger.of(context)
-              ..hideCurrentSnackBar()
-              ..showSnackBar(
-                const SnackBar(
-                  content: Text('OTP Sent Successfully'),
-                  backgroundColor: Colors.green,
-                ),
-              );
-            Navigator.of(
+          if (state is OtpSend) {
+            Navigator.pushNamed(
               context,
-            ).push(MaterialPageRoute(builder: (_) => const OtpPage()));
+              RouteNames.otp,
+              arguments: state.phone,
+            );
+          }
+          if (state is SignupError) {
+            ScaffoldMessenger.of(
+              context,
+            ).showSnackBar(SnackBar(content: Text(state.message)));
           }
         },
         child: SafeArea(
@@ -98,31 +91,30 @@ class _PhoneInput extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<SignupBloc, SignupState>(
-      buildWhen:
-          (previous, current) => previous.phoneNumber != current.phoneNumber,
       builder: (context, state) {
-        return TextFormField(
+        return IntlPhoneField(
           key: const Key('signupForm_phoneInput_textField'),
-          onChanged:
-              (phone) =>
-                  context.read<SignupBloc>().add(SignupPhoneChanged(phone)),
+          initialCountryCode: "IN",
           keyboardType: TextInputType.phone,
           decoration: const InputDecoration(
             labelText: 'Phone Number',
             hintText: '1234567890',
             border: OutlineInputBorder(),
             prefixIcon: Icon(Icons.phone),
-            prefixText: '+1 ', // Example country code
+            prefixText: '+91 ', // Example country code
           ),
-          validator: (value) {
-            if (value == null || value.isEmpty) {
-              return 'Please enter your phone number';
-            }
-            if (!RegExp(r'^[0-9]+$').hasMatch(value)) {
-              return 'Please enter a valid phone number';
-            }
-            return null;
+          onChanged: (phone) {
+            context.read<SignupBloc>().add(PhoneChangedEvent(phone.number));
           },
+          // validator: (value) {
+          //   if (value == null || value.isEmpty) {
+          //     return 'Please enter your phone number';
+          //   }
+          //   if (!RegExp(r'^[0-9]+$').hasMatch(value)) {
+          //     return 'Please enter a valid phone number';
+          //   }
+          //   return null;
+          // },
         );
       },
     );
@@ -138,25 +130,24 @@ class _SendOtpButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<SignupBloc, SignupState>(
       builder: (context, state) {
-        return state.status == SignupStatus.loading
-            ? const Center(child: CircularProgressIndicator())
-            : FilledButton(
-              key: const Key('signupForm_continue_raisedButton'),
-              onPressed: () {
-                if (formKey.currentState!.validate()) {
-                  context.read<SignupBloc>().add(
-                    SignupSendOtp(state.phoneNumber),
-                  );
-                }
-              },
-              style: FilledButton.styleFrom(
-                padding: const EdgeInsets.symmetric(vertical: 16),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(8),
-                ),
-              ),
-              child: const Text('Send OTP'),
-            );
+        if (state is SignupLoading) {
+          return const Center(child: CircularProgressIndicator());
+        }
+        return FilledButton(
+          key: const Key('signupForm_continue_raisedButton'),
+          onPressed: () {
+            if (formKey.currentState!.validate()) {
+              context.read<SignupBloc>().add(SendOtpEvent());
+            }
+          },
+          style: FilledButton.styleFrom(
+            padding: const EdgeInsets.symmetric(vertical: 16),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(8),
+            ),
+          ),
+          child: const Text('Send OTP'),
+        );
       },
     );
   }

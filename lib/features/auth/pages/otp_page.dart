@@ -1,16 +1,19 @@
 import 'package:ad_e_commerce/features/auth/bloc/otp/otp_bloc.dart';
+import 'package:ad_e_commerce/features/auth/bloc/otp/otp_event.dart';
+import 'package:ad_e_commerce/features/auth/bloc/otp/otp_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'user_details_page.dart';
 
 class OtpPage extends StatelessWidget {
-  const OtpPage({super.key});
+  final String phone;
+  const OtpPage({super.key, this.phone = ""});
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => OtpBloc(),
+      create: (context) => OtpBloc(phone: phone),
       child: const _OtpView(),
     );
   }
@@ -136,7 +139,7 @@ class _TimerAndResend extends StatelessWidget {
             ),
             const SizedBox(width: 16),
             TextButton(
-              onPressed: () => context.read<OtpBloc>().add(const OtpResend()),
+              onPressed: () => context.read<OtpBloc>().add(ResendOtp()),
               child: const Text('Resend Code'),
             ),
           ],

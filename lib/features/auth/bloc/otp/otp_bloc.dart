@@ -1,43 +1,92 @@
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:equatable/equatable.dart';
+// ignore_for_file: unused_element
 
-part 'otp_event.dart';
-part 'otp_state.dart';
+import 'dart:async';
+
+import 'package:ad_e_commerce/features/auth/bloc/otp/otp_event.dart';
+import 'package:ad_e_commerce/features/auth/bloc/otp/otp_state.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
 class OtpBloc extends Bloc<OtpEvent, OtpState> {
-  OtpBloc() : super(const OtpState()) {
-    on<OtpCodeChanged>(_onCodeChanged);
-    on<OtpVerify>(_onVerify);
-    on<OtpResend>(_onResend);
+  final SupabaseClient supabase;
+  final String phone;
+  Timer? _timer;
+  OtpBloc({required this.phone})
+    : supabase = Supabase.instance.client,
+      super(const OtpState()) {
+    // OTP input Change
+    on<OtpCodeChanged>((event, emit) {
+      emit(state.copyWith(otpCode: event.code));
+    });
+    // VERIFY OTP
+    on<OtpVerify>(_onVerifyOtp);
+    // RESEND OTP
+    on<ResendOtp>(_onResendOtp);
+    // Start timer
+    _startTimer();
   }
-
-  void _onCodeChanged(OtpCodeChanged event, Emitter<OtpState> emit) {
-    emit(state.copyWith(otpCode: event.otpCode));
-  }
-
-  Future<void> _onVerify(OtpVerify event, Emitter<OtpState> emit) async {
+  // VERIFY OTP LOGIC
+  Future<void> _onVerifyOtp(OtpVerify event, Emitter<OtpState> emit) async {
+    if (state.otpCode.length != 6) {
+      emit(
+        state.copyWith(
+          status: OtpStatus.failed,
+          errorMessage: 'Enter valid 6 digit OTP',
+        ),
+      );
+      return;
+    }
     emit(state.copyWith(status: OtpStatus.verifying));
     try {
-      // TODO: Integrate actual AuthRepository here
-      await Future.delayed(const Duration(seconds: 2)); // Mock API delay
-
-      if (state.otpCode.length == 6) {
-        emit(state.copyWith(status: OtpStatus.verified));
-      } else {
-        emit(
-          state.copyWith(status: OtpStatus.failed, errorMessage: 'Invalid OTP'),
-        );
-      }
+      await supabase.auth.verifyOTP(
+        type: OtpType.sms,
+        token: state.otpCode,
+        phone: "+91$phone",
+      );
+      emit(state.copyWith(status: OtpStatus.verified));
     } catch (e) {
       emit(
-        state.copyWith(status: OtpStatus.failed, errorMessage: e.toString()),
+        state.copyWith(status: OtpStatus.failed, errorMessage: "Invalid Otp"),
       );
     }
   }
 
-  void _onResend(OtpResend event, Emitter<OtpState> emit) {
-    // Logic to resend OTP
-    // For UI, we can reset timer
-    emit(state.copyWith(timerSeconds: 30));
+  // RESEND  OTP LOGIC
+  Future<void> _onResendOtp(ResendOtp event, Emitter<OtpState> emit) async {
+    try {
+      await supabase.auth.signInWithOtp(phone: "+91$phone");
+      emit(state.copyWith(timerSeconds: 30, status: OtpStatus.failed));
+    } catch (e) {
+      emit(
+        state.copyWith(
+          status: OtpStatus.failed,
+          errorMessage: 'Failed to resend OTP',
+        ),
+      );
+    }
+  }
+
+  // TIMER LOGIC
+  void _startTimer() {
+    _timer?.cancel();
+    _timer = Timer.periodic(Duration(seconds: 1), (timer) {
+      if (state.timerSeconds == 0) {
+        timer.cancel();
+      } else {
+        // ignore: invalid_use_of_visible_for_testing_member
+        emit(state.copyWith(timerSeconds: state.timerSeconds - 1));
+      }
+    });
+  }
+
+  Future<void> _stoptimer() {
+    _timer?.cancel();
+    return super.close();
+  }
+
+  @override
+  Future<void> close() {
+    _timer?.cancel();
+    return super.close();
   }
 }
