@@ -14,13 +14,14 @@ class OtpPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) => OtpBloc(phone: phone),
-      child: const _OtpView(),
+      child: _OtpView(phone: phone),
     );
   }
 }
 
 class _OtpView extends StatelessWidget {
-  const _OtpView();
+  final String phone;
+  const _OtpView({required this.phone});
 
   @override
   Widget build(BuildContext context) {
@@ -51,9 +52,9 @@ class _OtpView extends StatelessWidget {
                   backgroundColor: Colors.green,
                 ),
               );
-            Navigator.of(
-              context,
-            ).push(MaterialPageRoute(builder: (_) => const UserDetailsPage()));
+            Navigator.of(context).push(
+              MaterialPageRoute(builder: (_) => UserDetailsPage(phone: phone)),
+            );
           }
         },
         child: SafeArea(

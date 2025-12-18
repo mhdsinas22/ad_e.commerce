@@ -14,13 +14,12 @@ class OtpBloc extends Bloc<OtpEvent, OtpState> {
   OtpBloc({required this.phone})
     : supabase = Supabase.instance.client,
       super(const OtpState()) {
-    on<OtpTimerTicked>(_onTimerTicked);
+    // on<OtpTimerTicked>(_onTimerTicked);
     _startTimer();
     // OTP input Change
     on<OtpCodeChanged>((event, emit) {
       emit(state.copyWith(otpCode: event.code));
     });
-
     // VERIFY OTP
     on<OtpVerify>(_onVerifyOtp);
     // RESEND OTP

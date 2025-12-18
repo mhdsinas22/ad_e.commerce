@@ -1,21 +1,36 @@
+import 'package:ad_e_commerce/core/routes/route_names.dart';
+import 'package:ad_e_commerce/data/repositories/auth_repository.dart';
+import 'package:ad_e_commerce/data/repositories/user_repository.dart';
 import 'package:ad_e_commerce/features/auth/bloc/user_details/user_details_bloc.dart';
+import 'package:ad_e_commerce/features/auth/bloc/user_details/user_details_event.dart';
+import 'package:ad_e_commerce/features/auth/bloc/user_details/user_details_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
 class UserDetailsPage extends StatelessWidget {
-  const UserDetailsPage({super.key});
+  final String phone;
+  const UserDetailsPage({super.key, required this.phone});
 
   @override
   Widget build(BuildContext context) {
+    final userRepository = UserRepository(Supabase.instance.client);
+    final authRepository = AuthRepository(Supabase.instance.client);
     return BlocProvider(
-      create: (context) => UserDetailsBloc(),
-      child: const _UserDetailsView(),
+      create:
+          (context) => UserDetailsBloc(
+            phone: phone,
+            userRepositoryy: userRepository,
+            authRepository: authRepository,
+          ),
+      child: _UserDetailsView(phone: phone),
     );
   }
 }
 
 class _UserDetailsView extends StatefulWidget {
-  const _UserDetailsView();
+  final String phone;
+  const _UserDetailsView({required this.phone});
 
   @override
   State<_UserDetailsView> createState() => _UserDetailsViewState();
@@ -35,23 +50,29 @@ class _UserDetailsViewState extends State<_UserDetailsView> {
       body: BlocListener<UserDetailsBloc, UserDetailsState>(
         listener: (context, state) {
           if (state.status == UserDetailsStatus.failure) {
-            ScaffoldMessenger.of(context)
-              ..hideCurrentSnackBar()
-              ..showSnackBar(
-                SnackBar(
-                  content: Text(state.errorMessage ?? 'Failed to save details'),
-                  backgroundColor: Colors.red,
-                ),
-              );
-          } else if (state.status == UserDetailsStatus.saved) {
-            ScaffoldMessenger.of(context)
-              ..hideCurrentSnackBar()
-              ..showSnackBar(
-                const SnackBar(
-                  content: Text('Profile Saved Successfully'),
-                  backgroundColor: Colors.green,
-                ),
-              );
+            WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+              ScaffoldMessenger.of(context)
+                ..hideCurrentSnackBar()
+                ..showSnackBar(
+                  SnackBar(
+                    content: Text(state.error ?? "Falid to save user detials"),
+                    backgroundColor: Colors.red,
+                  ),
+                );
+            });
+          } else if (state.status == UserDetailsStatus.success) {
+            WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+              ScaffoldMessenger.of(context)
+                ..hideCurrentSnackBar()
+                ..showSnackBar(
+                  SnackBar(
+                    content: Text("Profile Saved Successfully"),
+                    backgroundColor: Colors.green,
+                  ),
+                );
+              Navigator.pushReplacementNamed(context, RouteNames.home);
+            });
+
             // Navigate to Home or Dashboard
           }
         },
@@ -67,6 +88,8 @@ class _UserDetailsViewState extends State<_UserDetailsView> {
                   const SizedBox(height: 16),
                   const _EmailInput(),
                   const SizedBox(height: 16),
+                  _Phonenumber(phone: widget.phone),
+                  const SizedBox(height: 32),
                   const _PasswordInput(),
                   const SizedBox(height: 32),
                   const _SaveButton(),
@@ -86,16 +109,15 @@ class _NameInput extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<UserDetailsBloc, UserDetailsState>(
-      buildWhen: (previous, current) => previous.name != current.name,
+      buildWhen: (previous, current) => previous.username != current.username,
       builder: (context, state) {
         return TextFormField(
           key: const Key('userDetailsForm_nameInput_textField'),
           onChanged:
-              (name) => context.read<UserDetailsBloc>().add(
-                UserDetailsNameChanged(name),
-              ),
+              (name) =>
+                  context.read<UserDetailsBloc>().add(UsernameChanged(name)),
           decoration: const InputDecoration(
-            labelText: 'Full Name',
+            labelText: 'Username',
             border: OutlineInputBorder(),
             prefixIcon: Icon(Icons.person),
           ),
@@ -122,9 +144,8 @@ class _EmailInput extends StatelessWidget {
         return TextFormField(
           key: const Key('userDetailsForm_emailInput_textField'),
           onChanged:
-              (email) => context.read<UserDetailsBloc>().add(
-                UserDetailsEmailChanged(email),
-              ),
+              (email) =>
+                  context.read<UserDetailsBloc>().add(EmailChanged(email)),
           keyboardType: TextInputType.emailAddress,
           decoration: const InputDecoration(
             labelText: 'Email',
@@ -152,27 +173,27 @@ class _PasswordInput extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<UserDetailsBloc, UserDetailsState>(
-      buildWhen: (previous, current) => previous.email != current.email,
+      buildWhen: (previous, current) => previous.password != current.password,
       builder: (context, state) {
         return TextFormField(
-          key: const Key('userDetailsForm_emailInput_textField'),
+          key: const Key('userDetailsForm_passwordInput_textField'),
           onChanged:
-              (email) => context.read<UserDetailsBloc>().add(
-                UserDetailsEmailChanged(email),
+              (password) => context.read<UserDetailsBloc>().add(
+                PasswordChanged(password),
               ),
-          keyboardType: TextInputType.emailAddress,
+
           decoration: const InputDecoration(
             labelText: 'Password',
             border: OutlineInputBorder(),
-            prefixIcon: Icon(Icons.email),
+            prefixIcon: Icon(Icons.password_sharp),
           ),
           validator: (value) {
             if (value == null || value.isEmpty) {
               return 'Please enter your Password';
             }
-            if (!RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$').hasMatch(value)) {
-              return 'Please enter a valid email';
-            }
+            // if (!RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$').hasMatch(value)) {
+            //   return 'Please enter a valid email';
+            // }
             return null;
           },
         );
@@ -180,47 +201,35 @@ class _PasswordInput extends StatelessWidget {
     );
   }
 }
-// class _GenderDropdown extends StatelessWidget {
-//   const _GenderDropdown();
 
-//   @override
-//   Widget build(BuildContext context) {
-//     return BlocBuilder<UserDetailsBloc, UserDetailsState>(
-//       buildWhen: (previous, current) => previous.gender != current.gender,
-//       builder: (context, state) {
-//         return DropdownButtonFormField<String>(
-//           key: const Key('userDetailsForm_genderInput_dropdown'),
-//           value: state.gender == 'Select Gender' ? null : state.gender,
-//           onChanged: (gender) {
-//             if (gender != null) {
-//               context.read<UserDetailsBloc>().add(
-//                 UserDetailsGenderChanged(gender),
-//               );
-//             }
-//           },
-//           items:
-//               ['Male', 'Female', 'Other']
-//                   .map(
-//                     (label) =>
-//                         DropdownMenuItem(value: label, child: Text(label)),
-//                   )
-//                   .toList(),
-//           decoration: const InputDecoration(
-//             labelText: 'Gender',
-//             border: OutlineInputBorder(),
-//             prefixIcon: Icon(Icons.people),
-//           ),
-//           validator: (value) {
-//             if (value == null || value.isEmpty) {
-//               return 'Please select your gender';
-//             }
-//             return null;
-//           },
-//         );
-//       },
-//     );
-//   }
-// }
+class _Phonenumber extends StatelessWidget {
+  final String phone;
+  const _Phonenumber({required this.phone});
+
+  @override
+  Widget build(BuildContext context) {
+    return TextFormField(
+      enabled: false,
+      key: const Key('userDetailsForm_phoneInput_textField'),
+      initialValue: phone,
+      readOnly: true,
+      decoration: const InputDecoration(
+        labelText: 'PhoneNumber',
+        border: OutlineInputBorder(),
+        prefixIcon: Icon(Icons.phone),
+      ),
+      validator: (value) {
+        if (value == null || value.isEmpty) {
+          return 'Please enter your Password';
+        }
+        // if (!RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$').hasMatch(value)) {
+        //   return 'Please enter a valid email';
+        // }
+        return null;
+      },
+    );
+  }
+}
 
 class _SaveButton extends StatelessWidget {
   const _SaveButton();
@@ -229,7 +238,7 @@ class _SaveButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<UserDetailsBloc, UserDetailsState>(
       builder: (context, state) {
-        return state.status == UserDetailsStatus.saving
+        return state.status == UserDetailsStatus.loading
             ? const Center(child: CircularProgressIndicator())
             : FilledButton(
               key: const Key('userDetailsForm_save_raisedButton'),
@@ -242,9 +251,7 @@ class _SaveButton extends StatelessWidget {
                 // But simpler: I will access the form via `Form.of(context)` if I am inside Form.
                 // Wait, `_SaveButton` is inside `Form`.
                 if (Form.of(context).validate()) {
-                  context.read<UserDetailsBloc>().add(
-                    const UserDetailsSubmit(),
-                  );
+                  context.read<UserDetailsBloc>().add(SubmitUserDetails());
                 }
               },
               style: FilledButton.styleFrom(

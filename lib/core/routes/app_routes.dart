@@ -11,7 +11,7 @@ class AppRoutes {
     RouteNames.login: (_) => const LoginPage(),
     RouteNames.otp: (_) => const OtpPage(),
     RouteNames.signup: (_) => const SignupPage(),
-    RouteNames.userDetails: (_) => const UserDetailsPage(),
+    RouteNames.userDetails: (_) => const UserDetailsPage(phone: ""),
     RouteNames.home: (_) => const HomePage(),
   };
 }

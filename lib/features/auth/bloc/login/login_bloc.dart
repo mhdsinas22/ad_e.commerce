@@ -1,53 +1,32 @@
+import 'package:ad_e_commerce/data/repositories/auth_repository.dart';
+import 'package:ad_e_commerce/features/auth/bloc/login/login_event.dart';
+import 'package:ad_e_commerce/features/auth/bloc/login/login_state.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:equatable/equatable.dart';
-
-part 'login_event.dart';
-part 'login_state.dart';
 
 class LoginBloc extends Bloc<LoginEvent, LoginState> {
-  LoginBloc() : super(const LoginState()) {
-    on<LoginUsernameChanged>(_onUsernameChanged);
-    on<LoginPasswordChanged>(_onPasswordChanged);
-    on<LoginSubmitted>(_onSubmitted);
+  final AuthRepository authRepository;
+  LoginBloc({required this.authRepository}) : super(const LoginState()) {
+    on<LoginUsernameChanged>((event, emit) {
+      emit(state.copyWith(username: event.username));
+    });
+    on<LoginPasswordChanged>((event, emit) {
+      emit(state.copyWith(password: event.password));
+    });
+    on<LoginSubmitted>(_onLoginSubmitted);
   }
-
-  void _onUsernameChanged(
-    LoginUsernameChanged event,
-    Emitter<LoginState> emit,
-  ) {
-    emit(state.copyWith(username: event.username));
-  }
-
-  void _onPasswordChanged(
-    LoginPasswordChanged event,
-    Emitter<LoginState> emit,
-  ) {
-    emit(state.copyWith(password: event.password));
-  }
-
-  Future<void> _onSubmitted(
+  Future<void> _onLoginSubmitted(
     LoginSubmitted event,
     Emitter<LoginState> emit,
   ) async {
     emit(state.copyWith(status: LoginStatus.loading));
-    try {
-      // TODO: Integrate actual AuthRepository here
-      await Future.delayed(const Duration(seconds: 2)); // Mock API delay
-
-      if (event.username == 'user' && event.password == 'password') {
-        emit(state.copyWith(status: LoginStatus.success));
-      } else {
-        emit(
-          state.copyWith(
-            status: LoginStatus.failure,
-            errorMessage: 'Invalid username or password',
-          ),
-        );
-      }
-    } catch (e) {
-      emit(
-        state.copyWith(status: LoginStatus.failure, errorMessage: e.toString()),
-      );
+    final result = await authRepository.login(
+      emailorUsername: event.emailOrUsername,
+      password: event.password,
+    );
+    if (result == null) {
+      emit(state.copyWith(status: LoginStatus.success));
+    } else {
+      emit(state.copyWith(status: LoginStatus.failure, errorMessage: result));
     }
   }
 }

@@ -1,38 +1,41 @@
-part of 'user_details_bloc.dart';
+import 'package:equatable/equatable.dart';
 
-enum UserDetailsStatus { initial, saving, saved, failure }
+enum UserDetailsStatus { initial, loading, success, failure }
 
 class UserDetailsState extends Equatable {
-  final UserDetailsStatus status;
-  final String name;
+  final String phone;
   final String email;
-  final String gender;
-  final String? errorMessage;
+  final String username;
+  final String password;
+  final String? error;
+  final UserDetailsStatus? status;
 
   const UserDetailsState({
+    required this.phone,
+    this.email = "",
+    this.username = "",
+    this.password = "",
+    this.error,
     this.status = UserDetailsStatus.initial,
-    this.name = '',
-    this.email = '',
-    this.gender = 'Select Gender', // Default or placeholder
-    this.errorMessage,
   });
-
   UserDetailsState copyWith({
-    UserDetailsStatus? status,
-    String? name,
+    String? username,
     String? email,
-    String? gender,
-    String? errorMessage,
+    String? password,
+    String? error,
+    UserDetailsStatus? status,
   }) {
     return UserDetailsState(
-      status: status ?? this.status,
-      name: name ?? this.name,
+      phone: phone,
+      username: username ?? this.username,
+      password: password ?? this.password,
+      error: error,
       email: email ?? this.email,
-      gender: gender ?? this.gender,
-      errorMessage: errorMessage ?? this.errorMessage,
+      // ignore: unnecessary_this
+      status: status ?? this.status,
     );
   }
 
   @override
-  List<Object?> get props => [status, name, email, gender, errorMessage];
+  List<Object?> get props => [username, phone, email, password, status, error];
 }

@@ -1,39 +1,29 @@
-part of 'user_details_bloc.dart';
+import 'package:equatable/equatable.dart';
 
 abstract class UserDetailsEvent extends Equatable {
-  const UserDetailsEvent();
-
   @override
-  List<Object> get props => [];
+  List<Object?> get props => [];
 }
 
-class UserDetailsNameChanged extends UserDetailsEvent {
-  final String name;
-
-  const UserDetailsNameChanged(this.name);
-
+class UsernameChanged extends UserDetailsEvent {
+  final String username;
+  UsernameChanged(this.username);
   @override
-  List<Object> get props => [name];
+  List<Object?> get props => [username];
 }
 
-class UserDetailsEmailChanged extends UserDetailsEvent {
+class EmailChanged extends UserDetailsEvent {
   final String email;
-
-  const UserDetailsEmailChanged(this.email);
-
+  EmailChanged(this.email);
   @override
-  List<Object> get props => [email];
+  List<Object?> get props => [email];
 }
 
-class UserDetailsGenderChanged extends UserDetailsEvent {
-  final String gender;
-
-  const UserDetailsGenderChanged(this.gender);
-
+class PasswordChanged extends UserDetailsEvent {
+  final String password;
+  PasswordChanged(this.password);
   @override
-  List<Object> get props => [gender];
+  List<Object?> get props => [password];
 }
 
-class UserDetailsSubmit extends UserDetailsEvent {
-  const UserDetailsSubmit();
-}
+class SubmitUserDetails extends UserDetailsEvent {}

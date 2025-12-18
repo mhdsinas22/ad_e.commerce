@@ -1,15 +1,20 @@
 import 'package:ad_e_commerce/core/routes/route_names.dart';
+import 'package:ad_e_commerce/data/repositories/auth_repository.dart';
 import 'package:ad_e_commerce/features/auth/bloc/login/login_bloc.dart';
+import 'package:ad_e_commerce/features/auth/bloc/login/login_event.dart';
+import 'package:ad_e_commerce/features/auth/bloc/login/login_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
 class LoginPage extends StatelessWidget {
   const LoginPage({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final authrepository = AuthRepository(Supabase.instance.client);
     return BlocProvider(
-      create: (context) => LoginBloc(),
+      create: (context) => LoginBloc(authRepository: authrepository),
       child: const _LoginForm(),
     );
   }
@@ -197,7 +202,7 @@ class _LoginButton extends StatelessWidget {
                 if (formKey.currentState!.validate()) {
                   context.read<LoginBloc>().add(
                     LoginSubmitted(
-                      username: state.username,
+                      emailOrUsername: state.username,
                       password: state.password,
                     ),
                   );

@@ -20,7 +20,9 @@ class RouteGenerator {
         return MaterialPageRoute(builder: (_) => const SignupPage());
 
       case RouteNames.userDetails:
-        return MaterialPageRoute(builder: (_) => const UserDetailsPage());
+        return MaterialPageRoute(
+          builder: (_) => const UserDetailsPage(phone: ""),
+        );
 
       case RouteNames.home:
         return MaterialPageRoute(builder: (_) => const HomePage());
