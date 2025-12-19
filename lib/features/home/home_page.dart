@@ -14,6 +14,7 @@ class HomePage extends StatelessWidget {
           onPressed: () async {
             await Supabase.instance.client.auth.signOut();
             Navigator.pushReplacement(
+              // ignore: use_build_context_synchronously
               context,
               MaterialPageRoute(
                 builder: (context) {
@@ -25,7 +26,7 @@ class HomePage extends StatelessWidget {
           icon: Icon(Icons.logout),
         ),
       ),
-      body: Center(child: Text("HOE SCRREn")),
+      body: Center(child: Text("HOME SCREEN")),
     );
   }
 }

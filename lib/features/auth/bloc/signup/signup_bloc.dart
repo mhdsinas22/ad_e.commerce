@@ -25,34 +25,18 @@ class SignupBloc extends Bloc<SignupEvent, SignupState> {
     on<VerifyOtpEvent>((event, emit) async {
       emit(SignupLoading());
       try {
-        await supabase.auth.verifyOTP(
+        final res = await supabase.auth.verifyOTP(
           phone: "+91$phone",
           token: event.otp,
           type: OtpType.sms,
         );
-        emit(SignupSuccess());
+        if (res.session != null) {
+          emit(SignupSuccess());
+        } else {
+          emit(SignupError("OTP verification failed"));
+        }
       } catch (e) {
         emit(SignupError("Invalid OTP"));
-      }
-    });
-    // SAVE USER DETAILS
-    on<SaveUserDetails>((event, emit) async {
-      emit(SignupLoading());
-      final user = supabase.auth.currentUser;
-      if (user == null) {
-        emit(SignupError("User not authenticated"));
-        return;
-      }
-      try {
-        await supabase.from("users").insert({
-          "id": user.id,
-          "username": event.username,
-          "email": event.email,
-          " phone": phone,
-        });
-        emit(SignupSuccess());
-      } catch (e) {
-        emit(SignupError("Failed to save user"));
       }
     });
 

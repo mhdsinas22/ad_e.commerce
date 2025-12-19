@@ -14,6 +14,7 @@ class UserDetailsBloc extends Bloc<UserDetailsEvent, UserDetailsState> {
     required UserRepository userRepositoryy,
     required AuthRepository authRepository,
   }) : userRepository = userRepositoryy,
+       // ignore: prefer_initializing_formals
        authRepository = authRepository,
        super(UserDetailsState(phone: phone)) {
     on<UsernameChanged>((event, emit) {
@@ -47,6 +48,18 @@ class UserDetailsBloc extends Bloc<UserDetailsEvent, UserDetailsState> {
         password: state.password,
       );
       await userRepository.createUser(user);
+      final userBefore = Supabase.instance.client.auth.currentUser;
+      print("BEFORE UPDATE USER: ${userBefore?.email}");
+      await authRepository.updateEmailAndPassword(
+        email: state.email,
+        password: state.password,
+      );
+      // 5️⃣ 🔥 REFRESH SESSION (THIS IS THE KEY)
+      await Supabase.instance.client.auth.refreshSession();
+
+      final userAfter = Supabase.instance.client.auth.currentUser;
+      print("AFTER UPDATE USER: ${userAfter?.email}");
+
       emit(state.copyWith(status: UserDetailsStatus.success));
     } catch (e) {
       emit(

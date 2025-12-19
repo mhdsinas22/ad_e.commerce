@@ -32,7 +32,7 @@ class AuthRepository {
       return null;
     } on AuthException catch (e) {
       if (e.message.contains("Invalid login credentials")) {
-        return "INVALID_CREDENTIALS";
+        return "INVALID_CREDENTIALS:-${e.toString()}";
       }
       return 'UNKNOWN_ERROR:-${e.toString()}';
     }
