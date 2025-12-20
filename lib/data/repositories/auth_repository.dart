@@ -51,6 +51,21 @@ class AuthRepository {
       UserAttributes(email: email, password: password),
     );
   }
+
+  Future<void> reloadSession() async {
+    await supabaseClient.auth.refreshSession();
+  }
+
+  bool get isEmailVerified {
+    final user = supabaseClient.auth.currentUser;
+    return user?.emailConfirmedAt != null;
+  }
+
+  Future<void> signOut() async {
+    await supabaseClient.auth.signOut();
+  }
+
+  User? get currentUser => supabaseClient.auth.currentUser;
 }
 
 bool isEmail(String value) {

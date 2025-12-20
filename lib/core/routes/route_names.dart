@@ -6,4 +6,5 @@ class RouteNames {
   static const home = '/home';
   static const cart = '/cart';
   static const checkout = '/checkout';
+  static const emailVerification = '/email-verification';
 }

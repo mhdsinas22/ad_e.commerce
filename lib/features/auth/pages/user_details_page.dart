@@ -70,7 +70,10 @@ class _UserDetailsViewState extends State<_UserDetailsView> {
                     backgroundColor: Colors.green,
                   ),
                 );
-              Navigator.pushReplacementNamed(context, RouteNames.home);
+              Navigator.pushReplacementNamed(
+                context,
+                RouteNames.emailVerification,
+              );
             });
 
             // Navigate to Home or Dashboard

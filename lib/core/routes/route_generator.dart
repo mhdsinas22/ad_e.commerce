@@ -2,7 +2,9 @@ import 'package:ad_e_commerce/features/auth/pages/login_page.dart';
 import 'package:ad_e_commerce/features/auth/pages/otp_page.dart';
 import 'package:ad_e_commerce/features/auth/pages/signup_page.dart';
 import 'package:ad_e_commerce/features/auth/pages/user_details_page.dart';
+import 'package:ad_e_commerce/features/auth/pages/email_verification_page.dart';
 import 'package:ad_e_commerce/features/home/home_page.dart';
+
 import 'package:flutter/material.dart';
 import 'route_names.dart';
 
@@ -23,6 +25,9 @@ class RouteGenerator {
         return MaterialPageRoute(
           builder: (_) => const UserDetailsPage(phone: ""),
         );
+
+      case RouteNames.emailVerification:
+        return MaterialPageRoute(builder: (_) => const EmailVerificationPage());
 
       case RouteNames.home:
         return MaterialPageRoute(builder: (_) => const HomePage());

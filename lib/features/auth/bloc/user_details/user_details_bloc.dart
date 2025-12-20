@@ -4,7 +4,6 @@ import 'package:ad_e_commerce/data/repositories/user_repository.dart';
 import 'package:ad_e_commerce/features/auth/bloc/user_details/user_details_event.dart';
 import 'package:ad_e_commerce/features/auth/bloc/user_details/user_details_state.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
 
 class UserDetailsBloc extends Bloc<UserDetailsEvent, UserDetailsState> {
   final UserRepository userRepository;
@@ -35,7 +34,10 @@ class UserDetailsBloc extends Bloc<UserDetailsEvent, UserDetailsState> {
     emit(state.copyWith(status: UserDetailsStatus.loading));
     try {
       //  Auth user id
-      final userId = Supabase.instance.client.auth.currentUser?.id;
+      final userId = authRepository.currentUser?.id;
+      if (userId == null) {
+        throw Exception("User is not authenticated");
+      }
       // Create UserModel
       final user = UserModel(
         phone: state.phone,
@@ -43,22 +45,18 @@ class UserDetailsBloc extends Bloc<UserDetailsEvent, UserDetailsState> {
         username: state.username,
         userId: userId.toString(),
       );
-      await authRepository.updateEmailAndPassword(
-        email: state.email,
-        password: state.password,
-      );
-      await userRepository.createUser(user);
-      final userBefore = Supabase.instance.client.auth.currentUser;
-      print("BEFORE UPDATE USER: ${userBefore?.email}");
-      await authRepository.updateEmailAndPassword(
-        email: state.email,
-        password: state.password,
-      );
-      // 5️⃣ 🔥 REFRESH SESSION (THIS IS THE KEY)
-      await Supabase.instance.client.auth.refreshSession();
 
-      final userAfter = Supabase.instance.client.auth.currentUser;
-      print("AFTER UPDATE USER: ${userAfter?.email}");
+      // Update email and password if needed
+      await authRepository.updateEmailAndPassword(
+        email: state.email,
+        password: state.password,
+      );
+
+      // Save user details to database
+      await userRepository.createUser(user);
+
+      // Refresh session to reflect changes
+      await authRepository.reloadSession();
 
       emit(state.copyWith(status: UserDetailsStatus.success));
     } catch (e) {
