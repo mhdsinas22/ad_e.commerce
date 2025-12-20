@@ -86,6 +86,20 @@ class _LoginFormState extends State<_LoginForm> {
                     _PasswordInput(),
                     const SizedBox(height: 25),
                     Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        TextButton(
+                          onPressed: () {
+                            Navigator.pushNamed(
+                              context,
+                              RouteNames.forgotPassword,
+                            );
+                          },
+                          child: Text("Forgot PAsoowrd"),
+                        ),
+                      ],
+                    ),
+                    Row(
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: [
                         TextButton(

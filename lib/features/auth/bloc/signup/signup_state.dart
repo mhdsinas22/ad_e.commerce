@@ -9,23 +9,26 @@ class SignupState extends Equatable {
 }
 
 class SignupInitial extends SignupState {
+  @override
   final String phone;
   const SignupInitial({this.phone = ""}) : super(phone);
 }
 
 class SignupLoading extends SignupState {
+  @override
   final String phone;
   const SignupLoading({this.phone = ""}) : super(phone);
 }
 
 class OtpSend extends SignupState {
+  @override
   final String phone;
 
   const OtpSend(this.phone) : super(phone);
 }
 
 class SignupSuccess extends SignupState {
-  const SignupSuccess(String phone) : super(phone);
+  const SignupSuccess(super.phone);
 }
 
 class SignupError extends SignupState {
