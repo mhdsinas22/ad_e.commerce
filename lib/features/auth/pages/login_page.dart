@@ -1,4 +1,5 @@
 import 'package:ad_e_commerce/core/routes/route_names.dart';
+import 'package:ad_e_commerce/core/widgets/app_text.dart';
 import 'package:ad_e_commerce/data/repositories/auth_repository.dart';
 import 'package:ad_e_commerce/features/auth/bloc/login/login_bloc.dart';
 import 'package:ad_e_commerce/features/auth/bloc/login/login_event.dart';
@@ -33,6 +34,11 @@ class _LoginFormState extends State<_LoginForm> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: PreferredSize(
+        preferredSize: Size.fromHeight(180),
+        child: AppBar(),
+      ),
+      backgroundColor: Colors.white,
       body: BlocListener<LoginBloc, LoginState>(
         listener: (context, state) {
           if (state.status == LoginStatus.failure) {
@@ -57,62 +63,85 @@ class _LoginFormState extends State<_LoginForm> {
           }
         },
         child: SafeArea(
-          child: Center(
-            child: SingleChildScrollView(
-              padding: const EdgeInsets.all(24.0),
-              child: Form(
-                key: _formKey,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: [
-                    Text(
-                      'Welcome Back',
-                      style: Theme.of(context).textTheme.headlineMedium
-                          ?.copyWith(fontWeight: FontWeight.bold),
-                      textAlign: TextAlign.center,
+          child: SingleChildScrollView(
+            physics: NeverScrollableScrollPhysics(),
+            padding: const EdgeInsets.symmetric(horizontal: 24.0),
+            child: Form(
+              key: _formKey,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const SizedBox(height: 60),
+                  AppTexts.black('Login', fontSize: 52),
+                  const SizedBox(height: 8),
+                  AppTexts.medium(
+                    'Good to see you back! ❤',
+                    color: Colors.grey,
+                    fontSize: 16,
+                  ),
+                  const SizedBox(height: 48),
+                  _UsernameInput(),
+                  const SizedBox(height: 16),
+                  _PasswordInput(),
+                  const SizedBox(height: 12),
+                  Align(
+                    alignment: Alignment.centerRight,
+                    child: TextButton(
+                      onPressed: () {
+                        Navigator.pushNamed(context, RouteNames.forgotPassword);
+                      },
+                      child: AppTexts.medium(
+                        "Forgot Password?",
+                        color: Colors.grey[700]!,
+                        fontSize: 14,
+                      ),
                     ),
-                    const SizedBox(height: 8),
-                    Text(
-                      'Login to your account',
-                      style: Theme.of(
-                        context,
-                      ).textTheme.bodyLarge?.copyWith(color: Colors.grey),
-                      textAlign: TextAlign.center,
+                  ),
+                  const SizedBox(height: 24),
+                  _LoginButton(formKey: _formKey),
+                  const SizedBox(height: 16),
+                  Center(
+                    child: TextButton(
+                      onPressed: () {
+                        Navigator.maybePop(context);
+                      },
+                      child: AppTexts.medium("Cancel", color: Colors.grey),
                     ),
-                    const SizedBox(height: 48),
-                    _UsernameInput(),
-                    const SizedBox(height: 16),
-                    _PasswordInput(),
-                    const SizedBox(height: 25),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        TextButton(
-                          onPressed: () {
-                            Navigator.pushNamed(
-                              context,
-                              RouteNames.forgotPassword,
-                            );
-                          },
-                          child: Text("Forgot PAsoowrd"),
+                  ),
+                  const SizedBox(
+                    height: 20,
+                  ), // Spacing for safe area or just aesthetic
+                  // Keeping the Create Account link as it was in original logic
+                  // but maybe styling it better or deciding if it fits "Cancel" context.
+                  // The original had it. I will keep it at the bottom.
+                  Center(
+                    child: TextButton(
+                      onPressed: () {
+                        Navigator.pushNamed(context, RouteNames.signup);
+                      },
+                      child: RichText(
+                        text: TextSpan(
+                          text: "Don't have an account? ",
+                          style: const TextStyle(
+                            color: Colors.grey,
+                            fontFamily: 'Manrope',
+                          ),
+                          children: [
+                            TextSpan(
+                              text: "Create New Account",
+                              style: TextStyle(
+                                color: Colors.blue[700],
+                                fontWeight: FontWeight.bold,
+                                fontFamily: 'Manrope',
+                              ),
+                            ),
+                          ],
                         ),
-                      ],
+                      ),
                     ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                        TextButton(
-                          onPressed: () {
-                            Navigator.pushNamed(context, RouteNames.signup);
-                          },
-                          child: Text("Create New Accout"),
-                        ),
-                      ],
-                    ),
-                    _LoginButton(formKey: _formKey),
-                  ],
-                ),
+                  ),
+                  const SizedBox(height: 20),
+                ],
               ),
             ),
           ),
@@ -133,10 +162,28 @@ class _UsernameInput extends StatelessWidget {
           onChanged:
               (username) =>
                   context.read<LoginBloc>().add(LoginUsernameChanged(username)),
-          decoration: const InputDecoration(
-            labelText: 'Username',
-            border: OutlineInputBorder(),
-            prefixIcon: Icon(Icons.person_outline),
+          decoration: InputDecoration(
+            hintText: 'Email',
+            hintStyle: const TextStyle(color: Colors.grey),
+            filled: true,
+            fillColor: const Color(0xFFF6F6F6),
+            contentPadding: const EdgeInsets.symmetric(
+              horizontal: 20,
+              vertical: 16,
+            ),
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(12),
+              borderSide: BorderSide.none,
+            ),
+            enabledBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(12),
+              borderSide: BorderSide.none,
+            ),
+            focusedBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(12),
+              borderSide: const BorderSide(color: Color(0xFF0052FF), width: 1),
+            ),
+            prefixIcon: const Icon(Icons.email_outlined, color: Colors.grey),
           ),
           validator: (value) {
             if (value == null || value.isEmpty) {
@@ -170,12 +217,31 @@ class _PasswordInputState extends State<_PasswordInput> {
                   context.read<LoginBloc>().add(LoginPasswordChanged(password)),
           obscureText: _obscureText,
           decoration: InputDecoration(
-            labelText: 'Password',
-            border: const OutlineInputBorder(),
-            prefixIcon: const Icon(Icons.lock_outline),
+            hintText: 'Password',
+            hintStyle: const TextStyle(color: Colors.grey),
+            filled: true,
+            fillColor: const Color(0xFFF6F6F6),
+            contentPadding: const EdgeInsets.symmetric(
+              horizontal: 20,
+              vertical: 16,
+            ),
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(12),
+              borderSide: BorderSide.none,
+            ),
+            enabledBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(12),
+              borderSide: BorderSide.none,
+            ),
+            focusedBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(12),
+              borderSide: const BorderSide(color: Color(0xFF0052FF), width: 1),
+            ),
+            prefixIcon: const Icon(Icons.lock_outline, color: Colors.grey),
             suffixIcon: IconButton(
               icon: Icon(
                 _obscureText ? Icons.visibility : Icons.visibility_off,
+                color: Colors.grey,
               ),
               onPressed: () {
                 setState(() {
@@ -210,25 +276,33 @@ class _LoginButton extends StatelessWidget {
       builder: (context, state) {
         return state.status == LoginStatus.loading
             ? const Center(child: CircularProgressIndicator())
-            : FilledButton(
-              key: const Key('loginForm_continue_raisedButton'),
-              onPressed: () {
-                if (formKey.currentState!.validate()) {
-                  context.read<LoginBloc>().add(
-                    LoginSubmitted(
-                      emailOrUsername: state.username,
-                      password: state.password,
-                    ),
-                  );
-                }
-              },
-              style: FilledButton.styleFrom(
-                padding: const EdgeInsets.symmetric(vertical: 16),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(8),
+            : SizedBox(
+              width: double.infinity,
+              child: FilledButton(
+                key: const Key('loginForm_continue_raisedButton'),
+                onPressed: () {
+                  if (formKey.currentState!.validate()) {
+                    context.read<LoginBloc>().add(
+                      LoginSubmitted(
+                        emailOrUsername: state.username,
+                        password: state.password,
+                      ),
+                    );
+                  }
+                },
+                style: FilledButton.styleFrom(
+                  backgroundColor: const Color(0xFF0052FF),
+                  padding: const EdgeInsets.symmetric(vertical: 16),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(30),
+                  ),
+                ),
+                child: AppTexts.semiBold(
+                  'Next',
+                  color: Colors.white,
+                  fontSize: 16,
                 ),
               ),
-              child: const Text('Login'),
             );
       },
     );

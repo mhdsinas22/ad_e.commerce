@@ -10,7 +10,6 @@ class SignupBloc extends Bloc<SignupEvent, SignupState> {
     on<SendOtpEvent>((event, emit) async {
       final phone = state.phone;
       emit(SignupLoading(phone: phone));
-      print("PHONE => '${state.phone}' length=${state.phone.length}");
 
       if (phone.length != 10) {
         emit(

@@ -66,6 +66,19 @@ class AuthRepository {
   }
 
   User? get currentUser => supabaseClient.auth.currentUser;
+
+  Future<void> resetPasswordForEmail(String email) async {
+    try {
+      await supabaseClient.auth.resetPasswordForEmail(
+        email,
+        redirectTo: 'yourapp://reset-password',
+      );
+    } on AuthException catch (e) {
+      throw e.message;
+    } catch (e) {
+      throw 'An unexpected error occurred';
+    }
+  }
 }
 
 bool isEmail(String value) {

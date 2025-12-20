@@ -1,9 +1,13 @@
+import 'package:ad_e_commerce/core/constants/asset_constants.dart';
 import 'package:ad_e_commerce/core/routes/route_names.dart';
+import 'package:ad_e_commerce/core/widgets/app_text.dart';
+import 'package:ad_e_commerce/core/widgets/primary_button.dart';
 import 'package:ad_e_commerce/features/auth/bloc/signup/signup_bloc.dart';
 import 'package:ad_e_commerce/features/auth/bloc/signup/signup_event.dart';
 import 'package:ad_e_commerce/features/auth/bloc/signup/signup_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
 
 class SignupPage extends StatelessWidget {
@@ -31,11 +35,6 @@ class _SignupFormState extends State<_SignupForm> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Sign Up'),
-        backgroundColor: Colors.transparent,
-        elevation: 0,
-      ),
       body: BlocListener<SignupBloc, SignupState>(
         listener: (context, state) {
           if (state is OtpSend) {
@@ -59,24 +58,28 @@ class _SignupFormState extends State<_SignupForm> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                  Text(
-                    'Create Account',
-                    style: Theme.of(context).textTheme.headlineMedium?.copyWith(
-                      fontWeight: FontWeight.bold,
-                    ),
+                  SizedBox(height: 30),
+                  Row(
+                    children: [
+                      SvgPicture.asset(AssetConstants.createAccountText),
+                    ],
                   ),
                   const SizedBox(height: 8),
-                  Text(
-                    'Enter your mobile number to continue',
-                    style: Theme.of(
-                      context,
-                    ).textTheme.bodyLarge?.copyWith(color: Colors.grey),
-                  ),
                   const SizedBox(height: 48),
+                  const Spacer(flex: 6),
                   _PhoneInput(),
-                  const Spacer(),
+                  const SizedBox(height: 20),
                   _SendOtpButton(formKey: _formKey),
-                  const SizedBox(height: 24),
+                  const SizedBox(height: 30),
+                  InkWell(
+                    onTap: () {
+                      Navigator.pushReplacementNamed(
+                        context,
+                        RouteNames.onboardingstartpage,
+                      );
+                    },
+                    child: Center(child: AppTexts.regular("Cancel")),
+                  ),
                 ],
               ),
             ),
@@ -92,29 +95,33 @@ class _PhoneInput extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<SignupBloc, SignupState>(
       builder: (context, state) {
-        return IntlPhoneField(
-          key: const Key('signupForm_phoneInput_textField'),
-          initialCountryCode: "IN",
-          keyboardType: TextInputType.phone,
-          decoration: const InputDecoration(
-            labelText: 'Phone Number',
-            hintText: '1234567890',
-            border: OutlineInputBorder(),
-            prefixIcon: Icon(Icons.phone),
-            prefixText: '+91 ', // Example country code
+        return Container(
+          decoration: BoxDecoration(
+            color: Color(0xFFF5F5F5),
+            borderRadius: BorderRadius.circular(32),
           ),
-          onChanged: (phone) {
-            context.read<SignupBloc>().add(PhoneChangedEvent(phone.number));
-          },
-          // validator: (value) {
-          //   if (value == null || value.isEmpty) {
-          //     return 'Please enter your phone number';
-          //   }
-          //   if (!RegExp(r'^[0-9]+$').hasMatch(value)) {
-          //     return 'Please enter a valid phone number';
-          //   }
-          //   return null;
-          // },
+          padding: EdgeInsets.symmetric(horizontal: 16),
+          child: IntlPhoneField(
+            disableLengthCheck: true,
+            key: const Key('signupForm_phoneInput_textField'),
+            initialCountryCode: "IN",
+            keyboardType: TextInputType.phone,
+            decoration: InputDecoration(
+              hintText: 'Your Number',
+
+              border: InputBorder.none,
+              prefixIcon: Icon(Icons.phone),
+            ),
+            dropdownTextStyle: const TextStyle(
+              fontSize: 16,
+              color: Colors.black,
+            ),
+
+            showDropdownIcon: false,
+            onChanged: (phone) {
+              context.read<SignupBloc>().add(PhoneChangedEvent(phone.number));
+            },
+          ),
         );
       },
     );
@@ -133,20 +140,17 @@ class _SendOtpButton extends StatelessWidget {
         if (state is SignupLoading) {
           return const Center(child: CircularProgressIndicator());
         }
-        return FilledButton(
-          key: const Key('signupForm_continue_raisedButton'),
+        return PrimaryButton(
+          borderRadius: 16,
+          height: 64, // Slightly taller for modern look
+          width: double.infinity,
+          keyy: "signupForm_continue_raisedButton",
           onPressed: () {
             if (formKey.currentState!.validate()) {
               context.read<SignupBloc>().add(SendOtpEvent());
             }
           },
-          style: FilledButton.styleFrom(
-            padding: const EdgeInsets.symmetric(vertical: 16),
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(8),
-            ),
-          ),
-          child: const Text('Send OTP'),
+          text: "Done",
         );
       },
     );

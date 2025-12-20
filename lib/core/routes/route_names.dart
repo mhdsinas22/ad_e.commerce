@@ -9,4 +9,5 @@ class RouteNames {
   static const emailVerification = '/email-verification';
   static const restPassword = "/restPassword";
   static const forgotPassword = "/forgotPassword";
+  static const onboardingstartpage = "/onboarding-start-page";
 }

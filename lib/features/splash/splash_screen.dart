@@ -1,9 +1,8 @@
 import 'package:ad_e_commerce/core/constants/asset_constants.dart';
 import 'package:ad_e_commerce/core/utils/helpers.dart';
-import 'package:ad_e_commerce/features/auth/pages/login_page.dart';
 import 'package:ad_e_commerce/features/home/home_page.dart';
+import 'package:ad_e_commerce/features/onboardingStartPage/onboarding_StartPage.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -39,7 +38,7 @@ class _SplashScreenState extends State<SplashScreen> {
         context,
         MaterialPageRoute(
           builder: (context) {
-            return LoginPage();
+            return OnboardingStartpage();
           },
         ),
       );
@@ -53,18 +52,14 @@ class _SplashScreenState extends State<SplashScreen> {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Center(
-            child: SvgPicture.asset(
-              AssetConstants.appLogo,
-              width: 100,
+            child: Image.asset(
+              AssetConstants.airdropLetterLogo,
+              width: 400,
+
               // ignore: deprecated_member_use
-              color: Colors.blue,
             ),
           ),
           SizedBox(height: 10),
-          Text(
-            "AirDrop_Offical",
-            style: TextStyle(fontSize: 15, fontWeight: FontWeight.w600),
-          ),
         ],
       ),
     );

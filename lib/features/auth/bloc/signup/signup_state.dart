@@ -10,18 +10,21 @@ class SignupState extends Equatable {
 
 class SignupInitial extends SignupState {
   @override
+  // ignore: overridden_fields
   final String phone;
   const SignupInitial({this.phone = ""}) : super(phone);
 }
 
 class SignupLoading extends SignupState {
   @override
+  // ignore: overridden_fields
   final String phone;
   const SignupLoading({this.phone = ""}) : super(phone);
 }
 
 class OtpSend extends SignupState {
   @override
+  // ignore: overridden_fields
   final String phone;
 
   const OtpSend(this.phone) : super(phone);
