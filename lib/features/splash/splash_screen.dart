@@ -1,7 +1,7 @@
 import 'package:ad_e_commerce/core/constants/asset_constants.dart';
 import 'package:ad_e_commerce/core/utils/helpers.dart';
+import 'package:ad_e_commerce/features/auth/pages/user_details_page.dart';
 import 'package:ad_e_commerce/features/home/home_page.dart';
-import 'package:ad_e_commerce/features/onboardingStartPage/onboarding_StartPage.dart';
 import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
@@ -38,7 +38,7 @@ class _SplashScreenState extends State<SplashScreen> {
         context,
         MaterialPageRoute(
           builder: (context) {
-            return OnboardingStartpage();
+            return UserDetailsPage(phone: "");
           },
         ),
       );

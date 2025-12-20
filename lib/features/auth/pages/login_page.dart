@@ -72,7 +72,7 @@ class _LoginFormState extends State<_LoginForm> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   const SizedBox(height: 60),
-                  AppTexts.black('Login', fontSize: 52),
+                  AppTexts.semiBold('Login', fontSize: 52),
                   const SizedBox(height: 8),
                   AppTexts.medium(
                     'Good to see you back! ❤',
@@ -103,43 +103,15 @@ class _LoginFormState extends State<_LoginForm> {
                   Center(
                     child: TextButton(
                       onPressed: () {
-                        Navigator.maybePop(context);
+                        Navigator.pushReplacementNamed(
+                          context,
+                          RouteNames.onboardingstartpage,
+                        );
                       },
                       child: AppTexts.medium("Cancel", color: Colors.grey),
                     ),
                   ),
-                  const SizedBox(
-                    height: 20,
-                  ), // Spacing for safe area or just aesthetic
-                  // Keeping the Create Account link as it was in original logic
-                  // but maybe styling it better or deciding if it fits "Cancel" context.
-                  // The original had it. I will keep it at the bottom.
-                  Center(
-                    child: TextButton(
-                      onPressed: () {
-                        Navigator.pushNamed(context, RouteNames.signup);
-                      },
-                      child: RichText(
-                        text: TextSpan(
-                          text: "Don't have an account? ",
-                          style: const TextStyle(
-                            color: Colors.grey,
-                            fontFamily: 'Manrope',
-                          ),
-                          children: [
-                            TextSpan(
-                              text: "Create New Account",
-                              style: TextStyle(
-                                color: Colors.blue[700],
-                                fontWeight: FontWeight.bold,
-                                fontFamily: 'Manrope',
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ),
+                  const SizedBox(height: 20),
                   const SizedBox(height: 20),
                 ],
               ),

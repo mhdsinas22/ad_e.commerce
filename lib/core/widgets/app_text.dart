@@ -6,15 +6,15 @@ class AppTexts {
   static const String _fontFamily = "Manrope";
 
   // ---------- THIN (w100) ----------
-  static Text thin(
-    String text, {
-    double fontSize = 14,
-    Color color = Colors.black,
-    TextAlign align = TextAlign.start,
-    double height = 1.2,
-  }) {
-    return _text(text, fontSize, FontWeight.w100, color, align, height);
-  }
+  // static Text thin(
+  //   String text, {
+  //   double fontSize = 14,
+  //   Color color = Colors.black,
+  //   TextAlign align = TextAlign.start,
+  //   double height = 1.2,
+  // }) {
+  //   return _text(text, fontSize, FontWeight.w100, color, align, height);
+  // }
 
   // ---------- EXTRA LIGHT (w200) ----------
   static Text extraLight(
@@ -94,15 +94,15 @@ class AppTexts {
   }
 
   // ---------- BLACK (w900) ----------
-  static Text black(
-    String text, {
-    double fontSize = 20,
-    Color color = Colors.black,
-    TextAlign align = TextAlign.start,
-    double height = 1.2,
-  }) {
-    return _text(text, fontSize, FontWeight.w900, color, align, height);
-  }
+  // static Text black(
+  //   String text, {
+  //   double fontSize = 20,
+  //   Color color = Colors.black,
+  //   TextAlign align = TextAlign.start,
+  //   double height = 1.2,
+  // }) {
+  //   return _text(text, fontSize, FontWeight.w900, color, align, height);
+  // }
 
   // ---------- COMMON METHOD ----------
   static Text _text(
@@ -121,6 +121,7 @@ class AppTexts {
         fontSize: fontSize,
         fontWeight: weight,
         color: color,
+        height: height, // 🔥 YOU MISSED THIS
       ),
     );
   }

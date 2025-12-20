@@ -1,11 +1,18 @@
+import 'package:ad_e_commerce/core/constants/asset_constants.dart';
 import 'package:ad_e_commerce/core/routes/route_names.dart';
+import 'package:ad_e_commerce/core/widgets/app_text.dart';
+import 'package:ad_e_commerce/core/widgets/app_text_form_field.dart';
+import 'package:ad_e_commerce/core/widgets/primary_button.dart';
 import 'package:ad_e_commerce/data/repositories/auth_repository.dart';
 import 'package:ad_e_commerce/data/repositories/user_repository.dart';
 import 'package:ad_e_commerce/features/auth/bloc/user_details/user_details_bloc.dart';
 import 'package:ad_e_commerce/features/auth/bloc/user_details/user_details_event.dart';
 import 'package:ad_e_commerce/features/auth/bloc/user_details/user_details_state.dart';
+import 'package:ad_e_commerce/features/auth/widgets/phone_input_field.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:intl_phone_field/intl_phone_field.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 class UserDetailsPage extends StatelessWidget {
@@ -42,11 +49,6 @@ class _UserDetailsViewState extends State<_UserDetailsView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Complete Profile'),
-        backgroundColor: Colors.transparent,
-        elevation: 0,
-      ),
       body: BlocListener<UserDetailsBloc, UserDetailsState>(
         listener: (context, state) {
           if (state.status == UserDetailsStatus.failure) {
@@ -87,6 +89,14 @@ class _UserDetailsViewState extends State<_UserDetailsView> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
+                  Row(
+                    children: [
+                      SvgPicture.asset(AssetConstants.complelteProfileText),
+                    ],
+                  ),
+                  const SizedBox(height: 16),
+                  Row(children: [SvgPicture.asset(AssetConstants.uploadPhoto)]),
+                  const SizedBox(height: 16),
                   const _NameInput(),
                   const SizedBox(height: 16),
                   const _EmailInput(),
@@ -114,22 +124,18 @@ class _NameInput extends StatelessWidget {
     return BlocBuilder<UserDetailsBloc, UserDetailsState>(
       buildWhen: (previous, current) => previous.username != current.username,
       builder: (context, state) {
-        return TextFormField(
-          key: const Key('userDetailsForm_nameInput_textField'),
-          onChanged:
-              (name) =>
-                  context.read<UserDetailsBloc>().add(UsernameChanged(name)),
-          decoration: const InputDecoration(
-            labelText: 'Username',
-            border: OutlineInputBorder(),
-            prefixIcon: Icon(Icons.person),
-          ),
+        return AppTextFormField(
           validator: (value) {
             if (value == null || value.isEmpty) {
               return 'Please enter your name';
             }
             return null;
           },
+          hintText: "Username",
+          keyvalue: "userDetailsForm_nameInput_textField",
+          onChanged:
+              (name) =>
+                  context.read<UserDetailsBloc>().add(UsernameChanged(name)),
         );
       },
     );
@@ -144,17 +150,13 @@ class _EmailInput extends StatelessWidget {
     return BlocBuilder<UserDetailsBloc, UserDetailsState>(
       buildWhen: (previous, current) => previous.email != current.email,
       builder: (context, state) {
-        return TextFormField(
-          key: const Key('userDetailsForm_emailInput_textField'),
+        return AppTextFormField(
+          hintText: "Email",
+          keyvalue: "userDetailsForm_emailInput_textField",
           onChanged:
               (email) =>
                   context.read<UserDetailsBloc>().add(EmailChanged(email)),
           keyboardType: TextInputType.emailAddress,
-          decoration: const InputDecoration(
-            labelText: 'Email',
-            border: OutlineInputBorder(),
-            prefixIcon: Icon(Icons.email),
-          ),
           validator: (value) {
             if (value == null || value.isEmpty) {
               return 'Please enter your email';
@@ -178,18 +180,14 @@ class _PasswordInput extends StatelessWidget {
     return BlocBuilder<UserDetailsBloc, UserDetailsState>(
       buildWhen: (previous, current) => previous.password != current.password,
       builder: (context, state) {
-        return TextFormField(
-          key: const Key('userDetailsForm_passwordInput_textField'),
+        return AppTextFormField(
+          hintText: "Password",
+          keyvalue: 'userDetailsForm_passwordInput_textField',
           onChanged:
               (password) => context.read<UserDetailsBloc>().add(
                 PasswordChanged(password),
               ),
 
-          decoration: const InputDecoration(
-            labelText: 'Password',
-            border: OutlineInputBorder(),
-            prefixIcon: Icon(Icons.password_sharp),
-          ),
           validator: (value) {
             if (value == null || value.isEmpty) {
               return 'Please enter your Password';
@@ -211,25 +209,14 @@ class _Phonenumber extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return TextFormField(
+    return AppPhoneInputField(
+      keyvalue: "userDetailsForm_phoneInput_textField",
+      onChanged: (phoneNumber) {},
+      hintText: "",
       enabled: false,
-      key: const Key('userDetailsForm_phoneInput_textField'),
+
       initialValue: phone,
       readOnly: true,
-      decoration: const InputDecoration(
-        labelText: 'PhoneNumber',
-        border: OutlineInputBorder(),
-        prefixIcon: Icon(Icons.phone),
-      ),
-      validator: (value) {
-        if (value == null || value.isEmpty) {
-          return 'Please enter your Password';
-        }
-        // if (!RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$').hasMatch(value)) {
-        //   return 'Please enter a valid email';
-        // }
-        return null;
-      },
     );
   }
 }
@@ -243,27 +230,27 @@ class _SaveButton extends StatelessWidget {
       builder: (context, state) {
         return state.status == UserDetailsStatus.loading
             ? const Center(child: CircularProgressIndicator())
-            : FilledButton(
-              key: const Key('userDetailsForm_save_raisedButton'),
-              onPressed: () {
-                // We need to access form state to validate, but here we challenge the separation.
-                // Usually the button is part of the form widget or we pass the key.
-                // For this structure, we can just trigger the event and handle validation in Bloc or pass the key down.
-                // The prompt asks for clean UI/Logic separation.
-                // I'll assume the parent Form handles validation via a button callback if I moved button up, or I can find ancestor Form.
-                // But simpler: I will access the form via `Form.of(context)` if I am inside Form.
-                // Wait, `_SaveButton` is inside `Form`.
-                if (Form.of(context).validate()) {
-                  context.read<UserDetailsBloc>().add(SubmitUserDetails());
-                }
-              },
-              style: FilledButton.styleFrom(
-                padding: const EdgeInsets.symmetric(vertical: 16),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(8),
+            : Column(
+              children: [
+                PrimaryButton(
+                  text: "Done",
+                  onPressed: () {
+                    context.read<UserDetailsBloc>().add(SubmitUserDetails());
+                  },
                 ),
-              ),
-              child: const Text('Save Details'),
+                SizedBox(height: 10),
+                Center(
+                  child: TextButton(
+                    onPressed: () {
+                      Navigator.pushReplacementNamed(
+                        context,
+                        RouteNames.onboardingstartpage,
+                      );
+                    },
+                    child: AppTexts.medium("Cancel", color: Colors.grey),
+                  ),
+                ),
+              ],
             );
       },
     );
