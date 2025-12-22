@@ -31,6 +31,7 @@ class OnboardingStartpage extends StatelessWidget {
                     begin: Alignment.topCenter,
                     end: Alignment.bottomCenter,
                     colors: [
+                      // ignore: deprecated_member_use
                       AppColors.primaryBlue.withOpacity(0.05),
                       AppColors.pureWhite,
                     ],
@@ -55,6 +56,7 @@ class OnboardingStartpage extends StatelessWidget {
                       child: Icon(
                         Icons.shopping_cart_checkout_rounded,
                         size: 140,
+                        // ignore: deprecated_member_use
                         color: AppColors.primaryBlue.withOpacity(0.8),
                       ),
                     ),

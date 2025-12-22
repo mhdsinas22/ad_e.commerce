@@ -12,7 +12,6 @@ import 'package:ad_e_commerce/features/auth/widgets/phone_input_field.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:intl_phone_field/intl_phone_field.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 class UserDetailsPage extends StatelessWidget {

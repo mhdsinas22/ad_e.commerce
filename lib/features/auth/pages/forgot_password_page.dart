@@ -1,7 +1,9 @@
+import 'package:ad_e_commerce/core/widgets/circular_arrow_button.dart';
 import 'package:ad_e_commerce/data/repositories/auth_repository.dart';
 import 'package:ad_e_commerce/features/auth/bloc/forgot_password/forgot_password_bloc.dart';
 import 'package:ad_e_commerce/features/auth/bloc/forgot_password/forgot_password_event.dart';
 import 'package:ad_e_commerce/features/auth/bloc/forgot_password/forgot_password_state.dart';
+import 'package:ad_e_commerce/features/auth/pages/password_recovery_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -46,7 +48,7 @@ class _ForgotPasswordViewState extends State<ForgotPasswordView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Forgot Password')),
+      backgroundColor: Colors.white,
       body: BlocListener<ForgotPasswordBloc, ForgotPasswordState>(
         listener: (context, state) {
           if (state.status == ForgotPasswordStatus.success) {
@@ -68,86 +70,145 @@ class _ForgotPasswordViewState extends State<ForgotPasswordView> {
           }
         },
         child: SafeArea(
-          child: Center(
-            child: SingleChildScrollView(
-              padding: const EdgeInsets.all(24.0),
-              child: Form(
-                key: _formKey,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: [
-                    Text(
-                      'Reset Password',
-                      style: Theme.of(context).textTheme.headlineMedium
-                          ?.copyWith(fontWeight: FontWeight.bold),
-                      textAlign: TextAlign.center,
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 24.0),
+            child: Form(
+              key: _formKey,
+              child: Column(
+                children: [
+                  const Spacer(flex: 3),
+                  const Text(
+                    'Enter your Mail ID',
+                    style: TextStyle(
+                      fontSize: 24,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.black,
+                      height: 1.2,
                     ),
-                    const SizedBox(height: 8),
-                    Text(
-                      'Enter your email to receive a reset link',
-                      style: Theme.of(
-                        context,
-                      ).textTheme.bodyLarge?.copyWith(color: Colors.grey),
-                      textAlign: TextAlign.center,
+                    textAlign: TextAlign.center,
+                  ),
+                  const SizedBox(height: 12),
+                  const Text(
+                    'Enter your registered mail id for\nconfirmation link',
+                    style: TextStyle(
+                      fontSize: 16,
+                      color: Color(0xFF666666),
+                      height: 1.5,
                     ),
-                    const SizedBox(height: 48),
-                    BlocBuilder<ForgotPasswordBloc, ForgotPasswordState>(
-                      builder: (context, state) {
-                        return TextFormField(
-                          controller: _emailController,
-                          decoration: const InputDecoration(
-                            labelText: 'Email',
-                            hintText: 'Enter your email',
-                            border: OutlineInputBorder(),
-                            prefixIcon: Icon(Icons.email_outlined),
+                    textAlign: TextAlign.center,
+                  ),
+                  const SizedBox(height: 12),
+                  const Text(
+                    'sh******@gmail.com',
+                    style: TextStyle(
+                      fontSize: 15,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.black,
+                      height: 1.5,
+                    ),
+                    textAlign: TextAlign.center,
+                  ),
+                  const SizedBox(height: 32),
+                  BlocBuilder<ForgotPasswordBloc, ForgotPasswordState>(
+                    builder: (context, state) {
+                      return TextFormField(
+                        controller: _emailController,
+                        style: const TextStyle(
+                          color: Colors.black,
+                          fontSize: 16,
+                        ),
+                        decoration: InputDecoration(
+                          hintText: 'Mil ID',
+                          hintStyle: TextStyle(
+                            color: Colors.grey[400],
+                            fontSize: 15,
                           ),
-                          keyboardType: TextInputType.emailAddress,
-                          onChanged: (value) {
-                            context.read<ForgotPasswordBloc>().add(
-                              ForgotPasswordEmailChanged(value),
-                            );
-                          },
-                          validator: (value) {
-                            if (value == null || value.isEmpty) {
-                              return 'Email is required';
-                            }
-                            if (!_isEmailValid(value)) {
-                              return 'Email must be in valid format';
-                            }
-                            return null;
-                          },
-                        );
-                      },
-                    ),
-                    const SizedBox(height: 24),
-                    BlocBuilder<ForgotPasswordBloc, ForgotPasswordState>(
-                      builder: (context, state) {
-                        if (state.status == ForgotPasswordStatus.loading) {
-                          return const Center(
-                            child: CircularProgressIndicator(),
+                          filled: true,
+                          fillColor: const Color(0xFFF9F9F9),
+                          contentPadding: const EdgeInsets.symmetric(
+                            vertical: 18,
+                            horizontal: 24,
+                          ),
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(30),
+                            borderSide: BorderSide.none,
+                          ),
+                          enabledBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(30),
+                            borderSide: BorderSide.none,
+                          ),
+                          focusedBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(30),
+                            borderSide: BorderSide.none,
+                          ),
+                          errorBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(30),
+                            borderSide: const BorderSide(color: Colors.red),
+                          ),
+                        ),
+                        keyboardType: TextInputType.emailAddress,
+                        textInputAction: TextInputAction.send,
+                        onChanged: (value) {
+                          context.read<ForgotPasswordBloc>().add(
+                            ForgotPasswordEmailChanged(value),
                           );
-                        }
-                        return FilledButton(
-                          onPressed: () {
-                            if (_formKey.currentState!.validate()) {
-                              context.read<ForgotPasswordBloc>().add(
-                                ForgotPasswordSubmitted(),
-                              );
-                            }
-                          },
-                          style: FilledButton.styleFrom(
-                            padding: const EdgeInsets.symmetric(vertical: 16),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(8),
-                            ),
+                        },
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Email is required';
+                          }
+                          if (!_isEmailValid(value)) {
+                            return 'Email must be in valid format';
+                          }
+                          return null;
+                        },
+                        onFieldSubmitted: (value) {
+                          if (_formKey.currentState!.validate()) {
+                            context.read<ForgotPasswordBloc>().add(
+                              ForgotPasswordSubmitted(),
+                            );
+                          }
+                        },
+                      );
+                    },
+                  ),
+                  const Spacer(flex: 4),
+                  Column(
+                    children: [
+                      CircularArrowButton(
+                        onTap: () {
+                          if (_formKey.currentState!.validate()) {
+                            context.read<ForgotPasswordBloc>().add(
+                              ForgotPasswordSubmitted(),
+                            );
+                            Navigator.of(context).push(
+                              MaterialPageRoute(
+                                builder: (context) {
+                                  return PasswordRecoveryPage();
+                                },
+                              ),
+                            );
+                          }
+                        },
+                      ),
+                      const SizedBox(height: 16),
+                      TextButton(
+                        onPressed: () {
+                          Navigator.of(context).pop();
+                        },
+                        style: TextButton.styleFrom(
+                          foregroundColor: Colors.grey[600],
+                          textStyle: const TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.w400,
                           ),
-                          child: const Text('Send Reset Link'),
-                        );
-                      },
-                    ),
-                  ],
-                ),
+                        ),
+                        child: const Text('Cancel'),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 16),
+                ],
               ),
             ),
           ),
