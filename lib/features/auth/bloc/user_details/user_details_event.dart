@@ -26,4 +26,11 @@ class PasswordChanged extends UserDetailsEvent {
   List<Object?> get props => [password];
 }
 
+class PhoneNumberChanged extends UserDetailsEvent {
+  final String phonenumber;
+  PhoneNumberChanged(this.phonenumber);
+  @override
+  List<Object?> get props => [phonenumber];
+}
+
 class SubmitUserDetails extends UserDetailsEvent {}

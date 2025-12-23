@@ -9,6 +9,8 @@ class AuthRepository {
   }) async {
     try {
       String email = emailorUsername;
+
+      // 🔎 If username, fetch email
       if (!isEmail(emailorUsername)) {
         final res =
             await supabaseClient
@@ -16,26 +18,56 @@ class AuthRepository {
                 .select("email")
                 .eq("username", emailorUsername)
                 .maybeSingle();
+
         if (res == null) {
           return 'ACCOUNT_NOT_FOUND';
         }
         email = res["email"];
       }
+
+      // 🔐 Login
       final response = await supabaseClient.auth.signInWithPassword(
-        password: password,
         email: email,
+        password: password,
       );
-      // ignore: unnecessary_null_comparison
-      if (response == null) {
+
+      final user = response.user;
+
+      if (user == null) {
         return 'INVALID_CREDENTIALS';
       }
+
+      // 🚨 EMAIL VERIFICATION CHECK
+      // if (user.emailConfirmedAt == null) {
+      //   // Optional: logout immediately
+      //   await supabaseClient.auth.signOut();
+
+      //   return 'EMAIL_NOT_VERIFIED';
+      // }
+
+      // ✅ All good
       return null;
     } on AuthException catch (e) {
+      if (e.code == 'email_not_confirmed') {
+        return 'EMAIL_NOT_VERIFIED';
+      }
+
       if (e.message.contains("Invalid login credentials")) {
-        return "INVALID_CREDENTIALS:-${e.toString()}";
+        return "INVALID_CREDENTIALS";
       }
       return 'UNKNOWN_ERROR:-${e.toString()}';
     }
+  }
+
+  Future<AuthResponse> signupwithEmail({
+    required String email,
+    required String password,
+  }) async {
+    final response = await Supabase.instance.client.auth.signUp(
+      password: password,
+      email: email,
+    );
+    return response;
   }
 
   Future<void> updateEmailAndPassword({

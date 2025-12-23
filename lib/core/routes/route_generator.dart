@@ -2,7 +2,6 @@ import 'package:ad_e_commerce/features/auth/pages/forgot_password_page.dart';
 import 'package:ad_e_commerce/features/auth/pages/login_page.dart';
 import 'package:ad_e_commerce/features/auth/pages/otp_page.dart';
 import 'package:ad_e_commerce/features/auth/pages/reset_password_page.dart';
-import 'package:ad_e_commerce/features/auth/pages/signup_page.dart';
 import 'package:ad_e_commerce/features/auth/pages/user_details_page.dart';
 import 'package:ad_e_commerce/features/auth/pages/email_verification_page.dart';
 import 'package:ad_e_commerce/features/home/home_page.dart';
@@ -22,7 +21,9 @@ class RouteGenerator {
         return MaterialPageRoute(builder: (_) => OtpPage(phone: phone));
 
       case RouteNames.signup:
-        return MaterialPageRoute(builder: (_) => const SignupPage());
+        return MaterialPageRoute(
+          builder: (_) => const UserDetailsPage(phone: ""),
+        );
 
       case RouteNames.userDetails:
         return MaterialPageRoute(

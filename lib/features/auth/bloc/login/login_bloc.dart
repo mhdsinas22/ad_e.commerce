@@ -25,6 +25,14 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
     );
     if (result == null) {
       emit(state.copyWith(status: LoginStatus.success));
+    } else if (result == "EMAIL_NOT_VERIFIED") {
+      await authRepository.signOut(); // ✅ correct place
+      emit(
+        state.copyWith(
+          status: LoginStatus.failure,
+          errorMessage: 'EMAIL_NOT_VERIFIED',
+        ),
+      );
     } else {
       emit(state.copyWith(status: LoginStatus.failure, errorMessage: result));
     }

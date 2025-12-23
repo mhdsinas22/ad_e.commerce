@@ -100,7 +100,7 @@ class _UserDetailsViewState extends State<_UserDetailsView> {
                   const SizedBox(height: 16),
                   const _EmailInput(),
                   const SizedBox(height: 16),
-                  _Phonenumber(phone: widget.phone),
+                  _Phonenumber(),
                   const SizedBox(height: 32),
                   const _PasswordInput(),
                   const SizedBox(height: 32),
@@ -203,19 +203,16 @@ class _PasswordInput extends StatelessWidget {
 }
 
 class _Phonenumber extends StatelessWidget {
-  final String phone;
-  const _Phonenumber({required this.phone});
+  const _Phonenumber();
 
   @override
   Widget build(BuildContext context) {
     return AppPhoneInputField(
       keyvalue: "userDetailsForm_phoneInput_textField",
-      onChanged: (phoneNumber) {},
+      onChanged: (phoneNumber) {
+        context.read<UserDetailsBloc>().add(PhoneNumberChanged(phoneNumber));
+      },
       hintText: "",
-      enabled: false,
-
-      initialValue: phone,
-      readOnly: true,
     );
   }
 }

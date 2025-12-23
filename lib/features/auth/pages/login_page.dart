@@ -42,6 +42,13 @@ class _LoginFormState extends State<_LoginForm> {
       body: BlocListener<LoginBloc, LoginState>(
         listener: (context, state) {
           if (state.status == LoginStatus.failure) {
+            if (state.errorMessage == "EMAIL_NOT_VERIFIED") {
+              SnackBar(
+                content: Text(
+                  'Email verify cheythittilla. Inbox check cheyth verify cheyyuka',
+                ),
+              );
+            }
             ScaffoldMessenger.of(context)
               ..hideCurrentSnackBar()
               ..showSnackBar(

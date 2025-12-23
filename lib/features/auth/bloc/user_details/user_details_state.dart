@@ -11,7 +11,7 @@ class UserDetailsState extends Equatable {
   final UserDetailsStatus? status;
 
   const UserDetailsState({
-    required this.phone,
+    this.phone = "",
     this.email = "",
     this.username = "",
     this.password = "",
@@ -24,9 +24,10 @@ class UserDetailsState extends Equatable {
     String? password,
     String? error,
     UserDetailsStatus? status,
+    String? phoneNumber,
   }) {
     return UserDetailsState(
-      phone: phone,
+      phone: phoneNumber ?? this.phone,
       username: username ?? this.username,
       password: password ?? this.password,
       error: error,
