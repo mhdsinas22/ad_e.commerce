@@ -4,6 +4,7 @@ import 'package:ad_e_commerce/features/auth/pages/otp_page.dart';
 import 'package:ad_e_commerce/features/auth/pages/reset_password_page.dart';
 import 'package:ad_e_commerce/features/auth/pages/user_details_page.dart';
 import 'package:ad_e_commerce/features/auth/pages/email_verification_page.dart';
+import 'package:ad_e_commerce/features/bottom_navigation/pages/main_shell_page.dart';
 import 'package:ad_e_commerce/features/home/home_page.dart';
 import 'package:ad_e_commerce/features/onboardingStartPage/onboarding_StartPage.dart';
 
@@ -41,6 +42,8 @@ class RouteGenerator {
         return MaterialPageRoute(builder: (context) => ForgotPasswordPage());
       case RouteNames.onboardingstartpage:
         return MaterialPageRoute(builder: (context) => OnboardingStartpage());
+      case RouteNames.mainShell:
+        return MaterialPageRoute(builder: (context) => MainShellPage());
       default:
         return MaterialPageRoute(
           builder:

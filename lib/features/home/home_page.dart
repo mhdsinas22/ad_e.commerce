@@ -1,6 +1,9 @@
-import 'package:ad_e_commerce/features/auth/pages/login_page.dart';
+import 'package:ad_e_commerce/core/constants/asset_constants.dart';
+import 'package:ad_e_commerce/core/routes/route_names.dart';
+import 'package:ad_e_commerce/core/theme/app_colors.dart';
+import 'package:ad_e_commerce/core/widgets/app_text_form_field.dart';
 import 'package:flutter/material.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
@@ -9,24 +12,34 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("HOME SCREEN"),
-        leading: IconButton(
-          onPressed: () async {
-            await Supabase.instance.client.auth.signOut();
-            Navigator.pushReplacement(
-              // ignore: use_build_context_synchronously
-              context,
-              MaterialPageRoute(
-                builder: (context) {
-                  return LoginPage();
-                },
-              ),
-            );
-          },
-          icon: Icon(Icons.logout),
+        centerTitle: true,
+        title: Image.asset(
+          AssetConstants.airdropLetterLogo,
+          width: 125,
+          height: 57,
         ),
+        actions: [
+          InkWell(
+            onTap: () => Navigator.pushNamed(context, RouteNames.cart),
+            child: SvgPicture.asset(AssetConstants.carticonpng),
+          ),
+          SizedBox(width: 10),
+        ],
       ),
-      body: Center(child: Text("HOME SCREEN")),
+
+      body: Column(
+        children: [
+          SizedBox(height: 10),
+          Center(
+            child: AppTextFormField(
+              width: 380,
+              borderradiusno: 10,
+              hintText: "Search...",
+              suffixIcon: Icon(Icons.search, color: AppColors.grayColor),
+            ),
+          ),
+        ],
+      ),
     );
   }
 }

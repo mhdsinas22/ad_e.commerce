@@ -50,7 +50,7 @@ class EmailVerificationPage extends StatelessWidget {
                   if (state.status == EmailVerificationStatus.success) {
                     Navigator.pushNamedAndRemoveUntil(
                       context,
-                      RouteNames.home,
+                      RouteNames.mainShell,
                       (route) => false,
                     );
                   } else if (state.status == EmailVerificationStatus.failure) {

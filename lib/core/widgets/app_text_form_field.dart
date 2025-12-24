@@ -12,7 +12,10 @@ class AppTextFormField extends StatelessWidget {
   final String keyvalue;
   final bool enabled;
   final bool readOnly;
+  final double borderradiusno;
   final String initialValue;
+  final double width;
+  final double height;
   const AppTextFormField({
     super.key,
     required this.hintText,
@@ -27,40 +30,47 @@ class AppTextFormField extends StatelessWidget {
     this.enabled = true,
     this.readOnly = false,
     this.initialValue = "",
+    this.borderradiusno = 30,
+    this.width = 344,
+    this.height = 50,
   });
 
   @override
   Widget build(BuildContext context) {
-    return TextFormField(
-      initialValue: initialValue,
-      enabled: enabled,
-      key: Key(keyvalue),
-      controller: controller,
-      keyboardType: keyboardType,
-      obscureText: obscureText,
-      validator: validator,
-      onChanged: onChanged,
-      decoration: InputDecoration(
-        hintText: hintText,
-        prefixIcon: prefixIcon,
-        suffixIcon: suffixIcon,
-        filled: true,
-        fillColor: Colors.grey.shade100,
-        contentPadding: const EdgeInsets.symmetric(
-          horizontal: 20,
-          vertical: 18,
-        ),
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(30),
-          borderSide: BorderSide.none,
-        ),
-        enabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(30),
-          borderSide: BorderSide.none,
-        ),
-        focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(30),
-          borderSide: BorderSide.none,
+    return SizedBox(
+      width: width,
+      height: height,
+      child: TextFormField(
+        initialValue: initialValue,
+        enabled: enabled,
+        key: Key(keyvalue),
+        controller: controller,
+        keyboardType: keyboardType,
+        obscureText: obscureText,
+        validator: validator,
+        onChanged: onChanged,
+        decoration: InputDecoration(
+          hintText: hintText,
+          prefixIcon: prefixIcon,
+          suffixIcon: suffixIcon,
+          filled: true,
+          fillColor: Colors.grey.shade100,
+          contentPadding: const EdgeInsets.symmetric(
+            horizontal: 20,
+            vertical: 18,
+          ),
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(borderradiusno),
+            borderSide: BorderSide.none,
+          ),
+          enabledBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(borderradiusno),
+            borderSide: BorderSide.none,
+          ),
+          focusedBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(borderradiusno),
+            borderSide: BorderSide.none,
+          ),
         ),
       ),
     );

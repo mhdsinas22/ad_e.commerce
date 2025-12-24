@@ -1,6 +1,7 @@
 import 'package:ad_e_commerce/core/routes/route_names.dart';
 import 'package:ad_e_commerce/features/auth/pages/forgot_password_page.dart';
 import 'package:ad_e_commerce/features/auth/pages/reset_password_page.dart';
+import 'package:ad_e_commerce/features/bottom_navigation/pages/main_shell_page.dart';
 import 'package:flutter/material.dart';
 import '../../features/auth/pages/login_page.dart';
 import '../../features/auth/pages/otp_page.dart';
@@ -17,5 +18,6 @@ class AppRoutes {
     RouteNames.home: (_) => const HomePage(),
     RouteNames.restPassword: (_) => const ResetPasswordPage(),
     RouteNames.forgotPassword: (_) => const ForgotPasswordPage(),
+    RouteNames.mainShell: (_) => MainShellPage(),
   };
 }

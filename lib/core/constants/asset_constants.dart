@@ -5,4 +5,5 @@ class AssetConstants {
   static const createAccountText = "assets/svg/Title.svg";
   static const complelteProfileText = "assets/svg/completeyourprofile.svg";
   static const uploadPhoto = "assets/svg/Upload Photo.svg";
+  static const carticonpng = "assets/svg/Group 1000004667.svg";
 }

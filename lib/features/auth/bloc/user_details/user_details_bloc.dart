@@ -75,7 +75,7 @@ class UserDetailsBloc extends Bloc<UserDetailsEvent, UserDetailsState> {
       emit(
         state.copyWith(
           status: UserDetailsStatus.failure,
-          error: "Something went wrong. Please try again.",
+          error: "Something went wrong. Please try again.:-${e.toString()}",
         ),
       );
     }
