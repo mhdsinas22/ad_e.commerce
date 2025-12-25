@@ -27,7 +27,7 @@ class UserDetailsState extends Equatable {
     String? phoneNumber,
   }) {
     return UserDetailsState(
-      phone: phoneNumber ?? this.phone,
+      phone: phoneNumber ?? phone,
       username: username ?? this.username,
       password: password ?? this.password,
       error: error,
