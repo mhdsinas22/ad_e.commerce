@@ -67,6 +67,11 @@ class _LoginFormState extends State<_LoginForm> {
                 ),
               );
             // Navigate to Home
+            Navigator.pushNamedAndRemoveUntil(context, RouteNames.mainShell, (
+              route,
+            ) {
+              return false;
+            });
           }
         },
         child: SafeArea(

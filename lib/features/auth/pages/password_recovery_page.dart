@@ -27,6 +27,7 @@ class PasswordRecoveryPage extends StatelessWidget {
                 fontSize: 16,
                 align: TextAlign.center,
                 height: 1.5,
+                // ignore: deprecated_member_use
                 color: Colors.black.withOpacity(0.7),
               ),
               const SizedBox(height: 20),
@@ -41,11 +42,13 @@ class PasswordRecoveryPage extends StatelessWidget {
                   // No logic as per rules
                 },
                 style: TextButton.styleFrom(
+                  // ignore: deprecated_member_use
                   foregroundColor: Colors.black.withOpacity(0.6),
                 ),
                 child: AppTexts.medium(
                   "Cancel",
                   fontSize: 16,
+                  // ignore: deprecated_member_use
                   color: Colors.black.withOpacity(0.6),
                 ),
               ),

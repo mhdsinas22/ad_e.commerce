@@ -1,6 +1,5 @@
 import 'package:ad_e_commerce/core/constants/asset_constants.dart';
 import 'package:ad_e_commerce/core/utils/helpers.dart';
-import 'package:ad_e_commerce/features/auth/pages/email_verification_page.dart';
 import 'package:ad_e_commerce/features/bottom_navigation/pages/main_shell_page.dart';
 import 'package:ad_e_commerce/features/onboardingStartPage/onboarding_StartPage.dart';
 import 'package:flutter/material.dart';
@@ -25,23 +24,15 @@ class _SplashScreenState extends State<SplashScreen> {
   Future<void> startSplash() async {
     await Helpers.delay(2);
     if (session != null && user != null) {
-      if (user!.emailConfirmedAt != null) {
-        // ❌ Email NOT verified
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(builder: (_) => EmailVerificationPage()),
-        );
-      } else {
-        // Logged in + Email verified
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(
-            builder: (context) {
-              return MainShellPage();
-            },
-          ),
-        );
-      }
+      // Logged in + Email verified
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+          builder: (context) {
+            return MainShellPage();
+          },
+        ),
+      );
     } else {
       Navigator.pushReplacement(
         // ignore: use_build_context_synchronously
