@@ -18,5 +18,5 @@ class AssetConstants {
       "assets/png/Screenshot_2025-12-22_at_7.56.22_PM-removebg-preview 1.png";
   static const tablet =
       "assets/png/apple-ipad-pro-6th-gen-2022-32-77-cm-12-9-inch-wi-fi-tablet-512-gb-silver-mnxv3hn-a-digital-o493178870-p594838636-0-202511251031.jpeg-removebg-preview 1.png";
-  static const earbuds = "assets/png/shopping-removebg-preview-3_1.png";
+  static const String earbuds = "assets/png/shopping-removebg-preview-3_1.png";
 }

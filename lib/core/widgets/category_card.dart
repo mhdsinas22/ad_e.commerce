@@ -7,12 +7,14 @@ class CategoryCard extends StatelessWidget {
   final double height;
   final String image;
   final String title;
+  final double fontsize;
   const CategoryCard({
     super.key,
     required this.title,
     required this.image,
     this.height = 172,
     this.width = 167,
+    this.fontsize = 16,
   });
 
   @override
@@ -24,7 +26,13 @@ class CategoryCard extends StatelessWidget {
         color: AppColors.pastelBlue,
         borderRadius: BorderRadius.circular(15),
       ),
-      child: Column(children: [Image.asset(image), AppTexts.semiBold(title)]),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Image.asset(image),
+          AppTexts.semiBold(title, fontSize: fontsize),
+        ],
+      ),
     );
   }
 }
