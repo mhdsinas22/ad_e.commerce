@@ -15,7 +15,7 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.pureWhite, // same bg
+      backgroundColor: AppColors.pureWhite,
       body: CustomScrollView(
         slivers: [
           // 🔹 APP BAR
@@ -23,265 +23,399 @@ class HomePage extends StatelessWidget {
             elevation: 0,
             pinned: true,
             centerTitle: true,
-
-            expandedHeight: 80, // ⭐ important
+            expandedHeight: 60,
             backgroundColor: AppColors.pureWhite,
-
-            flexibleSpace: LayoutBuilder(
-              builder: (context, constraints) {
-                final top = constraints.biggest.height;
-
-                return Container(
-                  color:
-                      top <= kToolbarHeight + 10
-                          ? AppColors
-                              .pureWhite // scroll cheythappol
-                          : Colors.white, // top il
-                );
-              },
-            ),
-
+            surfaceTintColor: AppColors.pureWhite,
             title: Image.asset(
               AssetConstants.airdropLetterLogo,
-              width: 125,
-              height: 57,
+              width: 120,
+              height: 50,
+              fit: BoxFit.contain,
             ),
-
             actions: [
               InkWell(
                 onTap: () => Navigator.pushNamed(context, RouteNames.cart),
-                child: SvgPicture.asset(AssetConstants.carticonpng, height: 24),
+                child: Padding(
+                  padding: const EdgeInsets.only(right: 16.0),
+                  child: SvgPicture.asset(
+                    AssetConstants.carticonpng,
+                    height: 40,
+                  ),
+                ),
               ),
-              const SizedBox(width: 10),
             ],
           ),
 
           // 🔹 BODY CONTENT
           SliverToBoxAdapter(
-            child: Column(
-              children: [
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Column(
-                    children: [
-                      const SizedBox(height: 10),
+            child: SingleChildScrollView(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const SizedBox(height: 10),
 
-                      // Search
-                      Center(
-                        child: AppTextFormField(
-                          width: 380,
-                          borderradiusno: 10,
-                          hintText: "Search...",
-                          suffixIcon: Icon(
-                            Icons.search,
-                            color: AppColors.grayColor,
+                  // Search
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                    child: AppTextFormField(
+                      width: double.infinity,
+                      borderradiusno: 12,
+                      hintText: "Search...",
+                      suffixIcon: const Icon(
+                        Icons.search,
+                        color: AppColors.grayColor,
+                      ),
+                    ),
+                  ),
+
+                  const SizedBox(height: 16),
+
+                  // Banner
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(20),
+                      child: Image.asset(
+                        AssetConstants.demoimage,
+                        width: double.infinity,
+                        fit: BoxFit.cover,
+                      ),
+                    ),
+                  ),
+
+                  const SizedBox(height: 20),
+
+                  // Categories row 1
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [
+                        CategoryCard(
+                          title: "Phones",
+                          image: AssetConstants.phone,
+                          fontsize: 12,
+                        ),
+                        CategoryCard(
+                          title: "Accessories",
+                          image: AssetConstants.accesories,
+                          fontsize: 12,
+                        ),
+                      ],
+                    ),
+                  ),
+
+                  const SizedBox(height: 16),
+
+                  // Categories row 2
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        CategoryCard(
+                          width: 80,
+                          height: 85,
+                          title: "Laptop",
+                          image: AssetConstants.laptop,
+                          fontsize: 10,
+                        ),
+                        CategoryCard(
+                          width: 80,
+                          height: 85,
+                          title: "Tablet",
+                          image: AssetConstants.tablet,
+                          fontsize: 10,
+                        ),
+                        CategoryCard(
+                          width: 80,
+                          height: 85,
+                          title: "Wearable",
+                          image: AssetConstants.warables,
+                          fontsize: 10,
+                        ),
+                        CategoryCard(
+                          width: 80,
+                          height: 85,
+                          title: "Earbuds",
+                          image: AssetConstants.earbuds,
+                          fontsize: 10,
+                        ),
+                      ],
+                    ),
+                  ),
+
+                  const SizedBox(height: 24),
+
+                  // Flash sale header
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        AppTexts.medium("Flash Sale", fontSize: 18),
+                        GestureDetector(
+                          onTap: () {
+                            // Handle View All tap
+                          },
+                          child: AppTexts.medium(
+                            "View All",
+                            fontSize: 12,
+                            color: AppColors.primaryBlue,
                           ),
                         ),
-                      ),
+                      ],
+                    ),
+                  ),
 
-                      const SizedBox(height: 10),
+                  const SizedBox(height: 10),
 
-                      // Banner
-                      Image.asset(AssetConstants.demoimage),
+                  // Flash sale section
+                  FlashSaleSection(),
 
-                      const SizedBox(height: 10),
+                  const SizedBox(height: 20),
 
-                      // Categories row 1
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        children: [
-                          CategoryCard(
-                            title: "Phone",
-                            image: AssetConstants.phone,
-                            fontsize: 12,
-                          ),
-                          CategoryCard(
-                            title: "Accesories",
-                            image: AssetConstants.accesories,
-                            fontsize: 12,
-                          ),
-                        ],
-                      ),
-
-                      const SizedBox(height: 10),
-
-                      // Categories row 2
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        children: [
-                          CategoryCard(
-                            width: 78,
-                            height: 80,
-                            title: "Laptop",
-                            image: AssetConstants.laptop,
-                            fontsize: 8,
-                          ),
-                          CategoryCard(
-                            width: 78,
-                            height: 80,
-                            title: "Tablet",
-                            image: AssetConstants.tablet,
-                            fontsize: 8,
-                          ),
-                          CategoryCard(
-                            width: 78,
-                            height: 80,
-                            title: "Wearable",
-                            image: AssetConstants.warables,
-                            fontsize: 8,
-                          ),
-                          CategoryCard(
-                            width: 78,
-                            height: 80,
-                            title: "Earbuds",
-                            image: AssetConstants.earbuds,
-                            fontsize: 8,
-                          ),
-                        ],
-                      ),
-
-                      const SizedBox(height: 20),
-
-                      // Flash sale header
-                      Padding(
-                        padding: const EdgeInsets.all(12.0),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  // Best Sellers Grids (Blue/Gradient Cards)
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                    child: Column(
+                      children: [
+                        Row(
                           children: [
-                            AppTexts.medium("Flash Sale", fontSize: 18),
-                            AppTexts.medium(
-                              "View All",
-                              fontSize: 12,
-                              color: AppColors.primaryBlue,
+                            Expanded(
+                              child: Image.asset(
+                                AssetConstants.under10png,
+                                fit: BoxFit.fill,
+                              ),
+                            ),
+                            const SizedBox(width: 10),
+                            Expanded(
+                              child: Image.asset(
+                                AssetConstants.under30kpng,
+                                fit: BoxFit.fill,
+                              ),
                             ),
                           ],
                         ),
-                      ),
-
-                      // Flash sale section
-                      FlashSaleSection(),
-
-                      const SizedBox(height: 10),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          Image.asset(AssetConstants.under10png),
-                          Image.asset(AssetConstants.under30kpng),
-                        ],
-                      ),
-                      SizedBox(height: 5),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          Image.asset(AssetConstants.under50kpng),
-                          Image.asset(AssetConstants.under50kkpng),
-                        ],
-                      ),
-                      CategoryListSection(),
-                      Row(
-                        children: [
-                          SizedBox(width: 5),
-                          AppTexts.medium("AIRDROP Assurance", fontSize: 18),
-                        ],
-                      ),
-                      SizedBox(height: 5),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          Image.asset(AssetConstants.aIRDROPAssuranceimg1),
-                          Image.asset(AssetConstants.aIRDROPAssuranceimg2),
-                        ],
-                      ),
-                      SizedBox(height: 5),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          Image.asset(AssetConstants.aIRDROPAssuranceimg3),
-                          Image.asset(AssetConstants.aIRDROPAssuranceimg4),
-                        ],
-                      ),
-                      Row(
-                        children: [
-                          SizedBox(width: 5),
-                          AppTexts.medium("AIRDROP Benefits", fontSize: 18),
-                        ],
-                      ),
-                      SizedBox(height: 5),
-                      Container(
-                        width: 345,
-                        height: 161,
-                        decoration: BoxDecoration(
-                          color: AppColors.brightBlue,
-                          borderRadius: BorderRadius.circular(18),
+                        const SizedBox(height: 10),
+                        Row(
+                          children: [
+                            Expanded(
+                              child: Image.asset(
+                                AssetConstants.under50kpng,
+                                fit: BoxFit.fill,
+                              ),
+                            ),
+                            const SizedBox(width: 10),
+                            Expanded(
+                              child: Image.asset(
+                                AssetConstants.under50kkpng,
+                                fit: BoxFit.fill,
+                              ),
+                            ),
+                          ],
                         ),
-                      ),
-                      Row(
-                        children: [
-                          SizedBox(width: 5),
-                          AppTexts.medium("Our Happy Customers", fontSize: 18),
-                        ],
-                      ),
-                      Column(
-                        children: [
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            children: [
-                              Container(
-                                width: 167,
-                                height: 214,
-                                decoration: BoxDecoration(
-                                  color: AppColors.brightBlue,
-                                  borderRadius: BorderRadius.circular(18),
-                                ),
-                                child: Center(
-                                  child: AppTexts.semiBold(
-                                    "AIRDROP has alwasy been my first option for the past 5 years",
-                                    color: AppColors.pureWhite,
-                                  ),
-                                ),
-                              ),
-
-                              Container(
-                                width: 167,
-                                height: 214,
-                                decoration: BoxDecoration(
-                                  color: AppColors.brightBlue,
-                                  borderRadius: BorderRadius.circular(18),
-                                ),
-                                child: Center(
-                                  child: AppTexts.semiBold(
-                                    "AIRDROP has alwasy been my first option for the past 5 years",
-                                    color: AppColors.pureWhite,
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                          Row(
-                            children: [
-                              SizedBox(height: 10),
-                              AppTexts.medium(
-                                "Customer",
-                                color: AppColors.grayColor,
-                              ),
-                            ],
-                          ),
-                          Row(
-                            children: [
-                              SizedBox(height: 10),
-                              AppTexts.semiBold(
-                                fontSize: 12,
-                                "MR. MOHAMMED SHAHAM CK",
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
-                ),
-                SvgPicture.asset(AssetConstants.howtoClaimwarrntysvg),
-              ],
+
+                  const SizedBox(height: 20),
+
+                  // Best Selling Lists (Mobiles, Laptop etc)
+                  CategoryListSection(),
+
+                  const SizedBox(height: 20),
+
+                  // AirDrop Assurance
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        AppTexts.medium("AIRDROP Assurance", fontSize: 18),
+                        const SizedBox(height: 10),
+                        Row(
+                          children: [
+                            Expanded(
+                              child: Image.asset(
+                                AssetConstants.aIRDROPAssuranceimg1,
+                                fit: BoxFit.fill,
+                              ),
+                            ),
+                            const SizedBox(width: 10),
+                            Expanded(
+                              child: Image.asset(
+                                AssetConstants.aIRDROPAssuranceimg2,
+                                fit: BoxFit.fill,
+                              ),
+                            ),
+                          ],
+                        ),
+                        const SizedBox(height: 10),
+                        Row(
+                          children: [
+                            Expanded(
+                              child: Image.asset(
+                                AssetConstants.aIRDROPAssuranceimg3,
+                                fit: BoxFit.fill,
+                              ),
+                            ),
+                            const SizedBox(width: 10),
+                            Expanded(
+                              child: Image.asset(
+                                AssetConstants.aIRDROPAssuranceimg4,
+                                fit: BoxFit.fill,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+
+                  const SizedBox(height: 20),
+
+                  // Benefits
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        AppTexts.medium("AIRDROP Benefits", fontSize: 18),
+                        const SizedBox(height: 10),
+                        Container(
+                          width: double.infinity,
+                          height: 160,
+                          decoration: BoxDecoration(
+                            color: AppColors.brightBlue,
+                            borderRadius: BorderRadius.circular(18),
+                          ),
+                          // Add content for benefits if available in assets, else empty blue box as per code
+                        ),
+                      ],
+                    ),
+                  ),
+
+                  const SizedBox(height: 20),
+
+                  // Happy Customers
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        AppTexts.medium("Our Happy Customers", fontSize: 18),
+                        const SizedBox(height: 10),
+                        Row(
+                          children: [
+                            Expanded(
+                              child: Container(
+                                height: 214,
+                                decoration: BoxDecoration(
+                                  color: AppColors.brightBlue,
+                                  borderRadius: BorderRadius.circular(18),
+                                ),
+                                padding: const EdgeInsets.all(16),
+                                child: Center(
+                                  child: Text(
+                                    "AIRDROP has always been my first option for the past 5 years",
+                                    style: TextStyle(
+                                      fontFamily: 'Manrope',
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.w600,
+                                      color: AppColors.pureWhite,
+                                      height: 1.2,
+                                    ),
+                                    textAlign: TextAlign.center,
+                                    maxLines: 5,
+                                  ),
+                                ),
+                              ),
+                            ),
+                            const SizedBox(width: 10),
+                            Expanded(
+                              child: Container(
+                                height: 214,
+                                decoration: BoxDecoration(
+                                  color: AppColors.brightBlue,
+                                  borderRadius: BorderRadius.circular(18),
+                                ),
+                                padding: const EdgeInsets.all(16),
+                                child: Center(
+                                  child: Text(
+                                    "AIRDROP has always been my first option for the past 5 years",
+                                    style: TextStyle(
+                                      fontFamily: 'Manrope',
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.w600,
+                                      color: AppColors.pureWhite,
+                                      height: 1.2,
+                                    ),
+                                    textAlign: TextAlign.center,
+                                    maxLines: 5,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                        const SizedBox(height: 10),
+                        // Customer Names
+                        Row(
+                          children: [
+                            Expanded(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  AppTexts.medium(
+                                    "Customer",
+                                    color: AppColors.grayColor,
+                                    fontSize: 12,
+                                  ),
+                                  const SizedBox(height: 4),
+                                  AppTexts.semiBold(
+                                    "MR. MOHAMMED SHAHAM CK",
+                                    fontSize: 12,
+                                  ),
+                                ],
+                              ),
+                            ),
+                            const SizedBox(width: 10),
+                            Expanded(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  AppTexts.medium(
+                                    "Customer",
+                                    color: AppColors.grayColor,
+                                    fontSize: 12,
+                                  ),
+                                  const SizedBox(height: 4),
+                                  AppTexts.semiBold(
+                                    "MR. MOHAMMED SHAHAM CK",
+                                    fontSize: 12,
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+
+                  const SizedBox(height: 30),
+
+                  // Footer (Warranty & Why AirDrop)
+                  SvgPicture.asset(
+                    AssetConstants.howtoClaimwarrntysvg,
+                    width: MediaQuery.of(context).size.width,
+                    fit: BoxFit.cover,
+                  ),
+
+                  const SizedBox(height: 20),
+                ],
+              ),
             ),
           ),
         ],
