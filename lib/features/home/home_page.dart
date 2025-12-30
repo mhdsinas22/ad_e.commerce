@@ -86,18 +86,13 @@ class HomePage extends StatelessWidget {
                       ),
                     ),
 
-                    const SizedBox(height: 20),
+                    // const SizedBox(height: 20),
 
                     // Categories row 1
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 20),
-                      child: CategoryGrid(
-                        categories: CategoryData.categories,
-                        layout: CategoryCardLayout.vertical,
-                      ),
-                      //
+                    CategoryGrid(
+                      categories: CategoryData.categories,
+                      layout: CategoryCardLayout.vertical,
                     ),
-
                     const SizedBox(height: 16),
                     // Categories row 2
                     // 🔹 RESPONSIVE: Prevent overflow on small screens & huge gaps on large screens

@@ -15,32 +15,82 @@ class CategoryGrid extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final isVertical = layout == CategoryCardLayout.vertical;
-    return GridView.builder(
-      shrinkWrap: true,
-      physics: const NeverScrollableScrollPhysics(),
-      padding: const EdgeInsets.symmetric(horizontal: 20),
-      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount: 2,
-        mainAxisSpacing: 16,
-        crossAxisSpacing: 16,
-        childAspectRatio: isVertical ? 0.9 : 1.8, // base
-      ),
-      itemCount: categories.length,
-      itemBuilder: (context, index) {
-        final item = categories[index];
 
-        final isBigCard = index < 2; // ⭐ FIRST TWO BIG
-
-        return CategoryCard(
-          title: item.title,
-          image: item.image,
-          layout: layout,
-          size: isBigCard ? CategoryCardSize.big : CategoryCardSize.small,
-          onTap: () {
-            debugPrint("${item.title} tapped");
+    return isVertical
+        ? Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 20),
+          child: Column(
+            children: [
+              /// 🔹 BIG CARDS (Phones, Accessories)
+              GridView.builder(
+                padding: EdgeInsets.zero,
+                shrinkWrap: true,
+                physics: const NeverScrollableScrollPhysics(),
+                itemCount: 2,
+                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 2,
+                  mainAxisSpacing: 12,
+                  crossAxisSpacing: 12,
+                  childAspectRatio: 1, // ⭐ SAME width & height
+                ),
+                itemBuilder: (context, index) {
+                  final item = categories[index];
+                  return CategoryCard(
+                    title: item.title,
+                    image: item.image,
+                    size: CategoryCardSize.big,
+                    layout: CategoryCardLayout.vertical,
+                  );
+                },
+              ),
+              const SizedBox(height: 12), // ⭐ CONTROLLED SPACE
+              /// 🔹 SMALL CARDS (Laptop, Tablet, Wearables, Earbuds)
+              GridView.builder(
+                padding: EdgeInsets.zero,
+                shrinkWrap: true,
+                physics: const NeverScrollableScrollPhysics(),
+                itemCount: categories.length - 2,
+                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 4,
+                  mainAxisSpacing: 8,
+                  crossAxisSpacing: 10,
+                  childAspectRatio: 1,
+                ),
+                itemBuilder: (context, index) {
+                  final item = categories[index + 2];
+                  return CategoryCard(
+                    title: item.title,
+                    image: item.image,
+                    size: CategoryCardSize.small,
+                    layout: CategoryCardLayout.vertical,
+                  );
+                },
+              ),
+            ],
+          ),
+        )
+        : GridView.builder(
+          shrinkWrap: true,
+          physics: const NeverScrollableScrollPhysics(),
+          padding: const EdgeInsets.symmetric(horizontal: 20),
+          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+            crossAxisCount: 2,
+            mainAxisSpacing: 16,
+            crossAxisSpacing: 16,
+            childAspectRatio: 1.8,
+          ),
+          itemCount: categories.length,
+          itemBuilder: (context, index) {
+            final item = categories[index];
+            return CategoryCard(
+              title: item.title,
+              image: item.image,
+              layout: layout,
+              onTap: () {
+                debugPrint("${item.title} tapped");
+              },
+            );
           },
         );
-      },
-    );
   }
 }

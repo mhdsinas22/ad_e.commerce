@@ -10,11 +10,15 @@ class CategoryListSection extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         Image.asset(AssetConstants.bestSellingMobiles),
-
+        const SizedBox(height: 16),
         Image.asset(AssetConstants.bestSellingLaptop),
+        const SizedBox(height: 16),
         Image.asset(AssetConstants.bestSellingWearable),
+        const SizedBox(height: 16),
         Image.asset(AssetConstants.bestSellingEarbuds),
+        const SizedBox(height: 16),
         Image.asset(AssetConstants.bestSellingTablet),
+        const SizedBox(height: 16),
         Image.asset(AssetConstants.bestSellingAccesories),
       ],
     );
