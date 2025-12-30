@@ -1,11 +1,14 @@
 import 'package:ad_e_commerce/core/constants/asset_constants.dart';
 import 'package:ad_e_commerce/core/routes/route_names.dart';
 import 'package:ad_e_commerce/core/theme/app_colors.dart';
+import 'package:ad_e_commerce/core/utils/navigator.dart';
+import 'package:ad_e_commerce/core/widgets/app_sliver_app_bar.dart';
 import 'package:ad_e_commerce/core/widgets/app_text.dart';
-import 'package:ad_e_commerce/core/widgets/app_text_form_field.dart';
-import 'package:ad_e_commerce/core/widgets/category_card.dart';
+import 'package:ad_e_commerce/features/home/data/category_data.dart';
+import 'package:ad_e_commerce/features/home/widgets/category_card.dart';
 import 'package:ad_e_commerce/features/home/widgets/CategoryListSection/category_list_section.dart';
 import 'package:ad_e_commerce/features/home/widgets/FlashSaleSection/flash_sale_section.dart';
+import 'package:ad_e_commerce/features/home/widgets/category_grid.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
@@ -23,33 +26,7 @@ class HomePage extends StatelessWidget {
           child: CustomScrollView(
             slivers: [
               // 🔹 APP BAR
-              SliverAppBar(
-                elevation: 0,
-                pinned: true,
-                centerTitle: true,
-                expandedHeight: 60,
-                backgroundColor: AppColors.pureWhite,
-                surfaceTintColor: AppColors.pureWhite,
-                title: Image.asset(
-                  AssetConstants.airdropLetterLogo,
-                  width: 120,
-                  height: 50,
-                  fit: BoxFit.contain,
-                ),
-                actions: [
-                  InkWell(
-                    onTap: () => Navigator.pushNamed(context, RouteNames.cart),
-                    child: Padding(
-                      padding: const EdgeInsets.only(right: 16.0),
-                      child: SvgPicture.asset(
-                        AssetConstants.carticonpng,
-                        height: 40,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-
+              AppSliverAppBar(),
               // 🔹 BODY CONTENT
               SliverToBoxAdapter(
                 child: Column(
@@ -59,14 +36,37 @@ class HomePage extends StatelessWidget {
 
                     // Search
                     Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                      child: AppTextFormField(
-                        width: double.infinity,
-                        borderradiusno: 12,
-                        hintText: "Search...",
-                        suffixIcon: const Icon(
-                          Icons.search,
-                          color: AppColors.grayColor,
+                      padding: const EdgeInsets.symmetric(horizontal: 15.0),
+                      child: Center(
+                        child: GestureDetector(
+                          onTap: () {
+                            Appnavigotor.pushnamed(context, RouteNames.search);
+                          },
+                          child: Container(
+                            width: 344,
+                            height: 50,
+                            decoration: BoxDecoration(
+                              color: Colors.grey.shade100,
+                              borderRadius: BorderRadius.circular(12),
+                            ),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              children: [
+                                const SizedBox(width: 10),
+                                Expanded(
+                                  child: AppTexts.regular(
+                                    "Search...",
+                                    color: AppColors.grayColor,
+                                  ),
+                                ),
+                                const Icon(
+                                  Icons.search,
+                                  color: AppColors.grayColor,
+                                ),
+                                const SizedBox(width: 10),
+                              ],
+                            ),
+                          ),
                         ),
                       ),
                     ),
@@ -91,29 +91,14 @@ class HomePage extends StatelessWidget {
                     // Categories row 1
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 20),
-                      child: Row(
-                        children: [
-                          Expanded(
-                            child: CategoryCard(
-                              title: "Phones",
-                              image: AssetConstants.phone,
-                              fontsize: 12,
-                            ),
-                          ),
-                          const SizedBox(width: 13),
-                          Expanded(
-                            child: CategoryCard(
-                              title: "Accessories",
-                              image: AssetConstants.accesories,
-                              fontsize: 12,
-                            ),
-                          ),
-                        ],
+                      child: CategoryGrid(
+                        categories: CategoryData.categories,
+                        layout: CategoryCardLayout.vertical,
                       ),
+                      //
                     ),
 
                     const SizedBox(height: 16),
-
                     // Categories row 2
                     // 🔹 RESPONSIVE: Prevent overflow on small screens & huge gaps on large screens
                     Padding(
@@ -130,34 +115,34 @@ class HomePage extends StatelessWidget {
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,
                                 children: [
-                                  CategoryCard(
-                                    width: 80,
-                                    height: 85,
-                                    title: "Laptop",
-                                    image: AssetConstants.laptop,
-                                    fontsize: 10,
-                                  ),
-                                  CategoryCard(
-                                    width: 80,
-                                    height: 85,
-                                    title: "Tablet",
-                                    image: AssetConstants.tablet,
-                                    fontsize: 10,
-                                  ),
-                                  CategoryCard(
-                                    width: 80,
-                                    height: 85,
-                                    title: "Wearable",
-                                    image: AssetConstants.warables,
-                                    fontsize: 10,
-                                  ),
-                                  CategoryCard(
-                                    width: 80,
-                                    height: 85,
-                                    title: "Earbuds",
-                                    image: AssetConstants.earbuds,
-                                    fontsize: 10,
-                                  ),
+                                  // CategoryCard(
+                                  //   width: 80,
+                                  //   height: 85,
+                                  //   title: "Laptop",
+                                  //   image: AssetConstants.laptop,
+                                  //   fontsize: 10,
+                                  // ),
+                                  // CategoryCard(
+                                  //   width: 80,
+                                  //   height: 85,
+                                  //   title: "Tablet",
+                                  //   image: AssetConstants.tablet,
+                                  //   fontsize: 10,
+                                  // ),
+                                  // CategoryCard(
+                                  //   width: 80,
+                                  //   height: 85,
+                                  //   title: "Wearable",
+                                  //   image: AssetConstants.warables,
+                                  //   fontsize: 10,
+                                  // ),
+                                  // CategoryCard(
+                                  //   width: 80,
+                                  //   height: 85,
+                                  //   title: "Earbuds",
+                                  //   image: AssetConstants.earbuds,
+                                  //   fontsize: 10,
+                                  // ),
                                 ],
                               ),
                             ),

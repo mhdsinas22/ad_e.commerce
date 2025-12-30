@@ -11,4 +11,5 @@ class RouteNames {
   static const forgotPassword = "/forgotPassword";
   static const onboardingstartpage = "/onboarding-start-page";
   static const mainShell = '/main-shell';
+  static const search = '/search';
 }

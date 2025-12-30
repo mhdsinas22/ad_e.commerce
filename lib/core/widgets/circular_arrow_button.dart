@@ -8,6 +8,7 @@ class CircularArrowButton extends StatelessWidget {
   final Color iconColor;
   final IconData icon;
   final double iconSize;
+  final bool needCircle;
 
   const CircularArrowButton({
     super.key,
@@ -17,6 +18,7 @@ class CircularArrowButton extends StatelessWidget {
     this.iconColor = AppColors.pureWhite,
     this.icon = Icons.arrow_forward,
     this.iconSize = 16,
+    this.needCircle = false,
   });
 
   @override
@@ -27,10 +29,13 @@ class CircularArrowButton extends StatelessWidget {
       child: Container(
         width: size,
         height: size,
-        decoration: BoxDecoration(
-          color: backgroundColor,
-          borderRadius: BorderRadius.circular(size / 2),
-        ),
+        decoration:
+            needCircle
+                ? BoxDecoration(shape: BoxShape.circle, color: backgroundColor)
+                : BoxDecoration(
+                  color: backgroundColor,
+                  borderRadius: BorderRadius.circular(size / 2),
+                ),
         child: Center(child: Icon(icon, size: iconSize, color: iconColor)),
       ),
     );
