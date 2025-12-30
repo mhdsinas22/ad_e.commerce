@@ -41,4 +41,5 @@ class AssetConstants {
   static const String howtoClaimwarrntysvg = "assets/svg/Frame 1000005937.svg";
   static const String airdropLetterLogosvg =
       "assets/svg/Screenshot 2025-12-17 at 2.40.23 PM 2 1.svg";
+  static const String airdropletterreadyssvg = "assets/svg/airdropletter.svg";
 }
