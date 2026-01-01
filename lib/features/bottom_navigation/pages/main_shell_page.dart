@@ -7,7 +7,7 @@ import 'package:ad_e_commerce/features/cart/cart_page.dart';
 import 'package:ad_e_commerce/features/home/home_page.dart';
 import 'package:ad_e_commerce/features/orders/orders_page.dart';
 import 'package:ad_e_commerce/features/profile/profile_page.dart';
-import 'package:ad_e_commerce/features/repair/repair_page.dart';
+import 'package:ad_e_commerce/features/repair/pages/repair_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';

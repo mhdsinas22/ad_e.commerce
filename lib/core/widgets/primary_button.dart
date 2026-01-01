@@ -11,6 +11,7 @@ class PrimaryButton extends StatelessWidget {
   final Color backgroudColor;
   final double width;
   final String keyy;
+  final double fontsize;
   const PrimaryButton({
     super.key,
     required this.text,
@@ -21,6 +22,7 @@ class PrimaryButton extends StatelessWidget {
     this.backgroudColor = AppColors.primaryBlue,
     this.width = double.infinity,
     this.keyy = "",
+    this.fontsize = 18,
   });
 
   @override
@@ -50,7 +52,7 @@ class PrimaryButton extends StatelessWidget {
                 )
                 : AppTexts.semiBold(
                   text,
-                  fontSize: 18,
+                  fontSize: fontsize,
                   color: AppColors.pureWhite,
                   align: TextAlign.center,
                 ),

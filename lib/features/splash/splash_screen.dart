@@ -1,7 +1,7 @@
 import 'package:ad_e_commerce/core/constants/asset_constants.dart';
 import 'package:ad_e_commerce/core/utils/helpers.dart';
 import 'package:ad_e_commerce/features/bottom_navigation/pages/main_shell_page.dart';
-import 'package:ad_e_commerce/features/onboardingStartPage/onboarding_StartPage.dart';
+import 'package:ad_e_commerce/features/onboardingStartPage/onboarding_startpage.dart';
 import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
@@ -26,6 +26,7 @@ class _SplashScreenState extends State<SplashScreen> {
     if (session != null && user != null) {
       // Logged in + Email verified
       Navigator.pushReplacement(
+        // ignore: use_build_context_synchronously
         context,
         MaterialPageRoute(
           builder: (context) {
