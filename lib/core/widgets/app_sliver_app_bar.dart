@@ -1,3 +1,4 @@
+import 'package:ad_e_commerce/core/constants/app_icons.dart';
 import 'package:ad_e_commerce/core/widgets/circular_arrow_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -49,6 +50,7 @@ class AppSliverAppBar extends StatelessWidget {
       actions:
           showCart
               ? [
+                SvgPicture.asset(AppIcons.serachucon),
                 InkWell(
                   onTap:
                       onCartTap ??
@@ -62,7 +64,7 @@ class AppSliverAppBar extends StatelessWidget {
                   ),
                 ),
               ]
-              : [],
+              : null,
     );
   }
 }
