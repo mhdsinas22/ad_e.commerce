@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:ad_e_commerce/features/repair/data/datasources/cloudinary_remote_datasource.dart';
 import 'package:ad_e_commerce/features/repair/data/datasources/repair_remote_data_source.dart';
 import 'package:ad_e_commerce/features/repair/data/models/repair_request_model.dart';
 import 'package:ad_e_commerce/features/repair/domain/entities/repair_request_entity.dart';
@@ -7,8 +8,9 @@ import 'package:ad_e_commerce/features/repair/domain/repositories/repair_reposit
 
 class RepairRepositoryImpl implements RepairRepository {
   final RepairRemoteDataSource remoteDataSource;
+  final CloudinaryRemoteDatasource cloudinaryRemoteDatasource;
 
-  RepairRepositoryImpl(this.remoteDataSource);
+  RepairRepositoryImpl(this.remoteDataSource, this.cloudinaryRemoteDatasource);
 
   @override
   Future<void> submitRepairRequest({
@@ -19,7 +21,7 @@ class RepairRepositoryImpl implements RepairRepository {
 
     // 1. Upload all images
     for (final image in images) {
-      final url = await remoteDataSource.uploadRepairImage(image);
+      final url = await cloudinaryRemoteDatasource.uploadImage(image);
       imageUrls.add(url);
     }
 
@@ -30,7 +32,7 @@ class RepairRepositoryImpl implements RepairRepository {
       services: request.services,
       deviceModel: request.deviceModel,
       complaintDescription: request.complaintDescription,
-      imageUrls: [],
+      imageUrls: imageUrls,
       name: request.name,
       mobileNumber: request.mobileNumber,
       email: request.email,

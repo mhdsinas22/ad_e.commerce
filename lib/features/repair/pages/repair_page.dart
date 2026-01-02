@@ -1,11 +1,12 @@
 import 'package:ad_e_commerce/core/widgets/app_sliver_app_bar.dart';
 import 'package:ad_e_commerce/core/widgets/app_text.dart';
 import 'package:ad_e_commerce/features/repair/bloc/issue/issue_bloc.dart';
+import 'package:ad_e_commerce/features/repair/data/datasources/cloudinary_remote_datasource.dart';
 import 'package:ad_e_commerce/features/repair/pages/issue_select_page.dart';
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
-
 import '../bloc/brand/brand_bloc.dart';
 import '../bloc/repair_form/repair_form_bloc.dart';
 import '../bloc/repair_image/repair_image_bloc.dart';
@@ -24,14 +25,18 @@ class RepairPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
+        BlocProvider(create: (_) => ServiceBloc()),
         BlocProvider(create: (_) => BrandBloc()..add(LoadBrands())),
         BlocProvider(create: (_) => IssueBloc()),
-        BlocProvider(create: (_) => RepairImageBloc()),
+        BlocProvider(
+          create: (_) => RepairImageBloc(CloudinaryRemoteDatasource()),
+        ),
         BlocProvider(
           create:
               (context) => RepairFormBloc(
                 repository: RepairRepositoryImpl(
                   RepairRemoteDataSourceImpl(Supabase.instance.client),
+                  CloudinaryRemoteDatasource(dio: Dio()),
                 ),
               ),
         ),
@@ -103,18 +108,17 @@ class _RepairPageViewState extends State<RepairPageView> {
                   children: [
                     // 1. Brand Section
                     Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 12),
+                      padding: const EdgeInsets.symmetric(horizontal: 5),
                       child: AppTexts.medium('Select Brand', fontSize: 18),
                     ),
-
+                    const SizedBox(height: 10),
                     const BrandGrid(),
                     const SizedBox(height: 24),
-
                     // 2. Services Section
                     AppTexts.medium('Select Services', fontSize: 18),
                     const SizedBox(height: 4),
                     AppTexts.medium(
-                      'You can select multiple services',
+                      '(Tap to select multiple issues)',
                       fontSize: 10,
                     ),
                     const SizedBox(height: 12),
@@ -130,7 +134,6 @@ class _RepairPageViewState extends State<RepairPageView> {
                       ),
                     ),
                     const SizedBox(height: 16),
-
                     // Device Model
                     _buildLabel('Device Model'),
                     AppTextArea(
@@ -139,7 +142,6 @@ class _RepairPageViewState extends State<RepairPageView> {
                       maxLines: 1,
                     ),
                     const SizedBox(height: 16),
-
                     // Complaint Description
                     _buildLabel('Complaint Description'),
                     const SizedBox(height: 2),
@@ -149,13 +151,11 @@ class _RepairPageViewState extends State<RepairPageView> {
                       maxLines: 4,
                     ),
                     const SizedBox(height: 20),
-
                     // Upload Photo
                     _buildLabel('Upload Photo'),
                     const SizedBox(height: 8),
                     const RepairImagePicker(),
                     const SizedBox(height: 24),
-
                     // User Details
                     const Text(
                       'Your Details',
@@ -165,7 +165,6 @@ class _RepairPageViewState extends State<RepairPageView> {
                       ),
                     ),
                     const SizedBox(height: 16),
-
                     _buildLabel('Name'),
                     AppTextArea(
                       controller: _nameController,
@@ -177,11 +176,10 @@ class _RepairPageViewState extends State<RepairPageView> {
                     _buildLabel('Mobile'),
                     AppTextArea(
                       controller: _mobileController,
-                      hintText: '+ 91 0000000000',
+                      hintText: '+ 910000000000',
                       maxLines: 1,
                     ),
                     const SizedBox(height: 16),
-
                     _buildLabel('Email'),
                     AppTextArea(
                       controller: _emailController,
@@ -189,7 +187,6 @@ class _RepairPageViewState extends State<RepairPageView> {
                       maxLines: 1,
                     ),
                     const SizedBox(height: 16),
-
                     _buildLabel('Location'),
                     Container(
                       width: double.infinity,
@@ -224,18 +221,16 @@ class _RepairPageViewState extends State<RepairPageView> {
                       ),
                     ),
                     const SizedBox(height: 30),
-
                     RepairSubmitButton(
                       onPressed: () {
                         final brandState = context.read<BrandBloc>().state;
-                        final serviceState = context.read<ServiceBloc>().state;
                         final imageState =
                             context.read<RepairImageBloc>().state;
-
+                        final issuestate = context.read<IssueBloc>().state;
                         context.read<RepairFormBloc>().add(
                           SubmitRepairRequest(
                             brand: brandState.selectedBrand,
-                            services: serviceState.selectedServices,
+                            services: issuestate.selectedIssues,
                             deviceModel: _modelController.text,
                             complaintDescription: _descriptionController.text,
                             images: imageState.images,

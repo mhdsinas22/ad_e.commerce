@@ -49,7 +49,7 @@ class RepairImagePicker extends StatelessWidget {
                     right: 4,
                     child: GestureDetector(
                       onTap: () {
-                        context.read<RepairImageBloc>().add(RemoveImage(image));
+                        context.read<RepairImageBloc>().add(RemoveImage(index));
                       },
                       child: Container(
                         padding: const EdgeInsets.all(4),

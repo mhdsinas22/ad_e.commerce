@@ -10,6 +10,7 @@ class BrandGrid extends StatelessWidget {
     return BlocBuilder<BrandBloc, BrandState>(
       builder: (context, state) {
         return GridView.builder(
+          padding: EdgeInsets.zero,
           shrinkWrap: true,
           physics: const NeverScrollableScrollPhysics(),
           gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(

@@ -1,6 +1,6 @@
 abstract class IssueEvent {}
 
-class IssueSelected extends IssueEvent {
+class ToggleIssue extends IssueEvent {
   final String issue;
-  IssueSelected({required this.issue});
+  ToggleIssue({required this.issue});
 }

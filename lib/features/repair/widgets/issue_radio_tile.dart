@@ -1,29 +1,56 @@
 import 'package:ad_e_commerce/core/theme/app_colors.dart';
 import 'package:flutter/material.dart';
 
-class IssueRadioTile extends StatelessWidget {
-  final String value;
+class IssueRadioLikeTile extends StatelessWidget {
   final String title;
-  final String groupValue;
-  final ValueChanged<String?> onChanged;
-  const IssueRadioTile({
+  final bool selected;
+  final VoidCallback onTap;
+
+  const IssueRadioLikeTile({
     super.key,
     required this.title,
-    required this.value,
-    required this.groupValue,
-    required this.onChanged,
+    required this.selected,
+    required this.onTap,
   });
 
   @override
   Widget build(BuildContext context) {
-    return RadioListTile(
-      dense: true,
-      value: value,
-      groupValue: groupValue,
-      onChanged: onChanged,
-      title: Text(title),
-      activeColor: AppColors.pureBlack,
-      visualDensity: const VisualDensity(vertical: -4),
+    return InkWell(
+      onTap: onTap,
+      child: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 6),
+        child: Row(
+          children: [
+            // 🔘 Radio look
+            Container(
+              width: 20,
+              height: 20,
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                border: Border.all(
+                  color: selected ? AppColors.pureBlack : Colors.grey,
+                  width: 2,
+                ),
+              ),
+              child:
+                  selected
+                      ? Center(
+                        child: Container(
+                          width: 10,
+                          height: 10,
+                          decoration: const BoxDecoration(
+                            shape: BoxShape.circle,
+                            color: AppColors.pureBlack,
+                          ),
+                        ),
+                      )
+                      : null,
+            ),
+            const SizedBox(width: 12),
+            Text(title),
+          ],
+        ),
+      ),
     );
   }
 }

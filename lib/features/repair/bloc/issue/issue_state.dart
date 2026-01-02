@@ -1,4 +1,8 @@
 class IssueState {
-  final String selectedIssue;
-  const IssueState({required this.selectedIssue});
+  final List<String> selectedIssues;
+
+  const IssueState({this.selectedIssues = const []});
+  IssueState copyWith({List<String>? selectedIssues}) {
+    return IssueState(selectedIssues: selectedIssues ?? this.selectedIssues);
+  }
 }
