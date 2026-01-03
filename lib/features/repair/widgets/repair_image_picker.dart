@@ -1,3 +1,4 @@
+import 'package:ad_e_commerce/core/theme/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
@@ -11,7 +12,7 @@ class RepairImagePicker extends StatelessWidget {
     return BlocBuilder<RepairImageBloc, RepairImageState>(
       builder: (context, state) {
         return SizedBox(
-          height: 100,
+          height: 77,
           child: ListView.separated(
             scrollDirection: Axis.horizontal,
             itemCount: state.images.length + 1,
@@ -21,13 +22,17 @@ class RepairImagePicker extends StatelessWidget {
                 return GestureDetector(
                   onTap: () => _showPickerBottomSheet(context),
                   child: Container(
-                    width: 100,
+                    width: 77,
+                    height: 67,
                     decoration: BoxDecoration(
                       color: Colors.grey.shade100,
-                      borderRadius: BorderRadius.circular(12),
-                      border: Border.all(color: Colors.grey.shade300),
+                      borderRadius: BorderRadius.circular(8),
                     ),
-                    child: const Icon(Icons.add, size: 40, color: Colors.grey),
+                    child: const Icon(
+                      Icons.add,
+                      size: 40,
+                      color: AppColors.pureBlack,
+                    ),
                   ),
                 );
               }
@@ -35,7 +40,7 @@ class RepairImagePicker extends StatelessWidget {
               return Stack(
                 children: [
                   Container(
-                    width: 100,
+                    width: 77,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(12),
                       image: DecorationImage(

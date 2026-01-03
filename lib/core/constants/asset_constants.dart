@@ -44,4 +44,30 @@ class AssetConstants {
       "assets/svg/Screenshot 2025-12-17 at 2.40.23 PM 2 1.svg";
   static const String airwarrntyrepair = "assets/svg/Frame 1000005937.svg";
   static const String airdropletterreadyssvg = "assets/svg/airdropletter.svg";
+  static const String appleIconSvg = "assets/svg/apple.svg";
+  static const String miconsvg = "assets/svg/mi.svg";
+  static const String samsunglogosvg = "assets/svg/samsung.svg";
+  static const String vivologoSvg =
+      "assets/svg/Vivo_(technology_company)-Logo.wine 1.svg";
+  static const String oneplusLogoSvg =
+      "assets/svg/oneplus-logo-png_seeklogo-372201 1.svg";
+  static const String oppologosvg =
+      "assets/svg/oppo-logo-oppo-icon-free-free-vector 1.svg";
+  static const String realmeLogosvg = "assets/svg/Realme_logo_SVG.svg 1.svg";
+  static const String motorolasvg =
+      "assets/svg/Motorola_Mobility-Logo.wine 1.svg";
+  static const String nokiasvg =
+      "assets/svg/nokia-logo-png_seeklogo-100358 1.svg";
+  static const String honorlogosvg =
+      "assets/svg/LOGO_Honor.pdf-removebg-preview 1.svg";
+  static const String asuslogosvg =
+      "assets/svg/asus-logo-png_seeklogo-12597 1.svg";
+  static const String googlelogosv =
+      "assets/svg/google-logo_1273375-1572.jpg 1.svg";
+  static const String pocologoSvg = "assets/svg/POCO-Emblem 1.svg";
+  static const String infinixsvg = "assets/svg/infinix-logo 1.svg";
+  static const String iqoosvg =
+      "assets/svg/c85503ffac45d4b8b14ba397f4b44ce9 1.svg";
+  static const String nothingsvg = "assets/svg/nothing-logo-hd 1.svg";
+  static const String onboradingSvg = "assets/svg/onboardingvector.svg";
 }

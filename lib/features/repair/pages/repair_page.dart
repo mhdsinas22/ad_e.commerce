@@ -1,5 +1,7 @@
+import 'package:ad_e_commerce/core/theme/app_colors.dart';
 import 'package:ad_e_commerce/core/widgets/app_sliver_app_bar.dart';
 import 'package:ad_e_commerce/core/widgets/app_text.dart';
+import 'package:ad_e_commerce/core/widgets/warranty_info_section.dart';
 import 'package:ad_e_commerce/features/repair/bloc/issue/issue_bloc.dart';
 import 'package:ad_e_commerce/features/repair/data/datasources/cloudinary_remote_datasource.dart';
 import 'package:ad_e_commerce/features/repair/pages/issue_select_page.dart';
@@ -84,6 +86,15 @@ class _RepairPageViewState extends State<RepairPageView> {
       body: BlocListener<RepairFormBloc, RepairFormState>(
         listener: (context, state) {
           if (state.status == FormStatus.success) {
+            _modelController.clear();
+            _descriptionController.clear();
+            _nameController.clear();
+            _mobileController.clear();
+            _emailController.clear();
+            setState(() {
+              _selectedLocation = 'Select Location';
+            });
+
             ScaffoldMessenger.of(context).showSnackBar(
               const SnackBar(
                 content: Text('Repair request submitted successfully!'),
@@ -123,49 +134,64 @@ class _RepairPageViewState extends State<RepairPageView> {
                     ),
                     const SizedBox(height: 12),
                     IssueSelectPage(),
-                    const SizedBox(height: 24),
-
+                    const SizedBox(height: 10),
                     // 3. Repair Request Form
-                    const Text(
-                      'Repair Request Form',
-                      style: TextStyle(
+                    Padding(
+                      padding: const EdgeInsets.symmetric(
+                        vertical: 2.0,
+                        horizontal: 3.0,
+                      ),
+                      child: AppTexts.medium(
+                        'Repair Request Form',
                         fontSize: 18,
-                        fontWeight: FontWeight.bold,
                       ),
                     ),
-                    const SizedBox(height: 16),
-                    // Device Model
-                    _buildLabel('Device Model'),
+                    const SizedBox(height: 12),
                     AppTextArea(
+                      borderraduis: 20,
                       controller: _modelController,
                       hintText: 'Enter your device model',
                       maxLines: 1,
                     ),
                     const SizedBox(height: 16),
                     // Complaint Description
-                    _buildLabel('Complaint Description'),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 10.0),
+                      child: AppTexts.medium(
+                        "Complaint Description:",
+                        fontSize: 12,
+                      ),
+                    ),
                     const SizedBox(height: 2),
                     AppTextArea(
+                      borderraduis: 12,
                       controller: _descriptionController,
                       hintText: 'Describe issue...',
                       maxLines: 4,
                     ),
                     const SizedBox(height: 20),
                     // Upload Photo
-                    _buildLabel('Upload Photo'),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 10.0),
+                      child: AppTexts.medium("Upload Photo", fontSize: 12),
+                    ),
                     const SizedBox(height: 8),
                     const RepairImagePicker(),
                     const SizedBox(height: 24),
                     // User Details
-                    const Text(
-                      'Your Details',
-                      style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
-                      ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 10.0),
+                      child: AppTexts.medium("Your Details: ", fontSize: 18),
                     ),
                     const SizedBox(height: 16),
-                    _buildLabel('Name'),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 10.0,
+                        vertical: 10.0,
+                      ),
+                      child: AppTexts.medium("Name:", fontSize: 12),
+                    ),
+
                     AppTextArea(
                       controller: _nameController,
                       hintText: 'Enter Name',
@@ -173,28 +199,45 @@ class _RepairPageViewState extends State<RepairPageView> {
                     ),
                     const SizedBox(height: 16),
 
-                    _buildLabel('Mobile'),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 10.0,
+                        vertical: 10.0,
+                      ),
+                      child: AppTexts.medium("Mobile:", fontSize: 12),
+                    ),
                     AppTextArea(
                       controller: _mobileController,
                       hintText: '+ 910000000000',
                       maxLines: 1,
                     ),
                     const SizedBox(height: 16),
-                    _buildLabel('Email'),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 10.0,
+                        vertical: 10.0,
+                      ),
+                      child: AppTexts.medium("Email:", fontSize: 12),
+                    ),
                     AppTextArea(
                       controller: _emailController,
                       hintText: 'Enter Email',
                       maxLines: 1,
                     ),
                     const SizedBox(height: 16),
-                    _buildLabel('Location'),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 10.0,
+                        vertical: 10.0,
+                      ),
+                      child: AppTexts.medium("Location:", fontSize: 12),
+                    ),
                     Container(
                       width: double.infinity,
                       padding: const EdgeInsets.symmetric(horizontal: 16),
                       decoration: BoxDecoration(
                         color: Colors.grey.shade100,
                         borderRadius: BorderRadius.circular(12),
-                        border: Border.all(color: Colors.grey.shade300),
                       ),
                       child: DropdownButtonHideUnderline(
                         child: DropdownButton<String>(
@@ -220,31 +263,46 @@ class _RepairPageViewState extends State<RepairPageView> {
                         ),
                       ),
                     ),
-                    const SizedBox(height: 30),
-                    RepairSubmitButton(
-                      onPressed: () {
-                        final brandState = context.read<BrandBloc>().state;
-                        final imageState =
-                            context.read<RepairImageBloc>().state;
-                        final issuestate = context.read<IssueBloc>().state;
-                        context.read<RepairFormBloc>().add(
-                          SubmitRepairRequest(
-                            brand: brandState.selectedBrand,
-                            services: issuestate.selectedIssues,
-                            deviceModel: _modelController.text,
-                            complaintDescription: _descriptionController.text,
-                            images: imageState.images,
-                            name: _nameController.text,
-                            mobileNumber: _mobileController.text,
-                            email: _emailController.text,
-                            location: _selectedLocation,
-                          ),
-                        );
-                      },
+                    Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 10.0),
+                      child: AppTexts.medium(
+                        " *Note: Price will be quoted via Phone/WhatsApp ",
+                        fontSize: 10,
+                        color: AppColors.grayColor,
+                      ),
                     ),
-                    const SizedBox(height: 20),
+
+                    Padding(
+                      padding: const EdgeInsets.symmetric(vertical: .0),
+                      child: RepairSubmitButton(
+                        onPressed: () {
+                          final brandState = context.read<BrandBloc>().state;
+                          final imageState =
+                              context.read<RepairImageBloc>().state;
+                          final issuestate = context.read<IssueBloc>().state;
+                          context.read<RepairFormBloc>().add(
+                            SubmitRepairRequest(
+                              brand: brandState.selectedBrand,
+                              services: issuestate.selectedIssues,
+                              deviceModel: _modelController.text,
+                              complaintDescription: _descriptionController.text,
+                              images: imageState.images,
+                              name: _nameController.text,
+                              mobileNumber: _mobileController.text,
+                              email: _emailController.text,
+                              location: _selectedLocation,
+                            ),
+                          );
+                        },
+                      ),
+                    ),
                   ],
                 ),
+              ),
+            ),
+            SliverToBoxAdapter(
+              child: Column(
+                children: [const SizedBox(height: 50), WarrantyInfoSection()],
               ),
             ),
           ],
@@ -253,13 +311,13 @@ class _RepairPageViewState extends State<RepairPageView> {
     );
   }
 
-  Widget _buildLabel(String label) {
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 8),
-      child: Text(
-        label,
-        style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
-      ),
-    );
-  }
+  // Widget _buildLabel(String label) {
+  //   return Padding(
+  //     padding: const EdgeInsets.only(bottom: 8),
+  //     child: Text(
+  //       label,
+  //       style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
+  //     ),
+  //   );
+  // }
 }

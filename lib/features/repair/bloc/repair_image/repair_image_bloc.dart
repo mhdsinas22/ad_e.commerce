@@ -29,6 +29,8 @@ class RemoveImage extends RepairImageEvent {
 
 class UploadImages extends RepairImageEvent {}
 
+class ClearImages extends RepairImageEvent {}
+
 // --- States ---
 class RepairImageState extends Equatable {
   final List<File> images;
@@ -65,7 +67,14 @@ class RepairImageBloc extends Bloc<RepairImageEvent, RepairImageState> {
     on<PickImage>(_onPickImage);
     on<RemoveImage>(_onRemoveImage);
     on<UploadImages>(_onUploadImages);
+    on<ClearImages>(_onClearImages); // ✅ ADD
   }
+  void _onClearImages(ClearImages event, Emitter<RepairImageState> emit) {
+    emit(
+      const RepairImageState(images: [], uploadedUrls: [], isUploading: false),
+    );
+  }
+
   Future<void> _onPickImage(
     PickImage event,
     Emitter<RepairImageState> emit,

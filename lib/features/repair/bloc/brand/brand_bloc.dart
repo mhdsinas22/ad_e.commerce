@@ -1,3 +1,4 @@
+import 'package:ad_e_commerce/core/constants/asset_constants.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -48,22 +49,25 @@ class BrandBloc extends Bloc<BrandEvent, BrandState> {
   void _onLoadBrands(LoadBrands event, Emitter<BrandState> emit) {
     // Static data matching the image
     final brands = [
-      {'name': 'Apple', 'logo': 'assets/brands/apple.png'}, // Placeholder paths
-      {'name': 'Mi', 'logo': 'assets/brands/mi.png'},
-      {'name': 'Samsung', 'logo': 'assets/brands/samsung.png'},
-      {'name': 'Vivo', 'logo': 'assets/brands/vivo.png'},
-      {'name': 'Honor', 'logo': 'assets/brands/honor.png'},
-      {'name': 'Oppo', 'logo': 'assets/brands/oppo.png'},
-      {'name': 'Realme', 'logo': 'assets/brands/realme.png'},
-      {'name': 'OnePlus', 'logo': 'assets/brands/oneplus.png'},
-      {'name': 'Nokia', 'logo': 'assets/brands/nokia.png'},
-      {'name': 'Motorola', 'logo': 'assets/brands/motorola.png'},
-      {'name': 'Asus', 'logo': 'assets/brands/asus.png'},
-      {'name': 'Google', 'logo': 'assets/brands/google.png'},
-      {'name': 'Poco', 'logo': 'assets/brands/poco.png'},
-      {'name': 'Infinix', 'logo': 'assets/brands/infinix.png'},
-      {'name': 'iQOO', 'logo': 'assets/brands/iqoo.png'},
-      {'name': 'Nothing', 'logo': 'assets/brands/nothing.png'},
+      {
+        'name': 'Apple',
+        'logo': AssetConstants.appleIconSvg,
+      }, // Placeholder paths
+      {'name': 'Mi', 'logo': AssetConstants.miconsvg},
+      {'name': 'Samsung', 'logo': AssetConstants.samsunglogosvg},
+      {'name': 'Vivo', 'logo': AssetConstants.vivologoSvg},
+      {'name': 'Honor', 'logo': AssetConstants.honorlogosvg},
+      {'name': 'Oppo', 'logo': AssetConstants.oppologosvg},
+      {'name': 'Realme', 'logo': AssetConstants.realmeLogosvg},
+      {'name': 'OnePlus', 'logo': AssetConstants.oneplusLogoSvg},
+      {'name': 'Nokia', 'logo': AssetConstants.nokiasvg},
+      {'name': 'Motorola', 'logo': AssetConstants.motorolasvg},
+      {'name': 'Asus', 'logo': AssetConstants.asuslogosvg},
+      {'name': 'Google', 'logo': AssetConstants.googlelogosv},
+      {'name': 'Poco', 'logo': AssetConstants.pocologoSvg},
+      {'name': 'Infinix', 'logo': AssetConstants.infinixsvg},
+      {'name': 'iQOO', 'logo': AssetConstants.iqoosvg},
+      {'name': 'Nothing', 'logo': AssetConstants.nothingsvg},
     ];
     emit(state.copyWith(brands: brands));
   }

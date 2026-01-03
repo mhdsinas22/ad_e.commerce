@@ -30,14 +30,17 @@ class IssueSelectPage extends StatelessWidget {
             children:
                 issues.map((issue) {
                   final isSelected = state.selectedIssues.contains(issue);
-                  return IssueRadioLikeTile(
-                    selected: isSelected,
-                    title: issue,
-                    onTap: () {
-                      context.read<IssueBloc>().add(
-                        ToggleIssue(issue: issue), // ✅ toggle
-                      );
-                    },
+                  return Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 2.0),
+                    child: IssueRadioLikeTile(
+                      selected: isSelected,
+                      title: issue,
+                      onTap: () {
+                        context.read<IssueBloc>().add(
+                          ToggleIssue(issue: issue), // ✅ toggle
+                        );
+                      },
+                    ),
                   );
                 }).toList(),
           ),

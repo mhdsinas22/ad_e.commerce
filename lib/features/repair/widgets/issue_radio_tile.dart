@@ -23,12 +23,12 @@ class IssueRadioLikeTile extends StatelessWidget {
           children: [
             // 🔘 Radio look
             Container(
-              width: 20,
-              height: 20,
+              width: 12,
+              height: 12,
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
                 border: Border.all(
-                  color: selected ? AppColors.pureBlack : Colors.grey,
+                  color: selected ? AppColors.grayColor : Colors.grey,
                   width: 2,
                 ),
               ),
@@ -36,8 +36,8 @@ class IssueRadioLikeTile extends StatelessWidget {
                   selected
                       ? Center(
                         child: Container(
-                          width: 10,
-                          height: 10,
+                          width: 12,
+                          height: 12,
                           decoration: const BoxDecoration(
                             shape: BoxShape.circle,
                             color: AppColors.pureBlack,
@@ -46,7 +46,7 @@ class IssueRadioLikeTile extends StatelessWidget {
                       )
                       : null,
             ),
-            const SizedBox(width: 12),
+            const SizedBox(width: 5),
             Text(title),
           ],
         ),

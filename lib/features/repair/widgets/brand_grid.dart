@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import '../bloc/brand/brand_bloc.dart';
 
 class BrandGrid extends StatelessWidget {
@@ -46,7 +47,7 @@ class BrandGrid extends StatelessWidget {
                     // Ideally use Image.asset, but fallbacking to Icon/Text if missing
                     if (brand['logo'] != null && brand['logo']!.isNotEmpty)
                       Expanded(
-                        child: Image.asset(
+                        child: SvgPicture.asset(
                           brand['logo']!,
                           errorBuilder:
                               (_, __, ___) => const Icon(
@@ -54,22 +55,8 @@ class BrandGrid extends StatelessWidget {
                                 color: Colors.grey,
                               ),
                         ),
-                      )
-                    else
-                      const Icon(Icons.phone_android, color: Colors.grey),
-                    const SizedBox(height: 4),
-                    Text(
-                      brand['name']!,
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        fontSize: 10,
-                        fontWeight:
-                            isSelected ? FontWeight.bold : FontWeight.normal,
-                        color: isSelected ? Colors.blue : Colors.black,
                       ),
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                    ),
+                    Text(brand["name"].toString()),
                   ],
                 ),
               ),

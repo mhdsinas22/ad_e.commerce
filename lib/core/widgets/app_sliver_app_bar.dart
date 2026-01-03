@@ -50,7 +50,10 @@ class AppSliverAppBar extends StatelessWidget {
       actions:
           showCart
               ? [
-                SvgPicture.asset(AppIcons.serachucon),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: SvgPicture.asset(AppIcons.serachucon),
+                ),
                 InkWell(
                   onTap:
                       onCartTap ??
