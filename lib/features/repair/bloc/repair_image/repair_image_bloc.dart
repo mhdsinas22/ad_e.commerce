@@ -1,5 +1,4 @@
 import 'dart:io';
-
 import 'package:ad_e_commerce/features/repair/data/datasources/cloudinary_remote_datasource.dart';
 import 'package:equatable/equatable.dart';
 
@@ -20,6 +19,13 @@ class PickImage extends RepairImageEvent {
   List<Object> get props => [source];
 }
 
+class PickSingleImage extends RepairImageEvent {
+  final ImageSource source;
+  const PickSingleImage(this.source);
+  @override
+  List<Object> get props => [source];
+}
+
 class RemoveImage extends RepairImageEvent {
   final int index;
   const RemoveImage(this.index);
@@ -28,6 +34,8 @@ class RemoveImage extends RepairImageEvent {
 }
 
 class UploadImages extends RepairImageEvent {}
+
+class UploadSingleImage extends RepairImageEvent {}
 
 class ClearImages extends RepairImageEvent {}
 
@@ -67,12 +75,42 @@ class RepairImageBloc extends Bloc<RepairImageEvent, RepairImageState> {
     on<PickImage>(_onPickImage);
     on<RemoveImage>(_onRemoveImage);
     on<UploadImages>(_onUploadImages);
+    on<UploadSingleImage>((event, emit) async {
+      if (state.images.isEmpty) return;
+
+      emit(state.copyWith(isUploading: true));
+
+      final image = state.images.last;
+      final url = await cloudinaryRemoteDatasource.uploadImage(image);
+
+      emit(state.copyWith(uploadedUrls: [url], isUploading: false));
+    });
+
     on<ClearImages>(_onClearImages); // ✅ ADD
+    on<PickSingleImage>(_onGalleryPick);
   }
   void _onClearImages(ClearImages event, Emitter<RepairImageState> emit) {
     emit(
       const RepairImageState(images: [], uploadedUrls: [], isUploading: false),
     );
+  }
+
+  Future<void> _onGalleryPick(
+    PickSingleImage event,
+    Emitter<RepairImageState> emit,
+  ) async {
+    final XFile? image = await picker.pickImage(
+      source: event.source, // ✅ use event.source
+      imageQuality: 70,
+    );
+
+    if (image != null) {
+      emit(
+        state.copyWith(
+          images: [File(image.path)], // ✅ VERY IMPORTANT
+        ),
+      );
+    }
   }
 
   Future<void> _onPickImage(

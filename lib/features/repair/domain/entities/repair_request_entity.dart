@@ -2,6 +2,7 @@ import 'package:equatable/equatable.dart';
 
 class RepairRequestEntity extends Equatable {
   final String? id;
+  final String userid;
   final String brand;
   final List<String> services;
   final String deviceModel;
@@ -25,6 +26,7 @@ class RepairRequestEntity extends Equatable {
     required this.email,
     required this.location,
     required this.createdAt,
+    required this.userid,
   });
 
   @override

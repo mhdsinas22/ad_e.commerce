@@ -70,4 +70,21 @@ class AssetConstants {
       "assets/svg/c85503ffac45d4b8b14ba397f4b44ce9 1.svg";
   static const String nothingsvg = "assets/svg/nothing-logo-hd 1.svg";
   static const String onboradingSvg = "assets/svg/onboardingvector.svg";
+  static const String obboardingpng = "assets/png/wmremove-transformed1.png";
+  static const String applelogopng = "assets/png/applelogo.png";
+  static const String milogopng = "assets/png/milogo.png";
+  static const String samsungLogopng = "assets/png/samsunglogo.png";
+  static const String vivoLogopng = "assets/png/vivologo.png";
+  static const String oneplusLogo = "assets/png/onepluslogo.png";
+  static const String oppoLogopng = "assets/png/oppologo.png";
+  static const String realmeLogopng = "assets/png/realmemlogo.png";
+  static const String motorolapng = "assets/png/motorolalogo.png";
+  static const String nokiapng = "assets/png/nokialogo.png";
+  static const String honorpng = "assets/png/honorlogo.png";
+  static const String asuspng = "assets/png/asus_logo.png";
+  static const String googlepng = "assets/png/googlelogo.png";
+  static const String pocopng = "assets/png/POCO-Emblem.png";
+  static const String infinixpng = "assets/png/infinix.png";
+  static const String iqoo = "assets/png/iqlogo.png";
+  static const String nothing = "assets/png/nothinglogo.png";
 }

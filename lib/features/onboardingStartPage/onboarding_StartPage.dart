@@ -1,3 +1,4 @@
+import 'package:ad_e_commerce/core/constants/asset_constants.dart';
 import 'package:ad_e_commerce/core/routes/route_names.dart';
 import 'package:ad_e_commerce/core/theme/app_colors.dart';
 import 'package:ad_e_commerce/core/widgets/app_text.dart';
@@ -31,6 +32,8 @@ class OnboardingStartpage extends StatelessWidget {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
+                    const Spacer(),
+                    Image.asset(AssetConstants.obboardingpng),
                     const Spacer(),
 
                     // ---------------- ACTION BUTTONS ----------------

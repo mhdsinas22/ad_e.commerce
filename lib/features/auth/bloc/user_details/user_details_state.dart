@@ -7,9 +7,10 @@ class UserDetailsState extends Equatable {
   final String email;
   final String username;
   final String password;
+  final String imageUrl;
   final String? error;
   final UserDetailsStatus? status;
-
+  final bool isPasswordVisible;
   const UserDetailsState({
     this.phone = "",
     this.email = "",
@@ -17,6 +18,8 @@ class UserDetailsState extends Equatable {
     this.password = "",
     this.error,
     this.status = UserDetailsStatus.initial,
+    this.isPasswordVisible = false,
+    this.imageUrl = "",
   });
   UserDetailsState copyWith({
     String? username,
@@ -25,6 +28,8 @@ class UserDetailsState extends Equatable {
     String? error,
     UserDetailsStatus? status,
     String? phoneNumber,
+    bool? isPasswordVisible,
+    String? imageUrl,
   }) {
     return UserDetailsState(
       phone: phoneNumber ?? phone,
@@ -34,9 +39,20 @@ class UserDetailsState extends Equatable {
       email: email ?? this.email,
       // ignore: unnecessary_this
       status: status ?? this.status,
+      isPasswordVisible: isPasswordVisible ?? this.isPasswordVisible,
+      imageUrl: imageUrl ?? this.imageUrl,
     );
   }
 
   @override
-  List<Object?> get props => [username, phone, email, password, status, error];
+  List<Object?> get props => [
+    username,
+    phone,
+    email,
+    password,
+    status,
+    error,
+    isPasswordVisible,
+    imageUrl,
+  ];
 }

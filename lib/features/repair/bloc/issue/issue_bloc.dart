@@ -13,5 +13,8 @@ class IssueBloc extends Bloc<IssueEvent, IssueState> {
       }
       emit(state.copyWith(selectedIssues: current));
     });
+    on<ClearIssues>((event, emit) {
+      emit(const IssueState(selectedIssues: []));
+    });
   }
 }

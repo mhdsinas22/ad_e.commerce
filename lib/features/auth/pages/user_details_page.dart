@@ -1,7 +1,7 @@
-import 'package:ad_e_commerce/core/constants/asset_constants.dart';
 import 'package:ad_e_commerce/core/routes/route_names.dart';
 import 'package:ad_e_commerce/core/widgets/app_text.dart';
 import 'package:ad_e_commerce/core/widgets/app_text_form_field.dart';
+import 'package:ad_e_commerce/core/widgets/camera_container.dart';
 import 'package:ad_e_commerce/core/widgets/primary_button.dart';
 import 'package:ad_e_commerce/data/repositories/auth_repository.dart';
 import 'package:ad_e_commerce/data/repositories/user_repository.dart';
@@ -9,9 +9,10 @@ import 'package:ad_e_commerce/features/auth/bloc/user_details/user_details_bloc.
 import 'package:ad_e_commerce/features/auth/bloc/user_details/user_details_event.dart';
 import 'package:ad_e_commerce/features/auth/bloc/user_details/user_details_state.dart';
 import 'package:ad_e_commerce/features/auth/widgets/phone_input_field.dart';
+import 'package:ad_e_commerce/features/repair/bloc/repair_image/repair_image_bloc.dart';
+import 'package:ad_e_commerce/features/repair/data/datasources/cloudinary_remote_datasource.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 class UserDetailsPage extends StatelessWidget {
@@ -22,13 +23,21 @@ class UserDetailsPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final userRepository = UserRepository(Supabase.instance.client);
     final authRepository = AuthRepository(Supabase.instance.client);
-    return BlocProvider(
-      create:
-          (context) => UserDetailsBloc(
-            phone: phone,
-            userRepositoryy: userRepository,
-            authRepository: authRepository,
-          ),
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(
+          create:
+              (context) => UserDetailsBloc(
+                phone: phone,
+                userRepositoryy: userRepository,
+                authRepository: authRepository,
+              ),
+        ),
+        BlocProvider(
+          create: (context) => RepairImageBloc(CloudinaryRemoteDatasource()),
+        ),
+      ],
+
       child: _UserDetailsView(phone: phone),
     );
   }
@@ -76,7 +85,6 @@ class _UserDetailsViewState extends State<_UserDetailsView> {
                 RouteNames.emailVerification,
               );
             });
-
             // Navigate to Home or Dashboard
           }
         },
@@ -88,13 +96,18 @@ class _UserDetailsViewState extends State<_UserDetailsView> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                  Row(
-                    children: [
-                      SvgPicture.asset(AssetConstants.complelteProfileText),
-                    ],
+                  Padding(
+                    padding: EdgeInsets.symmetric(
+                      horizontal: 8.0,
+                      vertical: 10.0,
+                    ),
+                    child: AppTexts.bold(
+                      "Complete\nyour Profile",
+                      fontSize: 50,
+                    ),
                   ),
                   const SizedBox(height: 16),
-                  Row(children: [SvgPicture.asset(AssetConstants.uploadPhoto)]),
+                  Row(children: [CameraContainer()]),
                   const SizedBox(height: 16),
                   const _NameInput(),
                   const SizedBox(height: 16),
@@ -177,9 +190,21 @@ class _PasswordInput extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<UserDetailsBloc, UserDetailsState>(
-      buildWhen: (previous, current) => previous.password != current.password,
+      buildWhen:
+          (previous, current) =>
+              previous.password != current.password ||
+              previous.isPasswordVisible != current.isPasswordVisible,
       builder: (context, state) {
         return AppTextFormField(
+          obscureText: !state.isPasswordVisible,
+          suffixIcon: IconButton(
+            onPressed: () {
+              context.read<UserDetailsBloc>().add(TogglePasswordVisibility());
+            },
+            icon: Icon(
+              state.isPasswordVisible ? Icons.visibility_off : Icons.visibility,
+            ),
+          ),
           hintText: "Password",
           keyvalue: 'userDetailsForm_passwordInput_textField',
           onChanged:
@@ -229,9 +254,18 @@ class _SaveButton extends StatelessWidget {
             : Column(
               children: [
                 PrimaryButton(
+                  borderRadius: 10,
                   text: "Done",
                   onPressed: () {
-                    context.read<UserDetailsBloc>().add(SubmitUserDetails());
+                    final imageState = context.read<RepairImageBloc>().state;
+                    final imageUrl =
+                        imageState.uploadedUrls.isNotEmpty
+                            ? imageState.uploadedUrls.first
+                            : null;
+                    print(imageUrl);
+                    context.read<UserDetailsBloc>().add(
+                      SubmitUserDetails(imageUrl: imageUrl.toString()),
+                    );
                   },
                 ),
                 SizedBox(height: 10),

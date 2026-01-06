@@ -22,6 +22,7 @@ class SubmitRepairRequest extends RepairFormEvent {
   final String mobileNumber;
   final String email;
   final String location;
+  final String userid;
 
   const SubmitRepairRequest({
     required this.brand,
@@ -33,6 +34,7 @@ class SubmitRepairRequest extends RepairFormEvent {
     required this.mobileNumber,
     required this.email,
     required this.location,
+    required this.userid,
   });
 
   @override
@@ -160,6 +162,7 @@ class RepairFormBloc extends Bloc<RepairFormEvent, RepairFormState> {
 
     try {
       final requestEntity = RepairRequestEntity(
+        userid: event.userid,
         brand: event.brand!,
         services: event.services,
         deviceModel: event.deviceModel,

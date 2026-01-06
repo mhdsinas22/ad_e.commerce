@@ -33,4 +33,11 @@ class PhoneNumberChanged extends UserDetailsEvent {
   List<Object?> get props => [phonenumber];
 }
 
-class SubmitUserDetails extends UserDetailsEvent {}
+class TogglePasswordVisibility extends UserDetailsEvent {}
+
+class SubmitUserDetails extends UserDetailsEvent {
+  final String imageUrl;
+  SubmitUserDetails({required this.imageUrl});
+  @override
+  List<Object?> get props => [imageUrl];
+}

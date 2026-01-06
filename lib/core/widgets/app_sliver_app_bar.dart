@@ -11,6 +11,7 @@ class AppSliverAppBar extends StatelessWidget {
   final VoidCallback? onCartTap;
   final double expandedHeight;
   final bool showBack;
+  final bool showSearchIcon;
 
   const AppSliverAppBar({
     super.key,
@@ -18,6 +19,7 @@ class AppSliverAppBar extends StatelessWidget {
     this.onCartTap,
     this.expandedHeight = 60,
     this.showBack = false,
+    this.showSearchIcon = false,
   });
 
   @override
@@ -50,10 +52,17 @@ class AppSliverAppBar extends StatelessWidget {
       actions:
           showCart
               ? [
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: SvgPicture.asset(AppIcons.serachucon),
-                ),
+                if (showSearchIcon)
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: InkWell(
+                      onTap: () {
+                        Navigator.pushNamed(context, RouteNames.search);
+                      },
+                      child: SvgPicture.asset(AppIcons.serachucon),
+                    ),
+                  ),
+
                 InkWell(
                   onTap:
                       onCartTap ??

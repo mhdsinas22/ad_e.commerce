@@ -28,6 +28,7 @@ class RepairRepositoryImpl implements RepairRepository {
     // 2. Create Model with Image URLs
     final repairRequestModel = RepairRequestModel(
       id: request.id,
+      userid: request.userid,
       brand: request.brand,
       services: request.services,
       deviceModel: request.deviceModel,

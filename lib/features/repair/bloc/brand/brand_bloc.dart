@@ -18,6 +18,8 @@ class SelectBrand extends BrandEvent {
   List<Object> get props => [brandName];
 }
 
+class ClearBrand extends BrandEvent {}
+
 // --- States ---
 class BrandState extends Equatable {
   final List<Map<String, String>> brands; // {name, logo}
@@ -44,6 +46,7 @@ class BrandBloc extends Bloc<BrandEvent, BrandState> {
   BrandBloc() : super(const BrandState()) {
     on<LoadBrands>(_onLoadBrands);
     on<SelectBrand>(_onSelectBrand);
+    on<ClearBrand>(_clearBrand);
   }
 
   void _onLoadBrands(LoadBrands event, Emitter<BrandState> emit) {
@@ -51,28 +54,32 @@ class BrandBloc extends Bloc<BrandEvent, BrandState> {
     final brands = [
       {
         'name': 'Apple',
-        'logo': AssetConstants.appleIconSvg,
+        'logo': AssetConstants.applelogopng,
       }, // Placeholder paths
-      {'name': 'Mi', 'logo': AssetConstants.miconsvg},
-      {'name': 'Samsung', 'logo': AssetConstants.samsunglogosvg},
-      {'name': 'Vivo', 'logo': AssetConstants.vivologoSvg},
-      {'name': 'Honor', 'logo': AssetConstants.honorlogosvg},
-      {'name': 'Oppo', 'logo': AssetConstants.oppologosvg},
-      {'name': 'Realme', 'logo': AssetConstants.realmeLogosvg},
-      {'name': 'OnePlus', 'logo': AssetConstants.oneplusLogoSvg},
-      {'name': 'Nokia', 'logo': AssetConstants.nokiasvg},
-      {'name': 'Motorola', 'logo': AssetConstants.motorolasvg},
-      {'name': 'Asus', 'logo': AssetConstants.asuslogosvg},
-      {'name': 'Google', 'logo': AssetConstants.googlelogosv},
-      {'name': 'Poco', 'logo': AssetConstants.pocologoSvg},
-      {'name': 'Infinix', 'logo': AssetConstants.infinixsvg},
-      {'name': 'iQOO', 'logo': AssetConstants.iqoosvg},
-      {'name': 'Nothing', 'logo': AssetConstants.nothingsvg},
+      {'name': 'Mi', 'logo': AssetConstants.milogopng},
+      {'name': 'Samsung', 'logo': AssetConstants.samsungLogopng},
+      {'name': 'Vivo', 'logo': AssetConstants.vivoLogopng},
+      {'name': 'OnePlus', 'logo': AssetConstants.oneplusLogo},
+      {'name': 'Oppo', 'logo': AssetConstants.oppoLogopng},
+      {'name': 'Realme', 'logo': AssetConstants.realmeLogopng},
+      {'name': 'Motorola', 'logo': AssetConstants.motorolapng},
+      {'name': 'Nokia', 'logo': AssetConstants.nokiapng},
+      {'name': 'Honor', 'logo': AssetConstants.honorpng},
+      {'name': 'Asus', 'logo': AssetConstants.asuspng},
+      {'name': 'Google', 'logo': AssetConstants.googlepng},
+      {'name': 'Poco', 'logo': AssetConstants.pocopng},
+      {'name': 'Infinix', 'logo': AssetConstants.infinixpng},
+      {'name': 'iQOO', 'logo': AssetConstants.iqoo},
+      {'name': 'Nothing', 'logo': AssetConstants.nothing},
     ];
     emit(state.copyWith(brands: brands));
   }
 
   void _onSelectBrand(SelectBrand event, Emitter<BrandState> emit) {
     emit(state.copyWith(selectedBrand: event.brandName));
+  }
+
+  void _clearBrand(ClearBrand event, Emitter<BrandState> emit) {
+    emit(state.copyWith(selectedBrand: ""));
   }
 }

@@ -4,3 +4,5 @@ class ToggleIssue extends IssueEvent {
   final String issue;
   ToggleIssue({required this.issue});
 }
+
+class ClearIssues extends IssueEvent {}

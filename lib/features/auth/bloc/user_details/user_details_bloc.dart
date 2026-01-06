@@ -3,6 +3,7 @@ import 'package:ad_e_commerce/data/repositories/auth_repository.dart';
 import 'package:ad_e_commerce/data/repositories/user_repository.dart';
 import 'package:ad_e_commerce/features/auth/bloc/user_details/user_details_event.dart';
 import 'package:ad_e_commerce/features/auth/bloc/user_details/user_details_state.dart';
+
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
@@ -30,6 +31,9 @@ class UserDetailsBloc extends Bloc<UserDetailsEvent, UserDetailsState> {
       emit(state.copyWith(phoneNumber: event.phonenumber));
     });
     on<SubmitUserDetails>(_onSubmit);
+    on<TogglePasswordVisibility>((event, emit) {
+      emit(state.copyWith(isPasswordVisible: !state.isPasswordVisible));
+    });
   }
   Future<void> _onSubmit(
     SubmitUserDetails event,
@@ -53,6 +57,7 @@ class UserDetailsBloc extends Bloc<UserDetailsEvent, UserDetailsState> {
         email: state.email,
         username: state.username,
         userId: user.id,
+        imageUrl: event.imageUrl,
       );
 
       await userRepository.createUser(userModel);

@@ -1,4 +1,5 @@
 import 'package:ad_e_commerce/core/routes/route_names.dart';
+import 'package:ad_e_commerce/core/theme/app_colors.dart';
 import 'package:ad_e_commerce/core/widgets/app_text.dart';
 import 'package:ad_e_commerce/data/repositories/auth_repository.dart';
 import 'package:ad_e_commerce/features/auth/bloc/login/login_bloc.dart';
@@ -30,7 +31,7 @@ class _LoginForm extends StatefulWidget {
 
 class _LoginFormState extends State<_LoginForm> {
   final _formKey = GlobalKey<FormState>();
-
+  bool _submitted = false; // ✅ ivide
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -40,6 +41,9 @@ class _LoginFormState extends State<_LoginForm> {
       ),
       backgroundColor: Colors.white,
       body: BlocListener<LoginBloc, LoginState>(
+        listenWhen: (previous, current) {
+          return previous.status != current.status;
+        },
         listener: (context, state) {
           if (state.status == LoginStatus.failure) {
             if (state.errorMessage == "EMAIL_NOT_VERIFIED") {
@@ -86,15 +90,11 @@ class _LoginFormState extends State<_LoginForm> {
                   const SizedBox(height: 60),
                   AppTexts.semiBold('Login', fontSize: 52),
                   const SizedBox(height: 8),
-                  AppTexts.medium(
-                    'Good to see you back! ❤',
-                    color: Colors.grey,
-                    fontSize: 16,
-                  ),
+                  AppTexts.medium('Good to see you back!', fontSize: 16),
                   const SizedBox(height: 48),
-                  _UsernameInput(),
+                  _UsernameInput(submitted: _submitted),
                   const SizedBox(height: 16),
-                  _PasswordInput(),
+                  _PasswordInput(submitted: _submitted),
                   const SizedBox(height: 12),
                   Align(
                     alignment: Alignment.centerRight,
@@ -104,13 +104,20 @@ class _LoginFormState extends State<_LoginForm> {
                       },
                       child: AppTexts.medium(
                         "Forgot Password?",
-                        color: Colors.grey[700]!,
+                        color: AppColors.primaryBlue,
                         fontSize: 14,
                       ),
                     ),
                   ),
                   const SizedBox(height: 24),
-                  _LoginButton(formKey: _formKey),
+                  _LoginButton(
+                    formKey: _formKey,
+                    onSubmitAttempt: () {
+                      setState(() {
+                        _submitted = true;
+                      });
+                    },
+                  ),
                   const SizedBox(height: 16),
                   Center(
                     child: TextButton(
@@ -136,12 +143,18 @@ class _LoginFormState extends State<_LoginForm> {
 }
 
 class _UsernameInput extends StatelessWidget {
+  final bool submitted;
+  const _UsernameInput({required this.submitted});
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<LoginBloc, LoginState>(
       buildWhen: (previous, current) => previous.username != current.username,
       builder: (context, state) {
         return TextFormField(
+          autovalidateMode:
+              submitted
+                  ? AutovalidateMode.onUserInteraction
+                  : AutovalidateMode.disabled,
           key: const Key('loginForm_usernameInput_textField'),
           onChanged:
               (username) =>
@@ -156,18 +169,17 @@ class _UsernameInput extends StatelessWidget {
               vertical: 16,
             ),
             border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(12),
+              borderRadius: BorderRadius.circular(59.12),
               borderSide: BorderSide.none,
             ),
             enabledBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(12),
+              borderRadius: BorderRadius.circular(59.12),
               borderSide: BorderSide.none,
             ),
             focusedBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(12),
+              borderRadius: BorderRadius.circular(59.12),
               borderSide: const BorderSide(color: Color(0xFF0052FF), width: 1),
             ),
-            prefixIcon: const Icon(Icons.email_outlined, color: Colors.grey),
           ),
           validator: (value) {
             if (value == null || value.isEmpty) {
@@ -182,6 +194,8 @@ class _UsernameInput extends StatelessWidget {
 }
 
 class _PasswordInput extends StatefulWidget {
+  final bool submitted;
+  const _PasswordInput({required this.submitted});
   @override
   State<_PasswordInput> createState() => _PasswordInputState();
 }
@@ -195,6 +209,10 @@ class _PasswordInputState extends State<_PasswordInput> {
       buildWhen: (previous, current) => previous.password != current.password,
       builder: (context, state) {
         return TextFormField(
+          autovalidateMode:
+              widget.submitted
+                  ? AutovalidateMode.onUserInteraction
+                  : AutovalidateMode.disabled,
           key: const Key('loginForm_passwordInput_textField'),
           onChanged:
               (password) =>
@@ -210,18 +228,17 @@ class _PasswordInputState extends State<_PasswordInput> {
               vertical: 16,
             ),
             border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(12),
+              borderRadius: BorderRadius.circular(59.12),
               borderSide: BorderSide.none,
             ),
             enabledBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(12),
+              borderRadius: BorderRadius.circular(59.12),
               borderSide: BorderSide.none,
             ),
             focusedBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(12),
+              borderRadius: BorderRadius.circular(59.12),
               borderSide: const BorderSide(color: Color(0xFF0052FF), width: 1),
             ),
-            prefixIcon: const Icon(Icons.lock_outline, color: Colors.grey),
             suffixIcon: IconButton(
               icon: Icon(
                 _obscureText ? Icons.visibility : Icons.visibility_off,
@@ -249,11 +266,16 @@ class _PasswordInputState extends State<_PasswordInput> {
   }
 }
 
-class _LoginButton extends StatelessWidget {
+class _LoginButton extends StatefulWidget {
   final GlobalKey<FormState> formKey;
+  final VoidCallback onSubmitAttempt;
+  const _LoginButton({required this.formKey, required this.onSubmitAttempt});
 
-  const _LoginButton({required this.formKey});
+  @override
+  State<_LoginButton> createState() => _LoginButtonState();
+}
 
+class _LoginButtonState extends State<_LoginButton> {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<LoginBloc, LoginState>(
@@ -265,7 +287,8 @@ class _LoginButton extends StatelessWidget {
               child: FilledButton(
                 key: const Key('loginForm_continue_raisedButton'),
                 onPressed: () {
-                  if (formKey.currentState!.validate()) {
+                  widget.onSubmitAttempt();
+                  if (widget.formKey.currentState!.validate()) {
                     context.read<LoginBloc>().add(
                       LoginSubmitted(
                         emailOrUsername: state.username,
@@ -278,7 +301,7 @@ class _LoginButton extends StatelessWidget {
                   backgroundColor: const Color(0xFF0052FF),
                   padding: const EdgeInsets.symmetric(vertical: 16),
                   shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(30),
+                    borderRadius: BorderRadius.circular(10),
                   ),
                 ),
                 child: AppTexts.semiBold(

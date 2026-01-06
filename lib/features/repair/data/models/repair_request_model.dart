@@ -13,11 +13,13 @@ class RepairRequestModel extends RepairRequestEntity {
     required super.email,
     required super.location,
     required super.createdAt,
+    required super.userid,
   });
 
   factory RepairRequestModel.fromJson(Map<String, dynamic> json) {
     return RepairRequestModel(
       id: json['id'] as String?,
+      userid: json["user_id"] as String,
       brand: json['brand'] as String,
       services: List<String>.from(json['services'] ?? []),
       deviceModel: json['device_model'] as String,
@@ -34,6 +36,7 @@ class RepairRequestModel extends RepairRequestEntity {
   Map<String, dynamic> toJson() {
     return {
       if (id != null) 'id': id,
+      "user_id": userid,
       'brand': brand,
       'services': services,
       'device_model': deviceModel,
@@ -50,6 +53,7 @@ class RepairRequestModel extends RepairRequestEntity {
   factory RepairRequestModel.fromEntity(RepairRequestEntity entity) {
     return RepairRequestModel(
       id: entity.id,
+      userid: entity.userid,
       brand: entity.brand,
       services: entity.services,
       deviceModel: entity.deviceModel,
