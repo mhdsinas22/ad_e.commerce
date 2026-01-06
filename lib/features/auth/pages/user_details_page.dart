@@ -58,6 +58,9 @@ class _UserDetailsViewState extends State<_UserDetailsView> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: BlocListener<UserDetailsBloc, UserDetailsState>(
+        listenWhen: (previous, current) {
+          return previous.status != current.status;
+        },
         listener: (context, state) {
           if (state.status == UserDetailsStatus.failure) {
             WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
@@ -261,10 +264,12 @@ class _SaveButton extends StatelessWidget {
                     final imageUrl =
                         imageState.uploadedUrls.isNotEmpty
                             ? imageState.uploadedUrls.first
-                            : null;
-                    print(imageUrl);
+                            : "null";
+                    print("Images: ${imageState.images}");
+                    print("Uploaded URLs: ${imageState.uploadedUrls}");
+
                     context.read<UserDetailsBloc>().add(
-                      SubmitUserDetails(imageUrl: imageUrl.toString()),
+                      SubmitUserDetails(imageUrl: imageUrl),
                     );
                   },
                 ),

@@ -66,6 +66,9 @@ class CameraContainer extends StatelessWidget {
                   parentContext.read<RepairImageBloc>().add(
                     const PickSingleImage(ImageSource.gallery),
                   );
+                  parentContext.read<RepairImageBloc>().add(
+                    UploadSingleImage(), // 🔥 THIS WAS MISSING
+                  );
                   Navigator.pop(sheetContext);
                 },
               ),
@@ -76,6 +79,10 @@ class CameraContainer extends StatelessWidget {
                   parentContext.read<RepairImageBloc>().add(
                     const PickImage(ImageSource.camera),
                   );
+                  parentContext.read<RepairImageBloc>().add(
+                    UploadSingleImage(), // 🔥
+                  );
+
                   Navigator.pop(sheetContext);
                 },
               ),

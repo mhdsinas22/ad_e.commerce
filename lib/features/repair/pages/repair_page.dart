@@ -337,6 +337,7 @@ class _RepairPageViewState extends State<RepairPageView> {
                               );
                               return;
                             }
+
                             context.read<RepairFormBloc>().add(
                               SubmitRepairRequest(
                                 userid: currentUser.toString(),

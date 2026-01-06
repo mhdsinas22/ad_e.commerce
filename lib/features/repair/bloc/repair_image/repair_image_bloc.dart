@@ -103,13 +103,22 @@ class RepairImageBloc extends Bloc<RepairImageEvent, RepairImageState> {
       source: event.source, // ✅ use event.source
       imageQuality: 70,
     );
+    if (image == null) return;
+    final file = File(image.path);
 
-    if (image != null) {
-      emit(
-        state.copyWith(
-          images: [File(image.path)], // ✅ VERY IMPORTANT
-        ),
-      );
+    emit(
+      state.copyWith(
+        images: [file], // ✅ VERY IMPORTANT
+        uploadedUrls: [],
+        isUploading: true,
+      ),
+    );
+
+    try {
+      final url = await cloudinaryRemoteDatasource.uploadImage(file);
+      emit(state.copyWith(uploadedUrls: [url], isUploading: false));
+    } catch (e) {
+      emit(state.copyWith(isUploading: false));
     }
   }
 
