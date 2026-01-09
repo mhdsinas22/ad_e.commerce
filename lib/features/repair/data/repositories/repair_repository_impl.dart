@@ -1,10 +1,9 @@
-import 'dart:io';
-
 import 'package:ad_e_commerce/features/repair/data/datasources/cloudinary_remote_datasource.dart';
 import 'package:ad_e_commerce/features/repair/data/datasources/repair_remote_data_source.dart';
 import 'package:ad_e_commerce/features/repair/data/models/repair_request_model.dart';
 import 'package:ad_e_commerce/features/repair/domain/entities/repair_request_entity.dart';
 import 'package:ad_e_commerce/features/repair/domain/repositories/repair_repository.dart';
+import 'package:flutter/foundation.dart';
 
 class RepairRepositoryImpl implements RepairRepository {
   final RepairRemoteDataSource remoteDataSource;
@@ -15,13 +14,13 @@ class RepairRepositoryImpl implements RepairRepository {
   @override
   Future<void> submitRepairRequest({
     required RepairRequestEntity request,
-    required List<File> images,
+    required List<Uint8List> images,
   }) async {
     final List<String> imageUrls = [];
 
     // 1. Upload all images
     for (final image in images) {
-      final url = await cloudinaryRemoteDatasource.uploadImage(image);
+      final url = await cloudinaryRemoteDatasource.uploadImageBytes(image);
       imageUrls.add(url);
     }
 

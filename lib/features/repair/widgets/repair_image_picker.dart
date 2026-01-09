@@ -44,7 +44,7 @@ class RepairImagePicker extends StatelessWidget {
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(12),
                       image: DecorationImage(
-                        image: FileImage(image),
+                        image: MemoryImage(image),
                         fit: BoxFit.cover,
                       ),
                     ),

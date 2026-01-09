@@ -1,6 +1,5 @@
-import 'dart:io';
-
 import 'package:equatable/equatable.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:ad_e_commerce/features/repair/domain/entities/repair_request_entity.dart';
 import 'package:ad_e_commerce/features/repair/domain/repositories/repair_repository.dart';
@@ -17,7 +16,7 @@ class SubmitRepairRequest extends RepairFormEvent {
   final List<String> services;
   final String deviceModel;
   final String complaintDescription;
-  final List<File> images;
+  final List<Uint8List> images;
   final String name;
   final String mobileNumber;
   final String email;

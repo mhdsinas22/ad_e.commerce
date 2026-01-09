@@ -22,7 +22,7 @@ class CameraContainer extends StatelessWidget {
             borderRadius: BorderRadius.circular(45),
             child:
                 hasImage
-                    ? Image.file(
+                    ? Image.memory(
                       state.images.last, // 🔥 single image
                       fit: BoxFit.cover,
                       width: 90,

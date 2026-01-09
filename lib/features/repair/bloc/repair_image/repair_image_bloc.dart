@@ -1,6 +1,8 @@
 import 'dart:io';
+
 import 'package:ad_e_commerce/features/repair/data/datasources/cloudinary_remote_datasource.dart';
 import 'package:equatable/equatable.dart';
+import 'package:flutter/foundation.dart';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
@@ -41,7 +43,7 @@ class ClearImages extends RepairImageEvent {}
 
 // --- States ---
 class RepairImageState extends Equatable {
-  final List<File> images;
+  final List<Uint8List> images;
   final List<String> uploadedUrls;
   final bool isUploading;
   const RepairImageState({
@@ -51,7 +53,7 @@ class RepairImageState extends Equatable {
   });
 
   RepairImageState copyWith({
-    List<File>? images,
+    List<Uint8List>? images,
     List<String>? uploadedUrls,
     bool? isUploading,
   }) {
@@ -81,7 +83,7 @@ class RepairImageBloc extends Bloc<RepairImageEvent, RepairImageState> {
       emit(state.copyWith(isUploading: true));
 
       final image = state.images.last;
-      final url = await cloudinaryRemoteDatasource.uploadImage(image);
+      final url = await cloudinaryRemoteDatasource.uploadImageBytes(image);
 
       emit(state.copyWith(uploadedUrls: [url], isUploading: false));
     });
@@ -105,10 +107,10 @@ class RepairImageBloc extends Bloc<RepairImageEvent, RepairImageState> {
     );
     if (image == null) return;
     final file = File(image.path);
-
+    final bytes = await image.readAsBytes();
     emit(
       state.copyWith(
-        images: [file], // ✅ VERY IMPORTANT
+        images: [bytes], // ✅ VERY IMPORTANT
         uploadedUrls: [],
         isUploading: true,
       ),
@@ -127,21 +129,30 @@ class RepairImageBloc extends Bloc<RepairImageEvent, RepairImageState> {
     Emitter<RepairImageState> emit,
   ) async {
     try {
-      if (event.source == ImageSource.camera) {
-        final XFile? pickedFile = await picker.pickImage(
-          source: ImageSource.camera,
-        );
-        if (pickedFile == null) return;
-        // List<File>.from(state.images)..add(File(pickedFile.path));
-        emit(state.copyWith(images: [...state.images, File(pickedFile.path)]));
+      if (kIsWeb) {
+        // WEB
+        final XFile? picked = await picker.pickImage(source: event.source);
+        if (picked == null) return;
+        final bytes = await picked.readAsBytes();
+        emit(state.copyWith(images: [...state.images, bytes]));
       } else {
-        final List<XFile> pickedFiles = await picker.pickMultiImage();
-        if (pickedFiles.isEmpty) return;
-        emit(
-          state.copyWith(
-            images: [...state.images, ...pickedFiles.map((e) => File(e.path))],
-          ),
-        );
+        //  ANDROID / IOS
+        if (event.source == ImageSource.camera) {
+          final XFile? pickedFile = await picker.pickImage(
+            source: ImageSource.camera,
+          );
+          if (pickedFile == null) return;
+          // List<File>.from(state.images)..add(File(pickedFile.path));
+          final bytes = await pickedFile.readAsBytes();
+          emit(state.copyWith(images: [...state.images, bytes]));
+        } else {
+          final files = await picker.pickMultiImage();
+          if (files.isEmpty) return;
+          final bytesList = await Future.wait(
+            files.map((e) => e.readAsBytes()),
+          );
+          emit(state.copyWith(images: [...state.images, ...bytesList]));
+        }
       }
     } catch (_) {
       // Handle permission errors or unexpected errors if needed
@@ -149,7 +160,8 @@ class RepairImageBloc extends Bloc<RepairImageEvent, RepairImageState> {
   }
 
   void _onRemoveImage(RemoveImage event, Emitter<RepairImageState> emit) {
-    final updatedImages = List<File>.from(state.images)..removeAt(event.index);
+    final updatedImages = List<Uint8List>.from(state.images)
+      ..removeAt(event.index);
 
     emit(state.copyWith(images: updatedImages));
   }
@@ -161,8 +173,8 @@ class RepairImageBloc extends Bloc<RepairImageEvent, RepairImageState> {
     emit(state.copyWith(isUploading: true));
     final urls = <String>[];
     try {
-      for (final image in state.images) {
-        final url = await cloudinaryRemoteDatasource.uploadImage(image);
+      for (final bytes in state.images) {
+        final url = await cloudinaryRemoteDatasource.uploadImageBytes(bytes);
         urls.add(url);
       }
       emit(state.copyWith(uploadedUrls: urls, isUploading: false));
