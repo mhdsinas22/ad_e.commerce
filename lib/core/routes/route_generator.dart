@@ -7,6 +7,7 @@ import 'package:ad_e_commerce/features/auth/pages/email_verification_page.dart';
 import 'package:ad_e_commerce/features/bottom_navigation/pages/main_shell_page.dart';
 import 'package:ad_e_commerce/features/home/home_page.dart';
 import 'package:ad_e_commerce/features/onboardingStartPage/onboarding_startpage.dart';
+import 'package:ad_e_commerce/features/product/pages/product_page.dart';
 import 'package:ad_e_commerce/features/search/pages/search_page.dart';
 
 import 'package:flutter/material.dart';
@@ -47,6 +48,11 @@ class RouteGenerator {
         return MaterialPageRoute(builder: (context) => MainShellPage());
       case RouteNames.search:
         return MaterialPageRoute(builder: (context) => SearchPage());
+      case RouteNames.productpage:
+        final args = settings.arguments as Map<String, dynamic>;
+        return MaterialPageRoute(
+          builder: (context) => ProductPage(product: args["product"]),
+        );
       default:
         return MaterialPageRoute(
           builder:

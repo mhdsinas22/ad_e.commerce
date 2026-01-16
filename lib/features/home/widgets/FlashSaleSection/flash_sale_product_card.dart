@@ -1,10 +1,13 @@
-import 'package:ad_e_commerce/core/constants/asset_constants.dart';
+import 'package:ad_e_commerce/core/routes/route_names.dart';
 import 'package:ad_e_commerce/core/theme/app_colors.dart';
+import 'package:ad_e_commerce/core/utils/navigator.dart';
 import 'package:ad_e_commerce/core/widgets/app_text.dart';
+import 'package:ad_e_commerce/features/product/domain/entites/product.dart';
 import 'package:flutter/material.dart';
 
 class FlashSaleCard extends StatelessWidget {
-  const FlashSaleCard({super.key});
+  final Product product;
+  const FlashSaleCard({super.key, required this.product});
 
   @override
   Widget build(BuildContext context) {
@@ -23,11 +26,18 @@ class FlashSaleCard extends StatelessWidget {
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
 
-                child: Image.asset(
-                  AssetConstants.earbuds,
-                  width: 107,
-                  height: 120,
-                  fit: BoxFit.cover,
+                child: InkWell(
+                  onTap: () {
+                    Appnavigotor.pushnamed(context, RouteNames.productpage, {
+                      "product": product,
+                    });
+                  },
+                  child: Image.network(
+                    product.imageUrls.first,
+                    width: 107,
+                    height: 120,
+                    fit: BoxFit.cover,
+                  ),
                 ),
               ),
             ),
@@ -37,7 +47,7 @@ class FlashSaleCard extends StatelessWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
-                    AppTexts.medium("AirPods", fontSize: 12),
+                    AppTexts.medium(product.title, fontSize: 12),
                     SizedBox(width: 70),
                     Image.asset("assets/png/image 4.png"),
                     SizedBox(width: 5),
@@ -46,7 +56,12 @@ class FlashSaleCard extends StatelessWidget {
                 ),
               ],
             ),
-            Row(children: [AppTexts.semiBold("₹ 29,999"), SizedBox(width: 90)]),
+            Row(
+              children: [
+                AppTexts.semiBold("₹ ${product.price}"),
+                SizedBox(width: 90),
+              ],
+            ),
           ],
         ),
       ],

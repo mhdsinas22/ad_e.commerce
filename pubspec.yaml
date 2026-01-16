@@ -49,6 +49,7 @@ dependencies:
   image_picker: ^1.2.1
   dio: ^5.9.0
   dotted_border: ^3.1.0
+  lottie: ^3.3.1
   
 
 dev_dependencies:
@@ -84,6 +85,7 @@ flutter:
     - assets/icons/
     - assets/png/
     - assets/fonts/
+    - assets/animtion/
 
   fonts:
     - family: Manrope

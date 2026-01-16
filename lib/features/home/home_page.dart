@@ -9,11 +9,46 @@ import 'package:ad_e_commerce/features/home/widgets/category_card.dart';
 import 'package:ad_e_commerce/features/home/widgets/CategoryListSection/category_list_section.dart';
 import 'package:ad_e_commerce/features/home/widgets/FlashSaleSection/flash_sale_section.dart';
 import 'package:ad_e_commerce/features/home/widgets/category_grid.dart';
+import 'package:ad_e_commerce/features/product/bloc/proudctbloc/product_bloc.dart';
+import 'package:ad_e_commerce/features/product/bloc/proudctbloc/product_event.dart';
+import 'package:ad_e_commerce/features/product/data/datasources/product_remote_datasourcimpl.dart';
+import 'package:ad_e_commerce/features/product/data/repositories/product_repository_impl.dart';
+import 'package:ad_e_commerce/features/product/domain/usecases/get_flashsale_product_usecase.dart';
+import 'package:ad_e_commerce/features/product/domain/usecases/get_product_usecase.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    SupabaseClient supabase = Supabase.instance.client;
+
+    final getproductUsecase = GetProductUsecase(
+      ProductRepositoryImpl(ProductRemoteDatasourceImpl(supabase)),
+    );
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(
+          create:
+              (context) => ProductBloc(
+                getproductUsecase,
+                GetFlashsaleProductUsecase(
+                  ProductRepositoryImpl(ProductRemoteDatasourceImpl(supabase)),
+                ),
+              )..add(LoadFlashSaleProductsEvent()),
+        ),
+      ],
+      child: HomePageUi(),
+    );
+  }
+}
+
+class HomePageUi extends StatelessWidget {
+  const HomePageUi({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -40,7 +75,11 @@ class HomePage extends StatelessWidget {
                       child: Center(
                         child: GestureDetector(
                           onTap: () {
-                            Appnavigotor.pushnamed(context, RouteNames.search);
+                            Appnavigotor.pushnamed(
+                              context,
+                              RouteNames.search,
+                              {},
+                            );
                           },
                           child: Container(
                             width: 344,
@@ -85,7 +124,6 @@ class HomePage extends StatelessWidget {
                         ),
                       ),
                     ),
-
                     // const SizedBox(height: 20),
 
                     // Categories row 1

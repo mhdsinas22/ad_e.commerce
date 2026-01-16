@@ -12,8 +12,8 @@ class Appnavigotor {
     );
   }
 
-  static pushnamed(BuildContext context, String named) {
-    Navigator.pushNamed(context, named);
+  static pushnamed(BuildContext context, String named, Object? arguments) {
+    Navigator.pushNamed(context, named, arguments: arguments);
   }
 
   static pushreplace(BuildContext context, Widget screen) {

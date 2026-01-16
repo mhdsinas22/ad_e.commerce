@@ -12,4 +12,5 @@ class RouteNames {
   static const onboardingstartpage = "/onboarding-start-page";
   static const mainShell = '/main-shell';
   static const search = '/search';
+  static const productpage = "/productpage";
 }
