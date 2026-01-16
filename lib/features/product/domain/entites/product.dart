@@ -13,7 +13,8 @@ class Product {
   final int? warrantyMonths;
   final bool isActive;
   final String modelNumber;
-  final String storage;
+  final String storageid;
+  final String storageName;
   final String ram;
   final String tag;
   final List<String> imageUrls;
@@ -32,11 +33,12 @@ class Product {
     required this.conditionType,
     required this.isActive,
     required this.modelNumber,
-    required this.storage,
+    required this.storageid,
     required this.ram,
     required this.tag,
     required this.imageUrls,
     required this.stocks,
+    required this.storageName,
   });
   bool get isFlashSale => tag.toLowerCase() == "Flash Sale";
 }

@@ -53,6 +53,7 @@ class ProductRemoteDatasourceImpl implements ProductRemoteDatasource {
         .select("*, product_stocks(*)")
         .order('created_at', ascending: false);
 
+    // .order('created_at', ascending: false);
     // if (response. != null) {
     //   throw Exception(response.error!.message);
     // }

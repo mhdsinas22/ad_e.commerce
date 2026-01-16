@@ -41,7 +41,7 @@ class ProductModel extends Product {
       category: map['category'] ?? '',
       modelNumber: map['model_number'] ?? '',
       ram: map['ram'] ?? '',
-      storageid: map["storage_id"] ?? "",
+      storageid: "storage_id",
 
       tag: map['tag'] ?? '',
       stocks:
@@ -75,7 +75,7 @@ class ProductModel extends Product {
       'color': color,
       'category': category,
       "condition_type": conditionType,
-      "storage": storageName,
+
       'image_url': imageUrls,
       'model_number': modelNumber,
       'ram': ram,
@@ -89,7 +89,7 @@ class ProductModel extends Product {
       'title': title,
       'description': description,
       'condition': condition,
-      "storage": storageName,
+
       'price': price,
       'original_price': originalPrice,
       'warranty_months': warrantyMonths,

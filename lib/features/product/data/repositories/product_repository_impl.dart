@@ -23,11 +23,12 @@ class ProductRepositoryImpl implements ProductRepository {
       category: product.category,
       imageUrls: product.imageUrls,
       ram: product.ram,
-      storage: product.storage,
+      storageid: product.storageid,
       tag: product.tag,
       modelNumber: product.modelNumber,
       conditionType: product.conditionType,
       stocks: product.stocks,
+      storageName: product.storageName,
     );
     return remote.addProduct(model);
   }
@@ -47,11 +48,12 @@ class ProductRepositoryImpl implements ProductRepository {
       category: product.category,
       imageUrls: product.imageUrls,
       ram: product.ram,
-      storage: product.storage,
+      storageid: product.storageid,
       tag: product.tag,
       modelNumber: product.modelNumber,
       conditionType: product.conditionType,
       stocks: product.stocks,
+      storageName: product.storageName,
     );
     return remote.updateProduct(model);
   }
@@ -83,9 +85,10 @@ class ProductRepositoryImpl implements ProductRepository {
         isActive: model.isActive,
 
         modelNumber: model.modelNumber,
-        storage: model.storage,
+        storageid: model.storageid,
         ram: model.ram,
         tag: model.tag,
+        storageName: model.storageName,
         imageUrls: List<String>.from(model.imageUrls),
       );
     }).toList();

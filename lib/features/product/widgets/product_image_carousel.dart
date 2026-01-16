@@ -55,11 +55,14 @@ class _ProductImageCarouselState extends State<ProductImageCarouselUi> {
       },
       child: Column(
         children: [
-          ClipRRect(
-            borderRadius: BorderRadius.circular(20),
-            child: SizedBox(
-              height: 420,
-              width: double.infinity,
+          SizedBox(
+            height: 420,
+            width: double.infinity,
+            child: ClipRRect(
+              borderRadius: const BorderRadius.only(
+                bottomLeft: Radius.circular(20),
+                bottomRight: Radius.circular(20),
+              ),
               child: PageView.builder(
                 controller: _pageController,
                 itemCount: widget.images.length,
