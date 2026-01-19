@@ -1,4 +1,6 @@
 import 'package:ad_e_commerce/core/theme/app_colors.dart';
+import 'package:ad_e_commerce/core/utils/navigator.dart';
+import 'package:ad_e_commerce/features/imageviewr/pages/image_zoom_screen.dart';
 import 'package:ad_e_commerce/features/product/bloc/productimagesilder/product_image_silder_bloc.dart';
 import 'package:ad_e_commerce/features/product/bloc/productimagesilder/product_image_silder_state.dart';
 import 'package:ad_e_commerce/features/product/bloc/productimagesilder/product_image_slider_event.dart';
@@ -56,34 +58,50 @@ class _ProductImageCarouselState extends State<ProductImageCarouselUi> {
     return BlocListener<ProductImageSilderBloc, ProductImageSilderState>(
       listener: (context, state) {
         if (_pageController.hasClients) {
-          _pageController.animateToPage(
-            state.currentIndex,
-            duration: Duration(milliseconds: 400),
-            curve: Curves.easeInOut,
-          );
+          final currentpage = _pageController.page?.round();
+          if (currentpage != state.currentIndex) {
+            _pageController.animateToPage(
+              state.currentIndex,
+              duration: Duration(milliseconds: 400),
+              curve: Curves.easeInOut,
+            );
+          }
         }
       },
       child: Column(
         children: [
-          SizedBox(
-            height: widget.isNeedBanner ? 200 : 420,
-            width: double.infinity,
-            child: ClipRRect(
-              borderRadius: const BorderRadius.only(
-                bottomLeft: Radius.circular(20),
-                bottomRight: Radius.circular(20),
-              ),
-              child: PageView.builder(
-                controller: _pageController,
-                itemCount: widget.images.length,
-                onPageChanged: (index) {
-                  context.read<ProductImageSilderBloc>().add(
-                    SliderChangedEvent(index: index),
+          GestureDetector(
+            onTap: () {
+              widget.isNeedBanner
+                  ? null
+                  : Appnavigotor.push(
+                    context,
+                    ImageZoomScreen(images: widget.images),
                   );
-                },
-                itemBuilder: (context, index) {
-                  return Image.network(widget.images[index], fit: BoxFit.cover);
-                },
+            },
+            child: SizedBox(
+              height: widget.isNeedBanner ? 200 : 420,
+              width: double.infinity,
+              child: ClipRRect(
+                borderRadius: const BorderRadius.only(
+                  bottomLeft: Radius.circular(20),
+                  bottomRight: Radius.circular(20),
+                ),
+                child: PageView.builder(
+                  controller: _pageController,
+                  itemCount: widget.images.length,
+                  onPageChanged: (index) {
+                    context.read<ProductImageSilderBloc>().add(
+                      SliderChangedEvent(index: index),
+                    );
+                  },
+                  itemBuilder: (context, index) {
+                    return Image.network(
+                      widget.images[index],
+                      fit: BoxFit.cover,
+                    );
+                  },
+                ),
               ),
             ),
           ),
@@ -137,10 +155,6 @@ class _ProductImageCarouselState extends State<ProductImageCarouselUi> {
                                     : Colors.transparent,
                           ),
                           borderRadius: BorderRadius.circular(7),
-                          // color:
-                          //     state.currentIndex == index
-                          //         ? AppColors.primaryBlue
-                          //         : AppColors.grayColor,
                         ),
                         child: GestureDetector(
                           onTap: () {
