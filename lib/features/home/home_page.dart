@@ -22,6 +22,7 @@ import 'package:ad_e_commerce/features/product/data/repositories/product_reposit
 import 'package:ad_e_commerce/features/product/domain/usecases/get_flashsale_product_usecase.dart';
 import 'package:ad_e_commerce/features/product/domain/usecases/get_product_usecase.dart';
 import 'package:ad_e_commerce/features/product/widgets/product_image_carousel.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
@@ -82,6 +83,32 @@ class HomePageUi extends StatelessWidget {
             slivers: [
               // 🔹 APP BAR
               AppSliverAppBar(),
+              CupertinoSliverRefreshControl(
+                builder: (
+                  context,
+                  refreshState,
+                  pulledExtent,
+                  refreshTriggerPullDistance,
+                  refreshIndicatorExtent,
+                ) {
+                  return Center(
+                    child: SizedBox(
+                      height: 30,
+                      width: 30,
+                      child: CircularProgressIndicator(
+                        strokeWidth: 2.5,
+                        color: AppColors.primaryBlue, // 🔵 brand color
+                      ),
+                    ),
+                  );
+                },
+                onRefresh: () async {
+                  context.read<BannerBloc>().add(LoadBannerEvent());
+                  context.read<ProductBloc>().add(LoadFlashSaleProductsEvent());
+                  await Future.delayed(const Duration(milliseconds: 600));
+                },
+              ),
+
               // 🔹 BODY CONTENT
               SliverToBoxAdapter(
                 child: Column(
