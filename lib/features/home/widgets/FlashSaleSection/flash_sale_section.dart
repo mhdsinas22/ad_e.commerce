@@ -11,9 +11,9 @@ class FlashSaleSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 300, // ⭐ must for horizontal scroll
+      height: 230, // ⭐ must for horizontal scroll
       child: SizedBox(
-        height: 300,
+        height: 230,
         child: BlocBuilder<ProductBloc, ProductState>(
           builder: (context, state) {
             if (state.productStatus == ProductStatus.loading) {

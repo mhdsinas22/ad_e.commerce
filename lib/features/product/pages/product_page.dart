@@ -17,18 +17,6 @@ class ProductPage extends StatelessWidget {
   @override
   @override
   Widget build(BuildContext context) {
-    // String getStorageNameFromId(
-    //   String storageId,
-    //   List<StorageDropdown> storages,
-    // ) {
-    //   return storages
-    //       .firstWhere(
-    //         (e) => e.id == storageId,
-    //         orElse: () => StorageDropdown(id: '', name: 'N/A'),
-    //       )
-    //       .name;
-    // }
-
     return Scaffold(
       body: SingleChildScrollView(
         child: Column(
@@ -175,7 +163,7 @@ class ProductPage extends StatelessWidget {
                       Align(
                         alignment: Alignment.centerLeft,
                         child: AppTexts.medium(
-                          "• ${product.description}",
+                          "${product.description}",
                           fontSize: 16,
                           height: 1.6,
                         ),

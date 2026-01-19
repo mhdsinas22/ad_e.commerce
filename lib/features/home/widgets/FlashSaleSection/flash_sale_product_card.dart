@@ -12,57 +12,57 @@ class FlashSaleCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Column(
-          children: [
-            Container(
-              width: 167,
-              height: 212,
-              padding: const EdgeInsets.all(12),
-              decoration: BoxDecoration(
-                color: AppColors.lightGrey,
-                borderRadius: BorderRadius.circular(16),
-              ),
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-
-                child: InkWell(
-                  onTap: () {
-                    Appnavigotor.pushnamed(context, RouteNames.productpage, {
-                      "product": product,
-                    });
-                  },
-                  child: Image.network(
-                    product.imageUrls.first,
-                    width: 107,
-                    height: 120,
-                    fit: BoxFit.cover,
-                  ),
+        Container(
+          width: 167,
+          height: 170,
+          padding: const EdgeInsets.all(12),
+          decoration: BoxDecoration(
+            color: AppColors.lightGrey,
+            borderRadius: BorderRadius.circular(16),
+          ),
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: InkWell(
+              onTap: () {
+                Appnavigotor.pushnamed(context, RouteNames.productpage, {
+                  "product": product,
+                });
+              },
+              child: Center(
+                child: Image.network(
+                  product.imageUrls.first,
+                  fit: BoxFit.contain,
                 ),
               ),
             ),
-            SizedBox(height: 10),
-            Column(
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    AppTexts.medium(product.title, fontSize: 12),
-                    SizedBox(width: 70),
-                    Image.asset("assets/png/image 4.png"),
-                    SizedBox(width: 5),
-                    AppTexts.semiBold("4.9"),
-                  ],
+          ),
+        ),
+        const SizedBox(height: 6),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 8.0),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              SizedBox(
+                width: 100,
+                child: AppTexts.medium(
+                  product.title,
+                  fontSize: 12,
+                  color: AppColors.grayColor,
                 ),
-              ],
-            ),
-            Row(
-              children: [
-                AppTexts.semiBold("₹ ${product.price}"),
-                SizedBox(width: 90),
-              ],
-            ),
-          ],
+              ),
+              const SizedBox(width: 8),
+              Image.asset("assets/png/image 4.png", width: 14, height: 14),
+              const SizedBox(width: 4),
+              AppTexts.semiBold("4.9"),
+            ],
+          ),
+        ),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 0.1),
+          child: AppTexts.semiBold("₹ ${product.price}", fontSize: 16),
         ),
       ],
     );

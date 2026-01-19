@@ -9,12 +9,19 @@ import 'package:ad_e_commerce/features/home/widgets/category_card.dart';
 import 'package:ad_e_commerce/features/home/widgets/CategoryListSection/category_list_section.dart';
 import 'package:ad_e_commerce/features/home/widgets/FlashSaleSection/flash_sale_section.dart';
 import 'package:ad_e_commerce/features/home/widgets/category_grid.dart';
+import 'package:ad_e_commerce/features/product/bloc/banners/banner_bloc.dart';
+import 'package:ad_e_commerce/features/product/bloc/banners/banner_event.dart';
+import 'package:ad_e_commerce/features/product/bloc/banners/banner_state.dart';
+import 'package:ad_e_commerce/features/product/bloc/productimagesilder/product_image_silder_bloc.dart';
 import 'package:ad_e_commerce/features/product/bloc/proudctbloc/product_bloc.dart';
 import 'package:ad_e_commerce/features/product/bloc/proudctbloc/product_event.dart';
+import 'package:ad_e_commerce/features/product/data/datasources/banner_remote_datasoureimpl.dart';
 import 'package:ad_e_commerce/features/product/data/datasources/product_remote_datasourcimpl.dart';
+import 'package:ad_e_commerce/features/product/data/repositories/banner_repository_impl.dart';
 import 'package:ad_e_commerce/features/product/data/repositories/product_repository_impl.dart';
 import 'package:ad_e_commerce/features/product/domain/usecases/get_flashsale_product_usecase.dart';
 import 'package:ad_e_commerce/features/product/domain/usecases/get_product_usecase.dart';
+import 'package:ad_e_commerce/features/product/widgets/product_image_carousel.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
@@ -27,11 +34,20 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     SupabaseClient supabase = Supabase.instance.client;
 
+    final bannerRepository = BannerRepositoryImpl(
+      remoteDataSource: BannerRemoteDataSourceImpl(client: supabase),
+    );
+
     final getproductUsecase = GetProductUsecase(
       ProductRepositoryImpl(ProductRemoteDatasourceImpl(supabase)),
     );
+    List<String> images = [];
     return MultiBlocProvider(
       providers: [
+        BlocProvider(
+          create:
+              (context) => BannerBloc(bannerRepository)..add(LoadBannerEvent()),
+        ),
         BlocProvider(
           create:
               (context) => ProductBloc(
@@ -40,6 +56,10 @@ class HomePage extends StatelessWidget {
                   ProductRepositoryImpl(ProductRemoteDatasourceImpl(supabase)),
                 ),
               )..add(LoadFlashSaleProductsEvent()),
+        ),
+        BlocProvider(
+          create:
+              (context) => ProductImageSilderBloc(imagecount: images.length),
         ),
       ],
       child: HomePageUi(),
@@ -117,10 +137,29 @@ class HomePageUi extends StatelessWidget {
                       padding: const EdgeInsets.symmetric(horizontal: 16.0),
                       child: ClipRRect(
                         borderRadius: BorderRadius.circular(20),
-                        child: Image.asset(
-                          AssetConstants.demoimage,
-                          width: double.infinity,
-                          fit: BoxFit.cover,
+                        child: BlocBuilder<BannerBloc, BannerState>(
+                          builder: (context, state) {
+                            if (state.status == BannerStatus.loading) {
+                              return const SizedBox(
+                                height: 180,
+                                child: Center(
+                                  child: CircularProgressIndicator(),
+                                ),
+                              );
+                            }
+                            if (state.status == BannerStatus.success) {
+                              return ProductImageCarousel(
+                                isNeedBanner: true,
+                                images:
+                                    state.images
+                                        .expand(
+                                          (e) => e.imageUrl,
+                                        ) // BannerEntity → images
+                                        .toList(),
+                              );
+                            }
+                            return const SizedBox(height: 180);
+                          },
                         ),
                       ),
                     ),
@@ -132,58 +171,9 @@ class HomePageUi extends StatelessWidget {
                       layout: CategoryCardLayout.vertical,
                     ),
                     const SizedBox(height: 16),
+
                     // Categories row 2
                     // 🔹 RESPONSIVE: Prevent overflow on small screens & huge gaps on large screens
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                      child: Center(
-                        child: ConstrainedBox(
-                          constraints: const BoxConstraints(maxWidth: 500),
-                          child: FittedBox(
-                            fit: BoxFit.scaleDown,
-                            child: SizedBox(
-                              width:
-                                  420, // Fixed ideal width (4 items * 80 = 320 + gaps)
-                              child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  // CategoryCard(
-                                  //   width: 80,
-                                  //   height: 85,
-                                  //   title: "Laptop",
-                                  //   image: AssetConstants.laptop,
-                                  //   fontsize: 10,
-                                  // ),
-                                  // CategoryCard(
-                                  //   width: 80,
-                                  //   height: 85,
-                                  //   title: "Tablet",
-                                  //   image: AssetConstants.tablet,
-                                  //   fontsize: 10,
-                                  // ),
-                                  // CategoryCard(
-                                  //   width: 80,
-                                  //   height: 85,
-                                  //   title: "Wearable",
-                                  //   image: AssetConstants.warables,
-                                  //   fontsize: 10,
-                                  // ),
-                                  // CategoryCard(
-                                  //   width: 80,
-                                  //   height: 85,
-                                  //   title: "Earbuds",
-                                  //   image: AssetConstants.earbuds,
-                                  //   fontsize: 10,
-                                  // ),
-                                ],
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-
                     const SizedBox(height: 24),
 
                     // Flash sale header
@@ -211,8 +201,6 @@ class HomePageUi extends StatelessWidget {
 
                     // Flash sale section
                     FlashSaleSection(),
-
-                    const SizedBox(height: 20),
 
                     // Best Sellers Grids
                     Padding(

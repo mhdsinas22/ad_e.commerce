@@ -6,21 +6,31 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class ProductImageCarousel extends StatelessWidget {
+  final bool isNeedBanner;
   final List<String> images;
-  const ProductImageCarousel({super.key, required this.images});
+  const ProductImageCarousel({
+    super.key,
+    required this.images,
+    this.isNeedBanner = false,
+  });
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) => ProductImageSilderBloc(imagecount: images.length),
-      child: ProductImageCarouselUi(images: images),
+      child: ProductImageCarouselUi(images: images, isNeedBanner: isNeedBanner),
     );
   }
 }
 
 class ProductImageCarouselUi extends StatefulWidget {
   final List<String> images;
-  const ProductImageCarouselUi({super.key, required this.images});
+  final bool isNeedBanner;
+  const ProductImageCarouselUi({
+    super.key,
+    required this.images,
+    this.isNeedBanner = false,
+  });
 
   @override
   State<ProductImageCarouselUi> createState() => _ProductImageCarouselState();
@@ -56,7 +66,7 @@ class _ProductImageCarouselState extends State<ProductImageCarouselUi> {
       child: Column(
         children: [
           SizedBox(
-            height: 420,
+            height: widget.isNeedBanner ? 200 : 420,
             width: double.infinity,
             child: ClipRRect(
               borderRadius: const BorderRadius.only(
@@ -104,47 +114,50 @@ class _ProductImageCarouselState extends State<ProductImageCarouselUi> {
             },
           ),
           const SizedBox(height: 10),
-          BlocBuilder<ProductImageSilderBloc, ProductImageSilderState>(
-            builder: (context, state) {
-              final count = context.read<ProductImageSilderBloc>().imagecount;
-              return Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: List.generate(
-                  count,
-                  (index) => AnimatedContainer(
-                    duration: const Duration(milliseconds: 300),
-                    margin: const EdgeInsets.symmetric(horizontal: 4),
-                    height: 80,
-                    width: 80,
-                    decoration: BoxDecoration(
-                      border: Border.all(
-                        color:
-                            state.currentIndex == index
-                                ? AppColors.primaryBlue
-                                : Colors.transparent,
+          widget.isNeedBanner
+              ? SizedBox()
+              : BlocBuilder<ProductImageSilderBloc, ProductImageSilderState>(
+                builder: (context, state) {
+                  final count =
+                      context.read<ProductImageSilderBloc>().imagecount;
+                  return Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: List.generate(
+                      count,
+                      (index) => AnimatedContainer(
+                        duration: const Duration(milliseconds: 300),
+                        margin: const EdgeInsets.symmetric(horizontal: 4),
+                        height: 80,
+                        width: 80,
+                        decoration: BoxDecoration(
+                          border: Border.all(
+                            color:
+                                state.currentIndex == index
+                                    ? AppColors.primaryBlue
+                                    : Colors.transparent,
+                          ),
+                          borderRadius: BorderRadius.circular(7),
+                          // color:
+                          //     state.currentIndex == index
+                          //         ? AppColors.primaryBlue
+                          //         : AppColors.grayColor,
+                        ),
+                        child: GestureDetector(
+                          onTap: () {
+                            context.read<ProductImageSilderBloc>().add(
+                              SliderChangedEvent(index: index),
+                            );
+                          },
+                          child: Image.network(
+                            widget.images[index],
+                            fit: BoxFit.cover,
+                          ),
+                        ),
                       ),
-                      borderRadius: BorderRadius.circular(7),
-                      // color:
-                      //     state.currentIndex == index
-                      //         ? AppColors.primaryBlue
-                      //         : AppColors.grayColor,
                     ),
-                    child: GestureDetector(
-                      onTap: () {
-                        context.read<ProductImageSilderBloc>().add(
-                          SliderChangedEvent(index: index),
-                        );
-                      },
-                      child: Image.network(
-                        widget.images[index],
-                        fit: BoxFit.cover,
-                      ),
-                    ),
-                  ),
-                ),
-              );
-            },
-          ),
+                  );
+                },
+              ),
         ],
       ),
     );
