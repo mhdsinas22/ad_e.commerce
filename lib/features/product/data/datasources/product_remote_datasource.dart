@@ -1,5 +1,5 @@
-import 'package:ad_e_commerce/features/product/data/models/product_model.dart';
-import 'package:ad_e_commerce/features/product/data/models/product_stock_model.dart';
+import 'package:ad_e_commerce/features/home/domain/enitites/models/product_model.dart';
+import 'package:ad_e_commerce/features/home/domain/enitites/models/product_stock_model.dart';
 import 'package:ad_e_commerce/features/product/domain/entites/product.dart';
 
 abstract class ProductRemoteDatasource {

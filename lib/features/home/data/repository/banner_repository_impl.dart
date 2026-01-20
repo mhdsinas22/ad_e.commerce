@@ -1,9 +1,9 @@
-import 'package:ad_e_commerce/features/product/data/models/banner_model.dart';
-import 'package:ad_e_commerce/features/product/domain/entites/banner_entity.dart';
-import 'package:ad_e_commerce/features/product/domain/repositories/banner_repository.dart';
+import 'package:ad_e_commerce/features/home/models/banner_model.dart';
+import 'package:ad_e_commerce/features/home/domain/enitites/banner_entity.dart';
+import 'package:ad_e_commerce/features/home/domain/repositories/banner_repository.dart';
 
 import '../../../../core/error/exceptions.dart';
-import '../datasources/banner_remote_datasource.dart';
+import '../datasource/banner_remote_datasource.dart';
 
 class BannerRepositoryImpl implements BannerRepository {
   final BannerRemoteDataSource remoteDataSource;

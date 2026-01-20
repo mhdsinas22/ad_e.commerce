@@ -3,7 +3,7 @@ import 'package:ad_e_commerce/core/theme/app_colors.dart';
 import 'package:ad_e_commerce/features/bottom_navigation/bloc/bottom_nav_bloc.dart';
 import 'package:ad_e_commerce/features/bottom_navigation/bloc/bottom_nav_event.dart';
 import 'package:ad_e_commerce/features/bottom_navigation/bloc/bottom_nav_state.dart';
-import 'package:ad_e_commerce/features/cart/cart_page.dart';
+import 'package:ad_e_commerce/features/cart/pages/cart_page.dart';
 import 'package:ad_e_commerce/features/home/home_page.dart';
 import 'package:ad_e_commerce/features/orders/orders_page.dart';
 import 'package:ad_e_commerce/features/profile/profile_page.dart';

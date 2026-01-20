@@ -1,5 +1,5 @@
 import 'package:ad_e_commerce/features/product/domain/entites/product.dart';
-import 'package:ad_e_commerce/features/product/domain/repositories/product_repository.dart';
+import 'package:ad_e_commerce/features/home/domain/repositories/product_repository.dart';
 
 class GetFlashsaleProductUsecase {
   final ProductRepository repository;

@@ -1,4 +1,4 @@
-import 'package:ad_e_commerce/features/product/domain/entites/banner_entity.dart';
+import 'package:ad_e_commerce/features/home/domain/enitites/banner_entity.dart';
 
 class BannerModel extends BannerEntity {
   const BannerModel({

@@ -15,7 +15,6 @@ class ProductPage extends StatelessWidget {
   const ProductPage({super.key, required this.product});
 
   @override
-  @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: SingleChildScrollView(
