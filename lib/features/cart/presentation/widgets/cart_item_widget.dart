@@ -1,11 +1,15 @@
+import 'package:ad_e_commerce/core/constants/app_icons.dart';
 import 'package:ad_e_commerce/core/theme/app_colors.dart';
 import 'package:ad_e_commerce/core/widgets/app_text.dart';
-import 'package:ad_e_commerce/features/cart/presentation/dummy/cart_dummy_data.dart';
+import 'package:ad_e_commerce/features/cart/bloc/cart_bloc.dart';
+import 'package:ad_e_commerce/features/cart/bloc/cart_event.dart';
+import 'package:ad_e_commerce/features/cart/domain/enities/cart_item.dart';
 import 'package:ad_e_commerce/features/cart/presentation/widgets/cart_counter_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class CartItemWidget extends StatelessWidget {
-  final CartItemModel item;
+  final CartItem item;
 
   const CartItemWidget({super.key, required this.item});
 
@@ -40,18 +44,17 @@ class CartItemWidget extends StatelessWidget {
                   color: AppColors.lightGrey,
                   borderRadius: BorderRadius.circular(8),
                 ),
-                child: Center(
-                  child: Icon(
-                    Icons
-                        .headphones, // Placeholder icon as commonly seen with airpods/phones
-                    color: AppColors.grayColor.withOpacity(0.5),
-                    size: 40,
-                  ),
-                ),
+                child: Center(child: Image.network(item.imageUrl)),
               ),
               const Spacer(),
               // Delete Icon
-              Icon(Icons.delete_outline, color: Colors.black54, size: 24),
+              GestureDetector(
+                onTap:
+                    () => context.read<CartBloc>().add(
+                      RemoveCartItemEvent(cartitemid: item.id!),
+                    ),
+                child: Image.asset(AppIcons.deleteIcon),
+              ),
             ],
           ),
           const SizedBox(height: 12),
@@ -61,23 +64,30 @@ class CartItemWidget extends StatelessWidget {
             children: [
               const Icon(Icons.star, color: Colors.amber, size: 18),
               const SizedBox(width: 4),
-              AppTexts.bold("${item.rating}", fontSize: 14),
+              AppTexts.bold("4.9", fontSize: 14),
               const SizedBox(width: 4),
               AppTexts.regular(
-                "(${item.reviewCount}) Reviews",
+                "(${85}) Reviews",
                 fontSize: 12,
-                color: AppColors.grayColor,
+                color: AppColors.pureBlack,
               ),
             ],
           ),
           const SizedBox(height: 8),
 
           // Title
-          AppTexts.semiBold(item.title, fontSize: 16),
+          AppTexts.semiBold(
+            "${item.title}(${item.storeage})-${item.color}",
+            fontSize: 16,
+          ),
           const SizedBox(height: 4),
 
           // Model
-          AppTexts.regular(item.model, fontSize: 14, color: Colors.black54),
+          AppTexts.regular(
+            "Model: ${item.modelNumber}",
+            fontSize: 14,
+            color: AppColors.pureBlack,
+          ),
           const SizedBox(height: 12),
 
           // Price & Counter
@@ -86,11 +96,28 @@ class CartItemWidget extends StatelessWidget {
             fontSize: 18,
           ),
           const SizedBox(height: 12),
-
           CartCounterWidget(
             quantity: item.quantity,
-            onDecrement: () {},
-            onIncrement: () {},
+
+            onIncrement: () {
+              context.read<CartBloc>().add(
+                UpdateCartItemEvent(
+                  cartItemid: item.id!,
+                  currentQty: item.quantity + 1,
+                ),
+              );
+            },
+
+            onDecrement: () {
+              if (item.quantity > 1) {
+                context.read<CartBloc>().add(
+                  UpdateCartItemEvent(
+                    cartItemid: item.id!,
+                    currentQty: item.quantity - 1,
+                  ),
+                );
+              }
+            },
           ),
         ],
       ),

@@ -5,14 +5,44 @@ import 'package:ad_e_commerce/core/theme/app_colors.dart';
 import 'package:ad_e_commerce/core/utils/navigator.dart';
 import 'package:ad_e_commerce/core/widgets/app_text.dart';
 import 'package:ad_e_commerce/core/widgets/circular_arrow_button.dart';
+import 'package:ad_e_commerce/features/cart/bloc/cart_bloc.dart';
+import 'package:ad_e_commerce/features/cart/bloc/cart_event.dart';
+import 'package:ad_e_commerce/features/cart/bloc/cart_state.dart';
+import 'package:ad_e_commerce/features/cart/data/datasources/cart_remote_datasourceimpl.dart';
+import 'package:ad_e_commerce/features/cart/data/repositories/cart_repository_impl.dart';
+import 'package:ad_e_commerce/features/cart/domain/usecases/add_to_cart_usecase.dart';
 import 'package:ad_e_commerce/features/product/domain/entites/product.dart';
 import 'package:ad_e_commerce/features/product/widgets/product_image_carousel.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
 class ProductPage extends StatelessWidget {
   final Product product;
   const ProductPage({super.key, required this.product});
+
+  @override
+  Widget build(BuildContext context) {
+    final supabse = Supabase.instance.client;
+    final cartrepository = CartRepositoryImpl(
+      CartRemoteDatasourceimpl(supabse),
+    );
+    final addtocartUseCase = AddToCartUsecase(cartrepository);
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(
+          create: (context) => CartBloc(addtocartUseCase, cartrepository),
+        ),
+      ],
+      child: _ProductPage(product: product),
+    );
+  }
+}
+
+class _ProductPage extends StatelessWidget {
+  final Product product;
+  const _ProductPage({required this.product});
 
   @override
   Widget build(BuildContext context) {
@@ -250,22 +280,34 @@ class ProductPage extends StatelessWidget {
               Expanded(
                 child: SizedBox(
                   height: 48,
-                  child: OutlinedButton(
-                    onPressed: () {},
-                    style: OutlinedButton.styleFrom(
-                      side: const BorderSide(color: Colors.black),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(24),
-                      ),
-                    ),
-                    child: const Text(
-                      "Add to cart",
-                      style: TextStyle(
-                        color: Colors.black,
-                        fontWeight: FontWeight.w600,
-                        fontSize: 16,
-                      ),
-                    ),
+                  child: BlocBuilder<CartBloc, CartState>(
+                    builder: (context, state) {
+                      return OutlinedButton(
+                        onPressed: () {
+                          context.read<CartBloc>().add(
+                            AddToCartEvent(
+                              productid: product.id!,
+                              storename: " product.stocks.first.storeName",
+                              price: product.price,
+                            ),
+                          );
+                        },
+                        style: OutlinedButton.styleFrom(
+                          side: const BorderSide(color: Colors.black),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(24),
+                          ),
+                        ),
+                        child: const Text(
+                          "Add to cart",
+                          style: TextStyle(
+                            color: Colors.black,
+                            fontWeight: FontWeight.w600,
+                            fontSize: 16,
+                          ),
+                        ),
+                      );
+                    },
                   ),
                 ),
               ),

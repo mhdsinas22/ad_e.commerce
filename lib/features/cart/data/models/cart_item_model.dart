@@ -1,0 +1,40 @@
+import 'package:ad_e_commerce/features/cart/domain/enities/cart_item.dart';
+
+class CartItemModel extends CartItem {
+  CartItemModel({
+    super.id,
+    required super.productId,
+    required super.price,
+    required super.quantity,
+    required super.storename,
+    required super.title,
+    required super.modelNumber,
+    required super.imageUrl,
+    required super.storeage,
+    required super.color,
+  });
+  factory CartItemModel.fromJson(Map<String, dynamic> json) {
+    final product = json["products"];
+    return CartItemModel(
+      id: json["id"] ?? "",
+      productId: json["product_id"] ?? "",
+      price: json['price'] ?? "",
+      quantity: json["quantity"] ?? "",
+      storename: json["store_name"] ?? "",
+      // Prdocut Details for Ui
+      title: product["title"] ?? "",
+      modelNumber: product["model_number"] ?? " ",
+      storeage: product["storage"] ?? "",
+      color: product["color"] ?? "",
+      imageUrl:
+          (product["image_url"] != null &&
+                  product["image_url"] is List &&
+                  product["image_url"].isNotEmpty)
+              ? product["image_url"][0]
+              : "",
+    );
+  }
+  Map<String, dynamic> toJson() {
+    return {"price": price, "quantity": quantity, "store_name": storename};
+  }
+}

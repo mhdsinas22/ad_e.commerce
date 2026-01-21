@@ -4,6 +4,10 @@ import 'package:ad_e_commerce/core/theme/app_colors.dart';
 import 'package:ad_e_commerce/core/utils/navigator.dart';
 import 'package:ad_e_commerce/core/widgets/app_sliver_app_bar.dart';
 import 'package:ad_e_commerce/core/widgets/app_text.dart';
+import 'package:ad_e_commerce/features/cart/bloc/cart_bloc.dart';
+import 'package:ad_e_commerce/features/cart/data/datasources/cart_remote_datasourceimpl.dart';
+import 'package:ad_e_commerce/features/cart/data/repositories/cart_repository_impl.dart';
+import 'package:ad_e_commerce/features/cart/domain/usecases/add_to_cart_usecase.dart';
 import 'package:ad_e_commerce/features/home/bloc/testmonialsbloc/testimonial_bloc.dart';
 import 'package:ad_e_commerce/features/home/bloc/testmonialsbloc/testimonial_event.dart';
 import 'package:ad_e_commerce/features/home/bloc/testmonialsbloc/testimonial_state.dart';
@@ -55,6 +59,10 @@ class HomePage extends StatelessWidget {
     final airdropbenfitsRepository = AirdropbenfitsRepositoryImpl(
       remoteDataSource: AirdropbenfitesRemoteDatasoureimpl(client: supabase),
     );
+    final cartRepository = CartRepositoryImpl(
+      CartRemoteDatasourceimpl(supabase),
+    );
+    final addtoCartUsecase = AddToCartUsecase(cartRepository);
     List<String> images = [];
     return MultiBlocProvider(
       providers: [
@@ -83,6 +91,9 @@ class HomePage extends StatelessWidget {
               (context) =>
                   TestimonialBloc(testimonialRepository)
                     ..add(LoadTestimonialEvent()),
+        ),
+        BlocProvider(
+          create: (context) => CartBloc(addtoCartUsecase, cartRepository),
         ),
       ],
       child: HomePageUi(),

@@ -5,4 +5,5 @@ class AppIcons {
   static const String supportIcon = "assets/icons/support (1) 1.svg";
   static const String profileIcon = "assets/icons/Group 1948.svg";
   static const String serachucon = "assets/icons/Group 1000004662.svg";
+  static const String deleteIcon = "assets/icons/trash 1.png";
 }
