@@ -8,6 +8,8 @@ class CartState {
   final String? error;
   final double subTotal;
   final double totalAmount;
+  final double voucherAmount;
+  final double deliveryFee;
 
   CartState({
     this.status = CartStatus.initial,
@@ -15,6 +17,8 @@ class CartState {
     this.error,
     this.subTotal = 0.0,
     this.totalAmount = 0.0,
+    this.voucherAmount = 0.0,
+    this.deliveryFee = 0.0,
   });
 
   CartState copyWith({
@@ -23,13 +27,18 @@ class CartState {
     String? error,
     double? subTotal,
     double? totalAmount,
+    double? voucherAmount,
+    double? deliveryFee,
   }) {
     return CartState(
       status: status ?? this.status,
       cartitems: cartitem ?? this.cartitems,
       error: error ?? this.error,
       subTotal: subTotal ?? this.subTotal,
+
       totalAmount: totalAmount ?? this.totalAmount,
+      voucherAmount: voucherAmount ?? this.voucherAmount,
+      deliveryFee: deliveryFee ?? this.deliveryFee,
     );
   }
 }

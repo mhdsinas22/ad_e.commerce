@@ -33,6 +33,8 @@ class CartBloc extends Bloc<CartEvent, CartState> {
           status: CartStatus.loaded,
           cartitem: items,
           subTotal: totals['subTotal'],
+          voucherAmount: totals['voucherAmount'],
+          deliveryFee: totals['deliveryFee'],
           totalAmount: totals['totalAmount'],
         ),
       );
@@ -57,6 +59,8 @@ class CartBloc extends Bloc<CartEvent, CartState> {
         state.copyWith(
           cartitem: updatedItems,
           subTotal: totals['subTotal'],
+          voucherAmount: totals['voucherAmount'],
+          deliveryFee: totals['deliveryFee'],
           totalAmount: totals['totalAmount'],
         ),
       );
@@ -77,6 +81,8 @@ class CartBloc extends Bloc<CartEvent, CartState> {
           error: e.toString(),
           cartitem: originalItems,
           subTotal: totals['subTotal'],
+          voucherAmount: totals['voucherAmount'],
+          deliveryFee: totals['deliveryFee'],
           totalAmount: totals['totalAmount'],
         ),
       );
@@ -134,6 +140,8 @@ class CartBloc extends Bloc<CartEvent, CartState> {
         state.copyWith(
           cartitem: updatedList,
           subTotal: totals['subTotal'],
+          voucherAmount: totals['voucherAmount'],
+          deliveryFee: totals['deliveryFee'],
           totalAmount: totals['totalAmount'],
         ),
       );
@@ -154,6 +162,8 @@ class CartBloc extends Bloc<CartEvent, CartState> {
           error: e.toString(),
           cartitem: originalItems,
           subTotal: totals['subTotal'],
+          voucherAmount: totals['voucherAmount'],
+          deliveryFee: totals['deliveryFee'],
           totalAmount: totals['totalAmount'],
         ),
       );
@@ -173,6 +183,8 @@ class CartBloc extends Bloc<CartEvent, CartState> {
           status: CartStatus.loaded,
           cartitem: items,
           subTotal: totals['subTotal'],
+          voucherAmount: totals['voucherAmount'],
+          deliveryFee: totals['deliveryFee'],
           totalAmount: totals['totalAmount'],
         ),
       );
@@ -182,17 +194,33 @@ class CartBloc extends Bloc<CartEvent, CartState> {
     }
   }
 
+  // Constants for configuration (could be moved to a config file/remote config later)
+  static const double kDeliveryFee = 20.0;
+  static const double kVoucherAmount = 100.0;
+
   Map<String, double> _calculateTotals(List<CartItem> items) {
     double subTotal = 0;
     for (var item in items) {
       subTotal += (item.price * item.quantity);
     }
-    // Hardcoded logic from UI: Voucher -100, Delivery +20
-    // If subtotal is 0, total should probably be 0.
-    double total = subTotal > 0 ? (subTotal - 100 + 20) : 0;
+
+    // Voucher Logic: Apply voucher only if subtotal > 0 (or some threshold)
+    double voucher = subTotal > 0 ? kVoucherAmount : 0;
+
+    // Delivery Fee Logic: Apply only if cart is not empty
+    double delivery = subTotal > 0 ? kDeliveryFee : 0;
+
+    // Total Calculation
+    double total = subTotal - voucher + delivery;
+
     // Ensure total is not negative
     if (total < 0) total = 0;
 
-    return {'subTotal': subTotal, 'totalAmount': total};
+    return {
+      'subTotal': subTotal,
+      'voucherAmount': voucher,
+      'deliveryFee': delivery,
+      'totalAmount': total,
+    };
   }
 }
