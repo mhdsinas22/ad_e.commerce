@@ -60,20 +60,20 @@ class CartRemoteDatasourceimpl implements CartRemoteDataSource {
               .maybeSingle();
 
       if (cart == null) return [];
-      final reponse = await supabase
+      final response = await supabase
           .from("cart_items")
           .select(
-            ''' id,store_name,quantity,price,products(id,title,model_number,image_url,color,storage)''',
+            ''' id,product_id,store_name,quantity,price,products(id,title,model_number,image_url,color,storage)''',
           )
           .eq("cart_id", cart["id"]);
       print("AUTH USER ID: $userId");
       print("CART ROW: $cart");
-      print("CART + PRODUCT DATA:$reponse");
+      print("CART + PRODUCT DATA:$response");
 
       print(
-        "response:- ${reponse.map((e) => CartItemModel.fromJson(e)).toList()}",
+        "response:- ${response.map((e) => CartItemModel.fromJson(e)).toList()}",
       );
-      return reponse.map((e) => CartItemModel.fromJson(e)).toList();
+      return response.map((e) => CartItemModel.fromJson(e)).toList();
     } catch (e) {
       print("GetCArtItems:-${e.toString()}");
       throw e;

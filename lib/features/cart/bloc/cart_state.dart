@@ -6,25 +6,30 @@ class CartState {
   final CartStatus status;
   final List<CartItem> cartitems;
   final String? error;
-  final int quantity;
+  final double subTotal;
+  final double totalAmount;
+
   CartState({
     this.status = CartStatus.initial,
     this.cartitems = const [],
     this.error,
-    this.quantity = 1,
+    this.subTotal = 0.0,
+    this.totalAmount = 0.0,
   });
 
   CartState copyWith({
     CartStatus? status,
     List<CartItem>? cartitem,
     String? error,
-    int? quantity,
+    double? subTotal,
+    double? totalAmount,
   }) {
     return CartState(
       status: status ?? this.status,
       cartitems: cartitem ?? this.cartitems,
       error: error ?? this.error,
-      quantity: quantity ?? this.quantity,
+      subTotal: subTotal ?? this.subTotal,
+      totalAmount: totalAmount ?? this.totalAmount,
     );
   }
 }
