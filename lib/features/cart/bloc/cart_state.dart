@@ -10,6 +10,7 @@ class CartState {
   final double totalAmount;
   final double voucherAmount;
   final double deliveryFee;
+  final bool isAdding;
 
   CartState({
     this.status = CartStatus.initial,
@@ -19,6 +20,7 @@ class CartState {
     this.totalAmount = 0.0,
     this.voucherAmount = 0.0,
     this.deliveryFee = 0.0,
+    this.isAdding = false,
   });
 
   CartState copyWith({
@@ -29,16 +31,17 @@ class CartState {
     double? totalAmount,
     double? voucherAmount,
     double? deliveryFee,
+    bool? isAdding,
   }) {
     return CartState(
       status: status ?? this.status,
-      cartitems: cartitem ?? this.cartitems,
+      cartitems: cartitem ?? [],
       error: error ?? this.error,
       subTotal: subTotal ?? this.subTotal,
-
       totalAmount: totalAmount ?? this.totalAmount,
       voucherAmount: voucherAmount ?? this.voucherAmount,
       deliveryFee: deliveryFee ?? this.deliveryFee,
+      isAdding: isAdding ?? this.isAdding,
     );
   }
 }

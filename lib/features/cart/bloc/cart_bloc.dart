@@ -19,15 +19,19 @@ class CartBloc extends Bloc<CartEvent, CartState> {
   Future<void> _addTocart(AddToCartEvent event, Emitter<CartState> emit) async {
     // Optimistic or loading - standard is loading for add to cart usually,
     // but here we might want to just load.
-    emit(state.copyWith(status: CartStatus.loading));
+    emit(state.copyWith(status: CartStatus.loading, isAdding: true));
     try {
+      // 1️ Add product to cart
       await addToCartUsecase.call(
         productid: event.productid,
         storename: event.storename,
         price: event.price,
       );
+      // 2️ Fetch updated cart items
       final items = await cartRepository.getCartItems();
+      // 3️ Calculate totals
       final totals = _calculateTotals(items);
+      // 4️ Emit updated state
       emit(
         state.copyWith(
           status: CartStatus.loaded,
@@ -36,6 +40,7 @@ class CartBloc extends Bloc<CartEvent, CartState> {
           voucherAmount: totals['voucherAmount'],
           deliveryFee: totals['deliveryFee'],
           totalAmount: totals['totalAmount'],
+          isAdding: false,
         ),
       );
     } catch (e) {
@@ -174,7 +179,6 @@ class CartBloc extends Bloc<CartEvent, CartState> {
     GetCartItemsEvent event,
     Emitter<CartState> emit,
   ) async {
-    emit(state.copyWith(status: CartStatus.loading));
     try {
       final items = await cartRepository.getCartItems();
       final totals = _calculateTotals(items);
@@ -186,6 +190,7 @@ class CartBloc extends Bloc<CartEvent, CartState> {
           voucherAmount: totals['voucherAmount'],
           deliveryFee: totals['deliveryFee'],
           totalAmount: totals['totalAmount'],
+          isAdding: false,
         ),
       );
     } catch (e) {

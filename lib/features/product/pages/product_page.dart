@@ -8,15 +8,11 @@ import 'package:ad_e_commerce/core/widgets/circular_arrow_button.dart';
 import 'package:ad_e_commerce/features/cart/bloc/cart_bloc.dart';
 import 'package:ad_e_commerce/features/cart/bloc/cart_event.dart';
 import 'package:ad_e_commerce/features/cart/bloc/cart_state.dart';
-import 'package:ad_e_commerce/features/cart/data/datasources/cart_remote_datasourceimpl.dart';
-import 'package:ad_e_commerce/features/cart/data/repositories/cart_repository_impl.dart';
-import 'package:ad_e_commerce/features/cart/domain/usecases/add_to_cart_usecase.dart';
 import 'package:ad_e_commerce/features/product/domain/entites/product.dart';
 import 'package:ad_e_commerce/features/product/widgets/product_image_carousel.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
 
 class ProductPage extends StatelessWidget {
   final Product product;
@@ -24,19 +20,7 @@ class ProductPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final supabse = Supabase.instance.client;
-    final cartrepository = CartRepositoryImpl(
-      CartRemoteDatasourceimpl(supabse),
-    );
-    final addtocartUseCase = AddToCartUsecase(cartrepository);
-    return MultiBlocProvider(
-      providers: [
-        BlocProvider(
-          create: (context) => CartBloc(addtocartUseCase, cartrepository),
-        ),
-      ],
-      child: _ProductPage(product: product),
-    );
+    return _ProductPage(product: product);
   }
 }
 
@@ -280,34 +264,99 @@ class _ProductPage extends StatelessWidget {
               Expanded(
                 child: SizedBox(
                   height: 48,
-                  child: BlocBuilder<CartBloc, CartState>(
-                    builder: (context, state) {
-                      return OutlinedButton(
-                        onPressed: () {
-                          context.read<CartBloc>().add(
-                            AddToCartEvent(
-                              productid: product.id!,
-                              storename: " product.stocks.first.storeName",
-                              price: product.price,
+                  child: BlocListener<CartBloc, CartState>(
+                    listenWhen: (previous, current) {
+                      return previous.isAdding &&
+                          !current.isAdding &&
+                          previous.cartitems.length < current.cartitems.length;
+                    },
+                    listener: (context, state) {
+                      if (state.status == CartStatus.loaded) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(
+                            content: Text("Item Added To Cart"),
+                            backgroundColor: AppColors.pureBlack,
+                            duration: Duration(seconds: 2),
+                          ),
+                        );
+                      }
+                      if (state.status == CartStatus.error) {
+                        // ❌ ERROR SNACKBAR
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            content: Text(
+                              state.error ?? "Something went wrong",
+                            ),
+                            backgroundColor: Colors.red,
+                            duration: const Duration(seconds: 2),
+                          ),
+                        );
+                      }
+                    },
+                    child: BlocBuilder<CartBloc, CartState>(
+                      builder: (context, state) {
+                        final isInCart = state.cartitems.any(
+                          (element) => element.productId == product.id,
+                        );
+                        // ⏳ Loading
+                        if (state.status == CartStatus.loading) {
+                          return const Center(
+                            child: CircularProgressIndicator(),
+                          );
+                        }
+                        if (isInCart) {
+                          return OutlinedButton(
+                            onPressed: () {
+                              Appnavigotor.pushnamed(
+                                context,
+                                RouteNames.cart,
+                                {},
+                              );
+                            },
+                            style: OutlinedButton.styleFrom(
+                              side: const BorderSide(color: Colors.black),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(24),
+                              ),
+                            ),
+                            child: const Text(
+                              "View Cart",
+                              style: TextStyle(
+                                color: Colors.black,
+                                fontWeight: FontWeight.w600,
+                                fontSize: 16,
+                              ),
                             ),
                           );
-                        },
-                        style: OutlinedButton.styleFrom(
-                          side: const BorderSide(color: Colors.black),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(24),
+                        }
+                        // ➕ Default → ADD TO CART
+                        return OutlinedButton(
+                          onPressed: () {
+                            context.read<CartBloc>().add(
+                              AddToCartEvent(
+                                productid: product.id!,
+                                storename: "",
+                                price: product.price,
+                              ),
+                            );
+                          },
+                          style: OutlinedButton.styleFrom(
+                            side: const BorderSide(color: Colors.black),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(24),
+                            ),
                           ),
-                        ),
-                        child: const Text(
-                          "Add to cart",
-                          style: TextStyle(
-                            color: Colors.black,
-                            fontWeight: FontWeight.w600,
-                            fontSize: 16,
+                          child: Text(
+                            "Add to cart",
+                            style: TextStyle(
+                              color: Colors.black,
+                              fontWeight: FontWeight.w600,
+                              fontSize: 16,
+                            ),
                           ),
-                        ),
-                      );
-                    },
+                        );
+                      },
+                    ),
                   ),
                 ),
               ),
