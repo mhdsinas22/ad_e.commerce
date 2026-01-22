@@ -6,6 +6,8 @@ import 'package:ad_e_commerce/features/auth/pages/user_details_page.dart';
 import 'package:ad_e_commerce/features/auth/pages/email_verification_page.dart';
 import 'package:ad_e_commerce/features/bottom_navigation/pages/main_shell_page.dart';
 import 'package:ad_e_commerce/features/cart/pages/cart_page.dart';
+import 'package:ad_e_commerce/features/checkout/presentation/pages/checkout_page.dart';
+import 'package:ad_e_commerce/features/checkout/presentation/pages/paymet_page.dart';
 import 'package:ad_e_commerce/features/home/home_page.dart';
 import 'package:ad_e_commerce/features/onboardingStartPage/onboarding_startpage.dart';
 import 'package:ad_e_commerce/features/product/pages/product_page.dart';
@@ -56,6 +58,10 @@ class RouteGenerator {
         );
       case RouteNames.cart:
         return MaterialPageRoute(builder: (context) => CartPage());
+      case RouteNames.checkout:
+        return MaterialPageRoute(builder: (context) => CheckoutPage());
+      case RouteNames.paymentpage:
+        return MaterialPageRoute(builder: (context) => PaymetPage());
       default:
         return MaterialPageRoute(
           builder:

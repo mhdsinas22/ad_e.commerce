@@ -1,8 +1,6 @@
 import 'package:ad_e_commerce/core/routes/route_generator.dart';
 import 'package:ad_e_commerce/core/theme/app_colors.dart';
-import 'package:ad_e_commerce/features/bottom_navigation/pages/main_shell_page.dart';
 import 'package:ad_e_commerce/features/splash/splash_screen.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 class MyApp extends StatelessWidget {
@@ -22,7 +20,7 @@ class MyApp extends StatelessWidget {
       ),
       debugShowCheckedModeBanner: false,
       onGenerateRoute: RouteGenerator.generate,
-      home: kIsWeb ? MainShellPage() : SplashScreen(),
+      home: SplashScreen(),
     );
   }
 }

@@ -5,6 +5,10 @@ import 'package:ad_e_commerce/features/cart/bloc/cart_event.dart';
 import 'package:ad_e_commerce/features/cart/data/datasources/cart_remote_datasourceimpl.dart';
 import 'package:ad_e_commerce/features/cart/data/repositories/cart_repository_impl.dart';
 import 'package:ad_e_commerce/features/cart/domain/usecases/add_to_cart_usecase.dart';
+import 'package:ad_e_commerce/features/checkout/bloc/address/address_bloc.dart';
+import 'package:ad_e_commerce/features/checkout/bloc/address/address_event.dart';
+import 'package:ad_e_commerce/features/checkout/data/datasource/address_remote_datasoureimpl.dart';
+import 'package:ad_e_commerce/features/checkout/data/repositories/address_repository_impl.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
@@ -33,6 +37,9 @@ void main() async {
   final supabase = Supabase.instance.client;
   final cartRepository = CartRepositoryImpl(CartRemoteDatasourceimpl(supabase));
   final addtoCartusecase = AddToCartUsecase(cartRepository);
+  final addressRepository = AddressRepositoryimpl(
+    AddressRemoteDatasoureimpl(supabase),
+  );
   runApp(
     MultiBlocProvider(
       providers: [
@@ -41,6 +48,11 @@ void main() async {
               (context) =>
                   CartBloc(addtoCartusecase, cartRepository)
                     ..add(GetCartItemsEvent()),
+        ),
+        BlocProvider(
+          create:
+              (context) =>
+                  AddressBloc(addressRepository)..add(FetchAddressEvent()),
         ),
       ],
       child: MyApp(),

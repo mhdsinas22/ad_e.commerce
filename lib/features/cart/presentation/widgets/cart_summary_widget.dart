@@ -1,4 +1,6 @@
+import 'package:ad_e_commerce/core/routes/route_names.dart';
 import 'package:ad_e_commerce/core/theme/app_colors.dart';
+import 'package:ad_e_commerce/core/utils/navigator.dart';
 import 'package:ad_e_commerce/core/widgets/app_text.dart';
 import 'package:ad_e_commerce/features/cart/bloc/cart_bloc.dart';
 import 'package:ad_e_commerce/features/cart/bloc/cart_state.dart';
@@ -53,7 +55,16 @@ class CartSummaryWidget extends StatelessWidget {
                 width: double.infinity,
                 height: 50,
                 child: ElevatedButton(
-                  onPressed: isCartEmpty ? null : () {},
+                  onPressed:
+                      isCartEmpty
+                          ? null
+                          : () {
+                            Appnavigotor.pushnamed(
+                              context,
+                              RouteNames.checkout,
+                              [],
+                            );
+                          },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: AppColors.primaryBlue,
                     disabledBackgroundColor: AppColors.primaryBlue.withOpacity(
