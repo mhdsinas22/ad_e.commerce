@@ -3,8 +3,14 @@ import 'package:flutter/material.dart';
 class CheckoutButton extends StatelessWidget {
   final VoidCallback onTap;
   final String text;
+  final bool isEnabled;
 
-  const CheckoutButton({super.key, required this.onTap, required this.text});
+  const CheckoutButton({
+    super.key,
+    required this.onTap,
+    required this.text,
+    this.isEnabled = true,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -12,9 +18,12 @@ class CheckoutButton extends StatelessWidget {
       width: double.infinity,
       padding: const EdgeInsets.all(16.0),
       child: ElevatedButton(
-        onPressed: onTap,
+        onPressed: isEnabled ? onTap : null,
         style: ElevatedButton.styleFrom(
-          backgroundColor: Color(0xFF005CE6), // Vibrant Blue from image
+          backgroundColor:
+              isEnabled
+                  ? Color(0xFF005CE6)
+                  : Colors.grey, // Vibrant Blue if enabled, Grey if disabled
           foregroundColor: Colors.white,
           padding: EdgeInsets.symmetric(vertical: 16),
           shape: RoundedRectangleBorder(

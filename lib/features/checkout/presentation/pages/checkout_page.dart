@@ -27,11 +27,61 @@ class _CheckoutPageState extends State<CheckoutPage> {
   final emailController = TextEditingController();
   final alternateNumberController = TextEditingController();
   String _selectedSaveAs = "home";
+  int _selectedAddressIndex =
+      0; // Default to 'Add New' (index 2 based on previous logic)
+
+  bool get _isFormValid {
+    final addresses = context.read<AddressBloc>().state.addresses;
+    final addNewIndex = addresses.length;
+
+    // No saved addresses → must validate form
+    if (addresses.isEmpty) {
+      return _isNewAddressValid();
+    }
+
+    // Existing address selected → VALID
+    if (_selectedAddressIndex != addNewIndex) {
+      return true;
+    }
+
+    // Add new selected → validate form
+    return _isNewAddressValid();
+  }
+
+  bool _isNewAddressValid() {
+    if (pincodeController.text.length != 6) return false;
+    if (houseController.text.trim().isEmpty) return false;
+    if (!emailController.text.contains('@')) return false;
+    return true;
+  }
+
+  void _onFormChanged() {
+    setState(() {});
+  }
 
   @override
   void initState() {
     super.initState();
     context.read<AddressBloc>().add(FetchAddressEvent());
+
+    // Add listeners for validation
+    pincodeController.addListener(_onFormChanged);
+    houseController.addListener(_onFormChanged);
+    localityController.addListener(_onFormChanged);
+    landmarkController.addListener(_onFormChanged);
+    emailController.addListener(_onFormChanged);
+    alternateNumberController.addListener(_onFormChanged);
+  }
+
+  @override
+  void dispose() {
+    pincodeController.dispose();
+    houseController.dispose();
+    localityController.dispose();
+    landmarkController.dispose();
+    emailController.dispose();
+    alternateNumberController.dispose();
+    super.dispose();
   }
 
   @override
@@ -65,17 +115,40 @@ class _CheckoutPageState extends State<CheckoutPage> {
                               _selectedSaveAs = value;
                             });
                           },
+                          selectedAddressIndex: _selectedAddressIndex,
+                          onAddressSelected: (index) {
+                            setState(() {
+                              _selectedAddressIndex = index;
+                            });
+                          },
                         );
                       },
                     ),
                   ),
                   BlocBuilder<AddressBloc, AddressState>(
                     builder: (context, state) {
-                      final userid =
-                          Supabase.instance.client.auth.currentUser!.id;
                       return CheckoutButton(
                         text: 'Next',
+                        isEnabled: _isFormValid,
                         onTap: () {
+                          final addresses =
+                              context.read<AddressBloc>().state.addresses;
+                          final addNewIndex = addresses.length;
+
+                          // 🟢 Existing address selected
+                          if (_selectedAddressIndex != addNewIndex) {
+                            Appnavigotor.pushnamed(
+                              context,
+                              RouteNames.paymentpage,
+                              [],
+                            );
+                            return;
+                          }
+
+                          // 🟡 Add new selected → submit address
+                          final userid =
+                              Supabase.instance.client.auth.currentUser!.id;
+
                           final address = AddressModel(
                             userid: userid,
                             pincode: pincodeController.text.trim(),
@@ -87,15 +160,11 @@ class _CheckoutPageState extends State<CheckoutPage> {
                                 alternateNumberController.text.trim(),
                             saveAs: _selectedSaveAs.toLowerCase(),
                           );
+
                           context.read<AddressBloc>().add(
                             SubmitAddressEvent(address),
                           );
-                          pincodeController.clear();
-                          houseController.clear();
-                          localityController.clear();
-                          landmarkController.clear();
-                          emailController.clear();
-                          alternateNumberController.clear();
+
                           Appnavigotor.pushnamed(
                             context,
                             RouteNames.paymentpage,

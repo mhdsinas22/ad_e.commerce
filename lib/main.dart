@@ -9,6 +9,12 @@ import 'package:ad_e_commerce/features/checkout/bloc/address/address_bloc.dart';
 import 'package:ad_e_commerce/features/checkout/bloc/address/address_event.dart';
 import 'package:ad_e_commerce/features/checkout/data/datasource/address_remote_datasoureimpl.dart';
 import 'package:ad_e_commerce/features/checkout/data/repositories/address_repository_impl.dart';
+import 'package:ad_e_commerce/features/product/bloc/proudctbloc/product_bloc.dart';
+import 'package:ad_e_commerce/features/product/bloc/proudctbloc/product_event.dart';
+import 'package:ad_e_commerce/features/product/data/datasources/product_remote_datasourcimpl.dart';
+import 'package:ad_e_commerce/features/product/data/repositories/product_repository_impl.dart';
+import 'package:ad_e_commerce/features/product/domain/usecases/get_flashsale_product_usecase.dart';
+import 'package:ad_e_commerce/features/product/domain/usecases/get_product_usecase.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
@@ -40,9 +46,22 @@ void main() async {
   final addressRepository = AddressRepositoryimpl(
     AddressRemoteDatasoureimpl(supabase),
   );
+  final productRepository = ProductRepositoryImpl(
+    ProductRemoteDatasourceImpl(supabase),
+  );
+  final getProductUsecase = GetProductUsecase(productRepository);
+  final getflashsaleproductusecase = GetFlashsaleProductUsecase(
+    productRepository,
+  );
   runApp(
     MultiBlocProvider(
       providers: [
+        BlocProvider(
+          create:
+              (context) =>
+                  ProductBloc(getProductUsecase, getflashsaleproductusecase)
+                    ..add(LoadProductsEvent()),
+        ),
         BlocProvider(
           create:
               (context) =>

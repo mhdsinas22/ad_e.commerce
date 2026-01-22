@@ -415,6 +415,7 @@ class HomePageUi extends StatelessWidget {
                             builder: (context, state) {
                               return SizedBox(
                                 height: 270, // 🔥 enough for card + name
+                                width: double.infinity,
                                 child: ListView.builder(
                                   scrollDirection: Axis.horizontal,
                                   itemCount:
@@ -432,7 +433,7 @@ class HomePageUi extends StatelessWidget {
                                         children: [
                                           // CARD
                                           Container(
-                                            width: 167,
+                                            width: 260,
                                             height: 180,
                                             decoration: BoxDecoration(
                                               color: AppColors.brightBlue,
@@ -458,15 +459,19 @@ class HomePageUi extends StatelessWidget {
 
                                           const SizedBox(height: 10),
 
-                                          AppTexts.medium(
-                                            "Customer",
-                                            color: AppColors.grayColor,
-                                            fontSize: 12,
+                                          Center(
+                                            child: AppTexts.medium(
+                                              "Customer",
+                                              color: AppColors.grayColor,
+                                              fontSize: 12,
+                                            ),
                                           ),
                                           const SizedBox(height: 4),
-                                          AppTexts.semiBold(
-                                            data.username,
-                                            fontSize: 12,
+                                          Center(
+                                            child: AppTexts.semiBold(
+                                              data.username,
+                                              fontSize: 12,
+                                            ),
                                           ),
                                         ],
                                       ),
@@ -479,8 +484,6 @@ class HomePageUi extends StatelessWidget {
                         ],
                       ),
                     ),
-
-                    const SizedBox(height: 30),
 
                     // Footer (Warranty & Why AirDrop)
                     // 🔹 RESPONSIVE: Use double.infinity instead of MediaQuery width to respect constraints

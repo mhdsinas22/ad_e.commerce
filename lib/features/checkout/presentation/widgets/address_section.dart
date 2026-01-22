@@ -11,6 +11,9 @@ class AddressSection extends StatefulWidget {
   final List<AddressEntity> addresses;
   final String selectedSaveAs;
   final ValueChanged<String> onSaveAsChanged;
+  final int selectedAddressIndex;
+  final ValueChanged<int> onAddressSelected;
+
   const AddressSection({
     super.key,
     required this.pincodeController,
@@ -22,6 +25,8 @@ class AddressSection extends StatefulWidget {
     required this.selectedSaveAs,
     required this.onSaveAsChanged,
     required this.addresses,
+    required this.selectedAddressIndex,
+    required this.onAddressSelected,
   });
 
   @override
@@ -29,10 +34,10 @@ class AddressSection extends StatefulWidget {
 }
 
 class _AddressSectionState extends State<AddressSection> {
-  int _selectedAddressIndex = 2; // Default to 'Add new' based on image
-
   @override
   Widget build(BuildContext context) {
+    final addNewIndex = widget.addresses.length;
+
     return SingleChildScrollView(
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16.0),
@@ -65,8 +70,12 @@ class _AddressSectionState extends State<AddressSection> {
             ),
 
             SizedBox(height: 16),
-            _buildAddressOption(index: 2, label: 'Add new', isAddNew: true),
-            if (_selectedAddressIndex == 2) ...[
+            _buildAddressOption(
+              index: addNewIndex,
+              label: 'Add new',
+              isAddNew: true,
+            ),
+            if (widget.selectedAddressIndex == addNewIndex) ...[
               SizedBox(height: 30),
               _buildTextField(
                 label: 'Enter Pincode*',
@@ -148,12 +157,10 @@ class _AddressSectionState extends State<AddressSection> {
     String? sublabel,
     bool isAddNew = false,
   }) {
-    final isSelected = _selectedAddressIndex == index;
+    final isSelected = widget.selectedAddressIndex == index;
     return InkWell(
       onTap: () {
-        setState(() {
-          _selectedAddressIndex = index;
-        });
+        widget.onAddressSelected(index);
       },
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
