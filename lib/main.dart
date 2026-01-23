@@ -60,7 +60,8 @@ void main() async {
           create:
               (context) =>
                   ProductBloc(getProductUsecase, getflashsaleproductusecase)
-                    ..add(LoadProductsEvent()),
+                    ..add(LoadProductsEvent())
+                    ..add(LoadFlashSaleProductsEvent()),
         ),
         BlocProvider(
           create:

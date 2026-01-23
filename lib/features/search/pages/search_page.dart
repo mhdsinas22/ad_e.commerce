@@ -1,7 +1,9 @@
 import 'package:ad_e_commerce/core/theme/app_colors.dart';
+import 'package:ad_e_commerce/core/widgets/aligned_padded_text.dart';
 import 'package:ad_e_commerce/core/widgets/app_sliver_app_bar.dart';
 import 'package:ad_e_commerce/core/widgets/app_text.dart';
 import 'package:ad_e_commerce/core/widgets/app_text_form_field.dart';
+import 'package:ad_e_commerce/core/widgets/primary_button.dart';
 import 'package:ad_e_commerce/features/home/data/category_data.dart';
 import 'package:ad_e_commerce/features/home/widgets/category_card.dart';
 import 'package:ad_e_commerce/features/home/widgets/category_grid.dart';
@@ -18,10 +20,9 @@ class SearchPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final products = context.read<ProductBloc>().state.products;
     return BlocProvider(
-      create: (context) => SearchBloc(products: products),
-      child: _SearchPage(),
+      create: (_) => SearchBloc(productBloc: context.read<ProductBloc>()),
+      child: const _SearchPage(),
     );
   }
 }
@@ -58,19 +59,7 @@ class _SearchPage extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(height: 5),
-                Padding(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 20,
-                    vertical: 22,
-                  ),
-                  child: Align(
-                    alignment: Alignment.topLeft,
-                    child: AppTexts.medium(
-                      "Select a Category to Browse",
-                      fontSize: 18,
-                    ),
-                  ),
-                ),
+
                 SizedBox(height: 10),
                 BlocBuilder<SearchBloc, SearchState>(
                   builder: (context, state) {
@@ -78,22 +67,173 @@ class _SearchPage extends StatelessWidget {
                       return Center(child: CircularProgressIndicator());
                     }
                     if (state.status == SearchStatus.loaded) {
-                      return ListView.builder(
-                        shrinkWrap: true,
-                        physics: NeverScrollableScrollPhysics(),
-                        itemCount: state.product.length,
-                        itemBuilder: (context, index) {
-                          final product = state.product[index];
-                          return ListTile(
-                            title: Text(product.title),
-                            subtitle: Text(product.category),
-                          );
-                        },
+                      return Column(
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 20.0,
+                              vertical: 10.0,
+                            ),
+                            child: Align(
+                              alignment: Alignment.topLeft,
+                              child: AppTexts.medium(
+                                "Result: ${state.product.length} Items Found ",
+                              ),
+                            ),
+                          ),
+                          GridView.builder(
+                            padding: const EdgeInsets.symmetric(horizontal: 16),
+                            shrinkWrap:
+                                true, // 🔥 IMPORTANT if inside Column / ScrollView
+                            physics:
+                                const NeverScrollableScrollPhysics(), // parent scroll handle cheyyum
+                            gridDelegate:
+                                const SliverGridDelegateWithFixedCrossAxisCount(
+                                  crossAxisCount: 2, // ✅ 2 columns
+                                  mainAxisSpacing: 16,
+                                  crossAxisSpacing: 16,
+                                  childAspectRatio:
+                                      0.72, // screenshot pole card shape
+                                ),
+                            itemCount: state.product.length,
+                            itemBuilder: (context, index) {
+                              final product = state.product[index];
+
+                              return Expanded(
+                                child: Column(
+                                  children: [
+                                    Container(
+                                      width: 167,
+                                      height: 172,
+                                      padding: const EdgeInsets.all(10),
+                                      decoration: BoxDecoration(
+                                        color: Colors.grey.shade100,
+                                        borderRadius: BorderRadius.circular(16),
+                                      ),
+                                      child: Center(
+                                        child: Image.network(
+                                          product.imageUrls.first,
+                                          fit: BoxFit.contain,
+                                          width: 107,
+                                          height: 123,
+                                        ),
+                                      ),
+                                    ),
+                                    const SizedBox(height: 5),
+                                    // TITLE
+                                    AlignedPaddedText(
+                                      child: AppTexts.medium(
+                                        product.title,
+                                        fontSize: 12,
+                                        color: AppColors.grayColor,
+                                      ),
+                                    ),
+
+                                    // PRICE
+                                    AlignedPaddedText(
+                                      padding: EdgeInsets.symmetric(
+                                        vertical: 0,
+                                        horizontal: 5,
+                                      ),
+                                      child: AppTexts.semiBold(
+                                        "₹${product.price.toString()}",
+                                        fontSize: 16,
+                                      ),
+                                    ),
+                                    SizedBox(height: 2),
+                                    product.isActive
+                                        ? AlignedPaddedText(
+                                          child: PrimaryButton(
+                                            width: 100,
+                                            height: 25,
+                                            text: "Add to Cart",
+                                            fontsize: 10,
+                                            onPressed: () {},
+                                          ),
+                                        )
+                                        : AlignedPaddedText(
+                                          child: AppTexts.semiBold(
+                                            "Out ofStock",
+                                            color: AppColors.purered,
+                                            fontSize: 10,
+                                          ),
+                                        ),
+
+                                    //  Row(
+                                    //                                         children: const [
+                                    //                                           Icon(
+                                    //                                             Icons.star,
+                                    //                                             color: Colors.amber,
+                                    //                                             size: 16,
+                                    //                                           ),
+                                    //                                           SizedBox(width: 4),
+                                    //                                           Text("4.9"),
+                                    //                                         ],
+                                    //                                       ),
+                                    // RATING + STOCK
+                                    // Row(
+                                    //   mainAxisAlignment:
+                                    //       MainAxisAlignment.spaceBetween,
+                                    //   children: [
+                                    //     if (!product.isActive)
+                                    //       const Text(
+                                    //         "Out of Stock",
+                                    //         style: TextStyle(
+                                    //           color: Colors.red,
+                                    //           fontSize: 12,
+                                    //           fontWeight: FontWeight.w600,
+                                    //         ),
+                                    //       ),
+                                    //     if (product.isActive)
+                                    //       SizedBox(
+                                    //         width: double.infinity,
+                                    //         height: 32,
+                                    //         child: ElevatedButton(
+                                    //           onPressed: () {},
+                                    //           child: const Text(
+                                    //             "Add to Cart",
+                                    //             style: TextStyle(fontSize: 12),
+                                    //           ),
+                                    //         ),
+                                    //       ),
+                                    //   ],
+                                    // ),
+                                  ],
+                                ),
+                              );
+                            },
+                          ),
+                        ],
                       );
                     }
-                    return CategoryGrid(
-                      categories: CategoryData.categories,
-                      layout: CategoryCardLayout.horizontal,
+                    if (state.status == SearchStatus.empty) {
+                      print("empty");
+                      return const Padding(
+                        padding: EdgeInsets.all(20),
+                        child: Center(child: Text("No products found")),
+                      );
+                    }
+                    // initial
+                    return Column(
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 20,
+                            vertical: 22,
+                          ),
+                          child: Align(
+                            alignment: Alignment.topLeft,
+                            child: AppTexts.medium(
+                              "Select a Category to Browse",
+                              fontSize: 18,
+                            ),
+                          ),
+                        ),
+                        CategoryGrid(
+                          categories: CategoryData.categories,
+                          layout: CategoryCardLayout.horizontal,
+                        ),
+                      ],
                     );
                   },
                 ),

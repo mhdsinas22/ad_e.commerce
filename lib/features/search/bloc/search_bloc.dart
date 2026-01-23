@@ -1,43 +1,46 @@
-import 'package:ad_e_commerce/features/product/domain/entites/product.dart';
+import 'package:ad_e_commerce/features/product/bloc/proudctbloc/product_bloc.dart';
+
 import 'package:ad_e_commerce/features/search/bloc/search_event.dart';
 import 'package:ad_e_commerce/features/search/bloc/search_state.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class SearchBloc extends Bloc<SearchEvent, SearchState> {
-  final List<Product> products;
-  SearchBloc({required this.products})
+  final ProductBloc productBloc;
+
+  SearchBloc({required this.productBloc})
     : super(SearchState(status: SearchStatus.initial)) {
     on<SerachTextChanged>(_onSearchTextChanged);
-
     on<ClearSearch>(_onClearSearch);
   }
+
   void _onSearchTextChanged(
     SerachTextChanged event,
     Emitter<SearchState> emit,
   ) {
-    emit(state.copyWith(status: SearchStatus.loading));
-
-    final query = event.query.toLowerCase();
+    final query = event.query.trim().toLowerCase();
 
     if (query.isEmpty) {
       emit(state.copyWith(status: SearchStatus.initial, product: []));
       return;
     }
 
+    emit(state.copyWith(status: SearchStatus.loading));
+
+    final products = productBloc.state.products; // ✅ LIVE DATA
+
     final results =
         products.where((product) {
-          return product.title.toLowerCase().contains(query);
+          final title = product.title.toLowerCase().replaceAll(" ", "");
+          final category = product.category.toLowerCase().replaceAll(" ", "");
+          final search = query.replaceAll(" ", "");
+
+          return title.contains(search) || category.contains(search);
         }).toList();
 
     if (results.isEmpty) {
-      emit(state.copyWith(status: SearchStatus.initial, product: []));
+      emit(state.copyWith(status: SearchStatus.empty, product: []));
     } else {
-      emit(
-        state.copyWith(
-          status: SearchStatus.loaded, // 🔥 FIX
-          product: results,
-        ),
-      );
+      emit(state.copyWith(status: SearchStatus.loaded, product: results));
     }
   }
 

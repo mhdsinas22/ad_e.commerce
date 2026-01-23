@@ -1,6 +1,6 @@
 import 'package:ad_e_commerce/features/product/domain/entites/product.dart';
 
-enum SearchStatus { initial, loading, loaded, error }
+enum SearchStatus { initial, loading, loaded, error, empty }
 
 class SearchState {
   final SearchStatus status;

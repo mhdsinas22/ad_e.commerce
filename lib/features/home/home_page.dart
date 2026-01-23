@@ -75,12 +75,17 @@ class HomePage extends StatelessWidget {
         ),
         BlocProvider(
           create:
-              (context) => ProductBloc(
-                getproductUsecase,
-                GetFlashsaleProductUsecase(
-                  ProductRepositoryImpl(ProductRemoteDatasourceImpl(supabase)),
-                ),
-              )..add(LoadFlashSaleProductsEvent()),
+              (context) =>
+                  ProductBloc(
+                      getproductUsecase,
+                      GetFlashsaleProductUsecase(
+                        ProductRepositoryImpl(
+                          ProductRemoteDatasourceImpl(supabase),
+                        ),
+                      ),
+                    )
+                    ..add(LoadProductsEvent())
+                    ..add(LoadFlashSaleProductsEvent()),
         ),
         BlocProvider(
           create:
