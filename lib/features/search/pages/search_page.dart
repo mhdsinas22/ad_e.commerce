@@ -1,3 +1,4 @@
+import 'package:ad_e_commerce/core/common/widgets/shimmer/app_shimmer.dart';
 import 'package:ad_e_commerce/core/routes/route_names.dart';
 import 'package:ad_e_commerce/core/theme/app_colors.dart';
 import 'package:ad_e_commerce/core/utils/navigator.dart';
@@ -89,9 +90,28 @@ class _SearchPage extends StatelessWidget {
                     BlocBuilder<SearchBloc, SearchState>(
                       builder: (context, state) {
                         if (state.status == SearchStatus.loading) {
-                          return const SizedBox(
-                            height: 300,
-                            child: Center(child: CircularProgressIndicator()),
+                          return Padding(
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 16,
+                              vertical: 12,
+                            ),
+                            child: GridView.builder(
+                              shrinkWrap: true,
+                              physics: const NeverScrollableScrollPhysics(),
+                              gridDelegate:
+                                  SliverGridDelegateWithFixedCrossAxisCount(
+                                    crossAxisCount: crossAxisCount,
+                                    mainAxisSpacing: 16,
+                                    crossAxisSpacing: 16,
+                                    childAspectRatio: childAspectRatio,
+                                    mainAxisExtent:
+                                        screenWidth < 600 ? 320 : 360,
+                                  ),
+                              itemCount: 8,
+                              itemBuilder: (context, index) {
+                                return AppShimmer.productCard();
+                              },
+                            ),
                           );
                         }
                         if (state.status == SearchStatus.loaded) {

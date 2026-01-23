@@ -1,3 +1,4 @@
+import 'package:ad_e_commerce/core/common/widgets/shimmer/app_shimmer.dart';
 import 'package:ad_e_commerce/core/widgets/app_text.dart';
 import 'package:ad_e_commerce/features/home/widgets/FlashSaleSection/flash_sale_product_card.dart';
 import 'package:ad_e_commerce/features/product/bloc/proudctbloc/product_bloc.dart';
@@ -17,7 +18,15 @@ class FlashSaleSection extends StatelessWidget {
         child: BlocBuilder<ProductBloc, ProductState>(
           builder: (context, state) {
             if (state.productStatus == ProductStatus.loading) {
-              return const Center(child: CircularProgressIndicator());
+              return ListView.separated(
+                scrollDirection: Axis.horizontal,
+                padding: const EdgeInsets.symmetric(horizontal: 12),
+                itemCount: 5,
+                separatorBuilder: (_, __) => const SizedBox(width: 10),
+                itemBuilder: (context, index) {
+                  return AppShimmer.productCard();
+                },
+              );
             }
             if (state.productStatus == ProductStatus.failure) {
               return Center(

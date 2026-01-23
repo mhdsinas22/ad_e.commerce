@@ -1,3 +1,4 @@
+import 'package:ad_e_commerce/core/common/widgets/shimmer/app_shimmer.dart';
 import 'package:ad_e_commerce/core/theme/app_colors.dart';
 import 'package:ad_e_commerce/core/widgets/app_text.dart';
 import 'package:ad_e_commerce/features/cart/bloc/cart_bloc.dart';
@@ -76,7 +77,29 @@ class _CartPageState extends State<_CartPage> {
     return BlocBuilder<CartBloc, CartState>(
       builder: (context, state) {
         if (state.status == CartStatus.loading) {
-          return const Center(child: CircularProgressIndicator());
+          return Column(
+            children: [
+              Expanded(
+                child: ListView.separated(
+                  padding: const EdgeInsets.all(20),
+                  itemCount: 4,
+                  separatorBuilder:
+                      (context, index) => const SizedBox(height: 16),
+                  itemBuilder: (context, index) {
+                    return AppShimmer.listTile(hasImage: true);
+                  },
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(20.0),
+                child: AppShimmer.rect(
+                  width: double.infinity,
+                  height: 150,
+                  radius: 12,
+                ),
+              ),
+            ],
+          );
         }
         if (state.status == CartStatus.error) {
           return Center(child: Text(state.error ?? "Something went wrong"));
@@ -110,7 +133,34 @@ class _CartPageState extends State<_CartPage> {
       child: BlocBuilder<CartBloc, CartState>(
         builder: (context, state) {
           if (state.status == CartStatus.loading) {
-            return const Center(child: CircularProgressIndicator());
+            return Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                // Items List
+                Expanded(
+                  flex: 2,
+                  child: ListView.separated(
+                    padding: const EdgeInsets.all(20),
+                    itemCount: 4,
+                    separatorBuilder:
+                        (context, index) => const SizedBox(height: 16),
+                    itemBuilder: (context, index) {
+                      return AppShimmer.listTile(hasImage: true);
+                    },
+                  ),
+                ),
+                const SizedBox(width: 40),
+                // Summary Side
+                Expanded(
+                  flex: 1,
+                  child: AppShimmer.rect(
+                    width: double.infinity,
+                    height: 300,
+                    radius: 12,
+                  ),
+                ),
+              ],
+            );
           }
           if (state.status == CartStatus.error) {
             return Center(child: Text(state.error ?? "Something went wrong"));

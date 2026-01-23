@@ -1,3 +1,4 @@
+import 'package:ad_e_commerce/core/common/widgets/shimmer/app_shimmer.dart';
 import 'package:ad_e_commerce/core/constants/asset_constants.dart';
 import 'package:ad_e_commerce/core/routes/route_names.dart';
 import 'package:ad_e_commerce/core/theme/app_colors.dart';
@@ -205,12 +206,7 @@ class HomePageUi extends StatelessWidget {
                         child: BlocBuilder<BannerBloc, BannerState>(
                           builder: (context, state) {
                             if (state.status == BannerStatus.loading) {
-                              return const SizedBox(
-                                height: 180,
-                                child: Center(
-                                  child: CircularProgressIndicator(),
-                                ),
-                              );
+                              return AppShimmer.banner();
                             }
                             if (state.status == BannerStatus.success) {
                               return ProductImageCarousel(
@@ -380,12 +376,7 @@ class HomePageUi extends StatelessWidget {
                             child: BlocBuilder<BannerBloc, BannerState>(
                               builder: (context, state) {
                                 if (state.status == BannerStatus.loading) {
-                                  return const SizedBox(
-                                    height: 180,
-                                    child: Center(
-                                      child: CircularProgressIndicator(),
-                                    ),
-                                  );
+                                  return AppShimmer.banner();
                                 }
                                 if (state.status == BannerStatus.success) {
                                   return ProductImageCarousel(
@@ -419,70 +410,99 @@ class HomePageUi extends StatelessWidget {
                           BlocBuilder<TestimonialBloc, TestimonialState>(
                             builder: (context, state) {
                               return SizedBox(
-                                height: 270, // 🔥 enough for card + name
+                                height: 270,
                                 width: double.infinity,
-                                child: ListView.builder(
-                                  scrollDirection: Axis.horizontal,
-                                  itemCount:
-                                      state
-                                          .testmonial
-                                          .length, // testimonials.length
-                                  itemBuilder: (context, index) {
-                                    final data = state.testmonial[index];
-                                    return Container(
-                                      width: 260, // 🔥 card width
-                                      margin: const EdgeInsets.only(right: 12),
-                                      child: Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          // CARD
-                                          Container(
-                                            width: 260,
-                                            height: 180,
-                                            decoration: BoxDecoration(
-                                              color: AppColors.brightBlue,
-                                              borderRadius:
-                                                  BorderRadius.circular(18),
-                                            ),
-                                            padding: const EdgeInsets.all(16),
-                                            child: Center(
-                                              child: Text(
-                                                data.content,
-                                                textAlign: TextAlign.center,
-                                                maxLines: 5,
-                                                style: const TextStyle(
-                                                  fontFamily: 'Manrope',
-                                                  fontSize: 14,
-                                                  fontWeight: FontWeight.w600,
-                                                  color: AppColors.pureWhite,
-                                                  height: 1.2,
-                                                ),
+                                child:
+                                    state.status == TestimonialStatus.loading
+                                        ? ListView.builder(
+                                          scrollDirection: Axis.horizontal,
+                                          itemCount: 3, // Show 3 fake items
+                                          itemBuilder: (context, index) {
+                                            return Container(
+                                              margin: const EdgeInsets.only(
+                                                right: 12,
                                               ),
-                                            ),
-                                          ),
+                                              child: AppShimmer.rect(
+                                                width: 260,
+                                                height: 270,
+                                                radius: 18,
+                                              ),
+                                            );
+                                          },
+                                        )
+                                        : ListView.builder(
+                                          scrollDirection: Axis.horizontal,
+                                          itemCount: state.testmonial.length,
+                                          itemBuilder: (context, index) {
+                                            final data =
+                                                state.testmonial[index];
+                                            return Container(
+                                              width: 260,
+                                              margin: const EdgeInsets.only(
+                                                right: 12,
+                                              ),
+                                              child: Column(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                children: [
+                                                  // CARD
+                                                  Container(
+                                                    width: 260,
+                                                    height: 180,
+                                                    decoration: BoxDecoration(
+                                                      color:
+                                                          AppColors.brightBlue,
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                            18,
+                                                          ),
+                                                    ),
+                                                    padding:
+                                                        const EdgeInsets.all(
+                                                          16,
+                                                        ),
+                                                    child: Center(
+                                                      child: Text(
+                                                        data.content,
+                                                        textAlign:
+                                                            TextAlign.center,
+                                                        maxLines: 5,
+                                                        style: const TextStyle(
+                                                          fontFamily: 'Manrope',
+                                                          fontSize: 14,
+                                                          fontWeight:
+                                                              FontWeight.w600,
+                                                          color:
+                                                              AppColors
+                                                                  .pureWhite,
+                                                          height: 1.2,
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ),
 
-                                          const SizedBox(height: 10),
+                                                  const SizedBox(height: 10),
 
-                                          Center(
-                                            child: AppTexts.medium(
-                                              "Customer",
-                                              color: AppColors.grayColor,
-                                              fontSize: 12,
-                                            ),
-                                          ),
-                                          const SizedBox(height: 4),
-                                          Center(
-                                            child: AppTexts.semiBold(
-                                              data.username,
-                                              fontSize: 12,
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    );
-                                  },
-                                ),
+                                                  Center(
+                                                    child: AppTexts.medium(
+                                                      "Customer",
+                                                      color:
+                                                          AppColors.grayColor,
+                                                      fontSize: 12,
+                                                    ),
+                                                  ),
+                                                  const SizedBox(height: 4),
+                                                  Center(
+                                                    child: AppTexts.semiBold(
+                                                      data.username,
+                                                      fontSize: 12,
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                            );
+                                          },
+                                        ),
                               );
                             },
                           ),
