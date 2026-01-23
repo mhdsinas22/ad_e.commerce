@@ -69,25 +69,36 @@ class CategoryGrid extends StatelessWidget {
             ],
           ),
         )
-        : GridView.builder(
-          shrinkWrap: true,
-          physics: const NeverScrollableScrollPhysics(),
-          padding: const EdgeInsets.symmetric(horizontal: 20),
-          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: 2,
-            mainAxisSpacing: 16,
-            crossAxisSpacing: 16,
-            childAspectRatio: 1.8,
-          ),
-          itemCount: categories.length,
-          itemBuilder: (context, index) {
-            final item = categories[index];
-            return CategoryCard(
-              title: item.title,
-              image: item.image,
-              layout: layout,
-              onTap: () {
-                debugPrint("${item.title} tapped");
+        : LayoutBuilder(
+          builder: (context, constraints) {
+            int crossAxisCount = 2;
+            if (constraints.maxWidth > 1100) {
+              crossAxisCount = 6;
+            } else if (constraints.maxWidth > 700) {
+              crossAxisCount = 4;
+            }
+
+            return GridView.builder(
+              shrinkWrap: true,
+              physics: const NeverScrollableScrollPhysics(),
+              padding: const EdgeInsets.symmetric(horizontal: 20),
+              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: crossAxisCount,
+                mainAxisSpacing: 16,
+                crossAxisSpacing: 16,
+                childAspectRatio: 1.8,
+              ),
+              itemCount: categories.length,
+              itemBuilder: (context, index) {
+                final item = categories[index];
+                return CategoryCard(
+                  title: item.title,
+                  image: item.image,
+                  layout: layout,
+                  onTap: () {
+                    debugPrint("${item.title} tapped");
+                  },
+                );
               },
             );
           },
