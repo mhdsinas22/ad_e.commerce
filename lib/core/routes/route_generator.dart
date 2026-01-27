@@ -11,6 +11,7 @@ import 'package:ad_e_commerce/features/checkout/presentation/pages/paymet_page.d
 import 'package:ad_e_commerce/features/home/home_page.dart';
 import 'package:ad_e_commerce/features/onboardingStartPage/onboarding_startpage.dart';
 import 'package:ad_e_commerce/features/product/pages/product_page.dart';
+import 'package:ad_e_commerce/features/profile/pages/warranty_page.dart';
 import 'package:ad_e_commerce/features/search/pages/search_page.dart';
 
 import 'package:flutter/material.dart';
@@ -62,6 +63,8 @@ class RouteGenerator {
         return MaterialPageRoute(builder: (context) => CheckoutPage());
       case RouteNames.paymentpage:
         return MaterialPageRoute(builder: (context) => PaymetPage());
+      case RouteNames.warranty:
+        return MaterialPageRoute(builder: (context) => WarrantyPage());
       default:
         return MaterialPageRoute(
           builder:

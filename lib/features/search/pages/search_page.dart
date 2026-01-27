@@ -1,15 +1,8 @@
 import 'package:ad_e_commerce/core/common/widgets/shimmer/app_shimmer.dart';
-import 'package:ad_e_commerce/core/routes/route_names.dart';
 import 'package:ad_e_commerce/core/theme/app_colors.dart';
-import 'package:ad_e_commerce/core/utils/navigator.dart';
-
 import 'package:ad_e_commerce/core/widgets/app_sliver_app_bar.dart';
 import 'package:ad_e_commerce/core/widgets/app_text.dart';
 import 'package:ad_e_commerce/core/widgets/app_text_form_field.dart';
-import 'package:ad_e_commerce/features/cart/bloc/cart_bloc.dart';
-import 'package:ad_e_commerce/features/cart/bloc/cart_event.dart';
-import 'package:ad_e_commerce/features/cart/bloc/cart_state.dart';
-
 import 'package:ad_e_commerce/features/home/data/category_data.dart';
 import 'package:ad_e_commerce/features/home/widgets/category_card.dart';
 import 'package:ad_e_commerce/features/home/widgets/category_grid.dart';
@@ -17,6 +10,7 @@ import 'package:ad_e_commerce/features/product/bloc/proudctbloc/product_bloc.dar
 import 'package:ad_e_commerce/features/search/bloc/search_bloc.dart';
 import 'package:ad_e_commerce/features/search/bloc/search_event.dart';
 import 'package:ad_e_commerce/features/search/bloc/search_state.dart';
+import 'package:ad_e_commerce/features/search/widgets/search_product_grid_item.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -153,225 +147,8 @@ class _SearchPage extends StatelessWidget {
                                       itemCount: state.product.length,
                                       itemBuilder: (context, index) {
                                         final product = state.product[index];
-
-                                        return Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            // Image Card
-                                            Container(
-                                              width: double.infinity,
-                                              padding: const EdgeInsets.all(16),
-                                              decoration: BoxDecoration(
-                                                color: const Color(
-                                                  0xFFF3F4F6,
-                                                ), // Light gray bg
-                                                borderRadius:
-                                                    BorderRadius.circular(20),
-                                              ),
-                                              child: AspectRatio(
-                                                aspectRatio: 1,
-                                                child: Image.network(
-                                                  product.imageUrls.isNotEmpty
-                                                      ? product.imageUrls.first
-                                                      : '',
-                                                  fit: BoxFit.contain,
-                                                  errorBuilder:
-                                                      (c, o, s) => const Icon(
-                                                        Icons
-                                                            .image_not_supported,
-                                                        color: Colors.grey,
-                                                      ),
-                                                ),
-                                              ),
-                                            ),
-                                            const SizedBox(height: 8),
-
-                                            // Title and Rating Row
-                                            Row(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              children: [
-                                                Expanded(
-                                                  child: Text(
-                                                    product.title,
-                                                    maxLines: 1,
-                                                    overflow:
-                                                        TextOverflow.ellipsis,
-                                                    style: const TextStyle(
-                                                      fontFamily: "Manrope",
-                                                      fontWeight:
-                                                          FontWeight.w500,
-                                                      fontSize: 14,
-                                                      color:
-                                                          AppColors.grayColor,
-                                                    ),
-                                                  ),
-                                                ),
-                                                const SizedBox(width: 4),
-                                                const Icon(
-                                                  Icons.star_rounded,
-                                                  color: Colors.amber,
-                                                  size: 20,
-                                                ),
-                                                const SizedBox(width: 2),
-                                                AppTexts.medium(
-                                                  "4.9",
-                                                  fontSize: 14,
-                                                  color: Colors.black,
-                                                ),
-                                              ],
-                                            ),
-                                            const SizedBox(height: 4),
-
-                                            // Price
-                                            AppTexts.semiBold(
-                                              // Simple formatting for comma separation
-                                              "₹ ${product.price.toInt().toString().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},')}",
-                                              fontSize: 16,
-                                              color: Colors.black,
-                                            ),
-                                            const SizedBox(height: 8),
-
-                                            // Action Button
-                                            SizedBox(
-                                              height: 38,
-                                              child:
-                                                  product.isActive
-                                                      ? BlocBuilder<
-                                                        CartBloc,
-                                                        CartState
-                                                      >(
-                                                        builder: (
-                                                          context,
-                                                          state,
-                                                        ) {
-                                                          final isInCart = state
-                                                              .cartitems
-                                                              .any(
-                                                                (element) =>
-                                                                    element
-                                                                        .productId ==
-                                                                    product.id,
-                                                              );
-                                                          if (state.status ==
-                                                              CartStatus
-                                                                  .loading) {
-                                                            return const Center(
-                                                              child:
-                                                                  CircularProgressIndicator(),
-                                                            );
-                                                          }
-                                                          if (isInCart) {
-                                                            return SizedBox(
-                                                              width: 120,
-                                                              child: ElevatedButton(
-                                                                style: ElevatedButton.styleFrom(
-                                                                  backgroundColor:
-                                                                      const Color(
-                                                                        0xFF0055FF,
-                                                                      ), // Design Blue
-                                                                  foregroundColor:
-                                                                      Colors
-                                                                          .white,
-                                                                  elevation: 0,
-                                                                  shape: RoundedRectangleBorder(
-                                                                    borderRadius:
-                                                                        BorderRadius.circular(
-                                                                          100,
-                                                                        ),
-                                                                  ),
-                                                                  padding:
-                                                                      EdgeInsets
-                                                                          .zero,
-                                                                ),
-                                                                onPressed: () {
-                                                                  Appnavigotor.pushnamed(
-                                                                    context,
-                                                                    RouteNames
-                                                                        .cart,
-                                                                    [],
-                                                                  );
-                                                                },
-                                                                child: const Text(
-                                                                  " View Cart",
-                                                                  style: TextStyle(
-                                                                    fontSize:
-                                                                        12,
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .w600,
-                                                                  ),
-                                                                ),
-                                                              ),
-                                                            );
-                                                          }
-                                                          return SizedBox(
-                                                            width: 120,
-                                                            child: ElevatedButton(
-                                                              style: ElevatedButton.styleFrom(
-                                                                backgroundColor:
-                                                                    const Color(
-                                                                      0xFF0055FF,
-                                                                    ), // Design Blue
-                                                                foregroundColor:
-                                                                    Colors
-                                                                        .white,
-                                                                elevation: 0,
-                                                                shape: RoundedRectangleBorder(
-                                                                  borderRadius:
-                                                                      BorderRadius.circular(
-                                                                        100,
-                                                                      ),
-                                                                ),
-                                                                padding:
-                                                                    EdgeInsets
-                                                                        .zero,
-                                                              ),
-                                                              onPressed: () {
-                                                                context.read<CartBloc>().add(
-                                                                  AddToCartEvent(
-                                                                    productid:
-                                                                        product
-                                                                            .id!,
-                                                                    storename:
-                                                                        product
-                                                                            .storageName,
-                                                                    price:
-                                                                        product
-                                                                            .price,
-                                                                  ),
-                                                                );
-                                                              },
-                                                              child: const Text(
-                                                                "Add to Cart",
-                                                                style: TextStyle(
-                                                                  fontSize: 12,
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .w600,
-                                                                ),
-                                                              ),
-                                                            ),
-                                                          );
-                                                        },
-                                                      )
-                                                      : Padding(
-                                                        padding:
-                                                            const EdgeInsets.only(
-                                                              top: 4,
-                                                            ),
-                                                        child:
-                                                            AppTexts.semiBold(
-                                                              "Out of Stock",
-                                                              color:
-                                                                  AppColors
-                                                                      .purered,
-                                                              fontSize: 12,
-                                                            ),
-                                                      ),
-                                            ),
-                                          ],
+                                        return SearchProductGridItem(
+                                          product: product,
                                         );
                                       },
                                     ),

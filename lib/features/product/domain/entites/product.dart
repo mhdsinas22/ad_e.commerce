@@ -7,6 +7,7 @@ class Product {
   final String category;
   final String condition; // pre_owned | brand_new
   final String conditionType;
+  final String colorid;
   final String color;
   final double price;
   final double? originalPrice;
@@ -14,11 +15,16 @@ class Product {
   final bool isActive;
   final String modelNumber;
   final String storageid;
-  final String storageName;
+  final String ramid;
   final String ram;
   final String tag;
+  final String storage;
   final List<String> imageUrls;
   final List<ProductStock> stocks;
+  final String categoryid;
+  final String conditiontypeid;
+  final double rating;
+  final int noofreviews;
 
   Product({
     this.id,
@@ -34,11 +40,16 @@ class Product {
     required this.isActive,
     required this.modelNumber,
     required this.storageid,
+    required this.ramid,
     required this.ram,
     required this.tag,
     required this.imageUrls,
     required this.stocks,
-    required this.storageName,
+    required this.storage,
+    required this.colorid,
+    required this.categoryid,
+    required this.conditiontypeid,
+    required this.rating,
+    required this.noofreviews,
   });
-  bool get isFlashSale => tag.toLowerCase() == "Flash Sale";
 }

@@ -14,4 +14,8 @@ class RouteNames {
   static const mainShell = '/main-shell';
   static const search = '/search';
   static const productpage = "/productpage";
+  static const warranty = "/warranty";
+  static const wallet = "/wallet";
+  static const account = "/account";
+  static const myorders = "/myorders";
 }

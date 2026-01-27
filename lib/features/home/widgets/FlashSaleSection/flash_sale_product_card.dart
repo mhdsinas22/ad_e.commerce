@@ -1,6 +1,7 @@
 import 'package:ad_e_commerce/core/routes/route_names.dart';
 import 'package:ad_e_commerce/core/theme/app_colors.dart';
 import 'package:ad_e_commerce/core/utils/navigator.dart';
+import 'package:ad_e_commerce/core/widgets/app_cached_image.dart';
 import 'package:ad_e_commerce/core/widgets/app_text.dart';
 import 'package:ad_e_commerce/features/product/domain/entites/product.dart';
 import 'package:flutter/material.dart';
@@ -31,8 +32,8 @@ class FlashSaleCard extends StatelessWidget {
                 });
               },
               child: Center(
-                child: Image.network(
-                  product.imageUrls.first,
+                child: AppCachedImage(
+                  imageUrl: product.imageUrls.first,
                   fit: BoxFit.contain,
                 ),
               ),
@@ -56,7 +57,7 @@ class FlashSaleCard extends StatelessWidget {
               const SizedBox(width: 8),
               Image.asset("assets/png/image 4.png", width: 14, height: 14),
               const SizedBox(width: 4),
-              AppTexts.semiBold("4.9"),
+              AppTexts.semiBold("${product.rating}"),
             ],
           ),
         ),

@@ -28,7 +28,13 @@ class ProductRepositoryImpl implements ProductRepository {
       modelNumber: product.modelNumber,
       conditionType: product.conditionType,
       stocks: product.stocks,
-      storageName: product.storageName,
+      storage: product.storage,
+      categoryid: product.categoryid,
+      conditiontypeid: product.categoryid,
+      colorid: product.colorid,
+      rating: product.rating,
+      noofreviews: product.noofreviews,
+      ramid: product.ramid,
     );
     return remote.addProduct(model);
   }
@@ -53,7 +59,13 @@ class ProductRepositoryImpl implements ProductRepository {
       modelNumber: product.modelNumber,
       conditionType: product.conditionType,
       stocks: product.stocks,
-      storageName: product.storageName,
+      storage: product.storage,
+      categoryid: product.categoryid,
+      conditiontypeid: product.categoryid,
+      colorid: product.colorid,
+      rating: product.rating,
+      noofreviews: product.noofreviews,
+      ramid: product.ramid,
     );
     return remote.updateProduct(model);
   }
@@ -88,7 +100,13 @@ class ProductRepositoryImpl implements ProductRepository {
         storageid: model.storageid,
         ram: model.ram,
         tag: model.tag,
-        storageName: model.storageName,
+        storage: model.storage,
+        categoryid: model.categoryid,
+        conditiontypeid: model.categoryid,
+        colorid: model.colorid,
+        rating: model.rating,
+        noofreviews: model.noofreviews,
+        ramid: model.ramid,
         imageUrls: List<String>.from(model.imageUrls),
       );
     }).toList();

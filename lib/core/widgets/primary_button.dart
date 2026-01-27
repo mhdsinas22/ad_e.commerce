@@ -12,6 +12,9 @@ class PrimaryButton extends StatelessWidget {
   final double width;
   final String keyy;
   final double fontsize;
+  final Color fontcolor;
+  final bool needBorder;
+  final Color borderColor;
   const PrimaryButton({
     super.key,
     required this.text,
@@ -23,6 +26,9 @@ class PrimaryButton extends StatelessWidget {
     this.width = double.infinity,
     this.keyy = "",
     this.fontsize = 18,
+    this.fontcolor = Colors.white,
+    this.needBorder = false,
+    this.borderColor = Colors.black,
   });
 
   @override
@@ -37,6 +43,10 @@ class PrimaryButton extends StatelessWidget {
           backgroundColor: backgroudColor,
           elevation: 0,
           shape: RoundedRectangleBorder(
+            side:
+                needBorder
+                    ? BorderSide(color: borderColor, width: 2)
+                    : BorderSide.none,
             borderRadius: BorderRadius.circular(borderRadius),
           ),
         ),
@@ -53,7 +63,7 @@ class PrimaryButton extends StatelessWidget {
                 : AppTexts.semiBold(
                   text,
                   fontSize: fontsize,
-                  color: AppColors.pureWhite,
+                  color: fontcolor,
                   align: TextAlign.center,
                 ),
       ),

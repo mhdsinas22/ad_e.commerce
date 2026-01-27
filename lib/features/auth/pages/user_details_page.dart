@@ -265,8 +265,6 @@ class _SaveButton extends StatelessWidget {
                         imageState.uploadedUrls.isNotEmpty
                             ? imageState.uploadedUrls.first
                             : "null";
-                    print("Images: ${imageState.images}");
-                    print("Uploaded URLs: ${imageState.uploadedUrls}");
 
                     context.read<UserDetailsBloc>().add(
                       SubmitUserDetails(imageUrl: imageUrl),

@@ -20,29 +20,34 @@ class ProductModel extends Product {
     required super.modelNumber,
     required super.conditionType,
     required super.stocks,
-    required super.storageName,
+    required super.storage,
+    required super.ramid,
+    required super.colorid,
+    required super.categoryid,
+    required super.conditiontypeid,
+    required super.rating,
+    required super.noofreviews,
   });
 
   factory ProductModel.fromMap(Map<String, dynamic> map) {
-    print("FULL MAP => $map");
-
     return ProductModel(
       id: map['id']?.toString() ?? '',
       title: map['title'] ?? '',
       description: map['description'] ?? '',
       condition: map['condition'] ?? '',
       conditionType: map["condition_type"] ?? "",
+      conditiontypeid: map["conditiontypeid"] ?? "",
       price: (map['price'] as num?)?.toDouble() ?? 0.0,
       originalPrice: (map['original_price'] as num?)?.toDouble() ?? 0.0,
       warrantyMonths: map['warranty_months'] ?? 0,
       isActive: map['is_active'] ?? false,
-      storageName: map["storage"] ?? "",
+      colorid: map["colorid"] ?? "",
       color: map['color'] ?? '',
       category: map['category'] ?? '',
       modelNumber: map['model_number'] ?? '',
       ram: map['ram'] ?? '',
-      storageid: map["storage_id"] ?? "",
-
+      ramid: map["ramid"] ?? "",
+      storageid: map['storage_id'] ?? '',
       tag: map['tag'] ?? '',
       stocks:
           (map["product_stocks"] as List<dynamic>?)
@@ -57,6 +62,10 @@ class ProductModel extends Product {
               .toList() ??
           [],
       imageUrls: List<String>.from(map['image_url'] ?? []),
+      storage: map["storage"] ?? "",
+      categoryid: map["categoryid"] ?? "",
+      rating: (map["rating"] as num?)?.toDouble() ?? 0.0,
+      noofreviews: (map["no_of_reviews"] as num?)?.toInt() ?? 0,
     );
   }
 
@@ -71,16 +80,21 @@ class ProductModel extends Product {
       'original_price': originalPrice,
       'warranty_months': warrantyMonths,
       'is_active': isActive,
-
+      "colorid": colorid,
       'color': color,
       'category': category,
+      "categoryid": categoryid,
       "condition_type": conditionType,
-      "storage": storageName,
+      "conditiontypeid": conditiontypeid,
       'image_url': imageUrls,
       'model_number': modelNumber,
+      "ramid": ramid,
       'ram': ram,
       'storage_id': storageid,
       'tag': tag,
+      "storage": storage,
+      "rating": rating,
+      "no_of_reviews": noofreviews,
     };
   }
 
@@ -89,21 +103,25 @@ class ProductModel extends Product {
       'title': title,
       'description': description,
       'condition': condition,
-      "storage": storageName,
+      "colorid": colorid,
       'price': price,
       'original_price': originalPrice,
       'warranty_months': warrantyMonths,
       'is_active': isActive,
-
+      "categoryid": categoryid,
       'color': color,
       'category': category,
       "condition_type": conditionType,
-
+      "conditiontypeid": conditiontypeid,
+      "storage": storage,
       'image_url': imageUrls,
       'model_number': modelNumber,
+      "ramid": ramid,
       'ram': ram,
       'storage_id': storageid,
       'tag': tag,
+      "rating": rating,
+      "no_of_reviews": noofreviews,
     };
   }
 }

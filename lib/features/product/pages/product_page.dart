@@ -119,8 +119,8 @@ class _ProductPage extends StatelessWidget {
                     children: [
                       const Icon(Icons.star, color: Colors.amber, size: 20),
                       const SizedBox(width: 4),
-                      const Text(
-                        "4.9",
+                      Text(
+                        "${product.rating}",
                         style: TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.bold,
@@ -128,7 +128,7 @@ class _ProductPage extends StatelessWidget {
                       ),
                       const SizedBox(width: 4),
                       Text(
-                        "(85) Reviews",
+                        "(${product.noofreviews}) Reviews",
                         style: TextStyle(fontSize: 16, color: Colors.grey[600]),
                       ),
                     ],
@@ -136,7 +136,7 @@ class _ProductPage extends StatelessWidget {
                   const SizedBox(height: 12),
                   // Title
                   Text(
-                    "${product.title}(${product.storageName})-${product.ram}",
+                    "${product.title}(${product.storage})-${product.ram}",
                     style: const TextStyle(
                       fontSize: 22,
                       fontWeight: FontWeight.w500,

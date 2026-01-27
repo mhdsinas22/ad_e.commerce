@@ -1,0 +1,32 @@
+import 'package:ad_e_commerce/core/widgets/app_text.dart';
+import 'package:ad_e_commerce/core/widgets/circular_arrow_button.dart';
+import 'package:flutter/material.dart';
+
+class ProfileMenuItem extends StatelessWidget {
+  final String title;
+  final VoidCallback onTap;
+
+  const ProfileMenuItem({super.key, required this.title, required this.onTap});
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 20),
+      child: Column(
+        children: [
+          GestureDetector(
+            onTap: onTap,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                AppTexts.medium(title, fontSize: 14),
+                CircularArrowButton(size: 18, iconSize: 15, onTap: onTap),
+              ],
+            ),
+          ),
+          const Divider(),
+        ],
+      ),
+    );
+  }
+}

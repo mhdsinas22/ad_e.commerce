@@ -2,6 +2,8 @@ class AssetConstants {
   // Splash Logo
   static const appLogo = "assets/svg/AirDrop_logo.svg";
   static const airdropLetterLogo = "assets/png/airdropletterlogo.png";
+  static const airdropletterlogobgremove =
+      "assets/png/airdropletterlogo-removebg-preview.png";
   static const createAccountText = "assets/svg/Title.svg";
   static const complelteProfileText = "assets/svg/completeyourprofile.svg";
   static const uploadPhoto = "assets/svg/Upload Photo.svg";
@@ -87,4 +89,7 @@ class AssetConstants {
   static const String infinixpng = "assets/png/infinix.png";
   static const String iqoo = "assets/png/iqlogo.png";
   static const String nothing = "assets/png/nothinglogo.png";
+  static const String digitalWarrantyCardVector = "assets/png/Vector 295.png";
+  static const String digitalWarrantyCardVectorSvg =
+      "assets/svg/Vector 295.svg";
 }

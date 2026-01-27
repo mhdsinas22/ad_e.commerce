@@ -44,7 +44,6 @@ class CartBloc extends Bloc<CartEvent, CartState> {
         ),
       );
     } catch (e) {
-      print("erorr:_${e.toString()}");
       emit(state.copyWith(status: CartStatus.error, error: e.toString()));
     }
   }
@@ -159,7 +158,6 @@ class CartBloc extends Bloc<CartEvent, CartState> {
 
       // We do NOT re-fetch the entire list to avoid flicker/loading.
     } catch (e) {
-      print("udpate:_${e.toString()}");
       final totals = _calculateTotals(originalItems);
       emit(
         state.copyWith(

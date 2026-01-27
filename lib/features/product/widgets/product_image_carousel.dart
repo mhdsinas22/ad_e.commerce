@@ -1,11 +1,14 @@
 import 'package:ad_e_commerce/core/theme/app_colors.dart';
 import 'package:ad_e_commerce/core/utils/navigator.dart';
+import 'package:ad_e_commerce/core/widgets/app_cached_image.dart';
 import 'package:ad_e_commerce/features/imageviewr/pages/image_zoom_screen.dart';
 import 'package:ad_e_commerce/features/product/bloc/productimagesilder/product_image_silder_bloc.dart';
 import 'package:ad_e_commerce/features/product/bloc/productimagesilder/product_image_silder_state.dart';
 import 'package:ad_e_commerce/features/product/bloc/productimagesilder/product_image_slider_event.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:shimmer/shimmer.dart';
 
 class ProductImageCarousel extends StatelessWidget {
   final bool isNeedBanner;
@@ -96,10 +99,7 @@ class _ProductImageCarouselState extends State<ProductImageCarouselUi> {
                     );
                   },
                   itemBuilder: (context, index) {
-                    return Image.network(
-                      widget.images[index],
-                      fit: BoxFit.cover,
-                    );
+                    return AppCachedImage(imageUrl: widget.images[index]);
                   },
                 ),
               ),
@@ -162,9 +162,18 @@ class _ProductImageCarouselState extends State<ProductImageCarouselUi> {
                               SliderChangedEvent(index: index),
                             );
                           },
-                          child: Image.network(
-                            widget.images[index],
+                          child: CachedNetworkImage(
+                            imageUrl: widget.images[index],
                             fit: BoxFit.cover,
+                            placeholder:
+                                (context, url) => Shimmer.fromColors(
+                                  baseColor: Colors.grey.shade300,
+                                  highlightColor: Colors.grey.shade100,
+                                  child: Container(color: Colors.white),
+                                ),
+                            errorWidget:
+                                (context, url, error) =>
+                                    Icon(Icons.broken_image),
                           ),
                         ),
                       ),
