@@ -4,7 +4,7 @@ import 'package:ad_e_commerce/features/bottom_navigation/bloc/bottom_nav_bloc.da
 import 'package:ad_e_commerce/features/bottom_navigation/bloc/bottom_nav_event.dart';
 import 'package:ad_e_commerce/features/bottom_navigation/bloc/bottom_nav_state.dart';
 import 'package:ad_e_commerce/features/cart/pages/cart_page.dart';
-import 'package:ad_e_commerce/features/home/home_page.dart';
+import 'package:ad_e_commerce/features/home/pages/home_page.dart';
 import 'package:ad_e_commerce/features/orders/orders_page.dart';
 import 'package:ad_e_commerce/features/profile/pages/profile_page.dart';
 import 'package:ad_e_commerce/features/repair/pages/repair_page.dart';

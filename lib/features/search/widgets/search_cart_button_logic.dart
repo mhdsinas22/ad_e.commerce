@@ -10,7 +10,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 class SearchCartButtonLogic extends StatelessWidget {
   final Product product;
 
-  const SearchCartButtonLogic({required this.product});
+  const SearchCartButtonLogic({super.key, required this.product});
 
   @override
   Widget build(BuildContext context) {

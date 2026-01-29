@@ -18,4 +18,11 @@ class RouteNames {
   static const wallet = "/wallet";
   static const account = "/account";
   static const myorders = "/myorders";
+  static const phonecategories = "/phonecategories";
+  static const accessoriescategories = "/accessoriescategories";
+  static const earbudsCategories = "/earbudscategories";
+  static const laptopcategories = "/laptopcategories";
+  static const wearablescategories = "/wearablescategories";
+  static const tabletcategories = "/tablecategories";
+  static const categoryfiltredpage = "/categoryfiltredpage";
 }

@@ -43,7 +43,7 @@ class CartRemoteDatasourceimpl implements CartRemoteDataSource {
           .eq("id", cartItemId);
     } catch (e) {
       print("updateCartErrod:-${e.toString()}");
-      throw e;
+      rethrow;
     }
   }
 
@@ -76,7 +76,7 @@ class CartRemoteDatasourceimpl implements CartRemoteDataSource {
       return response.map((e) => CartItemModel.fromJson(e)).toList();
     } catch (e) {
       print("GetCArtItems:-${e.toString()}");
-      throw e;
+      rethrow;
     }
   }
 
@@ -86,7 +86,7 @@ class CartRemoteDatasourceimpl implements CartRemoteDataSource {
       await supabase.from("cart_items").delete().eq("id", cartitemid);
     } catch (e) {
       print("RemoveCartItems:-${e.toString()}");
-      throw e;
+      rethrow;
     }
   }
 

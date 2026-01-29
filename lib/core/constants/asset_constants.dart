@@ -92,4 +92,14 @@ class AssetConstants {
   static const String digitalWarrantyCardVector = "assets/png/Vector 295.png";
   static const String digitalWarrantyCardVectorSvg =
       "assets/svg/Vector 295.svg";
+  static const String singlephonepng =
+      "assets/png/shopping-4-removebg-preview 2.png";
+  static const String iphonesepng =
+      "assets/png/Gear-Top-Apple_new-iphone-se-white_04152020-removebg-preview 1.png";
+  static const String iphonesesvg =
+      "assets/svg/Gear-Top-Apple_new-iphone-se-white_04152020-removebg-preview 1.svg";
+  static const String iphone11png = "assets/png/iphone11.png";
+  static const String iphone15png = "assets/png/iphone15.png";
+  static const String iphone17propng = "assets/png/iphone17pro.png";
+  static const String iphone17prosvg = "assets/svg/iphone17pro.svg";
 }

@@ -1,3 +1,4 @@
+import 'package:ad_e_commerce/core/common/widgets/shimmer/app_shimmer.dart';
 import 'package:ad_e_commerce/core/theme/app_colors.dart';
 import 'package:ad_e_commerce/core/utils/date_formatter.dart';
 import 'package:ad_e_commerce/core/widgets/app_text.dart';
@@ -29,11 +30,14 @@ class WarrantyPage extends StatelessWidget {
               WarrantyBloc(warrantyRepositoryimpl)..add(LoadWarrantiesEvent()),
       child: Scaffold(
         appBar: AppBar(
-          leading: Padding(
-            padding: const EdgeInsets.all(8.0),
+          centerTitle: true,
+          surfaceTintColor: Colors.transparent,
+          backgroundColor: Colors.transparent,
+          elevation: 0,
+          leading: Center(
             child: CircularArrowButton(
-              iconSize: 25,
-              size: 100,
+              iconSize: 20,
+              size: 40,
               needCircle: true,
               iconColor: AppColors.pureBlack,
               icon: Icons.arrow_back,
@@ -41,96 +45,85 @@ class WarrantyPage extends StatelessWidget {
               onTap: () => Navigator.pop(context),
             ),
           ),
-          title: AppTexts.extraBold("Warranty", fontSize: 14),
+          title: AppTexts.extraBold("Warranty", fontSize: 16),
         ),
-        body: Column(
-          children: [
-            SizedBox(height: 20),
-            BlocBuilder<WarrantyBloc, WarrantyState>(
+        body: Center(
+          child: ConstrainedBox(
+            constraints: const BoxConstraints(maxWidth: 600),
+            child: BlocBuilder<WarrantyBloc, WarrantyState>(
               builder: (context, state) {
                 if (state.status == WarrantyStatus.loading) {
-                  return const CircularProgressIndicator();
+                  return _buildShimmerLoading();
                 }
 
                 if (state.status == WarrantyStatus.success) {
-                  return ListView.builder(
-                    shrinkWrap: true,
+                  return ListView.separated(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 20,
+                      vertical: 20,
+                    ),
                     itemCount: state.warranties.length,
+                    separatorBuilder: (_, __) => const SizedBox(height: 30),
                     itemBuilder: (context, index) {
                       final warranty = state.warranties[index];
-                      DateTime today = DateTime.now();
-                      DateTime todayDateOnly = DateTime(
-                        today.year,
-                        today.month,
-                        today.day,
+                      final todayDateOnly = DateUtils.dateOnly(DateTime.now());
+                      final expiryDateOnly = DateUtils.dateOnly(
+                        warranty.expiryDate,
                       );
 
-                      DateTime expiryDateOnly = DateTime(
-                        warranty.expiryDate.year,
-                        warranty.expiryDate.month,
-                        warranty.expiryDate.day,
-                      );
-
-                      int daysRemaining =
+                      final daysRemaining =
                           expiryDateOnly.difference(todayDateOnly).inDays;
 
                       return Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          DigitalWarrantyCard(
-                            warrantyCode: warranty.warrantyCode,
-                            status: daysRemaining <= 0 ? "EXPIRED" : "ACTIVE",
-                          ),
+                          // Digital Card
                           Padding(
-                            padding: const EdgeInsets.all(12.0),
-                            child: Align(
-                              alignment: Alignment.bottomRight,
-                              child: AppTexts.medium(
-                                "$daysRemaining Days Remaining",
-                                fontSize: 18,
-                                color:
-                                    daysRemaining <= 10
-                                        ? AppColors.purered
-                                        : AppColors.pureBlack,
-                              ),
+                            padding: const EdgeInsets.symmetric(horizontal: 4),
+                            child: DigitalWarrantyCard(
+                              warrantyCode: warranty.warrantyCode,
+                              status: daysRemaining <= 0 ? "EXPIRED" : "ACTIVE",
                             ),
                           ),
+                          const SizedBox(height: 16),
+
+                          // Days Remaining
                           Align(
-                            alignment: Alignment.bottomLeft,
-                            child: Padding(
-                              padding: const EdgeInsets.symmetric(
-                                horizontal: 15.0,
-                              ),
-                              child: AppTexts.medium(
-                                "Purchase:${DateFormatter.formatDate(warranty.startDate.toString())}",
-                              ),
+                            alignment: Alignment.centerRight,
+                            child: AppTexts.medium(
+                              "$daysRemaining Days Remaining",
+                              fontSize: 16,
+                              color:
+                                  daysRemaining <= 10
+                                      ? AppColors
+                                          .purered // Assuming typo fix: pureRed
+                                      : AppColors.pureBlack,
+                            ),
+                          ),
+                          const SizedBox(height: 24),
+
+                          // Dates
+                          _buildDateRow(
+                            "Purchase",
+                            DateFormatter.formatDate(
+                              warranty.startDate.toString(),
+                            ),
+                          ),
+                          const SizedBox(height: 8),
+                          _buildDateRow(
+                            "Expires",
+                            DateFormatter.formatDate(
+                              warranty.expiryDate.toString(),
                             ),
                           ),
 
-                          Align(
-                            alignment: Alignment.bottomLeft,
-                            child: Padding(
-                              padding: const EdgeInsets.symmetric(
-                                horizontal: 15.0,
-                                vertical: 4,
-                              ),
-                              child: AppTexts.medium(
-                                "Expires: ${DateFormatter.formatDate(warranty.expiryDate.toString())}",
-                              ),
-                            ),
-                          ),
-                          const SizedBox(height: 10),
-                          Align(
-                            alignment: Alignment.bottomLeft,
-                            child: Padding(
-                              padding: const EdgeInsets.symmetric(
-                                horizontal: 15.0,
-                              ),
-                              child: AppTexts.medium(
-                                "Coverage Details",
-                                fontSize: 18,
-                              ),
-                            ),
-                          ),
+                          const SizedBox(height: 30),
+
+                          // Coverage Details Header
+                          AppTexts.bold("Coverage Details", fontSize: 16),
+                          const SizedBox(height: 12),
+
+                          // Coverage Items
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: const [
@@ -152,35 +145,28 @@ class WarrantyPage extends StatelessWidget {
                               ),
                             ],
                           ),
-                          const SizedBox(height: 100),
-                          Padding(
-                            padding: const EdgeInsets.symmetric(
-                              horizontal: 8.0,
-                            ),
-                            child: PrimaryButton(
-                              borderRadius: 10,
-                              width: double.infinity,
-                              height: 50,
-                              text: "Request Repair / Claim",
-                              onPressed: () {},
-                            ),
+
+                          const SizedBox(height: 40),
+
+                          // Actions
+                          PrimaryButton(
+                            borderRadius: 12,
+                            width: double.infinity,
+                            height: 50,
+                            text: "Request Repair / Claim",
+                            onPressed: () {},
                           ),
-                          Padding(
-                            padding: const EdgeInsets.symmetric(
-                              horizontal: 8.0,
-                              vertical: 8.0,
-                            ),
-                            child: PrimaryButton(
-                              needBorder: true,
-                              borderColor: AppColors.primaryBlue,
-                              fontcolor: AppColors.primaryBlue,
-                              backgroudColor: AppColors.pureWhite,
-                              borderRadius: 10,
-                              width: double.infinity,
-                              height: 50,
-                              text: "Renew Plans",
-                              onPressed: () {},
-                            ),
+                          const SizedBox(height: 12),
+                          PrimaryButton(
+                            needBorder: true,
+                            borderColor: AppColors.primaryBlue,
+                            fontcolor: AppColors.primaryBlue,
+                            backgroudColor: AppColors.pureWhite,
+                            borderRadius: 12,
+                            width: double.infinity,
+                            height: 50,
+                            text: "Renew Plans",
+                            onPressed: () {},
                           ),
                         ],
                       );
@@ -190,9 +176,66 @@ class WarrantyPage extends StatelessWidget {
                 return const SizedBox();
               },
             ),
-          ],
+          ),
         ),
       ),
+    );
+  }
+
+  Widget _buildDateRow(String label, String date) {
+    return Row(
+      children: [
+        AppTexts.regular("$label: ", fontSize: 14, color: Colors.grey.shade600),
+        AppTexts.medium(date, fontSize: 14),
+      ],
+    );
+  }
+
+  Widget _buildShimmerLoading() {
+    return ListView.separated(
+      padding: const EdgeInsets.all(20),
+      itemCount: 2,
+      separatorBuilder: (_, __) => const SizedBox(height: 40),
+      itemBuilder: (context, index) {
+        return Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            // Card Shimmer
+            AppShimmer.rect(width: double.infinity, height: 217, radius: 16),
+            const SizedBox(height: 16),
+            // Days Remaining Shimmer
+            Align(
+              alignment: Alignment.centerRight,
+              child: AppShimmer.rect(width: 150, height: 20, radius: 4),
+            ),
+            const SizedBox(height: 24),
+            // Dates Shimmer
+            AppShimmer.rect(width: 200, height: 16, radius: 4),
+            const SizedBox(height: 8),
+            AppShimmer.rect(width: 200, height: 16, radius: 4),
+            const SizedBox(height: 30),
+            // Coverage Header Shimmer
+            AppShimmer.rect(width: 150, height: 20, radius: 4),
+            const SizedBox(height: 12),
+            // Coverage Items Shimmer
+            for (int i = 0; i < 4; i++) ...[
+              const SizedBox(height: 8),
+              Row(
+                children: [
+                  AppShimmer.circle(size: 20),
+                  const SizedBox(width: 8),
+                  AppShimmer.rect(width: 150, height: 14, radius: 4),
+                ],
+              ),
+            ],
+            const SizedBox(height: 40),
+            // Buttons Shimmer
+            AppShimmer.rect(width: double.infinity, height: 50, radius: 12),
+            const SizedBox(height: 12),
+            AppShimmer.rect(width: double.infinity, height: 50, radius: 12),
+          ],
+        );
+      },
     );
   }
 }

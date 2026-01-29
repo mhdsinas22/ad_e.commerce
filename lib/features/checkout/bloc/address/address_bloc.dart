@@ -32,7 +32,7 @@ class AddressBloc extends Bloc<AddressEvent, AddressState> {
     print("Feethc wrokds");
     try {
       final address = await addressRepository.getAddresses();
-      print("ADdes:-${address}");
+      print("ADdes:-$address");
       emit(state.copyWith(addresses: address));
     } catch (e) {
       print("error:-${e.toString()}");

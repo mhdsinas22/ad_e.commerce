@@ -8,5 +8,6 @@ class BannerEntity extends Equatable {
 
   const BannerEntity({this.id, required this.imageUrl, required this.isActive});
 
+  @override
   List<Object?> get props => [id, imageUrl, isActive];
 }

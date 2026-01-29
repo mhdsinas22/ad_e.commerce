@@ -1,68 +1,50 @@
 import 'package:ad_e_commerce/core/common/widgets/shimmer/app_shimmer.dart';
+import 'package:ad_e_commerce/core/utils/helpers.dart';
 import 'package:ad_e_commerce/core/widgets/app_sliver_app_bar.dart';
 import 'package:ad_e_commerce/core/widgets/app_text.dart';
-import 'package:ad_e_commerce/features/home/data/category_data.dart';
-import 'package:ad_e_commerce/features/home/widgets/category_card.dart';
-import 'package:ad_e_commerce/features/home/widgets/category_grid.dart';
 import 'package:ad_e_commerce/features/product/bloc/proudctbloc/product_bloc.dart';
-import 'package:ad_e_commerce/features/search/bloc/search_bloc.dart';
-import 'package:ad_e_commerce/features/search/bloc/search_state.dart';
-import 'package:ad_e_commerce/features/search/widgets/search_bar.dart';
+import 'package:ad_e_commerce/features/product/bloc/proudctbloc/product_state.dart';
 import 'package:ad_e_commerce/features/search/widgets/search_product_grid_item.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class SearchPage extends StatelessWidget {
-  const SearchPage({super.key});
+enum PhoneCondition { brandNew, preOwned }
+
+class CategoryFiltredPage extends StatelessWidget {
+  final PhoneCondition condition;
+  const CategoryFiltredPage({super.key, required this.condition});
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (_) => SearchBloc(productBloc: context.read<ProductBloc>()),
-      child: const _SearchPage(),
-    );
-  }
-}
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        double screenWidth = constraints.maxWidth;
 
-class _SearchPage extends StatelessWidget {
-  const _SearchPage();
+        // Responsive Grid Count
+        int crossAxisCount = 2;
+        if (screenWidth > 1200) {
+          crossAxisCount = 5;
+        } else if (screenWidth > 900) {
+          crossAxisCount = 4;
+        } else if (screenWidth > 600) {
+          crossAxisCount = 3;
+        }
 
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: LayoutBuilder(
-        builder: (context, constraints) {
-          double screenWidth = constraints.maxWidth;
-
-          // Responsive Grid Count
-          int crossAxisCount = 2;
-          if (screenWidth > 1200) {
-            crossAxisCount = 5;
-          } else if (screenWidth > 900) {
-            crossAxisCount = 4;
-          } else if (screenWidth > 600) {
-            crossAxisCount = 3;
-          }
-
-          // Responsive Aspect Ratio to prevent overflow
-          double childAspectRatio = 0.68;
-          if (screenWidth > 600) childAspectRatio = 0.75;
-          if (screenWidth > 1200) childAspectRatio = 0.8;
-
-          return CustomScrollView(
+        // Responsive Aspect Ratio to prevent overflow
+        double childAspectRatio = 0.68;
+        if (screenWidth > 600) childAspectRatio = 0.75;
+        if (screenWidth > 1200) childAspectRatio = 0.8;
+        return Scaffold(
+          body: CustomScrollView(
             slivers: [
-              AppSliverAppBar(showBack: true),
+              AppSliverAppBar(),
               SliverToBoxAdapter(
                 child: Column(
                   children: [
-                    const SizedBox(height: 10),
-                    // Search Bar
-                    SearchBarw(),
-                    const SizedBox(height: 10),
-                    BlocBuilder<SearchBloc, SearchState>(
+                    BlocBuilder<ProductBloc, ProductState>(
                       builder: (context, state) {
-                        if (state.status == SearchStatus.loading) {
+                        if (state.productStatus == ProductStatus.loading) {
                           return Padding(
                             padding: const EdgeInsets.symmetric(
                               horizontal: 16,
@@ -87,7 +69,12 @@ class _SearchPage extends StatelessWidget {
                             ),
                           );
                         }
-                        if (state.status == SearchStatus.loaded) {
+                        if (state.productStatus == ProductStatus.success) {
+                          final filteredProducts =
+                              state.products.where((product) {
+                                return product.condition ==
+                                    Helpers.conditionToString(condition);
+                              }).toList();
                           return Center(
                             child: Container(
                               constraints: const BoxConstraints(maxWidth: 1200),
@@ -100,7 +87,7 @@ class _SearchPage extends StatelessWidget {
                                       vertical: 10.0,
                                     ),
                                     child: AppTexts.medium(
-                                      "Result: ${state.product.length} Items Found",
+                                      "Result: ${state.products.length} Items Found",
                                       color: Colors.grey.shade700,
                                       fontSize: 14,
                                     ),
@@ -123,9 +110,9 @@ class _SearchPage extends StatelessWidget {
                                             mainAxisExtent:
                                                 screenWidth < 600 ? 320 : 360,
                                           ),
-                                      itemCount: state.product.length,
+                                      itemCount: filteredProducts.length,
                                       itemBuilder: (context, index) {
-                                        final product = state.product[index];
+                                        final product = filteredProducts[index];
                                         return SearchProductGridItem(
                                           product: product,
                                         );
@@ -137,7 +124,7 @@ class _SearchPage extends StatelessWidget {
                             ),
                           );
                         }
-                        if (state.status == SearchStatus.empty) {
+                        if (state.productStatus == ProductStatus.failure) {
                           return const Padding(
                             padding: EdgeInsets.all(30),
                             child: Center(child: Text("No products found")),
@@ -169,10 +156,7 @@ class _SearchPage extends StatelessWidget {
                                 constraints: const BoxConstraints(
                                   maxWidth: 1200,
                                 ),
-                                child: CategoryGrid(
-                                  categories: CategoryData.categories,
-                                  layout: CategoryCardLayout.horizontal,
-                                ),
+                                child: Center(child: Text("sorryy")),
                               ),
                             ),
                           ],
@@ -183,9 +167,9 @@ class _SearchPage extends StatelessWidget {
                 ),
               ),
             ],
-          );
-        },
-      ),
+          ),
+        );
+      },
     );
   }
 }

@@ -8,7 +8,14 @@ import 'package:ad_e_commerce/features/bottom_navigation/pages/main_shell_page.d
 import 'package:ad_e_commerce/features/cart/pages/cart_page.dart';
 import 'package:ad_e_commerce/features/checkout/presentation/pages/checkout_page.dart';
 import 'package:ad_e_commerce/features/checkout/presentation/pages/paymet_page.dart';
-import 'package:ad_e_commerce/features/home/home_page.dart';
+import 'package:ad_e_commerce/features/home/pages/accesories_categories_page.dart';
+import 'package:ad_e_commerce/features/home/pages/category_filtred_page.dart';
+import 'package:ad_e_commerce/features/home/pages/earbuds_catergory_page.dart';
+import 'package:ad_e_commerce/features/home/pages/home_page.dart';
+import 'package:ad_e_commerce/features/home/pages/laptop_catergories_page.dart';
+import 'package:ad_e_commerce/features/home/pages/phone_categories_page.dart';
+import 'package:ad_e_commerce/features/home/pages/tablet_categories_page.dart';
+import 'package:ad_e_commerce/features/home/pages/wearables_catergory_page.dart';
 import 'package:ad_e_commerce/features/onboardingStartPage/onboarding_startpage.dart';
 import 'package:ad_e_commerce/features/product/pages/product_page.dart';
 import 'package:ad_e_commerce/features/profile/pages/warranty_page.dart';
@@ -65,6 +72,27 @@ class RouteGenerator {
         return MaterialPageRoute(builder: (context) => PaymetPage());
       case RouteNames.warranty:
         return MaterialPageRoute(builder: (context) => WarrantyPage());
+      case RouteNames.phonecategories:
+        return MaterialPageRoute(builder: (context) => PhoneCategoriesPage());
+      case RouteNames.accessoriescategories:
+        return MaterialPageRoute(
+          builder: (context) => AccesoriesCategoriesPage(),
+        );
+      case RouteNames.laptopcategories:
+        return MaterialPageRoute(builder: (context) => LaptopCatergoriesPage());
+      case RouteNames.earbudsCategories:
+        return MaterialPageRoute(builder: (context) => EarbudsCatergoryPage());
+      case RouteNames.wearablescategories:
+        return MaterialPageRoute(
+          builder: (context) => WearablesCatergoryPage(),
+        );
+      case RouteNames.tabletcategories:
+        return MaterialPageRoute(builder: (context) => TabletCategoriesPage());
+      case RouteNames.categoryfiltredpage:
+        final condition = settings.arguments as PhoneCondition;
+        return MaterialPageRoute(
+          builder: (context) => CategoryFiltredPage(condition: condition),
+        );
       default:
         return MaterialPageRoute(
           builder:

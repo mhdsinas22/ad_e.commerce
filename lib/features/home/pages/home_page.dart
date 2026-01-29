@@ -13,6 +13,7 @@ import 'package:ad_e_commerce/features/home/bloc/testmonialsbloc/testimonial_blo
 import 'package:ad_e_commerce/features/home/bloc/testmonialsbloc/testimonial_event.dart';
 import 'package:ad_e_commerce/features/home/bloc/testmonialsbloc/testimonial_state.dart';
 import 'package:ad_e_commerce/features/home/data/category_data.dart';
+import 'package:ad_e_commerce/features/home/widgets/BestSellerSection/best_seller_section.dart';
 import 'package:ad_e_commerce/features/home/widgets/category_card.dart';
 import 'package:ad_e_commerce/features/home/widgets/CategoryListSection/category_list_section.dart';
 import 'package:ad_e_commerce/features/home/widgets/FlashSaleSection/flash_sale_section.dart';
@@ -264,48 +265,7 @@ class HomePageUi extends StatelessWidget {
                     FlashSaleSection(),
 
                     // Best Sellers Grids
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                      child: Column(
-                        children: [
-                          Row(
-                            children: [
-                              Expanded(
-                                child: Image.asset(
-                                  AssetConstants.under10png,
-                                  fit: BoxFit.fill,
-                                ),
-                              ),
-                              const SizedBox(width: 10),
-                              Expanded(
-                                child: Image.asset(
-                                  AssetConstants.under30kpng,
-                                  fit: BoxFit.fill,
-                                ),
-                              ),
-                            ],
-                          ),
-                          const SizedBox(height: 10),
-                          Row(
-                            children: [
-                              Expanded(
-                                child: Image.asset(
-                                  AssetConstants.under50kpng,
-                                  fit: BoxFit.fill,
-                                ),
-                              ),
-                              const SizedBox(width: 10),
-                              Expanded(
-                                child: Image.asset(
-                                  AssetConstants.under50kkpng,
-                                  fit: BoxFit.fill,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
-                    ),
+                    BestSellersSection(),
 
                     const SizedBox(height: 20),
 

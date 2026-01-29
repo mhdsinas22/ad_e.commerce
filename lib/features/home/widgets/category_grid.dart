@@ -1,3 +1,4 @@
+import 'package:ad_e_commerce/core/utils/helpers.dart';
 import 'package:ad_e_commerce/features/home/models/category_model.dart';
 import 'package:ad_e_commerce/features/home/widgets/category_card.dart';
 import 'package:flutter/material.dart';
@@ -26,7 +27,7 @@ class CategoryGrid extends StatelessWidget {
                 padding: EdgeInsets.zero,
                 shrinkWrap: true,
                 physics: const NeverScrollableScrollPhysics(),
-                itemCount: 2,
+                itemCount: categories.length >= 2 ? 2 : categories.length,
                 gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: 2,
                   mainAxisSpacing: 12,
@@ -36,6 +37,7 @@ class CategoryGrid extends StatelessWidget {
                 itemBuilder: (context, index) {
                   final item = categories[index];
                   return CategoryCard(
+                    onTap: () => handleNavigation(context, item),
                     title: item.title,
                     image: item.image,
                     size: CategoryCardSize.big,
@@ -49,7 +51,7 @@ class CategoryGrid extends StatelessWidget {
                 padding: EdgeInsets.zero,
                 shrinkWrap: true,
                 physics: const NeverScrollableScrollPhysics(),
-                itemCount: categories.length - 2,
+                itemCount: categories.length > 2 ? categories.length - 2 : 0,
                 gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: 4,
                   mainAxisSpacing: 8,
@@ -59,6 +61,7 @@ class CategoryGrid extends StatelessWidget {
                 itemBuilder: (context, index) {
                   final item = categories[index + 2];
                   return CategoryCard(
+                    onTap: () => handleNavigation(context, item),
                     title: item.title,
                     image: item.image,
                     size: CategoryCardSize.small,
@@ -92,12 +95,10 @@ class CategoryGrid extends StatelessWidget {
               itemBuilder: (context, index) {
                 final item = categories[index];
                 return CategoryCard(
+                  onTap: () => handleNavigation(context, item),
                   title: item.title,
                   image: item.image,
                   layout: layout,
-                  onTap: () {
-                    debugPrint("${item.title} tapped");
-                  },
                 );
               },
             );

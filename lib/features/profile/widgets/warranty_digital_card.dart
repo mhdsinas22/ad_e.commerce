@@ -21,7 +21,6 @@ class DigitalWarrantyCard extends StatelessWidget {
     final splitCode = splitWarrantyCode(warrantyCode);
     return Container(
       height: 217,
-      margin: const EdgeInsets.symmetric(horizontal: 16),
       decoration: BoxDecoration(
         color: AppColors.primaryBlue,
         borderRadius: BorderRadius.circular(16),

@@ -119,7 +119,7 @@ class CartSummaryWidget extends StatelessWidget {
 
     // Add commas
     final RegExp reg = RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))');
-    final String Function(Match) mathFunc = (Match match) => '${match[1]},';
+    mathFunc(Match match) => '${match[1]},';
     final String result = priceString.replaceAllMapped(reg, mathFunc);
 
     return "RM $result";
