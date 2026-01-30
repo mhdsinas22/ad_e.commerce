@@ -30,7 +30,9 @@ class CategoryListSection extends StatelessWidget {
                     child: SizedBox(
                       width: 120,
                       height: 140,
-                      child: SvgPicture.asset("assets/svg/Rectangle 2.svg"),
+                      child: SvgPicture.asset(
+                        "assets/svg/Screenshot_2025_12_22_7_41_04_PM.svg",
+                      ),
                     ),
                   ),
 
