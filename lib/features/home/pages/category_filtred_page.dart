@@ -11,9 +11,27 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 enum PhoneCondition { brandNew, preOwned }
 
+enum SubCategory {
+  macbook,
+  windows,
+  appleipad,
+  tab,
+  applewatch,
+  smartwatch,
+  appleairpods,
+  earbuds,
+}
+
 class CategoryFiltredPage extends StatelessWidget {
   final PhoneCondition condition;
-  const CategoryFiltredPage({super.key, required this.condition});
+  final SubCategory subCategory;
+  final bool isSubCategory;
+  const CategoryFiltredPage({
+    super.key,
+    required this.condition,
+    required this.subCategory,
+    this.isSubCategory = false,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -75,54 +93,122 @@ class CategoryFiltredPage extends StatelessWidget {
                                 return product.condition ==
                                     Helpers.conditionToString(condition);
                               }).toList();
-                          return Center(
-                            child: Container(
-                              constraints: const BoxConstraints(maxWidth: 1200),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                      horizontal: 16.0,
-                                      vertical: 10.0,
-                                    ),
-                                    child: AppTexts.medium(
-                                      "Result: ${state.products.length} Items Found",
-                                      color: Colors.grey.shade700,
-                                      fontSize: 14,
-                                    ),
+                          final filteredSubProducts =
+                              state.products.where((subCategoryy) {
+                                return subCategoryy.subCategory ==
+                                    Helpers.subCategoryToString(subCategory);
+                              }).toList();
+                          return isSubCategory
+                              ? Center(
+                                child: Container(
+                                  constraints: const BoxConstraints(
+                                    maxWidth: 1200,
                                   ),
-                                  SizedBox(
-                                    child: GridView.builder(
-                                      padding: const EdgeInsets.symmetric(
-                                        horizontal: 16,
-                                        vertical: 12,
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Padding(
+                                        padding: const EdgeInsets.symmetric(
+                                          horizontal: 16.0,
+                                          vertical: 10.0,
+                                        ),
+                                        child: AppTexts.medium(
+                                          "Result: ${filteredSubProducts.length} Items Found",
+                                          color: Colors.grey.shade700,
+                                          fontSize: 14,
+                                        ),
                                       ),
-                                      shrinkWrap: true,
-                                      physics:
-                                          const NeverScrollableScrollPhysics(),
-                                      gridDelegate:
-                                          SliverGridDelegateWithFixedCrossAxisCount(
-                                            crossAxisCount: crossAxisCount,
-                                            mainAxisSpacing: 16,
-                                            crossAxisSpacing: 16,
-                                            childAspectRatio: childAspectRatio,
-                                            mainAxisExtent:
-                                                screenWidth < 600 ? 320 : 360,
+                                      SizedBox(
+                                        child: GridView.builder(
+                                          padding: const EdgeInsets.symmetric(
+                                            horizontal: 16,
+                                            vertical: 12,
                                           ),
-                                      itemCount: filteredProducts.length,
-                                      itemBuilder: (context, index) {
-                                        final product = filteredProducts[index];
-                                        return SearchProductGridItem(
-                                          product: product,
-                                        );
-                                      },
-                                    ),
+                                          shrinkWrap: true,
+                                          physics:
+                                              const NeverScrollableScrollPhysics(),
+                                          gridDelegate:
+                                              SliverGridDelegateWithFixedCrossAxisCount(
+                                                crossAxisCount: crossAxisCount,
+                                                mainAxisSpacing: 16,
+                                                crossAxisSpacing: 16,
+                                                childAspectRatio:
+                                                    childAspectRatio,
+                                                mainAxisExtent:
+                                                    screenWidth < 600
+                                                        ? 320
+                                                        : 360,
+                                              ),
+                                          itemCount: filteredSubProducts.length,
+                                          itemBuilder: (context, index) {
+                                            final product =
+                                                filteredSubProducts[index];
+                                            return SearchProductGridItem(
+                                              product: product,
+                                            );
+                                          },
+                                        ),
+                                      ),
+                                    ],
                                   ),
-                                ],
-                              ),
-                            ),
-                          );
+                                ),
+                              )
+                              : Center(
+                                child: Container(
+                                  constraints: const BoxConstraints(
+                                    maxWidth: 1200,
+                                  ),
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Padding(
+                                        padding: const EdgeInsets.symmetric(
+                                          horizontal: 16.0,
+                                          vertical: 10.0,
+                                        ),
+                                        child: AppTexts.medium(
+                                          "Result: ${state.products.length} Items Found",
+                                          color: Colors.grey.shade700,
+                                          fontSize: 14,
+                                        ),
+                                      ),
+                                      SizedBox(
+                                        child: GridView.builder(
+                                          padding: const EdgeInsets.symmetric(
+                                            horizontal: 16,
+                                            vertical: 12,
+                                          ),
+                                          shrinkWrap: true,
+                                          physics:
+                                              const NeverScrollableScrollPhysics(),
+                                          gridDelegate:
+                                              SliverGridDelegateWithFixedCrossAxisCount(
+                                                crossAxisCount: crossAxisCount,
+                                                mainAxisSpacing: 16,
+                                                crossAxisSpacing: 16,
+                                                childAspectRatio:
+                                                    childAspectRatio,
+                                                mainAxisExtent:
+                                                    screenWidth < 600
+                                                        ? 320
+                                                        : 360,
+                                              ),
+                                          itemCount: filteredProducts.length,
+                                          itemBuilder: (context, index) {
+                                            final product =
+                                                filteredProducts[index];
+                                            return SearchProductGridItem(
+                                              product: product,
+                                            );
+                                          },
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              );
                         }
                         if (state.productStatus == ProductStatus.failure) {
                           return const Padding(

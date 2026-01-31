@@ -68,7 +68,7 @@ class PhoneCategoriesPageUi extends StatelessWidget {
                           Appnavigotor.pushnamed(
                             context,
                             RouteNames.categoryfiltredpage,
-                            PhoneCondition.brandNew,
+                            Categoryfiltred.brandNew,
                           );
                         },
                         title: "Brand new",
@@ -79,7 +79,7 @@ class PhoneCategoriesPageUi extends StatelessWidget {
                           Appnavigotor.pushnamed(
                             context,
                             RouteNames.categoryfiltredpage,
-                            PhoneCondition.preOwned,
+                            Categoryfiltred.preOwned,
                           );
                         },
                         title: "Pre-Owned",

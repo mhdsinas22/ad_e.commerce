@@ -1,5 +1,4 @@
 import 'package:ad_e_commerce/features/product/domain/entites/product.dart';
-import 'package:ad_e_commerce/features/product/domain/entites/product_stock.dart';
 
 class ProductModel extends Product {
   ProductModel({
@@ -27,6 +26,7 @@ class ProductModel extends Product {
     required super.conditiontypeid,
     required super.rating,
     required super.noofreviews,
+    required super.subCategory,
   });
 
   factory ProductModel.fromMap(Map<String, dynamic> map) {
@@ -66,6 +66,7 @@ class ProductModel extends Product {
       categoryid: map["categoryid"] ?? "",
       rating: (map["rating"] as num?)?.toDouble() ?? 0.0,
       noofreviews: (map["no_of_reviews"] as num?)?.toInt() ?? 0,
+      subCategory: map["sub_categories"] ?? "",
     );
   }
 
@@ -75,7 +76,6 @@ class ProductModel extends Product {
       'title': title,
       'description': description,
       'condition': condition,
-
       'price': price,
       'original_price': originalPrice,
       'warranty_months': warrantyMonths,
@@ -88,14 +88,20 @@ class ProductModel extends Product {
       "conditiontypeid": conditiontypeid,
       'image_url': imageUrls,
       'model_number': modelNumber,
-      "ramid": ramid,
-      'ram': ram,
-      'storage_id': storageid,
+      "ramid": uuidOrNull(ramid),
+      'ram': uuidOrNull(ram),
+      'storage_id': uuidOrNull(storageid),
       'tag': tag,
-      "storage": storage,
+      "storage": uuidOrNull(storage),
       "rating": rating,
       "no_of_reviews": noofreviews,
+      "sub_categories": subCategory,
     };
+  }
+
+  String? uuidOrNull(String? value) {
+    if (value == null || value.isEmpty) return null;
+    return value;
   }
 
   Map<String, dynamic> toUpdateMap() {
@@ -113,15 +119,16 @@ class ProductModel extends Product {
       'category': category,
       "condition_type": conditionType,
       "conditiontypeid": conditiontypeid,
-      "storage": storage,
+      "storage": uuidOrNull(storage),
       'image_url': imageUrls,
       'model_number': modelNumber,
-      "ramid": ramid,
-      'ram': ram,
-      'storage_id': storageid,
+      "ramid": uuidOrNull(ramid),
+      'ram': uuidOrNull(ram),
+      'storage_id': uuidOrNull(storageid),
       'tag': tag,
       "rating": rating,
       "no_of_reviews": noofreviews,
+      "sub_categories": subCategory,
     };
   }
 }

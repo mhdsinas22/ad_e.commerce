@@ -18,6 +18,27 @@ class Helpers {
         return "PRE-OWNED";
     }
   }
+
+  static String subCategoryToString(SubCategory subCategory) {
+    switch (subCategory) {
+      case SubCategory.macbook:
+        return "Apple Macbook";
+      case SubCategory.windows:
+        return "Windows Laptop";
+      case SubCategory.appleairpods:
+        return "Apple AirPods";
+      case SubCategory.earbuds:
+        return "Earbuds";
+      case SubCategory.appleipad:
+        return "Apple iPad";
+      case SubCategory.applewatch:
+        return "Apple iWatch";
+      case SubCategory.smartwatch:
+        return "Smart Watch";
+      case SubCategory.tab:
+        return "Android Tablet";
+    }
+  }
 }
 
 Map<String, String> splitWarrantyCode(String code) {

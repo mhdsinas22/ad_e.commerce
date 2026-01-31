@@ -35,6 +35,7 @@ class ProductRepositoryImpl implements ProductRepository {
       rating: product.rating,
       noofreviews: product.noofreviews,
       ramid: product.ramid,
+      subCategory: product.subCategory,
     );
     return remote.addProduct(model);
   }
@@ -66,6 +67,7 @@ class ProductRepositoryImpl implements ProductRepository {
       rating: product.rating,
       noofreviews: product.noofreviews,
       ramid: product.ramid,
+      subCategory: product.subCategory,
     );
     return remote.updateProduct(model);
   }
@@ -108,6 +110,7 @@ class ProductRepositoryImpl implements ProductRepository {
         noofreviews: model.noofreviews,
         ramid: model.ramid,
         imageUrls: List<String>.from(model.imageUrls),
+        subCategory: model.subCategory,
       );
     }).toList();
   }

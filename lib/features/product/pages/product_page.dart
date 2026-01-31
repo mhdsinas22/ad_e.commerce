@@ -135,14 +135,24 @@ class _ProductPage extends StatelessWidget {
                   ),
                   const SizedBox(height: 12),
                   // Title
-                  Text(
-                    "${product.title}(${product.storage})-${product.ram}",
-                    style: const TextStyle(
-                      fontSize: 22,
-                      fontWeight: FontWeight.w500,
-                      color: Colors.black,
-                    ),
-                  ),
+                  product.storage.isEmpty || product.ram.isEmpty
+                      ? Text(
+                        product.title,
+                        style: const TextStyle(
+                          fontSize: 22,
+                          fontWeight: FontWeight.w500,
+                          color: Colors.black,
+                        ),
+                      )
+                      : Text(
+                        "${product.title}  (${product.storage})-${product.ram}",
+                        style: const TextStyle(
+                          fontSize: 22,
+                          fontWeight: FontWeight.w500,
+                          color: Colors.black,
+                        ),
+                      ),
+
                   const SizedBox(height: 4),
                   // Model
                   Text(

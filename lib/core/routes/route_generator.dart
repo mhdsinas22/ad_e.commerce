@@ -90,8 +90,13 @@ class RouteGenerator {
         return MaterialPageRoute(builder: (context) => TabletCategoriesPage());
       case RouteNames.categoryfiltredpage:
         final condition = settings.arguments as PhoneCondition;
+        final subcondition = settings.arguments as SubCategory;
         return MaterialPageRoute(
-          builder: (context) => CategoryFiltredPage(condition: condition),
+          builder:
+              (context) => CategoryFiltredPage(
+                condition: condition,
+                subCategory: subcondition,
+              ),
         );
       default:
         return MaterialPageRoute(

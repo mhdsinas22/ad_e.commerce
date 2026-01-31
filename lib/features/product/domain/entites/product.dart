@@ -25,6 +25,7 @@ class Product {
   final String conditiontypeid;
   final double rating;
   final int noofreviews;
+  final String subCategory;
 
   Product({
     this.id,
@@ -51,5 +52,6 @@ class Product {
     required this.conditiontypeid,
     required this.rating,
     required this.noofreviews,
+    required this.subCategory,
   });
 }
