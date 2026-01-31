@@ -102,4 +102,20 @@ class AssetConstants {
   static const String iphone15png = "assets/png/iphone15.png";
   static const String iphone17propng = "assets/png/iphone17pro.png";
   static const String iphone17prosvg = "assets/svg/iphone17pro.svg";
+  static const String laptopsvg = "assets/svg/applewatch.svg";
+  static const String macbookpng = "assets/png/macbokk.png";
+  static const String windowspng = "assets/png/windows.png";
+  static const String tabletpng = "assets/png/tab.png";
+  static const String appleipad = "assets/png/appleipad.png";
+  static const String appleairpod = "assets/png/appleairpof.png";
+  static const String applewatchpng = "assets/png/applewatch.png";
+  static const String bagpng = "assets/png/bag.png";
+  static const String boatspeakerpng = "assets/png/boatspeaker.png";
+  static const String casepng = "assets/png/casecover.png";
+  static const String earbudspng = "assets/png/earbuds.png";
+  static const String headset = "assets/png/headset.png";
+  static const String mobilecharger = "assets/png/mobilecharger.png";
+  static const String powerbank = "assets/png/powebank.png";
+  static const String smartwatch = "assets/png/smartwatch.png";
+  static const String appleipadpng = "assets/png/appleipad.png";
 }

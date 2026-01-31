@@ -63,12 +63,12 @@ class WearablesCatergoryPageUi extends StatelessWidget {
                       OptionCard(
                         onTap: () {},
                         title: "Apple Watch",
-                        imagePath: AssetConstants.phone,
+                        imagePath: AssetConstants.applewatchpng,
                       ),
                       OptionCard(
                         onTap: () {},
                         title: "Smart Watch",
-                        imagePath: AssetConstants.singlephonepng,
+                        imagePath: AssetConstants.smartwatch,
                       ),
                     ],
                   ),

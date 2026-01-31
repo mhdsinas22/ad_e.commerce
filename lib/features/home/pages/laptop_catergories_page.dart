@@ -63,12 +63,12 @@ class LaptopCatergoriesPageUi extends StatelessWidget {
                       OptionCard(
                         onTap: () {},
                         title: "Apple Macbook",
-                        imagePath: AssetConstants.phone,
+                        imagePath: AssetConstants.macbookpng,
                       ),
                       OptionCard(
                         onTap: () {},
                         title: "Windows",
-                        imagePath: AssetConstants.singlephonepng,
+                        imagePath: AssetConstants.windowspng,
                       ),
                     ],
                   ),

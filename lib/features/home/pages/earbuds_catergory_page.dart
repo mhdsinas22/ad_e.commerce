@@ -63,12 +63,12 @@ class EarbudsCatergoryPageUi extends StatelessWidget {
                       OptionCard(
                         onTap: () {},
                         title: "Apple Airpods",
-                        imagePath: AssetConstants.phone,
+                        imagePath: AssetConstants.appleairpod,
                       ),
                       OptionCard(
                         onTap: () {},
                         title: "Earbuds",
-                        imagePath: AssetConstants.singlephonepng,
+                        imagePath: AssetConstants.earbudspng,
                       ),
                     ],
                   ),

@@ -63,12 +63,12 @@ class TabletCategoriesPageUi extends StatelessWidget {
                       OptionCard(
                         onTap: () {},
                         title: "Apple iPad",
-                        imagePath: AssetConstants.phone,
+                        imagePath: AssetConstants.appleipadpng,
                       ),
                       OptionCard(
                         onTap: () {},
                         title: "Tab",
-                        imagePath: AssetConstants.singlephonepng,
+                        imagePath: AssetConstants.tabletpng,
                       ),
                     ],
                   ),
