@@ -1,4 +1,6 @@
+import 'package:ad_e_commerce/core/routes/route_names.dart';
 import 'package:ad_e_commerce/core/theme/app_colors.dart';
+import 'package:ad_e_commerce/core/utils/navigator.dart';
 import 'package:ad_e_commerce/core/widgets/app_text.dart';
 import 'package:ad_e_commerce/core/widgets/circular_arrow_button.dart';
 import 'package:ad_e_commerce/features/profile/widgets/profile_menu_item.dart';
@@ -31,7 +33,12 @@ class MyAccountPage extends StatelessWidget {
       body: Column(
         children: [
           SizedBox(height: 20),
-          ProfileMenuItem(title: "Profile Settings", onTap: () {}),
+          ProfileMenuItem(
+            title: "Profile Settings",
+            onTap: () {
+              Appnavigotor.pushnamed(context, RouteNames.profileSetting, []);
+            },
+          ),
           SizedBox(height: 10),
           ProfileMenuItem(title: "Forgotten password", onTap: () {}),
           SizedBox(height: 10),

@@ -1,33 +1,47 @@
-class UserModel {
-  final String userId; // auth.users.id
-  final String phone;
-  final String username;
-  final String email;
-  final String imageUrl;
-  UserModel({
-    required this.phone,
-    required this.email,
-    required this.username,
-    required this.userId,
-    required this.imageUrl,
+import 'package:ad_e_commerce/domain/entities/user_entity.dart';
+
+class UserModel extends UserEntity {
+  const UserModel({
+    required super.userId,
+    required super.email,
+    required super.username,
+    required super.phone,
+    required super.imageUrl,
   });
+
   Map<String, dynamic> toJson() {
     return {
-      "phone": phone,
+      "user_id": userId,
       "email": email,
       "username": username,
-      "user_id": userId,
+      "phone": phone,
       "image_url": imageUrl,
     };
   }
 
   factory UserModel.fromJson(Map<String, dynamic> json) {
     return UserModel(
-      phone: json["phone"] as String,
-      email: json["email"] as String,
-      username: json["username"] as String,
-      userId: json["user_id"] as String,
-      imageUrl: json["image_url"] as String,
+      userId: json["user_id"] ?? '',
+      email: json["email"] ?? '',
+      username: json["username"] ?? '',
+      phone: json["phone"] ?? '',
+      imageUrl: json["image_url"] ?? '',
+    );
+  }
+
+  UserModel copyWith({
+    String? userId,
+    String? email,
+    String? username,
+    String? phone,
+    String? imageUrl,
+  }) {
+    return UserModel(
+      userId: userId ?? this.userId,
+      email: email ?? this.email,
+      username: username ?? this.username,
+      phone: phone ?? this.phone,
+      imageUrl: imageUrl ?? this.imageUrl,
     );
   }
 }

@@ -26,4 +26,5 @@ class RouteNames {
   static const tabletcategories = "/tablecategories";
   static const categoryfiltredpage = "/categoryfiltredpage";
   static const myaccountpage = "/myaccountpage";
+  static const profileSetting = "/profileSetting";
 }

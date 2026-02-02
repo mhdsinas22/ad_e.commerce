@@ -13,7 +13,7 @@ class AppTextFormField extends StatelessWidget {
   final bool enabled;
   final bool readOnly;
   final double borderradiusno;
-  final String initialValue;
+  final String? initialValue;
   final double width;
   final double height;
   const AppTextFormField({
@@ -29,7 +29,7 @@ class AppTextFormField extends StatelessWidget {
     this.keyvalue = "",
     this.enabled = true,
     this.readOnly = false,
-    this.initialValue = "",
+    this.initialValue,
     this.borderradiusno = 30,
     this.width = 344,
     this.height = 50,
