@@ -16,6 +16,27 @@ class Helpers {
         return "BRAND NEW";
       case PhoneCondition.preOwned:
         return "PRE-OWNED";
+      case PhoneCondition.empty:
+        return "";
+    }
+  }
+
+  static String categoryToString(Category category) {
+    switch (category) {
+      case Category.phones:
+        return "Phones";
+      case Category.accessories:
+        return "accessories";
+      case Category.earbuds:
+        return "Earbuds";
+      case Category.laptop:
+        return "Laptop";
+      case Category.wearables:
+        return "Wearables";
+      case Category.tablet:
+        return "Tablet";
+      case Category.empty:
+        return "";
     }
   }
 
@@ -37,6 +58,20 @@ class Helpers {
         return "Smart Watch";
       case SubCategory.tab:
         return "Android Tablet";
+      case SubCategory.empty:
+        return "";
+      case SubCategory.casescover:
+        return "Cases & Cover";
+      case SubCategory.mobilechargers:
+        return "Mobile Charger";
+      case SubCategory.speaker:
+        return "Speaker";
+      case SubCategory.audio:
+        return "Headsets";
+      case SubCategory.powerbank:
+        return "Power Bank";
+      case SubCategory.bag:
+        return "Bag";
     }
   }
 }

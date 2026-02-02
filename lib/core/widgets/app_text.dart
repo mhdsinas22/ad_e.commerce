@@ -1,20 +1,10 @@
+import 'package:ad_e_commerce/core/theme/app_colors.dart';
 import 'package:flutter/material.dart';
 
 class AppTexts {
   AppTexts._();
 
   static const String _fontFamily = "Manrope";
-
-  // ---------- THIN (w100) ----------
-  // static Text thin(
-  //   String text, {
-  //   double fontSize = 14,
-  //   Color color = Colors.black,
-  //   TextAlign align = TextAlign.start,
-  //   double height = 1.2,
-  // }) {
-  //   return _text(text, fontSize, FontWeight.w100, color, align, height);
-  // }
 
   // ---------- EXTRA LIGHT (w200) ----------
   static Text extraLight(
@@ -23,8 +13,21 @@ class AppTexts {
     Color color = Colors.black,
     TextAlign align = TextAlign.start,
     double height = 1.2,
+    bool isOffer = false,
+    int? maxLines,
+    TextOverflow? overflow,
   }) {
-    return _text(text, fontSize, FontWeight.w200, color, align, height);
+    return _text(
+      text,
+      fontSize,
+      FontWeight.w200,
+      color,
+      align,
+      height,
+      isOffer ? TextDecoration.lineThrough : null,
+      maxLines: maxLines,
+      overflow: overflow,
+    );
   }
 
   // ---------- LIGHT (w300) ----------
@@ -34,8 +37,21 @@ class AppTexts {
     Color color = Colors.black,
     TextAlign align = TextAlign.start,
     double height = 1.2,
+    bool isOffer = false,
+    int? maxLines,
+    TextOverflow? overflow,
   }) {
-    return _text(text, fontSize, FontWeight.w300, color, align, height);
+    return _text(
+      text,
+      fontSize,
+      FontWeight.w300,
+      color,
+      align,
+      height,
+      isOffer ? TextDecoration.lineThrough : null,
+      maxLines: maxLines,
+      overflow: overflow,
+    );
   }
 
   // ---------- REGULAR (w400) ----------
@@ -45,8 +61,21 @@ class AppTexts {
     Color color = Colors.black,
     TextAlign align = TextAlign.start,
     double height = 1.2,
+    bool isOffer = false,
+    int? maxLines,
+    TextOverflow? overflow,
   }) {
-    return _text(text, fontSize, FontWeight.w400, color, align, height);
+    return _text(
+      text,
+      fontSize,
+      FontWeight.w400,
+      color,
+      align,
+      height,
+      isOffer ? TextDecoration.lineThrough : null,
+      maxLines: maxLines,
+      overflow: overflow,
+    );
   }
 
   // ---------- MEDIUM (w500) ----------
@@ -56,8 +85,21 @@ class AppTexts {
     Color color = Colors.black,
     TextAlign align = TextAlign.start,
     double height = 1.2,
+    bool isOffer = false,
+    int? maxLines,
+    TextOverflow? overflow,
   }) {
-    return _text(text, fontSize, FontWeight.w500, color, align, height);
+    return _text(
+      text,
+      fontSize,
+      FontWeight.w500,
+      color,
+      align,
+      height,
+      isOffer ? TextDecoration.lineThrough : null,
+      maxLines: maxLines,
+      overflow: overflow,
+    );
   }
 
   // ---------- SEMI BOLD (w600) ----------
@@ -67,8 +109,21 @@ class AppTexts {
     Color color = Colors.black,
     TextAlign align = TextAlign.start,
     double height = 1.2,
+    bool isOffer = false,
+    int? maxLines,
+    TextOverflow? overflow,
   }) {
-    return _text(text, fontSize, FontWeight.w600, color, align, height);
+    return _text(
+      text,
+      fontSize,
+      FontWeight.w600,
+      color,
+      align,
+      height,
+      isOffer ? TextDecoration.lineThrough : null,
+      maxLines: maxLines,
+      overflow: overflow,
+    );
   }
 
   // ---------- BOLD (w700) ----------
@@ -78,8 +133,21 @@ class AppTexts {
     Color color = Colors.black,
     TextAlign align = TextAlign.start,
     double height = 1.2,
+    bool isOffer = false,
+    int? maxLines,
+    TextOverflow? overflow,
   }) {
-    return _text(text, fontSize, FontWeight.w700, color, align, height);
+    return _text(
+      text,
+      fontSize,
+      FontWeight.w700,
+      color,
+      align,
+      height,
+      isOffer ? TextDecoration.lineThrough : null,
+      maxLines: maxLines,
+      overflow: overflow,
+    );
   }
 
   // ---------- EXTRA BOLD (w800) ----------
@@ -89,20 +157,22 @@ class AppTexts {
     Color color = Colors.black,
     TextAlign align = TextAlign.start,
     double height = 1.2,
+    bool isOffer = false,
+    int? maxLines,
+    TextOverflow? overflow,
   }) {
-    return _text(text, fontSize, FontWeight.w800, color, align, height);
+    return _text(
+      text,
+      fontSize,
+      FontWeight.w800,
+      color,
+      align,
+      height,
+      isOffer ? TextDecoration.lineThrough : null,
+      maxLines: maxLines,
+      overflow: overflow,
+    );
   }
-
-  // ---------- BLACK (w900) ----------
-  // static Text black(
-  //   String text, {
-  //   double fontSize = 20,
-  //   Color color = Colors.black,
-  //   TextAlign align = TextAlign.start,
-  //   double height = 1.2,
-  // }) {
-  //   return _text(text, fontSize, FontWeight.w900, color, align, height);
-  // }
 
   // ---------- COMMON METHOD ----------
   static Text _text(
@@ -112,16 +182,24 @@ class AppTexts {
     Color color,
     TextAlign align,
     double height,
-  ) {
+    TextDecoration? decoration, {
+    int? maxLines,
+    TextOverflow? overflow,
+  }) {
     return Text(
       text,
       textAlign: align,
+      maxLines: maxLines,
+      overflow: overflow ?? TextOverflow.ellipsis, // 🔥 safe default
       style: TextStyle(
         fontFamily: _fontFamily,
         fontSize: fontSize,
         fontWeight: weight,
         color: color,
-        height: height, // 🔥 YOU MISSED THIS
+        height: height,
+        decoration: decoration,
+        decorationColor: AppColors.purered,
+        decorationThickness: 3,
       ),
     );
   }

@@ -161,13 +161,24 @@ class _ProductPage extends StatelessWidget {
                   ),
                   const SizedBox(height: 16),
                   // Price
-                  Text(
-                    "₹ ${product.price.toStringAsFixed(0)}", // Assuming typical formatting
-                    style: const TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.black,
-                    ),
+                  Row(
+                    children: [
+                      Text(
+                        "₹ ${product.price.toStringAsFixed(0)}", // Assuming typical formatting
+                        style: const TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.black,
+                        ),
+                      ),
+                      const SizedBox(width: 10),
+                      AppTexts.bold(
+                        "₹ ${product.originalPrice?.toStringAsFixed(0)}", // Assuming typical formatting
+                        fontSize: 20,
+                        color: AppColors.purered,
+                        isOffer: true,
+                      ),
+                    ],
                   ),
                   const SizedBox(height: 24),
                   Column(

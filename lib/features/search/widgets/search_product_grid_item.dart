@@ -1,4 +1,6 @@
+import 'package:ad_e_commerce/core/routes/route_names.dart';
 import 'package:ad_e_commerce/core/theme/app_colors.dart';
+import 'package:ad_e_commerce/core/utils/navigator.dart';
 import 'package:ad_e_commerce/core/widgets/app_text.dart';
 import 'package:ad_e_commerce/features/product/domain/entites/product.dart';
 import 'package:ad_e_commerce/features/search/widgets/search_cart_button_logic.dart';
@@ -15,21 +17,29 @@ class SearchProductGridItem extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         // Image Card
-        Container(
-          width: double.infinity,
-          padding: const EdgeInsets.all(16),
-          decoration: BoxDecoration(
-            color: const Color(0xFFF3F4F6),
-            borderRadius: BorderRadius.circular(20),
-          ),
-          child: AspectRatio(
-            aspectRatio: 1,
-            child: Image.network(
-              product.imageUrls.isNotEmpty ? product.imageUrls.first : '',
-              fit: BoxFit.contain,
-              errorBuilder:
-                  (c, o, s) =>
-                      const Icon(Icons.image_not_supported, color: Colors.grey),
+        GestureDetector(
+          onTap:
+              () => Appnavigotor.pushnamed(context, RouteNames.productpage, {
+                "product": product,
+              }),
+          child: Container(
+            width: double.infinity,
+            padding: const EdgeInsets.all(16),
+            decoration: BoxDecoration(
+              color: const Color(0xFFF3F4F6),
+              borderRadius: BorderRadius.circular(20),
+            ),
+            child: AspectRatio(
+              aspectRatio: 1,
+              child: Image.network(
+                product.imageUrls.isNotEmpty ? product.imageUrls.first : '',
+                fit: BoxFit.contain,
+                errorBuilder:
+                    (c, o, s) => const Icon(
+                      Icons.image_not_supported,
+                      color: Colors.grey,
+                    ),
+              ),
             ),
           ),
         ),

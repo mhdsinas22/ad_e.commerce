@@ -13,6 +13,7 @@ import 'package:ad_e_commerce/features/home/bloc/testmonialsbloc/testimonial_blo
 import 'package:ad_e_commerce/features/home/bloc/testmonialsbloc/testimonial_event.dart';
 import 'package:ad_e_commerce/features/home/bloc/testmonialsbloc/testimonial_state.dart';
 import 'package:ad_e_commerce/features/home/data/category_data.dart';
+import 'package:ad_e_commerce/features/home/pages/category_filtred_page.dart';
 import 'package:ad_e_commerce/features/home/widgets/BestSellerSection/best_seller_section.dart';
 import 'package:ad_e_commerce/features/home/widgets/category_card.dart';
 import 'package:ad_e_commerce/features/home/widgets/CategoryListSection/category_list_section.dart';
@@ -247,7 +248,16 @@ class HomePageUi extends StatelessWidget {
                           AppTexts.medium("Flash Sale", fontSize: 18),
                           GestureDetector(
                             onTap: () {
-                              // Handle View All tap
+                              Appnavigotor.pushnamed(
+                                context,
+                                RouteNames.categoryfiltredpage,
+                                {
+                                  "condition": PhoneCondition.empty,
+                                  "SubCategory": SubCategory.empty,
+                                  "isSubCategory": false,
+                                  "isFlashSale": true,
+                                },
+                              );
                             },
                             child: AppTexts.medium(
                               "View All",

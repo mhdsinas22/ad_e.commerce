@@ -118,4 +118,10 @@ class AssetConstants {
   static const String powerbank = "assets/png/powebank.png";
   static const String smartwatch = "assets/png/smartwatch.png";
   static const String appleipadpng = "assets/png/appleipad.png";
+  static const String bestsellingmobilepng = "assets/png/bestsellingphones.png";
+  static const String bestsellinglaptoppng = "assets/png/bestsellinglaptop.png";
+  static const String bestsellingCasespng = "assets/png/bestsellingcases.png";
+  static const String samsungtablsellerpng =
+      "assets/png/samsungtabvestseller.png";
+  static const String smartbestsellingpng = "assets/png/smartbestselling.png";
 }

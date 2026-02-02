@@ -34,7 +34,12 @@ class ProfilePage extends StatelessWidget {
               },
             ),
             SizedBox(height: 10),
-            ProfileMenuItem(title: "My Account", onTap: () {}),
+            ProfileMenuItem(
+              title: "My Account",
+              onTap: () {
+                Appnavigotor.pushnamed(context, RouteNames.myaccountpage, []);
+              },
+            ),
           ],
         ),
       ),

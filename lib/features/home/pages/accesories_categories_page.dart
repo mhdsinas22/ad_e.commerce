@@ -1,7 +1,10 @@
 import 'package:ad_e_commerce/core/constants/asset_constants.dart';
+import 'package:ad_e_commerce/core/routes/route_names.dart';
+import 'package:ad_e_commerce/core/utils/navigator.dart';
 import 'package:ad_e_commerce/core/widgets/app_sliver_app_bar.dart';
 import 'package:ad_e_commerce/core/widgets/app_text.dart';
 import 'package:ad_e_commerce/core/widgets/common_option_card.dart';
+import 'package:ad_e_commerce/features/home/pages/category_filtred_page.dart';
 
 import 'package:ad_e_commerce/features/product/bloc/proudctbloc/product_bloc.dart';
 import 'package:ad_e_commerce/features/search/bloc/search_bloc.dart';
@@ -62,37 +65,103 @@ class AccesoriesCategoriesPageUi extends StatelessWidget {
                     children: [
                       OptionCard(
                         isVertical: true,
-                        onTap: () {},
+                        onTap: () {
+                          Appnavigotor.pushnamed(
+                            context,
+                            RouteNames.categoryfiltredpage,
+                            {
+                              "condition": PhoneCondition.empty,
+                              "SubCategory": SubCategory.casescover,
+                              "isSubCategory": true,
+                              "isFlashSale": false,
+                            },
+                          );
+                        },
                         title: "Cases&\n Cover",
                         imagePath: AssetConstants.casepng,
                       ),
                       OptionCard(
                         isVertical: true,
-                        onTap: () {},
+                        onTap: () {
+                          Appnavigotor.pushnamed(
+                            context,
+                            RouteNames.categoryfiltredpage,
+                            {
+                              "condition": PhoneCondition.empty,
+                              "SubCategory": SubCategory.mobilechargers,
+                              "isSubCategory": true,
+                              "isFlashSale": false,
+                            },
+                          );
+                        },
                         title: "Mobile\nChargers",
                         imagePath: AssetConstants.mobilecharger,
                       ),
                       OptionCard(
                         isVertical: true,
-                        onTap: () {},
+                        onTap: () {
+                          Appnavigotor.pushnamed(
+                            context,
+                            RouteNames.categoryfiltredpage,
+                            {
+                              "condition": PhoneCondition.empty,
+                              "SubCategory": SubCategory.speaker,
+                              "isSubCategory": true,
+                              "isFlashSale": false,
+                            },
+                          );
+                        },
                         title: "Speaker",
                         imagePath: AssetConstants.boatspeakerpng,
                       ),
                       OptionCard(
                         isVertical: true,
-                        onTap: () {},
+                        onTap: () {
+                          Appnavigotor.pushnamed(
+                            context,
+                            RouteNames.categoryfiltredpage,
+                            {
+                              "condition": PhoneCondition.empty,
+                              "SubCategory": SubCategory.audio,
+                              "isSubCategory": true,
+                              "isFlashSale": false,
+                            },
+                          );
+                        },
                         title: "Audio",
                         imagePath: AssetConstants.headset,
                       ),
                       OptionCard(
                         isVertical: true,
-                        onTap: () {},
+                        onTap: () {
+                          Appnavigotor.pushnamed(
+                            context,
+                            RouteNames.categoryfiltredpage,
+                            {
+                              "condition": PhoneCondition.empty,
+                              "SubCategory": SubCategory.powerbank,
+                              "isSubCategory": true,
+                              "isFlashSale": false,
+                            },
+                          );
+                        },
                         title: "Power Bank",
                         imagePath: AssetConstants.powerbank,
                       ),
                       OptionCard(
                         isVertical: true,
-                        onTap: () {},
+                        onTap: () {
+                          Appnavigotor.pushnamed(
+                            context,
+                            RouteNames.categoryfiltredpage,
+                            {
+                              "condition": PhoneCondition.empty,
+                              "SubCategory": SubCategory.bag,
+                              "isSubCategory": true,
+                              "isFlashSale": false,
+                            },
+                          );
+                        },
                         title: "Bag",
                         imagePath: AssetConstants.bagpng,
                       ),

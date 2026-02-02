@@ -1,7 +1,10 @@
 import 'package:ad_e_commerce/core/constants/asset_constants.dart';
+import 'package:ad_e_commerce/core/routes/route_names.dart';
+import 'package:ad_e_commerce/core/utils/navigator.dart';
 import 'package:ad_e_commerce/core/widgets/app_sliver_app_bar.dart';
 import 'package:ad_e_commerce/core/widgets/app_text.dart';
 import 'package:ad_e_commerce/core/widgets/common_option_card.dart';
+import 'package:ad_e_commerce/features/home/pages/category_filtred_page.dart';
 
 import 'package:ad_e_commerce/features/product/bloc/proudctbloc/product_bloc.dart';
 import 'package:ad_e_commerce/features/search/bloc/search_bloc.dart';
@@ -61,12 +64,34 @@ class LaptopCatergoriesPageUi extends StatelessWidget {
                     childAspectRatio: 1,
                     children: [
                       OptionCard(
-                        onTap: () {},
+                        onTap: () {
+                          Appnavigotor.pushnamed(
+                            context,
+                            RouteNames.categoryfiltredpage,
+                            {
+                              "condition": PhoneCondition.empty,
+                              "SubCategory": SubCategory.macbook,
+                              "isSubCategory": true,
+                              "isFlashSale": false,
+                            },
+                          );
+                        },
                         title: "Apple Macbook",
                         imagePath: AssetConstants.macbookpng,
                       ),
                       OptionCard(
-                        onTap: () {},
+                        onTap: () {
+                          Appnavigotor.pushnamed(
+                            context,
+                            RouteNames.categoryfiltredpage,
+                            {
+                              "condition": PhoneCondition.empty,
+                              "SubCategory": SubCategory.windows,
+                              "isSubCategory": true,
+                              "isFlashSale": false,
+                            },
+                          );
+                        },
                         title: "Windows",
                         imagePath: AssetConstants.windowspng,
                       ),

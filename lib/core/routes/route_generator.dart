@@ -18,6 +18,8 @@ import 'package:ad_e_commerce/features/home/pages/tablet_categories_page.dart';
 import 'package:ad_e_commerce/features/home/pages/wearables_catergory_page.dart';
 import 'package:ad_e_commerce/features/onboardingStartPage/onboarding_startpage.dart';
 import 'package:ad_e_commerce/features/product/pages/product_page.dart';
+import 'package:ad_e_commerce/features/profile/pages/edit_profile_page.dart';
+import 'package:ad_e_commerce/features/profile/pages/my_account_page.dart';
 import 'package:ad_e_commerce/features/profile/pages/warranty_page.dart';
 import 'package:ad_e_commerce/features/search/pages/search_page.dart';
 
@@ -89,15 +91,21 @@ class RouteGenerator {
       case RouteNames.tabletcategories:
         return MaterialPageRoute(builder: (context) => TabletCategoriesPage());
       case RouteNames.categoryfiltredpage:
-        final condition = settings.arguments as PhoneCondition;
-        final subcondition = settings.arguments as SubCategory;
+        final args = settings.arguments as Map<String, dynamic>;
+
         return MaterialPageRoute(
           builder:
               (context) => CategoryFiltredPage(
-                condition: condition,
-                subCategory: subcondition,
+                condition: args["condition"] as PhoneCondition,
+                subCategory: args["SubCategory"] as SubCategory,
+                isSubCategory: args["isSubCategory"],
+                isFlashSale: args["isFlashSale"],
               ),
         );
+      case RouteNames.profileSetting:
+        return MaterialPageRoute(builder: (context) => EditProfilePage());
+      case RouteNames.myaccountpage:
+        return MaterialPageRoute(builder: (context) => MyAccountPage());
       default:
         return MaterialPageRoute(
           builder:

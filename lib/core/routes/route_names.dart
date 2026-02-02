@@ -25,4 +25,5 @@ class RouteNames {
   static const wearablescategories = "/wearablescategories";
   static const tabletcategories = "/tablecategories";
   static const categoryfiltredpage = "/categoryfiltredpage";
+  static const myaccountpage = "/myaccountpage";
 }

@@ -20,11 +20,13 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
     final query = event.query.trim().toLowerCase();
 
     if (query.isEmpty) {
-      emit(state.copyWith(status: SearchStatus.initial, product: []));
+      emit(
+        state.copyWith(status: SearchStatus.initial, product: [], query: ""),
+      );
       return;
     }
 
-    emit(state.copyWith(status: SearchStatus.loading));
+    emit(state.copyWith(status: SearchStatus.loading, query: query));
 
     final products = productBloc.state.products; // ✅ LIVE DATA
 
@@ -38,7 +40,9 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
         }).toList();
 
     if (results.isEmpty) {
-      emit(state.copyWith(status: SearchStatus.empty, product: []));
+      emit(
+        state.copyWith(status: SearchStatus.empty, product: [], query: query),
+      );
     } else {
       emit(state.copyWith(status: SearchStatus.loaded, product: results));
     }

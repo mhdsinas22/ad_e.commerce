@@ -8,7 +8,7 @@ import 'package:ad_e_commerce/features/home/pages/category_filtred_page.dart';
 
 import 'package:ad_e_commerce/features/product/bloc/proudctbloc/product_bloc.dart';
 import 'package:ad_e_commerce/features/search/bloc/search_bloc.dart';
-import 'package:ad_e_commerce/features/search/widgets/search_bar.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -40,7 +40,6 @@ class PhoneCategoriesPageUi extends StatelessWidget {
             SliverToBoxAdapter(
               child: Column(
                 children: [
-                  SearchBarw(),
                   Align(
                     alignment: Alignment.bottomLeft,
 
@@ -68,7 +67,12 @@ class PhoneCategoriesPageUi extends StatelessWidget {
                           Appnavigotor.pushnamed(
                             context,
                             RouteNames.categoryfiltredpage,
-                            Categoryfiltred.brandNew,
+                            {
+                              "condition": PhoneCondition.brandNew,
+                              "SubCategory": SubCategory.empty,
+                              "isSubCategory": false,
+                              "isFlashSale": false,
+                            },
                           );
                         },
                         title: "Brand new",
@@ -79,7 +83,12 @@ class PhoneCategoriesPageUi extends StatelessWidget {
                           Appnavigotor.pushnamed(
                             context,
                             RouteNames.categoryfiltredpage,
-                            Categoryfiltred.preOwned,
+                            {
+                              "condition": PhoneCondition.preOwned,
+                              "SubCategory": SubCategory.empty,
+                              "isSubCategory": false,
+                              "isFlashSale": false,
+                            },
                           );
                         },
                         title: "Pre-Owned",
