@@ -76,8 +76,9 @@ class _EditProfileViewState extends State<_EditProfileView> {
 
   void _populateFields(UserEntity user) {
     if (_nameController.text.isEmpty) _nameController.text = user.username;
-    if (_usernameController.text.isEmpty)
+    if (_usernameController.text.isEmpty) {
       _usernameController.text = user.username;
+    }
     if (_phoneController.text.isEmpty) _phoneController.text = user.phone;
     if (_emailController.text.isEmpty) _emailController.text = user.email;
   }
