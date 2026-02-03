@@ -124,4 +124,5 @@ class AssetConstants {
   static const String samsungtablsellerpng =
       "assets/png/samsungtabvestseller.png";
   static const String smartbestsellingpng = "assets/png/smartbestselling.png";
+  static const String logoutpngtemp = "assets/png/images-removebg-preview.png";
 }

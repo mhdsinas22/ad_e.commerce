@@ -4,6 +4,7 @@ import 'package:ad_e_commerce/features/auth/bloc/forgot_password/forgot_password
 import 'package:ad_e_commerce/features/auth/bloc/forgot_password/forgot_password_event.dart';
 import 'package:ad_e_commerce/features/auth/bloc/forgot_password/forgot_password_state.dart';
 import 'package:ad_e_commerce/features/auth/pages/password_recovery_page.dart';
+import 'package:ad_e_commerce/features/profile/widgets/profle_side_appbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -48,6 +49,7 @@ class _ForgotPasswordViewState extends State<ForgotPasswordView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: ProfileSideAppbar(title: "Forgot Password"),
       backgroundColor: Colors.white,
       body: BlocListener<ForgotPasswordBloc, ForgotPasswordState>(
         listener: (context, state) {
@@ -184,7 +186,9 @@ class _ForgotPasswordViewState extends State<ForgotPasswordView> {
                             Navigator.of(context).push(
                               MaterialPageRoute(
                                 builder: (context) {
-                                  return PasswordRecoveryPage();
+                                  return PasswordRecoveryPage(
+                                    enteredmail: _emailController.text.trim(),
+                                  );
                                 },
                               ),
                             );

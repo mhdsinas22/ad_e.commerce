@@ -103,7 +103,7 @@ class AuthRepository {
     try {
       await supabaseClient.auth.resetPasswordForEmail(
         email,
-        redirectTo: 'yourapp://reset-password',
+        redirectTo: 'myapp://reset-password',
       );
     } on AuthException catch (e) {
       throw e.message;

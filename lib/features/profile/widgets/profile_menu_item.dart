@@ -6,8 +6,16 @@ import 'package:flutter/material.dart';
 class ProfileMenuItem extends StatelessWidget {
   final String title;
   final VoidCallback onTap;
+  final bool isneedChangedbuttoncolor;
+  final Color buttoncolor;
 
-  const ProfileMenuItem({super.key, required this.title, required this.onTap});
+  const ProfileMenuItem({
+    super.key,
+    required this.title,
+    required this.onTap,
+    this.isneedChangedbuttoncolor = false,
+    this.buttoncolor = AppColors.brightBlue,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +33,10 @@ class ProfileMenuItem extends StatelessWidget {
                   size: 18,
                   iconSize: 15,
                   onTap: onTap,
-                  backgroundColor: AppColors.brightBlue,
+                  backgroundColor:
+                      isneedChangedbuttoncolor
+                          ? buttoncolor
+                          : AppColors.brightBlue,
                 ),
               ],
             ),

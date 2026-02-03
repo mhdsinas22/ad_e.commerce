@@ -1,9 +1,7 @@
 import 'package:ad_e_commerce/core/routes/route_names.dart';
-import 'package:ad_e_commerce/core/theme/app_colors.dart';
 import 'package:ad_e_commerce/core/utils/navigator.dart';
-import 'package:ad_e_commerce/core/widgets/app_text.dart';
-import 'package:ad_e_commerce/core/widgets/circular_arrow_button.dart';
 import 'package:ad_e_commerce/features/profile/widgets/profile_menu_item.dart';
+import 'package:ad_e_commerce/features/profile/widgets/profle_side_appbar.dart';
 import 'package:flutter/material.dart';
 
 class MyAccountPage extends StatelessWidget {
@@ -12,24 +10,7 @@ class MyAccountPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        centerTitle: true,
-        surfaceTintColor: Colors.transparent,
-        backgroundColor: Colors.transparent,
-        elevation: 0,
-        leading: Center(
-          child: CircularArrowButton(
-            iconSize: 20,
-            size: 40,
-            needCircle: true,
-            iconColor: AppColors.pureBlack,
-            icon: Icons.arrow_back,
-            backgroundColor: AppColors.lightGrey,
-            onTap: () => Navigator.pop(context),
-          ),
-        ),
-        title: AppTexts.extraBold("Account", fontSize: 16),
-      ),
+      appBar: ProfileSideAppbar(title: "Account"),
       body: Column(
         children: [
           SizedBox(height: 20),
@@ -40,11 +21,21 @@ class MyAccountPage extends StatelessWidget {
             },
           ),
           SizedBox(height: 10),
-          ProfileMenuItem(title: "Forgotten password", onTap: () {}),
+          ProfileMenuItem(
+            title: "Forgotten password",
+            onTap: () {
+              Appnavigotor.pushnamed(context, RouteNames.forgotPassword, []);
+            },
+          ),
           SizedBox(height: 10),
           ProfileMenuItem(title: "My Address", onTap: () {}),
           SizedBox(height: 10),
-          ProfileMenuItem(title: "Support & Legal", onTap: () {}),
+          ProfileMenuItem(
+            title: "Support & Legal",
+            onTap: () {
+              Appnavigotor.pushnamed(context, RouteNames.supportlegelpage, []);
+            },
+          ),
         ],
       ),
     );

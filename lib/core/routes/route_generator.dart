@@ -20,6 +20,7 @@ import 'package:ad_e_commerce/features/onboardingStartPage/onboarding_startpage.
 import 'package:ad_e_commerce/features/product/pages/product_page.dart';
 import 'package:ad_e_commerce/features/profile/pages/edit_profile_page.dart';
 import 'package:ad_e_commerce/features/profile/pages/my_account_page.dart';
+import 'package:ad_e_commerce/features/profile/pages/support_legel_page.dart';
 import 'package:ad_e_commerce/features/profile/pages/warranty_page.dart';
 import 'package:ad_e_commerce/features/search/pages/search_page.dart';
 
@@ -106,6 +107,8 @@ class RouteGenerator {
         return MaterialPageRoute(builder: (context) => EditProfilePage());
       case RouteNames.myaccountpage:
         return MaterialPageRoute(builder: (context) => MyAccountPage());
+      case RouteNames.supportlegelpage:
+        return MaterialPageRoute(builder: (context) => SupportLegelPage());
       default:
         return MaterialPageRoute(
           builder:

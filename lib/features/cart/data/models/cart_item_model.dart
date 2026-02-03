@@ -18,8 +18,8 @@ class CartItemModel extends CartItem {
     return CartItemModel(
       id: json["id"] ?? "",
       productId: json["product_id"] ?? "",
-      price: json['price'] ?? "",
-      quantity: json["quantity"] ?? "",
+      price: (json['price'] as num?)?.toDouble() ?? 0.0,
+      quantity: (json["quantity"] as num?)?.toInt() ?? 0,
       storename: json["store_name"] ?? "",
       // Prdocut Details for Ui
       title: product["title"] ?? "",

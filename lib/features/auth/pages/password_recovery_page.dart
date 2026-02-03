@@ -3,7 +3,8 @@ import 'package:ad_e_commerce/core/widgets/app_text.dart';
 import 'package:flutter/material.dart';
 
 class PasswordRecoveryPage extends StatelessWidget {
-  const PasswordRecoveryPage({super.key});
+  final String enteredmail;
+  const PasswordRecoveryPage({super.key, required this.enteredmail});
 
   @override
   Widget build(BuildContext context) {
@@ -32,7 +33,7 @@ class PasswordRecoveryPage extends StatelessWidget {
               ),
               const SizedBox(height: 20),
               AppTexts.semiBold(
-                "shahamck@gmail.com",
+                enteredmail,
                 fontSize: 16,
                 align: TextAlign.center,
               ),
