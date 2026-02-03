@@ -12,4 +12,5 @@ abstract class CartRepository {
     required int quantity,
   });
   Future<List<CartItem>> getCartItems();
+  Future<void> clearCart();
 }

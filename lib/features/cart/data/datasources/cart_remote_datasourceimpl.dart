@@ -112,4 +112,28 @@ class CartRemoteDatasourceimpl implements CartRemoteDataSource {
 
     return newCart['id'];
   }
+
+  @override
+  Future<void> clearCart() async {
+    final userId = supabase.auth.currentUser!.id;
+
+    // 1️⃣ get active cart
+    final cart =
+        await supabase
+            .from('carts')
+            .select('id')
+            .eq('user_id', userId)
+            .eq('is_active', true)
+            .maybeSingle();
+
+    if (cart == null) return;
+
+    final cartId = cart['id'];
+
+    // 2️⃣ delete all cart_items
+    await supabase.from('cart_items').delete().eq('cart_id', cartId);
+
+    // 3️⃣ deactivate cart
+    await supabase.from('carts').update({'is_active': false}).eq('id', cartId);
+  }
 }

@@ -28,4 +28,5 @@ class RouteNames {
   static const myaccountpage = "/myaccountpage";
   static const profileSetting = "/profileSetting";
   static const supportlegelpage = "/supportlegelpage";
+  static const orderspage = "/orderspage";
 }

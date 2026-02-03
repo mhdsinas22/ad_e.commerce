@@ -14,4 +14,5 @@ abstract class CartRemoteDataSource {
 
   Future<List<CartItem>> getCartItems();
   Future<void> removeCartitem({required String cartitemid});
+  Future<void> clearCart();
 }

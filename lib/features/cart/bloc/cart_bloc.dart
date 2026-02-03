@@ -14,6 +14,7 @@ class CartBloc extends Bloc<CartEvent, CartState> {
     on<RemoveCartItemEvent>(_removeCartItem);
     on<UpdateCartItemEvent>(_updateCartItem);
     on<GetCartItemsEvent>(_getCartItem);
+    on<ClearCartEvent>(_clearCart);
   }
 
   Future<void> _addTocart(AddToCartEvent event, Emitter<CartState> emit) async {
@@ -225,5 +226,26 @@ class CartBloc extends Bloc<CartEvent, CartState> {
       'deliveryFee': delivery,
       'totalAmount': total,
     };
+  }
+
+  Future<void> _clearCart(ClearCartEvent event, Emitter<CartState> emit) async {
+    try {
+      // 🔥 DB full clear
+      await cartRepository.clearCart();
+
+      // 🔥 Local state reset
+      emit(
+        CartState(
+          status: CartStatus.loaded,
+          cartitems: [],
+          subTotal: 0,
+          voucherAmount: 0,
+          deliveryFee: 0,
+          totalAmount: 0,
+        ),
+      );
+    } catch (e) {
+      emit(state.copyWith(status: CartStatus.error, error: e.toString()));
+    }
   }
 }

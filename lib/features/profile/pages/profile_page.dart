@@ -23,7 +23,14 @@ class ProfilePage extends StatelessWidget {
               ),
             ),
             SizedBox(height: 20),
-            ProfileMenuItem(title: "My Orders", onTap: () {}),
+            ProfileMenuItem(
+              title: "My Orders",
+              onTap: () {
+                Appnavigotor.pushnamed(context, RouteNames.orderspage, {
+                  "isPushOnly": true,
+                });
+              },
+            ),
             SizedBox(height: 10),
             ProfileMenuItem(title: "My Wallet", onTap: () {}),
             SizedBox(height: 10),

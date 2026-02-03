@@ -22,7 +22,14 @@ class OrderBloc extends Bloc<OrderEvent, OrderState> {
       );
 
       emit(state.copyWith(status: OrdersStatus.success));
-    } catch (e) {}
+    } catch (e) {
+      emit(
+        state.copyWith(
+          status: OrdersStatus.failure,
+          errormessege: e.toString(),
+        ),
+      );
+    }
   }
 
   Future<void> _loadOrders(

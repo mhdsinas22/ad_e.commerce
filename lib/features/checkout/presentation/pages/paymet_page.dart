@@ -1,4 +1,5 @@
 import 'package:ad_e_commerce/features/cart/bloc/cart_bloc.dart';
+import 'package:ad_e_commerce/features/cart/bloc/cart_event.dart';
 import 'package:ad_e_commerce/features/checkout/data/models/address_model.dart';
 import 'package:ad_e_commerce/features/checkout/presentation/widgets/checkout_button.dart';
 import 'package:ad_e_commerce/features/checkout/presentation/widgets/header_section.dart';
@@ -7,12 +8,14 @@ import 'package:ad_e_commerce/features/checkout/presentation/widgets/price_detai
 import 'package:ad_e_commerce/features/checkout/presentation/widgets/product_summary_section.dart';
 import 'package:ad_e_commerce/features/orders/bloc/order_bloc.dart';
 import 'package:ad_e_commerce/features/orders/bloc/order_event.dart';
+import 'package:ad_e_commerce/features/orders/bloc/order_state.dart';
 import 'package:ad_e_commerce/features/orders/data/datasource/order_remote_datasouceimpl.dart';
 import 'package:ad_e_commerce/features/orders/data/repo/order_repo_impl.dart';
 import 'package:ad_e_commerce/features/orders/domain/enities/order_item.dart';
 import 'package:ad_e_commerce/features/orders/domain/enities/orders.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 class PaymetPage extends StatelessWidget {
@@ -45,58 +48,74 @@ class PaymentPageUi extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: SafeArea(
-        child: Column(
-          children: [
-            const HeaderSection(),
-            Expanded(
-              child: SingleChildScrollView(
-                child: Column(
-                  children: [
-                    const SizedBox(height: 10),
-                    const PaymentMethodSection(),
-                    const ProductSummarySection(),
-                    const PriceDetailsSection(),
-                  ],
+    return BlocListener<OrderBloc, OrderState>(
+      listener: (context, state) {
+        if (state.status == OrdersStatus.success) {
+          // Clear Cart
+          context.read<CartBloc>().add(ClearCartEvent());
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text("Order placed successfully")),
+          );
+        }
+        if (state.status == OrdersStatus.failure) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text(state.errormessege ?? "Order failed")),
+          );
+        }
+      },
+      child: Scaffold(
+        body: SafeArea(
+          child: Column(
+            children: [
+              const HeaderSection(),
+              Expanded(
+                child: SingleChildScrollView(
+                  child: Column(
+                    children: [
+                      const SizedBox(height: 10),
+                      const PaymentMethodSection(),
+                      const ProductSummarySection(),
+                      const PriceDetailsSection(),
+                    ],
+                  ),
                 ),
               ),
-            ),
-            CheckoutButton(
-              text: 'Proceed to Checkout',
-              onTap: () {
-                final cartstate = context.read<CartBloc>().state;
+              CheckoutButton(
+                text: 'Proceed to Checkout',
+                onTap: () {
+                  final cartstate = context.read<CartBloc>().state;
 
-                if (cartstate.cartitems.isEmpty) return;
-                final orderitems =
-                    cartstate.cartitems.map((element) {
-                      return OrderItem(
-                        orderId: "",
-                        productId: element.productId,
-                        productName: element.title,
-                        productImage: element.imageUrl,
-                        sku: "sku1",
-                        price: element.price,
-                        quantity: element.quantity,
-                      );
-                    }).toList();
-                context.read<OrderBloc>().add(
-                  CreateOrderEvent(
-                    orders: Orders(
-                      userId: supabase.auth.currentUser!.id,
-                      totalAmount: cartstate.totalAmount,
-                      status: "placed",
-                      paymentMethod: "cod",
-                      shippingAddress: selectedAddress.toJson(),
-                      orderItems: [],
+                  if (cartstate.cartitems.isEmpty) return;
+                  final orderitems =
+                      cartstate.cartitems.map((element) {
+                        return OrderItem(
+                          orderId: "",
+                          productId: element.productId,
+                          productName: element.title,
+                          productImage: element.imageUrl,
+                          sku: "sku1",
+                          price: element.price,
+                          quantity: element.quantity,
+                        );
+                      }).toList();
+                  context.read<OrderBloc>().add(
+                    CreateOrderEvent(
+                      orders: Orders(
+                        userId: supabase.auth.currentUser!.id,
+                        totalAmount: cartstate.totalAmount,
+                        status: "placed",
+                        paymentMethod: "cod",
+                        shippingAddress: selectedAddress.toJson(),
+                        orderItems: [],
+                      ),
+                      orderitems: orderitems,
                     ),
-                    orderitems: orderitems,
-                  ),
-                );
-              },
-            ),
-            const SizedBox(height: 30),
-          ],
+                  );
+                },
+              ),
+              const SizedBox(height: 30),
+            ],
+          ),
         ),
       ),
     );

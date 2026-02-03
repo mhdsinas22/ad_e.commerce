@@ -17,6 +17,7 @@ import 'package:ad_e_commerce/features/home/pages/phone_categories_page.dart';
 import 'package:ad_e_commerce/features/home/pages/tablet_categories_page.dart';
 import 'package:ad_e_commerce/features/home/pages/wearables_catergory_page.dart';
 import 'package:ad_e_commerce/features/onboardingStartPage/onboarding_startpage.dart';
+import 'package:ad_e_commerce/features/orders/pages/orders_page.dart';
 import 'package:ad_e_commerce/features/product/pages/product_page.dart';
 import 'package:ad_e_commerce/features/profile/pages/edit_profile_page.dart';
 import 'package:ad_e_commerce/features/profile/pages/my_account_page.dart';
@@ -111,6 +112,11 @@ class RouteGenerator {
                 isSubCategory: args["isSubCategory"],
                 isFlashSale: args["isFlashSale"],
               ),
+        );
+      case RouteNames.orderspage:
+        final args = settings.arguments as Map<String, dynamic>;
+        return MaterialPageRoute(
+          builder: (context) => OrdersPage(isPushOnly: args["isPushOnly"]),
         );
       case RouteNames.profileSetting:
         return MaterialPageRoute(builder: (context) => EditProfilePage());

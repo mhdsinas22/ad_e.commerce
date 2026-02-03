@@ -23,3 +23,5 @@ class UpdateCartItemEvent extends CartEvent {
 }
 
 class GetCartItemsEvent extends CartEvent {}
+
+class ClearCartEvent extends CartEvent {}

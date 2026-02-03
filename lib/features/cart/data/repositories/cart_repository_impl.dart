@@ -35,4 +35,9 @@ class CartRepositoryImpl implements CartRepository {
   Future<void> removCartitem({required String cartitemid}) {
     return remote.removeCartitem(cartitemid: cartitemid);
   }
+
+  @override
+  Future<void> clearCart() {
+    return remote.clearCart();
+  }
 }
