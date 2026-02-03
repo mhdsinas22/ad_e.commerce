@@ -4,14 +4,6 @@ import 'package:ad_e_commerce/features/checkout/bloc/address/address_bloc.dart';
 import 'package:ad_e_commerce/features/checkout/bloc/address/address_event.dart';
 import 'package:ad_e_commerce/features/checkout/bloc/address/address_state.dart';
 import 'package:ad_e_commerce/features/checkout/data/models/address_model.dart';
-import 'package:ad_e_commerce/features/orders/bloc/order_bloc.dart';
-import 'package:ad_e_commerce/features/orders/bloc/order_event.dart';
-import 'package:ad_e_commerce/features/orders/bloc/order_state.dart';
-import 'package:ad_e_commerce/features/orders/data/datasource/order_remote_datasouceimpl.dart';
-import 'package:ad_e_commerce/features/orders/data/repo/order_repo_impl.dart';
-import 'package:ad_e_commerce/features/orders/domain/enities/order_item.dart';
-import 'package:ad_e_commerce/features/orders/domain/enities/orders.dart';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -94,9 +86,6 @@ class _CheckoutPageState extends State<CheckoutPage> {
 
   @override
   Widget build(BuildContext context) {
-    final supabase = Supabase.instance.client;
-    final orderdatasourceimpl = OrderRemoteDatasouceimpl(supabase: supabase);
-    final orderRepo = OrderRepoImpl(remote: orderdatasourceimpl);
     return Scaffold(
       backgroundColor: Colors.white,
       body: SafeArea(
@@ -152,7 +141,10 @@ class _CheckoutPageState extends State<CheckoutPage> {
                               Appnavigotor.pushnamed(
                                 context,
                                 RouteNames.paymentpage,
-                                [],
+                                {
+                                  "selectedAddress":
+                                      addresses[_selectedAddressIndex],
+                                },
                               );
                             } else {
                               Appnavigotor.pop(context);
@@ -186,7 +178,7 @@ class _CheckoutPageState extends State<CheckoutPage> {
                             Appnavigotor.pushnamed(
                               context,
                               RouteNames.paymentpage,
-                              [],
+                              {"selectedAddress": address},
                             );
                           }
                         },
@@ -194,43 +186,6 @@ class _CheckoutPageState extends State<CheckoutPage> {
                     },
                   ),
 
-                  BlocProvider(
-                    create: (context) => OrderBloc(orderRepo),
-                    child: BlocBuilder<OrderBloc, OrderState>(
-                      builder: (context, state) {
-                        return ElevatedButton(
-                          onPressed: () {
-                            final userId = supabase.auth.currentUser!.id;
-
-                            context.read<OrderBloc>().add(
-                              CreateOrderEvent(
-                                orders: Orders(
-                                  userId: userId,
-                                  totalAmount: 500,
-                                  status: "placed",
-                                  paymentMethod: "cod",
-                                  shippingAddress: {"address": "test"},
-                                ),
-                                orderitems: [
-                                  OrderItem(
-                                    orderId: "",
-                                    productId:
-                                        "01562d49-75e2-4b92-9201-707b12bc67c6",
-                                    productName: "Test Product",
-                                    productImage: "",
-                                    sku: "sku1",
-                                    price: 500,
-                                    quantity: 1,
-                                  ),
-                                ],
-                              ),
-                            );
-                          },
-                          child: const Text("ORDER"),
-                        );
-                      },
-                    ),
-                  ),
                   const SizedBox(height: 16),
                 ],
               ),

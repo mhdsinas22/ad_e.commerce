@@ -8,3 +8,8 @@ class CreateOrderEvent extends OrderEvent {
   final List<OrderItem> orderitems;
   CreateOrderEvent({required this.orders, required this.orderitems});
 }
+
+class LoadOrdersEvent extends OrderEvent {
+  final String userid;
+  LoadOrdersEvent({required this.userid});
+}

@@ -40,8 +40,16 @@ class OrderRemoteDatasouceimpl implements OrderRemoteDatasource {
   @override
   Future<List<OrderModel>> getOrders({required String userId}) async {
     try {
-      final res = await supabase.from("orders").select().eq("user_id", userId);
-      return res.map((e) => OrderModel.fromJson(e)).toList();
+      final res = await supabase
+          .from("orders")
+          .select('''
+          *,
+          order_items (*)
+        ''')
+          .eq("user_id", userId)
+          .order('created_at', ascending: false);
+
+      return res.map<OrderModel>((e) => OrderModel.fromJson(e)).toList();
     } catch (e) {
       print("GET ORDERS ERROR:_${e.toString()}");
       throw Exception("GET order failed: $e");

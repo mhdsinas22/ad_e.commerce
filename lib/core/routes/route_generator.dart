@@ -77,7 +77,11 @@ class RouteGenerator {
                   CheckoutPage(isMyaddressScreen: args["isMyaddressScreen"]),
         );
       case RouteNames.paymentpage:
-        return MaterialPageRoute(builder: (context) => PaymetPage());
+        final args = settings.arguments as Map<String, dynamic>;
+        return MaterialPageRoute(
+          builder:
+              (context) => PaymetPage(selectedAddress: args["selectedAddress"]),
+        );
       case RouteNames.warranty:
         return MaterialPageRoute(builder: (context) => WarrantyPage());
       case RouteNames.phonecategories:

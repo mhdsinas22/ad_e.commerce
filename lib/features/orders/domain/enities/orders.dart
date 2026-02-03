@@ -1,3 +1,5 @@
+import 'package:ad_e_commerce/features/orders/domain/enities/order_item.dart';
+
 class Orders {
   final String? id;
   final String userId;
@@ -5,6 +7,7 @@ class Orders {
   final String status;
   final String paymentMethod;
   final Map<String, dynamic> shippingAddress;
+  final List<OrderItem> orderItems;
 
   Orders({
     this.id,
@@ -13,5 +16,6 @@ class Orders {
     required this.status,
     required this.paymentMethod,
     required this.shippingAddress,
+    required this.orderItems,
   });
 }

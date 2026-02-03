@@ -1,3 +1,4 @@
+import 'package:ad_e_commerce/features/orders/data/models/order_item_model.dart';
 import 'package:ad_e_commerce/features/orders/domain/enities/orders.dart';
 
 class OrderModel extends Orders {
@@ -8,6 +9,7 @@ class OrderModel extends Orders {
     required super.status,
     required super.paymentMethod,
     required super.shippingAddress,
+    required super.orderItems,
   });
   factory OrderModel.fromJson(Map<String, dynamic> json) {
     return OrderModel(
@@ -17,6 +19,10 @@ class OrderModel extends Orders {
       status: json["status"],
       paymentMethod: json["payment_method"],
       shippingAddress: json["shipping_address"],
+      orderItems:
+          (json["order_items"] as List)
+              .map((e) => OrderItemModel.fromJson(e))
+              .toList(),
     );
   }
   factory OrderModel.fromEntity(Orders order) {
@@ -27,6 +33,7 @@ class OrderModel extends Orders {
       status: order.status,
       paymentMethod: order.paymentMethod,
       shippingAddress: order.shippingAddress,
+      orderItems: order.orderItems,
     );
   }
   Map<String, dynamic> toJson() => {
