@@ -62,7 +62,7 @@ class CartSummaryWidget extends StatelessWidget {
                             Appnavigotor.pushnamed(
                               context,
                               RouteNames.checkout,
-                              [],
+                              {"isMyaddressScreen": false},
                             );
                           },
                   style: ElevatedButton.styleFrom(

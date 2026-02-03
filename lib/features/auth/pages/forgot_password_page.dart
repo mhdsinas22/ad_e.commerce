@@ -46,6 +46,12 @@ class _ForgotPasswordViewState extends State<ForgotPasswordView> {
     return emailRegex.hasMatch(email);
   }
 
+  void _onSubmitted() {
+    if (_formKey.currentState!.validate()) {
+      context.read<ForgotPasswordBloc>().add(ForgotPasswordSubmitted());
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -54,12 +60,12 @@ class _ForgotPasswordViewState extends State<ForgotPasswordView> {
       body: BlocListener<ForgotPasswordBloc, ForgotPasswordState>(
         listener: (context, state) {
           if (state.status == ForgotPasswordStatus.success) {
-            ScaffoldMessenger.of(context).showSnackBar(
-              const SnackBar(
-                content: Text(
-                  'Password reset mail sent. Please check your inbox.',
-                ),
-                backgroundColor: Colors.green,
+            Navigator.of(context).push(
+              MaterialPageRoute(
+                builder:
+                    (context) => PasswordRecoveryPage(
+                      enteredmail: _emailController.text.trim(),
+                    ),
               ),
             );
           } else if (state.status == ForgotPasswordStatus.failure) {
@@ -86,6 +92,7 @@ class _ForgotPasswordViewState extends State<ForgotPasswordView> {
                       fontWeight: FontWeight.bold,
                       color: Colors.black,
                       height: 1.2,
+                      fontFamily: "Manrope",
                     ),
                     textAlign: TextAlign.center,
                   ),
@@ -96,17 +103,7 @@ class _ForgotPasswordViewState extends State<ForgotPasswordView> {
                       fontSize: 16,
                       color: Color(0xFF666666),
                       height: 1.5,
-                    ),
-                    textAlign: TextAlign.center,
-                  ),
-                  const SizedBox(height: 12),
-                  const Text(
-                    'sh******@gmail.com',
-                    style: TextStyle(
-                      fontSize: 15,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.black,
-                      height: 1.5,
+                      fontFamily: "Manrope",
                     ),
                     textAlign: TextAlign.center,
                   ),
@@ -118,12 +115,14 @@ class _ForgotPasswordViewState extends State<ForgotPasswordView> {
                         style: const TextStyle(
                           color: Colors.black,
                           fontSize: 16,
+                          fontFamily: "Manrope",
                         ),
                         decoration: InputDecoration(
-                          hintText: 'Mil ID',
+                          hintText: 'Mail ID',
                           hintStyle: TextStyle(
                             color: Colors.grey[400],
                             fontSize: 15,
+                            fontFamily: "Manrope",
                           ),
                           filled: true,
                           fillColor: const Color(0xFFF9F9F9),
@@ -164,52 +163,37 @@ class _ForgotPasswordViewState extends State<ForgotPasswordView> {
                           }
                           return null;
                         },
-                        onFieldSubmitted: (value) {
-                          if (_formKey.currentState!.validate()) {
-                            context.read<ForgotPasswordBloc>().add(
-                              ForgotPasswordSubmitted(),
-                            );
-                          }
-                        },
+                        onFieldSubmitted: (value) => _onSubmitted(),
                       );
                     },
                   ),
                   const Spacer(flex: 4),
-                  Column(
-                    children: [
-                      CircularArrowButton(
-                        onTap: () {
-                          if (_formKey.currentState!.validate()) {
-                            context.read<ForgotPasswordBloc>().add(
-                              ForgotPasswordSubmitted(),
-                            );
-                            Navigator.of(context).push(
-                              MaterialPageRoute(
-                                builder: (context) {
-                                  return PasswordRecoveryPage(
-                                    enteredmail: _emailController.text.trim(),
-                                  );
-                                },
+                  BlocBuilder<ForgotPasswordBloc, ForgotPasswordState>(
+                    builder: (context, state) {
+                      if (state.status == ForgotPasswordStatus.loading) {
+                        return const Center(child: CircularProgressIndicator());
+                      }
+                      return Column(
+                        children: [
+                          CircularArrowButton(onTap: _onSubmitted),
+                          const SizedBox(height: 16),
+                          TextButton(
+                            onPressed: () {
+                              Navigator.of(context).pop();
+                            },
+                            style: TextButton.styleFrom(
+                              foregroundColor: Colors.grey[600],
+                              textStyle: const TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.w400,
+                                fontFamily: "Manrope",
                               ),
-                            );
-                          }
-                        },
-                      ),
-                      const SizedBox(height: 16),
-                      TextButton(
-                        onPressed: () {
-                          Navigator.of(context).pop();
-                        },
-                        style: TextButton.styleFrom(
-                          foregroundColor: Colors.grey[600],
-                          textStyle: const TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.w400,
+                            ),
+                            child: const Text('Cancel'),
                           ),
-                        ),
-                        child: const Text('Cancel'),
-                      ),
-                    ],
+                        ],
+                      );
+                    },
                   ),
                   const SizedBox(height: 16),
                 ],

@@ -28,7 +28,14 @@ class MyAccountPage extends StatelessWidget {
             },
           ),
           SizedBox(height: 10),
-          ProfileMenuItem(title: "My Address", onTap: () {}),
+          ProfileMenuItem(
+            title: "My Address",
+            onTap: () {
+              Appnavigotor.pushnamed(context, RouteNames.checkout, {
+                "isMyaddressScreen": true,
+              });
+            },
+          ),
           SizedBox(height: 10),
           ProfileMenuItem(
             title: "Support & Legal",

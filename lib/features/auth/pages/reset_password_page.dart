@@ -5,6 +5,7 @@ import 'package:ad_e_commerce/features/auth/bloc/reset_password/reset_password_s
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:ad_e_commerce/core/routes/route_names.dart';
 
 class ResetPasswordPage extends StatefulWidget {
   const ResetPasswordPage({super.key});
@@ -25,6 +26,12 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
     super.dispose();
   }
 
+  void _onSubmitted() {
+    if (_formKey.currentState!.validate()) {
+      context.read<ResetPasswordBloc>().add(ResetPasswordSubmitted());
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
@@ -36,9 +43,20 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
           listener: (context, state) {
             if (state.status == ResetPasswordStatus.success) {
               ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(content: Text('Password reset successful')),
+                const SnackBar(
+                  content: Text('Password reset successful! Please login.'),
+                  backgroundColor: Colors.green,
+                ),
               );
-              Navigator.pop(context);
+              // Navigate to Home or Login depending on flow.
+              // Since AuthStateChange.signedIn handles global redirect,
+              // we might just pop or go to home if specific logic is needed.
+              // Ideally, Supabase AuthState listener in main.dart will pick this up
+              // if setting the password also signs them in (which it usually does).
+              // But to be safe and provide good UX:
+              Navigator.of(
+                context,
+              ).pushNamedAndRemoveUntil(RouteNames.home, (route) => false);
             } else if (state.status == ResetPasswordStatus.failure) {
               ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(
@@ -88,10 +106,16 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
                         return TextFormField(
                           controller: _passwordController,
                           obscureText: true,
-                          style: const TextStyle(fontSize: 16),
+                          style: const TextStyle(
+                            fontSize: 16,
+                            fontFamily: "Manrope",
+                          ),
                           decoration: InputDecoration(
                             hintText: 'New Password',
-                            hintStyle: TextStyle(color: Colors.grey[400]),
+                            hintStyle: TextStyle(
+                              color: Colors.grey[400],
+                              fontFamily: "Manrope",
+                            ),
                             filled: true,
                             fillColor: AppColors.offWhite,
                             border: OutlineInputBorder(
@@ -148,10 +172,16 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
                     TextFormField(
                       controller: _confirmPasswordController,
                       obscureText: true,
-                      style: const TextStyle(fontSize: 16),
+                      style: const TextStyle(
+                        fontSize: 16,
+                        fontFamily: "Manrope",
+                      ),
                       decoration: InputDecoration(
                         hintText: 'Repeat Password',
-                        hintStyle: TextStyle(color: Colors.grey[400]),
+                        hintStyle: TextStyle(
+                          color: Colors.grey[400],
+                          fontFamily: "Manrope",
+                        ),
                         filled: true,
                         fillColor: AppColors.offWhite,
                         border: OutlineInputBorder(
@@ -187,6 +217,7 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
                         }
                         return null;
                       },
+                      onFieldSubmitted: (_) => _onSubmitted(),
                     ),
                     const SizedBox(height: 60),
 
@@ -202,13 +233,7 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
                           width: double.infinity,
                           height: 56,
                           child: ElevatedButton(
-                            onPressed: () {
-                              if (_formKey.currentState!.validate()) {
-                                context.read<ResetPasswordBloc>().add(
-                                  ResetPasswordSubmitted(),
-                                );
-                              }
-                            },
+                            onPressed: _onSubmitted,
                             style: ElevatedButton.styleFrom(
                               backgroundColor: AppColors.primaryBlue,
                               foregroundColor: Colors.white,

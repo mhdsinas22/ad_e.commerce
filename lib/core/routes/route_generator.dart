@@ -70,7 +70,12 @@ class RouteGenerator {
       case RouteNames.cart:
         return MaterialPageRoute(builder: (context) => CartPage());
       case RouteNames.checkout:
-        return MaterialPageRoute(builder: (context) => CheckoutPage());
+        final args = settings.arguments as Map<String, dynamic>;
+        return MaterialPageRoute(
+          builder:
+              (context) =>
+                  CheckoutPage(isMyaddressScreen: args["isMyaddressScreen"]),
+        );
       case RouteNames.paymentpage:
         return MaterialPageRoute(builder: (context) => PaymetPage());
       case RouteNames.warranty:

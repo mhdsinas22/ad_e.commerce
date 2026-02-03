@@ -1,0 +1,25 @@
+import 'package:ad_e_commerce/features/orders/bloc/order_event.dart';
+import 'package:ad_e_commerce/features/orders/bloc/order_state.dart';
+import 'package:ad_e_commerce/features/orders/domain/repo/order_repo.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+
+class OrderBloc extends Bloc<OrderEvent, OrderState> {
+  final OrderRepo orderRepo;
+  OrderBloc(this.orderRepo) : super(OrderState()) {
+    on<CreateOrderEvent>(_createOrder);
+  }
+  Future<void> _createOrder(
+    CreateOrderEvent event,
+    Emitter<OrderState> emit,
+  ) async {
+    emit(state.copyWith(status: OrdersStatus.loading));
+    try {
+      await orderRepo.createOrder(
+        order: event.orders,
+        orderitems: event.orderitems,
+      );
+
+      emit(state.copyWith(status: OrdersStatus.success));
+    } catch (e) {}
+  }
+}
