@@ -64,10 +64,10 @@ class CartItemWidget extends StatelessWidget {
             children: [
               const Icon(Icons.star, color: Colors.amber, size: 18),
               const SizedBox(width: 4),
-              AppTexts.bold("4.9", fontSize: 14),
+              AppTexts.bold(item.rating, fontSize: 14),
               const SizedBox(width: 4),
               AppTexts.regular(
-                "(${85}) Reviews",
+                "(${item.noOfRating}) Reviews",
                 fontSize: 12,
                 color: AppColors.pureBlack,
               ),

@@ -10,15 +10,17 @@ class OrderModel extends Orders {
     required super.paymentMethod,
     required super.shippingAddress,
     required super.orderItems,
+    super.orderNumber,
   });
   factory OrderModel.fromJson(Map<String, dynamic> json) {
     return OrderModel(
       id: json["id"],
       userId: json["user_id"],
+      orderNumber: json["order_number"] ?? "",
       totalAmount: (json['total_amount'] as num).toDouble(),
-      status: json["status"],
-      paymentMethod: json["payment_method"],
-      shippingAddress: json["shipping_address"],
+      status: json["status"] ?? "",
+      paymentMethod: json["payment_method"] ?? "",
+      shippingAddress: json["shipping_address"] ?? "",
       orderItems:
           (json["order_items"] as List)
               .map((e) => OrderItemModel.fromJson(e))
@@ -34,6 +36,7 @@ class OrderModel extends Orders {
       paymentMethod: order.paymentMethod,
       shippingAddress: order.shippingAddress,
       orderItems: order.orderItems,
+      orderNumber: order.orderNumber,
     );
   }
   Map<String, dynamic> toJson() => {

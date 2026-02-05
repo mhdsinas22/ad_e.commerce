@@ -1,3 +1,8 @@
+import 'package:ad_e_commerce/core/constants/app_animations.dart';
+import 'package:ad_e_commerce/core/routes/route_names.dart';
+import 'package:ad_e_commerce/core/utils/navigator.dart';
+import 'package:ad_e_commerce/core/widgets/app_text.dart';
+import 'package:ad_e_commerce/core/widgets/primary_button.dart';
 import 'package:ad_e_commerce/features/cart/bloc/cart_bloc.dart';
 import 'package:ad_e_commerce/features/cart/bloc/cart_event.dart';
 import 'package:ad_e_commerce/features/checkout/data/models/address_model.dart';
@@ -15,6 +20,7 @@ import 'package:ad_e_commerce/features/orders/domain/enities/order_item.dart';
 import 'package:ad_e_commerce/features/orders/domain/enities/orders.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:lottie/lottie.dart';
 
 import 'package:supabase_flutter/supabase_flutter.dart';
 
@@ -50,17 +56,82 @@ class PaymentPageUi extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocListener<OrderBloc, OrderState>(
       listener: (context, state) {
+        if (state.status == OrdersStatus.loading) {
+          showModalBottomSheet(
+            backgroundColor: Colors.white,
+            context: context,
+            builder: (context) {
+              return SizedBox(
+                width: double.infinity,
+                height: 327,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Center(
+                      child: Lottie.asset(
+                        AppAnimations.deliverytruckloading,
+                        width: 200,
+                        height: 200,
+                      ),
+                    ),
+                    const SizedBox(height: 5),
+                    AppTexts.medium(
+                      "Redirecting to payment page",
+                      fontSize: 14,
+                    ),
+                  ],
+                ),
+              );
+            },
+          );
+        }
         if (state.status == OrdersStatus.success) {
           // Clear Cart
           context.read<CartBloc>().add(ClearCartEvent());
-          ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text("Order placed successfully")),
+          showModalBottomSheet(
+            isScrollControlled: true,
+            backgroundColor: Colors.white,
+            context: context,
+            builder: (context) {
+              return SizedBox(
+                width: double.infinity,
+                height: double.infinity,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Lottie.asset(
+                      repeat: false,
+                      AppAnimations.successAnimation,
+                      width: 200,
+                      height: 200,
+                    ),
+                    const SizedBox(height: 5),
+                    AppTexts.medium(
+                      "ThankYou for shopping with Airdrop",
+                      fontSize: 14,
+                    ),
+                    const SizedBox(height: 10),
+                    PrimaryButton(
+                      width: 100,
+                      height: 50,
+                      text: "Done",
+                      onPressed: () {
+                        Appnavigotor.pushNamedAndRemoveUntil(
+                          context,
+                          RouteNames.mainShell,
+                        );
+                      },
+                    ),
+                  ],
+                ),
+              );
+            },
           );
         }
         if (state.status == OrdersStatus.failure) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text(state.errormessege ?? "Order failed")),
-          );
+          ScaffoldMessenger.of(
+            context,
+          ).showSnackBar(SnackBar(content: Text(state.errormessege)));
         }
       },
       child: Scaffold(
@@ -96,6 +167,11 @@ class PaymentPageUi extends StatelessWidget {
                           sku: "sku1",
                           price: element.price,
                           quantity: element.quantity,
+                          productStorge: element.storeage,
+                          productColor: element.color,
+                          productModelNumber: element.modelNumber,
+                          productrating: element.rating,
+                          productNoOfRating: element.noOfRating,
                         );
                       }).toList();
                   context.read<OrderBloc>().add(

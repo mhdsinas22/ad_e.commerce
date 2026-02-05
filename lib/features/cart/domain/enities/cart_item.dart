@@ -4,12 +4,13 @@ class CartItem {
   final String storename;
   final int quantity;
   final double price;
-  // product details
   final String title;
   final String modelNumber;
   final String imageUrl;
   final String storeage;
   final String color;
+  final String rating;
+  final String noOfRating;
   CartItem({
     this.id,
     required this.productId,
@@ -21,5 +22,7 @@ class CartItem {
     required this.imageUrl,
     required this.storeage,
     required this.color,
+    required this.rating,
+    required this.noOfRating,
   });
 }

@@ -8,3 +8,13 @@ class SubmitAddressEvent extends AddressEvent {
 }
 
 class FetchAddressEvent extends AddressEvent {}
+
+class UpdateAddressEvent extends AddressEvent {
+  final AddressModel address;
+  UpdateAddressEvent(this.address);
+}
+
+class DeleteAddressEvent extends AddressEvent {
+  final String id;
+  DeleteAddressEvent(this.id);
+}

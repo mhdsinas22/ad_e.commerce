@@ -25,6 +25,19 @@ class AddressModel extends AddressEntity {
       id: json["id"],
     );
   }
+  factory AddressModel.fromEntity(AddressEntity entity) {
+    return AddressModel(
+      id: entity.id,
+      userid: entity.userid,
+      pincode: entity.pincode,
+      house: entity.house,
+      area: entity.area,
+      landmark: entity.landmark,
+      email: entity.email,
+      alternatePhone: entity.alternatePhone,
+      saveAs: entity.saveAs,
+    );
+  }
   Map<String, dynamic> toJson() {
     return {
       "pincode": pincode,
@@ -36,5 +49,27 @@ class AddressModel extends AddressEntity {
       "user_id": userid,
       "save_as": saveAs,
     };
+  }
+
+  AddressModel copyWith({
+    String? pincode,
+    String? house,
+    String? area,
+    String? landmark,
+    String? email,
+    String? alternatePhone,
+    String? saveAs,
+  }) {
+    return AddressModel(
+      id: id,
+      userid: userid,
+      pincode: pincode ?? this.pincode,
+      house: house ?? this.house,
+      area: area ?? this.area,
+      landmark: landmark ?? this.landmark,
+      email: email ?? this.email,
+      alternatePhone: alternatePhone ?? this.alternatePhone,
+      saveAs: saveAs ?? this.saveAs,
+    );
   }
 }

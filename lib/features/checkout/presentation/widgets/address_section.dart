@@ -1,3 +1,5 @@
+import 'package:ad_e_commerce/core/theme/app_colors.dart';
+import 'package:ad_e_commerce/core/widgets/app_text.dart';
 import 'package:ad_e_commerce/features/checkout/domain/enitites/address_entity.dart';
 import 'package:flutter/material.dart';
 
@@ -13,6 +15,9 @@ class AddressSection extends StatefulWidget {
   final ValueChanged<String> onSaveAsChanged;
   final int selectedAddressIndex;
   final ValueChanged<int> onAddressSelected;
+  final bool isEditingAddress;
+  final Function(AddressEntity address, int index) onEditAddress;
+  final bool isEdit;
 
   const AddressSection({
     super.key,
@@ -27,6 +32,9 @@ class AddressSection extends StatefulWidget {
     required this.addresses,
     required this.selectedAddressIndex,
     required this.onAddressSelected,
+    required this.isEdit,
+    required this.onEditAddress,
+    required this.isEditingAddress,
   });
 
   @override
@@ -37,115 +45,122 @@ class _AddressSectionState extends State<AddressSection> {
   @override
   Widget build(BuildContext context) {
     final addNewIndex = widget.addresses.length;
-
+    final shouldShowForm =
+        widget.selectedAddressIndex == addNewIndex || widget.isEditingAddress;
     return SingleChildScrollView(
       child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            SizedBox(height: 10),
-            Text(
-              'Select your Address',
-              style: TextStyle(
-                fontSize: 18,
-                fontWeight: FontWeight.w600,
-                color: Colors.black,
-              ),
-            ),
-            SizedBox(height: 20),
-            ListView.builder(
-              shrinkWrap: true,
-              physics: NeverScrollableScrollPhysics(),
-              itemCount: widget.addresses.length,
-              itemBuilder: (context, index) {
-                final address = widget.addresses[index];
-                return _buildAddressOption(
-                  index: index,
-                  label: address.saveAs.toUpperCase(),
-                  sublabel:
-                      '${address.house}, ${address.area}, ${address.pincode}',
-                );
-              },
-            ),
-
-            SizedBox(height: 16),
-            _buildAddressOption(
-              index: addNewIndex,
-              label: 'Add new',
-              isAddNew: true,
-            ),
-            if (widget.selectedAddressIndex == addNewIndex) ...[
-              SizedBox(height: 30),
-              _buildTextField(
-                label: 'Enter Pincode*',
-                hint: 'Eg: 676517',
-                controller: widget.pincodeController,
-                keyboardType: TextInputType.number,
-              ),
-
-              const SizedBox(height: 20),
-
-              _buildTextField(
-                label: 'Flat no./ H no./ Office*',
-                hint: 'House name / Flat number',
-                controller: widget.houseController,
-              ),
-
-              const SizedBox(height: 20),
-
-              _buildTextField(
-                label: 'Locality/Area/Street',
-                hint: 'Area / Street name',
-                controller: widget.localityController,
-              ),
-
-              const SizedBox(height: 20),
-
-              _buildTextField(
-                label: 'Landmark (optional)',
-                hint: 'Near temple / school',
-                controller: widget.landmarkController,
-              ),
-
-              const SizedBox(height: 20),
-
-              _buildTextField(
-                label: 'Email*',
-                hint: 'example@email.com',
-                controller: widget.emailController,
-                keyboardType: TextInputType.emailAddress,
-              ),
-
-              const SizedBox(height: 20),
-
-              _buildTextField(
-                label: 'Alternate number (optional)',
-                hint: 'Optional phone number',
-                controller: widget.alternateNumberController,
-                keyboardType: TextInputType.phone,
-              ),
-
-              const SizedBox(height: 30),
-
-              const Text(
-                'Save As',
-                style: TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
-              ),
-
+        padding: EdgeInsets.only(
+          bottom: MediaQuery.of(context).viewInsets.bottom + 160,
+        ),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
               SizedBox(height: 10),
-              Row(
-                children: [
-                  _buildSaveAsOption('Home'),
-                  SizedBox(width: 20),
-                  _buildSaveAsOption('Office'),
-                  SizedBox(width: 20),
-                  _buildSaveAsOption('Other'),
-                ],
+              Text(
+                'Select your Address',
+                style: TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.w600,
+                  color: Colors.black,
+                ),
               ),
-              SizedBox(height: 40),
+              SizedBox(height: 20),
+              ListView.builder(
+                shrinkWrap: true,
+                physics: NeverScrollableScrollPhysics(),
+                itemCount: widget.addresses.length,
+                itemBuilder: (context, index) {
+                  final address = widget.addresses[index];
+                  return _buildAddressOption(
+                    index: index,
+                    label: address.saveAs.toUpperCase(),
+                    sublabel:
+                        '${address.house}, ${address.area}, ${address.pincode}',
+                  );
+                },
+              ),
+
+              SizedBox(height: 16),
+              _buildAddressOption(
+                index: addNewIndex,
+                label: 'Add new',
+                isAddNew: true,
+              ),
+
+              if (shouldShowForm) ...[
+                SizedBox(height: 30),
+                _buildTextField(
+                  label: 'Enter Pincode*',
+                  hint: 'Eg: 676517',
+                  controller: widget.pincodeController,
+                  keyboardType: TextInputType.number,
+                ),
+
+                const SizedBox(height: 20),
+
+                _buildTextField(
+                  label: 'Flat no./ H no./ Office*',
+                  hint: 'House name / Flat number',
+                  controller: widget.houseController,
+                ),
+
+                const SizedBox(height: 20),
+
+                _buildTextField(
+                  label: 'Locality/Area/Street',
+                  hint: 'Area / Street name',
+                  controller: widget.localityController,
+                ),
+
+                const SizedBox(height: 20),
+
+                _buildTextField(
+                  label: 'Landmark (optional)',
+                  hint: 'Near temple / school',
+                  controller: widget.landmarkController,
+                ),
+
+                const SizedBox(height: 20),
+
+                _buildTextField(
+                  label: 'Email*',
+                  hint: 'example@email.com',
+                  controller: widget.emailController,
+                  keyboardType: TextInputType.emailAddress,
+                ),
+
+                const SizedBox(height: 20),
+
+                _buildTextField(
+                  label: 'Alternate number (optional)',
+                  hint: 'Optional phone number',
+                  controller: widget.alternateNumberController,
+                  keyboardType: TextInputType.phone,
+                ),
+
+                const SizedBox(height: 30),
+
+                const Text(
+                  'Save As',
+                  style: TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
+                ),
+
+                SizedBox(height: 10),
+                Row(
+                  children: [
+                    _buildSaveAsOption('Home'),
+                    SizedBox(width: 20),
+                    _buildSaveAsOption('Office'),
+                    SizedBox(width: 20),
+                    _buildSaveAsOption('Other'),
+                  ],
+                ),
+                SizedBox(height: 40),
+              ],
             ],
-          ],
+          ),
         ),
       ),
     );
@@ -207,6 +222,18 @@ class _AddressSectionState extends State<AddressSection> {
               ],
             ),
           ),
+          (widget.isEdit && index < widget.addresses.length)
+              ? GestureDetector(
+                onTap: () {
+                  widget.onEditAddress(widget.addresses[index], index);
+                },
+                child: AppTexts.medium(
+                  "Edit",
+                  fontSize: 12,
+                  color: AppColors.primaryBlue,
+                ),
+              )
+              : SizedBox(),
         ],
       ),
     );
@@ -226,11 +253,7 @@ class _AddressSectionState extends State<AddressSection> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            label, // We use the label as the 'hint' in the design if it's sitting there or it is floating?
-            // Image shows "Enter Pincode*" inside the line, looking like a hint.
-            // But when typed, it probably floats or disappears?
-            // The image has placeholder text "Enter Pincode*" looking like hint.
-            // I'll use it as hintText in InputDecoration.
+            label,
             style: TextStyle(
               fontSize: 14,
               color: Colors.transparent,
@@ -276,8 +299,6 @@ class _AddressSectionState extends State<AddressSection> {
                 width: isSelected ? 5 : 2, // Thick border looks like filled
               ), // Or actual radio logic
             ),
-            // The image shows a thick black circle with white center for selected? No, it looks like a dot.
-            // "Save As" Image: Circle with dot. Standard Radio.
             child:
                 isSelected
                     ? Center(
@@ -292,8 +313,6 @@ class _AddressSectionState extends State<AddressSection> {
                     )
                     : null,
           ),
-          // Actually standard Radio looks better. I'll mimic the image which is a black circle with a dot.
-          // Let's standard Radio look alike.
           SizedBox(width: 8),
           Text(
             value,

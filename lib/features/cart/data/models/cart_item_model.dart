@@ -12,9 +12,12 @@ class CartItemModel extends CartItem {
     required super.imageUrl,
     required super.storeage,
     required super.color,
+    required super.rating,
+    required super.noOfRating,
   });
   factory CartItemModel.fromJson(Map<String, dynamic> json) {
     final product = json["products"];
+    print("PRODUCT JSON 👉 $product");
     return CartItemModel(
       id: json["id"] ?? "",
       productId: json["product_id"] ?? "",
@@ -32,6 +35,8 @@ class CartItemModel extends CartItem {
                   product["image_url"].isNotEmpty)
               ? product["image_url"][0]
               : "",
+      rating: (product["rating"] ?? 0.0).toString(),
+      noOfRating: (product["no_of_reviews"] ?? 0).toString(),
     );
   }
   Map<String, dynamic> toJson() {

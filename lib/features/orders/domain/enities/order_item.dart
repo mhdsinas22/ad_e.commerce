@@ -4,6 +4,11 @@ class OrderItem {
   final String productId;
   final String productName;
   final String productImage;
+  final String productStorge;
+  final String productColor;
+  final String productModelNumber;
+  final String productrating;
+  final String productNoOfRating;
   final String sku;
   final double price;
   final int quantity;
@@ -16,5 +21,10 @@ class OrderItem {
     required this.sku,
     required this.price,
     required this.quantity,
+    required this.productStorge,
+    required this.productColor,
+    required this.productModelNumber,
+    required this.productrating,
+    required this.productNoOfRating,
   });
 }

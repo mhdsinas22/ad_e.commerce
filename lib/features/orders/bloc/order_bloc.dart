@@ -20,7 +20,7 @@ class OrderBloc extends Bloc<OrderEvent, OrderState> {
         order: event.orders,
         orderitems: event.orderitems,
       );
-
+      await Future.delayed(const Duration(seconds: 2));
       emit(state.copyWith(status: OrdersStatus.success));
     } catch (e) {
       emit(

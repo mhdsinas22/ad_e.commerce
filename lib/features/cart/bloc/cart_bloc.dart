@@ -20,7 +20,13 @@ class CartBloc extends Bloc<CartEvent, CartState> {
   Future<void> _addTocart(AddToCartEvent event, Emitter<CartState> emit) async {
     // Optimistic or loading - standard is loading for add to cart usually,
     // but here we might want to just load.
-    emit(state.copyWith(status: CartStatus.loading, isAdding: true));
+    emit(
+      state.copyWith(
+        status: CartStatus.loading,
+        isAdding: true,
+        loadingProductid: event.productid,
+      ),
+    );
     try {
       // 1️ Add product to cart
       await addToCartUsecase.call(
@@ -36,16 +42,24 @@ class CartBloc extends Bloc<CartEvent, CartState> {
       emit(
         state.copyWith(
           status: CartStatus.loaded,
-          cartitem: items,
+          cartitems: items,
           subTotal: totals['subTotal'],
           voucherAmount: totals['voucherAmount'],
           deliveryFee: totals['deliveryFee'],
           totalAmount: totals['totalAmount'],
           isAdding: false,
+          clearLoadingProductId: true,
         ),
       );
     } catch (e) {
-      emit(state.copyWith(status: CartStatus.error, error: e.toString()));
+      emit(
+        state.copyWith(
+          status: CartStatus.error,
+          error: e.toString(),
+          isAdding: false,
+          loadingProductid: null,
+        ),
+      );
     }
   }
 
@@ -62,7 +76,7 @@ class CartBloc extends Bloc<CartEvent, CartState> {
       final totals = _calculateTotals(updatedItems);
       emit(
         state.copyWith(
-          cartitem: updatedItems,
+          cartitems: updatedItems,
           subTotal: totals['subTotal'],
           voucherAmount: totals['voucherAmount'],
           deliveryFee: totals['deliveryFee'],
@@ -84,7 +98,7 @@ class CartBloc extends Bloc<CartEvent, CartState> {
         state.copyWith(
           status: CartStatus.error,
           error: e.toString(),
-          cartitem: originalItems,
+          cartitems: originalItems,
           subTotal: totals['subTotal'],
           voucherAmount: totals['voucherAmount'],
           deliveryFee: totals['deliveryFee'],
@@ -133,6 +147,8 @@ class CartBloc extends Bloc<CartEvent, CartState> {
         imageUrl: currentItem.imageUrl,
         storeage: currentItem.storeage,
         color: currentItem.color,
+        noOfRating: currentItem.noOfRating,
+        rating: currentItem.rating,
       );
 
       final updatedList = List<CartItem>.from(state.cartitems);
@@ -143,7 +159,7 @@ class CartBloc extends Bloc<CartEvent, CartState> {
       // Emit optimistic state
       emit(
         state.copyWith(
-          cartitem: updatedList,
+          cartitems: updatedList,
           subTotal: totals['subTotal'],
           voucherAmount: totals['voucherAmount'],
           deliveryFee: totals['deliveryFee'],
@@ -164,7 +180,7 @@ class CartBloc extends Bloc<CartEvent, CartState> {
         state.copyWith(
           status: CartStatus.error,
           error: e.toString(),
-          cartitem: originalItems,
+          cartitems: originalItems,
           subTotal: totals['subTotal'],
           voucherAmount: totals['voucherAmount'],
           deliveryFee: totals['deliveryFee'],
@@ -184,7 +200,7 @@ class CartBloc extends Bloc<CartEvent, CartState> {
       emit(
         state.copyWith(
           status: CartStatus.loaded,
-          cartitem: items,
+          cartitems: items,
           subTotal: totals['subTotal'],
           voucherAmount: totals['voucherAmount'],
           deliveryFee: totals['deliveryFee'],

@@ -11,6 +11,7 @@ class CartState {
   final double voucherAmount;
   final double deliveryFee;
   final bool isAdding;
+  final String? loadingProductid;
 
   CartState({
     this.status = CartStatus.initial,
@@ -21,27 +22,34 @@ class CartState {
     this.voucherAmount = 0.0,
     this.deliveryFee = 0.0,
     this.isAdding = false,
+    this.loadingProductid,
   });
 
   CartState copyWith({
     CartStatus? status,
-    List<CartItem>? cartitem,
+    List<CartItem>? cartitems,
     String? error,
     double? subTotal,
     double? totalAmount,
     double? voucherAmount,
     double? deliveryFee,
     bool? isAdding,
+    String? loadingProductid,
+    bool clearLoadingProductId = false,
   }) {
     return CartState(
       status: status ?? this.status,
-      cartitems: cartitem ?? [],
+      cartitems: cartitems ?? this.cartitems,
       error: error ?? this.error,
       subTotal: subTotal ?? this.subTotal,
       totalAmount: totalAmount ?? this.totalAmount,
       voucherAmount: voucherAmount ?? this.voucherAmount,
       deliveryFee: deliveryFee ?? this.deliveryFee,
       isAdding: isAdding ?? this.isAdding,
+      loadingProductid:
+          clearLoadingProductId
+              ? ""
+              : loadingProductid ?? this.loadingProductid,
     );
   }
 }

@@ -17,10 +17,7 @@ class SearchCartButtonLogic extends StatelessWidget {
     return BlocBuilder<CartBloc, CartState>(
       builder: (context, state) {
         final isInCart = state.cartitems.any((e) => e.productId == product.id);
-
-        if (state.status == CartStatus.loading) {
-          return const Center(child: CircularProgressIndicator());
-        }
+        final isLoading = state.loadingProductid == product.id;
 
         return SizedBox(
           width: 120,
@@ -47,10 +44,23 @@ class SearchCartButtonLogic extends StatelessWidget {
                 );
               }
             },
-            child: Text(
-              isInCart ? "View Cart" : "Add to Cart",
-              style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w600),
-            ),
+            child:
+                isLoading
+                    ? const SizedBox(
+                      height: 16,
+                      width: 16,
+                      child: CircularProgressIndicator(
+                        strokeWidth: 2,
+                        color: Colors.white,
+                      ),
+                    )
+                    : Text(
+                      isInCart ? "View Cart" : "Add to Cart",
+                      style: const TextStyle(
+                        fontSize: 12,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
           ),
         );
       },

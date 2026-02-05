@@ -3,6 +3,7 @@ import 'package:ad_e_commerce/features/orders/domain/enities/order_item.dart';
 class Orders {
   final String? id;
   final String userId;
+  final String? orderNumber;
   final double totalAmount;
   final String status;
   final String paymentMethod;
@@ -17,5 +18,6 @@ class Orders {
     required this.paymentMethod,
     required this.shippingAddress,
     required this.orderItems,
+    this.orderNumber,
   });
 }

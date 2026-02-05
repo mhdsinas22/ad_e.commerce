@@ -63,7 +63,7 @@ class CartRemoteDatasourceimpl implements CartRemoteDataSource {
       final response = await supabase
           .from("cart_items")
           .select(
-            ''' id,product_id,store_name,quantity,price,products(id,title,model_number,image_url,color,storage)''',
+            ''' id,product_id,store_name,quantity,price,products(id,title,model_number,image_url,color,storage,rating,no_of_reviews)''',
           )
           .eq("cart_id", cart["id"]);
       print("AUTH USER ID: $userId");
@@ -117,7 +117,7 @@ class CartRemoteDatasourceimpl implements CartRemoteDataSource {
   Future<void> clearCart() async {
     final userId = supabase.auth.currentUser!.id;
 
-    // 1️⃣ get active cart
+    // 1️ get active cart
     final cart =
         await supabase
             .from('carts')
@@ -130,10 +130,10 @@ class CartRemoteDatasourceimpl implements CartRemoteDataSource {
 
     final cartId = cart['id'];
 
-    // 2️⃣ delete all cart_items
+    // 2️ delete all cart_items
     await supabase.from('cart_items').delete().eq('cart_id', cartId);
 
-    // 3️⃣ deactivate cart
+    // 3 deactivate cart
     await supabase.from('carts').update({'is_active': false}).eq('id', cartId);
   }
 }

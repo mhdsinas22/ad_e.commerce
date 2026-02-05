@@ -76,7 +76,7 @@ class OrderItemWidget extends StatelessWidget {
 
           // Title
           AppTexts.semiBold(
-            orderItem.productName,
+            "${orderItem.productName}   ${orderItem.productStorge.isEmpty ? "-" : "(${orderItem.productStorge})-"}${orderItem.productColor}",
             fontSize: 16,
             maxLines: 2,
             overflow: TextOverflow.ellipsis,
@@ -86,7 +86,7 @@ class OrderItemWidget extends StatelessWidget {
 
           // Model (using SKU as model number substitute based on initial code)
           AppTexts.regular(
-            "Model: ${orderItem.sku}", // derived from previous code intent
+            "Model: ${orderItem.productModelNumber}", // derived from previous code intent
             fontSize: 14,
             color: AppColors.grayColor,
           ),

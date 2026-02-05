@@ -10,6 +10,11 @@ class OrderItemModel extends OrderItem {
     required super.sku,
     required super.price,
     required super.quantity,
+    required super.productStorge,
+    required super.productColor,
+    required super.productModelNumber,
+    required super.productrating,
+    required super.productNoOfRating,
   });
 
   factory OrderItemModel.fromEntity(OrderItem item) {
@@ -22,6 +27,11 @@ class OrderItemModel extends OrderItem {
       sku: item.sku,
       price: item.price,
       quantity: item.quantity,
+      productColor: item.productColor,
+      productModelNumber: item.productModelNumber,
+      productStorge: item.productStorge,
+      productNoOfRating: item.productNoOfRating,
+      productrating: item.productrating,
     );
   }
   factory OrderItemModel.fromJson(Map<String, dynamic> json) {
@@ -34,6 +44,11 @@ class OrderItemModel extends OrderItem {
       sku: json["sku"],
       price: json["price"],
       quantity: json["quantity"],
+      productStorge: json["product_stroage"],
+      productColor: json["product_color"],
+      productModelNumber: json["product_modelnumber"],
+      productNoOfRating: json["product_no_of_rating"],
+      productrating: json["product_rating"],
     );
   }
   Map<String, dynamic> toJson({required String orderID}) {
@@ -45,6 +60,11 @@ class OrderItemModel extends OrderItem {
       "sku": sku,
       "price": price,
       "quantity": quantity,
+      "product_stroage": productStorge,
+      "product_color": productColor,
+      "product_modelnumber": productModelNumber,
+      "product_no_of_rating": productNoOfRating,
+      "product_rating": productrating,
     };
   }
 }
