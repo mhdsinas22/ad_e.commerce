@@ -1,6 +1,5 @@
-import 'package:ad_admin_side/features/product/data/datasources/product_warranty_datasoruce.dart/product_warranty_datasource.dart';
-import 'package:ad_admin_side/features/product/data/models/warranty/prodcut_warranty_model.dart';
-
+import 'package:ad_e_commerce/features/product/data/datasources/product_warranty_datasource.dart';
+import 'package:ad_e_commerce/features/product/data/models/prodcut_warranty_model.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 class ProductWarrantyRemoteDataSourceImpl

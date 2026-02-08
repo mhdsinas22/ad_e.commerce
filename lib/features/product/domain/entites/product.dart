@@ -1,4 +1,5 @@
 import 'package:ad_e_commerce/features/product/domain/entites/product_stock.dart';
+import 'package:ad_e_commerce/features/product/domain/entites/product_warranty.dart';
 
 class Product {
   final String? id;
@@ -26,6 +27,7 @@ class Product {
   final double rating;
   final int noofreviews;
   final String subCategory;
+  final List<ProductWarranty> warranties;
 
   Product({
     this.id,
@@ -53,5 +55,6 @@ class Product {
     required this.rating,
     required this.noofreviews,
     required this.subCategory,
+    this.warranties = const [],
   });
 }

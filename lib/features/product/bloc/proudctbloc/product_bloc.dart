@@ -13,6 +13,14 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
     on<LoadFlashSaleProductsEvent>(_loadFlashSaleProducts);
     on<UpdateConditionFilter>(_updateConditionFilter);
     on<UpdateWarrantyFilter>(_updateWarrantyFilter);
+    on<ResetProductFilters>((event, emit) {
+      emit(
+        state.copyWith(
+          selectedCondition: "Select Condition",
+          selectedWarranty: "Choose Warranty",
+        ),
+      );
+    });
   }
   Future<void> _loadProducts(
     LoadProductsEvent event,

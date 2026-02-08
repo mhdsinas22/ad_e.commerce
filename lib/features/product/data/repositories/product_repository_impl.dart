@@ -111,6 +111,7 @@ class ProductRepositoryImpl implements ProductRepository {
         ramid: model.ramid,
         imageUrls: List<String>.from(model.imageUrls),
         subCategory: model.subCategory,
+        warranties: model.warranties,
       );
     }).toList();
   }

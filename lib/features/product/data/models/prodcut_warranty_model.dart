@@ -1,4 +1,4 @@
-import 'package:ad_admin_side/features/product/domain/entities/warranty/product_warranty.dart';
+import 'package:ad_e_commerce/features/product/domain/entites/product_warranty.dart';
 
 class ProductWarrantyModel extends ProductWarranty {
   const ProductWarrantyModel({

@@ -16,3 +16,5 @@ class UpdateWarrantyFilter extends ProductEvent {
   final String warranty;
   UpdateWarrantyFilter(this.warranty);
 }
+
+class ResetProductFilters extends ProductEvent {}

@@ -1,4 +1,4 @@
-import 'package:ad_admin_side/features/product/data/models/warranty/prodcut_warranty_model.dart';
+import 'package:ad_e_commerce/features/product/data/models/prodcut_warranty_model.dart';
 
 abstract class ProductWarrantyRemoteDataSource {
   /// Add multiple warranties for a product

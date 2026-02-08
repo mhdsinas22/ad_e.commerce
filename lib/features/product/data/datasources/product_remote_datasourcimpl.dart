@@ -50,7 +50,22 @@ class ProductRemoteDatasourceImpl implements ProductRemoteDatasource {
   Future<List<ProductModel>> getProducts() async {
     final response = await supabase
         .from('products')
-        .select("*, product_stocks(*)")
+        .select('''
+    *,
+    product_stocks(*),
+    product_warranties(
+      id,
+      product_id,
+      warranty_type_id,
+      start_date,
+      end_date,
+      duration_text,
+      warranty_types (
+        id,
+        name
+      )
+    )
+  ''')
         .order('created_at', ascending: false);
 
     // .order('created_at', ascending: false);

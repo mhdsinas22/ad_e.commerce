@@ -1,5 +1,6 @@
 import 'package:ad_e_commerce/features/product/domain/entites/product.dart';
 import 'package:ad_e_commerce/features/product/domain/entites/product_stock.dart';
+import 'package:ad_e_commerce/features/product/data/models/prodcut_warranty_model.dart';
 
 class ProductModel extends Product {
   ProductModel({
@@ -28,6 +29,7 @@ class ProductModel extends Product {
     required super.rating,
     required super.noofreviews,
     required super.subCategory,
+    super.warranties,
   });
 
   factory ProductModel.fromMap(Map<String, dynamic> map) {
@@ -68,6 +70,13 @@ class ProductModel extends Product {
       rating: (map["rating"] as num?)?.toDouble() ?? 0.0,
       noofreviews: (map["no_of_reviews"] as num?)?.toInt() ?? 0,
       subCategory: map["sub_categories"] ?? "",
+      warranties:
+          (map['product_warranties'] as List<dynamic>?)
+              ?.map(
+                (e) => ProductWarrantyModel.fromJson(e as Map<String, dynamic>),
+              )
+              .toList() ??
+          [],
     );
   }
 

@@ -1,4 +1,5 @@
 import 'package:ad_e_commerce/core/common/widgets/shimmer/app_shimmer.dart';
+import 'package:ad_e_commerce/core/constants/app_constants.dart';
 import 'package:ad_e_commerce/core/utils/helpers.dart';
 import 'package:ad_e_commerce/core/widgets/app_sliver_app_bar.dart';
 import 'package:ad_e_commerce/core/widgets/app_text.dart';
@@ -64,9 +65,7 @@ class CategoryFiltredPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      context.read<ProductBloc>().add(
-        UpdateConditionFilter("Select Condition"),
-      );
+      context.read<ProductBloc>().add(ResetProductFilters());
     });
     final bool showConditionDropdown =
         subCategory != SubCategory.bag &&
@@ -192,6 +191,26 @@ class CategoryFiltredPage extends StatelessWidget {
                                               Helpers.conditionToString(
                                                 dropdownConditionEnum,
                                               );
+                                  final matchWarranty =
+                                      state.selectedWarranty == null ||
+                                              state.selectedWarranty ==
+                                                  "Choose Warranty"
+                                          ? true
+                                          : state.selectedWarranty ==
+                                              "Apple Warranty"
+                                          ? product.warranties.any(
+                                            (w) =>
+                                                w.warrantyTypeId.toString() ==
+                                                WarrantyTypeIds.apple,
+                                          )
+                                          : state.selectedWarranty ==
+                                              "Shop Warranty"
+                                          ? product.warranties.any(
+                                            (w) =>
+                                                w.warrantyTypeId.toString() ==
+                                                WarrantyTypeIds.shop,
+                                          )
+                                          : true;
 
                                   return matchCondition &&
                                       matchSubCategory &&
@@ -200,7 +219,8 @@ class CategoryFiltredPage extends StatelessWidget {
                                       matchBestSeller &&
                                       matchpricebestsellter &&
                                       matchCategory &&
-                                      matchDropdownCondition;
+                                      matchDropdownCondition &&
+                                      matchWarranty;
                                 }).toList();
 
                             return BlocBuilder<SearchBloc, SearchState>(
