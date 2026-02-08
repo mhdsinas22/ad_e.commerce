@@ -11,6 +11,8 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
     : super(ProductState.initial()) {
     on<LoadProductsEvent>(_loadProducts);
     on<LoadFlashSaleProductsEvent>(_loadFlashSaleProducts);
+    on<UpdateConditionFilter>(_updateConditionFilter);
+    on<UpdateWarrantyFilter>(_updateWarrantyFilter);
   }
   Future<void> _loadProducts(
     LoadProductsEvent event,
@@ -54,5 +56,19 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
         errorMessage: "Unable to Load flashSale Products",
       );
     }
+  }
+
+  Future<void> _updateConditionFilter(
+    UpdateConditionFilter event,
+    Emitter<ProductState> emit,
+  ) async {
+    emit(state.copyWith(selectedCondition: event.condition));
+  }
+
+  void _updateWarrantyFilter(
+    UpdateWarrantyFilter event,
+    Emitter<ProductState> emit,
+  ) {
+    emit(state.copyWith(selectedWarranty: event.warranty));
   }
 }

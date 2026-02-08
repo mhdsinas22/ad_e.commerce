@@ -18,3 +18,8 @@ class DeleteAddressEvent extends AddressEvent {
   final String id;
   DeleteAddressEvent(this.id);
 }
+
+class SelectAddressEvent extends AddressEvent {
+  final int index;
+  SelectAddressEvent(this.index);
+}

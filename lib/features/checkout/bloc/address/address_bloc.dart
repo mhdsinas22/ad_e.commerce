@@ -10,6 +10,7 @@ class AddressBloc extends Bloc<AddressEvent, AddressState> {
     on<FetchAddressEvent>(_fetchAddress);
     on<UpdateAddressEvent>(_updateAddress);
     on<DeleteAddressEvent>(_deleteAddress);
+    on<SelectAddressEvent>(_selectAddress);
   }
   Future<void> _submitAddress(
     SubmitAddressEvent event,
@@ -78,5 +79,9 @@ class AddressBloc extends Bloc<AddressEvent, AddressState> {
       print("Delete error:_${e.toString()}");
       emit(state.copyWith(status: AddressStatus.error, error: e.toString()));
     }
+  }
+
+  void _selectAddress(SelectAddressEvent event, Emitter<AddressState> emit) {
+    emit(state.copyWith(selectedAddressIndex: event.index));
   }
 }

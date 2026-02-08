@@ -63,10 +63,10 @@ class OrderItemWidget extends StatelessWidget {
             children: [
               const Icon(Icons.star, color: Color(0xFFFFC107), size: 18),
               const SizedBox(width: 6),
-              AppTexts.bold("4.9", fontSize: 14),
+              AppTexts.bold(orderItem.productrating.toString(), fontSize: 14),
               const SizedBox(width: 6),
               AppTexts.regular(
-                "(85) Reviews",
+                "(${orderItem.productNoOfRating}) Reviews",
                 fontSize: 13,
                 color: AppColors.grayColor,
               ),

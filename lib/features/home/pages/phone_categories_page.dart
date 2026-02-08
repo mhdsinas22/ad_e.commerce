@@ -69,9 +69,9 @@ class PhoneCategoriesPageUi extends StatelessWidget {
                             context,
                             RouteNames.categoryfiltredpage,
                             {
-                              "condition": PhoneCondition.brandNew,
-                              "SubCategory": SubCategory.empty,
-                              "isSubCategory": false,
+                              "condition": PhoneCondition.empty,
+                              "SubCategory": SubCategory.fresh,
+                              "isSubCategory": true,
                               "isFlashSale": false,
                             },
                           );
@@ -85,9 +85,9 @@ class PhoneCategoriesPageUi extends StatelessWidget {
                             context,
                             RouteNames.categoryfiltredpage,
                             {
-                              "condition": PhoneCondition.preOwned,
-                              "SubCategory": SubCategory.empty,
-                              "isSubCategory": false,
+                              "condition": PhoneCondition.empty,
+                              "SubCategory": SubCategory.second,
+                              "isSubCategory": true,
                               "isFlashSale": false,
                             },
                           );

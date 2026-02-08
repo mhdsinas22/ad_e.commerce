@@ -2,7 +2,9 @@ import 'package:ad_e_commerce/core/common/widgets/shimmer/app_shimmer.dart';
 import 'package:ad_e_commerce/core/utils/helpers.dart';
 import 'package:ad_e_commerce/core/widgets/app_sliver_app_bar.dart';
 import 'package:ad_e_commerce/core/widgets/app_text.dart';
+import 'package:ad_e_commerce/core/widgets/custom_dropdown.dart';
 import 'package:ad_e_commerce/features/product/bloc/proudctbloc/product_bloc.dart';
+import 'package:ad_e_commerce/features/product/bloc/proudctbloc/product_event.dart';
 import 'package:ad_e_commerce/features/product/bloc/proudctbloc/product_state.dart';
 import 'package:ad_e_commerce/features/search/bloc/search_bloc.dart';
 import 'package:ad_e_commerce/features/search/bloc/search_state.dart';
@@ -32,6 +34,8 @@ enum SubCategory {
   powerbank,
   bag,
   empty,
+  fresh,
+  second,
 }
 
 class CategoryFiltredPage extends StatelessWidget {
@@ -59,6 +63,22 @@ class CategoryFiltredPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      context.read<ProductBloc>().add(
+        UpdateConditionFilter("Select Condition"),
+      );
+    });
+    final bool showConditionDropdown =
+        subCategory != SubCategory.bag &&
+        subCategory != SubCategory.audio &&
+        subCategory != SubCategory.powerbank &&
+        subCategory != SubCategory.casescover &&
+        subCategory != SubCategory.mobilechargers &&
+        subCategory != SubCategory.speaker &&
+        subCategory != SubCategory.fresh &&
+        subCategory != SubCategory.second;
+    final bool showWarrantyDropdown =
+        subCategory == SubCategory.fresh || subCategory == SubCategory.second;
     return MultiBlocProvider(
       providers: [
         BlocProvider(
@@ -152,6 +172,26 @@ class CategoryFiltredPage extends StatelessWidget {
                                   final matchPhoneCategory =
                                       !onlyPhones ||
                                       product.category == "Phones";
+                                  PhoneCondition? dropdownConditionEnum;
+
+                                  if (state.selectedCondition == "Brand New") {
+                                    dropdownConditionEnum =
+                                        PhoneCondition.brandNew;
+                                  } else if (state.selectedCondition ==
+                                      "Pre-Owned") {
+                                    dropdownConditionEnum =
+                                        PhoneCondition.preOwned;
+                                  } else {
+                                    dropdownConditionEnum =
+                                        null; // Select Condition
+                                  }
+                                  final matchDropdownCondition =
+                                      dropdownConditionEnum == null
+                                          ? true
+                                          : product.condition ==
+                                              Helpers.conditionToString(
+                                                dropdownConditionEnum,
+                                              );
 
                                   return matchCondition &&
                                       matchSubCategory &&
@@ -159,7 +199,8 @@ class CategoryFiltredPage extends StatelessWidget {
                                       matchPhoneCategory &&
                                       matchBestSeller &&
                                       matchpricebestsellter &&
-                                      matchCategory;
+                                      matchCategory &&
+                                      matchDropdownCondition;
                                 }).toList();
 
                             return BlocBuilder<SearchBloc, SearchState>(
@@ -185,6 +226,79 @@ class CategoryFiltredPage extends StatelessWidget {
                                       crossAxisAlignment:
                                           CrossAxisAlignment.start,
                                       children: [
+                                        if (showConditionDropdown)
+                                          Padding(
+                                            padding: const EdgeInsets.symmetric(
+                                              horizontal: 16.0,
+                                              vertical: 10,
+                                            ),
+                                            child: BlocBuilder<
+                                              ProductBloc,
+                                              ProductState
+                                            >(
+                                              builder: (context, state) {
+                                                return CustomDropdown(
+                                                  hintText: "Select Condition",
+                                                  value:
+                                                      state.selectedCondition ==
+                                                              "Select Condition"
+                                                          ? null
+                                                          : state
+                                                              .selectedCondition,
+                                                  items: const [
+                                                    "Brand New",
+                                                    "Pre-Owned",
+                                                  ],
+                                                  onChanged: (value) {
+                                                    context
+                                                        .read<ProductBloc>()
+                                                        .add(
+                                                          UpdateConditionFilter(
+                                                            value!,
+                                                          ),
+                                                        );
+                                                  },
+                                                );
+                                              },
+                                            ),
+                                          ),
+                                        if (showWarrantyDropdown)
+                                          Padding(
+                                            padding: const EdgeInsets.symmetric(
+                                              horizontal: 16.0,
+                                              vertical: 10,
+                                            ),
+                                            child: BlocBuilder<
+                                              ProductBloc,
+                                              ProductState
+                                            >(
+                                              builder: (context, state) {
+                                                return CustomDropdown(
+                                                  hintText: "Choose Warranty",
+                                                  value:
+                                                      state.selectedWarranty ==
+                                                              "Choose Warranty"
+                                                          ? null
+                                                          : state
+                                                              .selectedWarranty,
+                                                  items: const [
+                                                    "Apple Warranty",
+                                                    "Shop Warranty",
+                                                  ],
+                                                  onChanged: (value) {
+                                                    context
+                                                        .read<ProductBloc>()
+                                                        .add(
+                                                          UpdateWarrantyFilter(
+                                                            value!,
+                                                          ),
+                                                        );
+                                                  },
+                                                );
+                                              },
+                                            ),
+                                          ),
+
                                         Padding(
                                           padding: const EdgeInsets.symmetric(
                                             horizontal: 16.0,

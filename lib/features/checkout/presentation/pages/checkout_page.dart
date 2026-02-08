@@ -122,7 +122,9 @@ class _CheckoutPageState extends State<CheckoutPage> {
                         _selectedAddressIndex = index;
 
                         if (index == addNewIndex) {
-                          // ✅ Add New → show form
+                          // Add New
+                          _isEditingAddress = true;
+
                           pincodeController.clear();
                           houseController.clear();
                           localityController.clear();
@@ -130,9 +132,8 @@ class _CheckoutPageState extends State<CheckoutPage> {
                           emailController.clear();
                           alternateNumberController.clear();
                           _selectedSaveAs = "home";
-                          _isEditingAddress = true;
                         } else {
-                          // ✅ Existing address → DO NOT show form
+                          // Existing address
                           _isEditingAddress = false;
                         }
                       });

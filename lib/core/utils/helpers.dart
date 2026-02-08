@@ -72,6 +72,10 @@ class Helpers {
         return "Power Bank";
       case SubCategory.bag:
         return "Bag";
+      case SubCategory.fresh:
+        return "Fresh";
+      case SubCategory.second:
+        return "Second";
     }
   }
 }
