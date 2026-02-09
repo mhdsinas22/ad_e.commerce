@@ -3,6 +3,7 @@ import 'package:ad_e_commerce/data/repositories/auth_repository.dart';
 import 'package:ad_e_commerce/data/repositories/user_repository.dart';
 import 'package:ad_e_commerce/features/auth/bloc/user_details/user_details_event.dart';
 import 'package:ad_e_commerce/features/auth/bloc/user_details/user_details_state.dart';
+import 'package:ad_e_commerce/features/profile/domain/repositories/wallet_repo.dart';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -10,10 +11,12 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 class UserDetailsBloc extends Bloc<UserDetailsEvent, UserDetailsState> {
   final UserRepository userRepository;
   final AuthRepository authRepository;
+  final WalletRepo walletRepo;
   UserDetailsBloc({
     required String phone,
     required UserRepository userRepositoryy,
     required AuthRepository authRepository,
+    required this.walletRepo,
   }) : userRepository = userRepositoryy,
        // ignore: prefer_initializing_formals
        authRepository = authRepository,
@@ -59,9 +62,10 @@ class UserDetailsBloc extends Bloc<UserDetailsEvent, UserDetailsState> {
         userId: user.id,
         imageUrl: event.imageUrl,
       );
-
+      // 1 Create user Profile
       await userRepository.createUser(userModel);
-
+      // 2  Create wallet + REWARD POINTS
+      await walletRepo.createWallet(user.id);
       emit(state.copyWith(status: UserDetailsStatus.success));
     } on AuthApiException catch (e) {
       /// 🔐 SUPABASE AUTH ERRORS

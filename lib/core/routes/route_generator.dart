@@ -22,6 +22,7 @@ import 'package:ad_e_commerce/features/product/pages/product_page.dart';
 import 'package:ad_e_commerce/features/profile/pages/edit_profile_page.dart';
 import 'package:ad_e_commerce/features/profile/pages/my_account_page.dart';
 import 'package:ad_e_commerce/features/profile/pages/support_legel_page.dart';
+import 'package:ad_e_commerce/features/profile/pages/wallet_page.dart';
 import 'package:ad_e_commerce/features/profile/pages/warranty_page.dart';
 import 'package:ad_e_commerce/features/search/pages/search_page.dart';
 
@@ -124,6 +125,8 @@ class RouteGenerator {
         return MaterialPageRoute(builder: (context) => MyAccountPage());
       case RouteNames.supportlegelpage:
         return MaterialPageRoute(builder: (context) => SupportLegelPage());
+      case RouteNames.wallet:
+        return MaterialPageRoute(builder: (context) => WalletPage());
       default:
         return MaterialPageRoute(
           builder:

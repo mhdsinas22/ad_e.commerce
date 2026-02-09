@@ -18,6 +18,7 @@ import 'package:ad_e_commerce/features/orders/data/datasource/order_remote_datas
 import 'package:ad_e_commerce/features/orders/data/repo/order_repo_impl.dart';
 import 'package:ad_e_commerce/features/orders/domain/enities/order_item.dart';
 import 'package:ad_e_commerce/features/orders/domain/enities/orders.dart';
+import 'package:ad_e_commerce/features/profile/data/datasource/wallet_remote_datasource_impl.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lottie/lottie.dart';
@@ -32,7 +33,11 @@ class PaymetPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final supabase = Supabase.instance.client;
     final orderdatasourceimpl = OrderRemoteDatasouceimpl(supabase: supabase);
-    final orderRepo = OrderRepoImpl(remote: orderdatasourceimpl);
+    final walletRemotedatasourceimpl = WalletRemoteDatasourceImpl(supabase);
+    final orderRepo = OrderRepoImpl(
+      remote: orderdatasourceimpl,
+      walletRemoteDataSource: walletRemotedatasourceimpl,
+    );
     return MultiBlocProvider(
       providers: [BlocProvider(create: (context) => OrderBloc(orderRepo))],
       child: PaymentPageUi(

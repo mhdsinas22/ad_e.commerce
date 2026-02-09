@@ -35,7 +35,7 @@ class CartSummaryWidget extends StatelessWidget {
               // Show voucher as negative value if applied
               _buildSummaryRow(
                 "Voucher",
-                voucher > 0 ? "-${_formatMoney(voucher)}" : "RM 0",
+                voucher > 0 ? "-${_formatMoney(voucher)}" : "INR 0",
                 isBold: false,
               ),
               const SizedBox(height: 8),
@@ -122,6 +122,6 @@ class CartSummaryWidget extends StatelessWidget {
     mathFunc(Match match) => '${match[1]},';
     final String result = priceString.replaceAllMapped(reg, mathFunc);
 
-    return "RM $result";
+    return "INR $result";
   }
 }

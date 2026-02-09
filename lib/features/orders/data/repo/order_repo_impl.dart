@@ -4,31 +4,42 @@ import 'package:ad_e_commerce/features/orders/data/models/order_model.dart';
 import 'package:ad_e_commerce/features/orders/domain/enities/order_item.dart';
 import 'package:ad_e_commerce/features/orders/domain/enities/orders.dart';
 import 'package:ad_e_commerce/features/orders/domain/repo/order_repo.dart';
+import 'package:ad_e_commerce/features/profile/data/datasource/wallet_remote_datasource.dart';
 
 class OrderRepoImpl implements OrderRepo {
   final OrderRemoteDatasource remote;
-  OrderRepoImpl({required this.remote});
+  final WalletRemoteDataSource walletRemoteDataSource;
+  OrderRepoImpl({required this.remote, required this.walletRemoteDataSource});
   @override
   Future<String> createOrder({
     required Orders order,
     required List<OrderItem> orderitems,
   }) async {
     try {
-      // 1️⃣ entity → model
+      // 1️ Create order
       final ordermodel = OrderModel.fromEntity(order);
-
-      // 2️⃣ create order
       final orderId = await remote.createOrder(ordermodel);
 
-      // 3️⃣ IMPORTANT: await order items
+      // 2 Create order items
       await remote.createOrderItems(
         orderId,
         orderitems.map((e) => OrderItemModel.fromEntity(e)).toList(),
       );
 
+      // 3 Debit wallet AFTER order success
+      await walletRemoteDataSource.debitWallet(
+        userId: order.userId,
+        amount: order.totalAmount,
+        reason: "Order Payment",
+      );
+
+      // 4 Add reward points
+      final points = order.totalAmount ~/ 100;
+      await walletRemoteDataSource.addRewardPoints(order.userId, points);
+
       return orderId;
     } catch (e) {
-      print("Create order Repo error: $e");
+      print("ORDER ERROR:_${e.toString()}");
       throw Exception("Create order Repo failed: $e");
     }
   }

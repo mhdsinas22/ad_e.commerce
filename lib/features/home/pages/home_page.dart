@@ -120,7 +120,9 @@ class HomePageUi extends StatelessWidget {
       // 🔹 RESPONSIVE: Center layout and constrain width for large screens (Web/Tablet)
       body: Center(
         child: Container(
-          constraints: const BoxConstraints(maxWidth: 800),
+          constraints: const BoxConstraints(
+            maxWidth: 1200,
+          ), // Increased for better desktop use
           child: CustomScrollView(
             slivers: [
               // 🔹 APP BAR
@@ -156,11 +158,10 @@ class HomePageUi extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const SizedBox(height: 10),
-
+                    const SizedBox(height: 24), // Standardized spacing
                     // Search
                     Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 15.0),
+                      padding: const EdgeInsets.symmetric(horizontal: 16.0),
                       child: Center(
                         child: GestureDetector(
                           onTap: () {
@@ -171,7 +172,9 @@ class HomePageUi extends StatelessWidget {
                             );
                           },
                           child: Container(
-                            width: 344,
+                            constraints: const BoxConstraints(
+                              maxWidth: 500,
+                            ), // Responsive max width
                             height: 50,
                             decoration: BoxDecoration(
                               color: Colors.grey.shade100,
@@ -180,7 +183,7 @@ class HomePageUi extends StatelessWidget {
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                               children: [
-                                const SizedBox(width: 10),
+                                const SizedBox(width: 16),
                                 Expanded(
                                   child: AppTexts.regular(
                                     "Search...",
@@ -191,7 +194,7 @@ class HomePageUi extends StatelessWidget {
                                   Icons.search,
                                   color: AppColors.grayColor,
                                 ),
-                                const SizedBox(width: 10),
+                                const SizedBox(width: 16),
                               ],
                             ),
                           ),
@@ -199,7 +202,7 @@ class HomePageUi extends StatelessWidget {
                       ),
                     ),
 
-                    const SizedBox(height: 16),
+                    const SizedBox(height: 24),
 
                     // Banner
                     Padding(
@@ -227,17 +230,16 @@ class HomePageUi extends StatelessWidget {
                         ),
                       ),
                     ),
-                    // const SizedBox(height: 20),
+
+                    const SizedBox(height: 24),
 
                     // Categories row 1
                     CategoryGrid(
                       categories: CategoryData.categories,
                       layout: CategoryCardLayout.vertical,
                     ),
-                    const SizedBox(height: 16),
 
-                    // Categories row 2
-                    // 🔹 RESPONSIVE: Prevent overflow on small screens & huge gaps on large screens
+                    // Categories row 2 - Removed as per original, keeping spacing consistent
                     const SizedBox(height: 24),
 
                     // Flash sale header
@@ -262,7 +264,7 @@ class HomePageUi extends StatelessWidget {
                             },
                             child: AppTexts.medium(
                               "View All",
-                              fontSize: 12,
+                              fontSize: 14, // Increased for better tap area
                               color: AppColors.primaryBlue,
                             ),
                           ),
@@ -270,20 +272,22 @@ class HomePageUi extends StatelessWidget {
                       ),
                     ),
 
-                    const SizedBox(height: 10),
+                    const SizedBox(height: 16),
 
                     // Flash sale section
                     FlashSaleSection(),
 
+                    const SizedBox(height: 24),
+
                     // Best Sellers Grids
                     BestSellersSection(),
 
-                    const SizedBox(height: 20),
+                    const SizedBox(height: 24),
 
                     // Best Selling Lists
                     CategoryListSection(),
 
-                    const SizedBox(height: 20),
+                    const SizedBox(height: 24),
 
                     // AirDrop Assurance
                     Padding(
@@ -292,8 +296,9 @@ class HomePageUi extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           AppTexts.medium("AIRDROP Assurance", fontSize: 18),
-                          const SizedBox(height: 10),
+                          const SizedBox(height: 16),
                           Row(
+                            crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Expanded(
                                 child: Image.asset(
@@ -301,7 +306,7 @@ class HomePageUi extends StatelessWidget {
                                   fit: BoxFit.fill,
                                 ),
                               ),
-                              const SizedBox(width: 10),
+                              const SizedBox(width: 16),
                               Expanded(
                                 child: Image.asset(
                                   AssetConstants.aIRDROPAssuranceimg2,
@@ -310,8 +315,9 @@ class HomePageUi extends StatelessWidget {
                               ),
                             ],
                           ),
-                          const SizedBox(height: 10),
+                          const SizedBox(height: 16),
                           Row(
+                            crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Expanded(
                                 child: Image.asset(
@@ -319,7 +325,7 @@ class HomePageUi extends StatelessWidget {
                                   fit: BoxFit.fill,
                                 ),
                               ),
-                              const SizedBox(width: 10),
+                              const SizedBox(width: 16),
                               Expanded(
                                 child: Image.asset(
                                   AssetConstants.aIRDROPAssuranceimg4,
@@ -332,7 +338,7 @@ class HomePageUi extends StatelessWidget {
                       ),
                     ),
 
-                    const SizedBox(height: 20),
+                    const SizedBox(height: 24),
 
                     // Benefits
                     Padding(
@@ -341,7 +347,7 @@ class HomePageUi extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           AppTexts.medium("AIRDROP Benefits", fontSize: 18),
-                          const SizedBox(height: 10),
+                          const SizedBox(height: 16),
                           ClipRRect(
                             borderRadius: BorderRadius.circular(20),
                             child: BlocBuilder<BannerBloc, BannerState>(
@@ -368,7 +374,7 @@ class HomePageUi extends StatelessWidget {
                       ),
                     ),
 
-                    const SizedBox(height: 20),
+                    const SizedBox(height: 24),
 
                     // Happy Customers
                     Padding(
@@ -377,25 +383,26 @@ class HomePageUi extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           AppTexts.medium("Our Happy Customers", fontSize: 18),
-                          const SizedBox(height: 10),
+                          const SizedBox(height: 16),
                           BlocBuilder<TestimonialBloc, TestimonialState>(
                             builder: (context, state) {
                               return SizedBox(
-                                height: 270,
+                                height:
+                                    280, // Slightly increased to prevent cut-off
                                 width: double.infinity,
                                 child:
                                     state.status == TestimonialStatus.loading
                                         ? ListView.builder(
                                           scrollDirection: Axis.horizontal,
-                                          itemCount: 3, // Show 3 fake items
+                                          itemCount: 3,
                                           itemBuilder: (context, index) {
                                             return Container(
                                               margin: const EdgeInsets.only(
-                                                right: 12,
+                                                right: 16,
                                               ),
                                               child: AppShimmer.rect(
-                                                width: 260,
-                                                height: 270,
+                                                width: 280,
+                                                height: 280,
                                                 radius: 18,
                                               ),
                                             );
@@ -408,9 +415,9 @@ class HomePageUi extends StatelessWidget {
                                             final data =
                                                 state.testmonial[index];
                                             return Container(
-                                              width: 260,
+                                              width: 280,
                                               margin: const EdgeInsets.only(
-                                                right: 12,
+                                                right: 16,
                                               ),
                                               child: Column(
                                                 crossAxisAlignment:
@@ -418,8 +425,8 @@ class HomePageUi extends StatelessWidget {
                                                 children: [
                                                   // CARD
                                                   Container(
-                                                    width: 260,
-                                                    height: 180,
+                                                    width: 280,
+                                                    height: 190,
                                                     decoration: BoxDecoration(
                                                       color:
                                                           AppColors.brightBlue,
@@ -430,7 +437,7 @@ class HomePageUi extends StatelessWidget {
                                                     ),
                                                     padding:
                                                         const EdgeInsets.all(
-                                                          16,
+                                                          20,
                                                         ),
                                                     child: Center(
                                                       child: Text(
@@ -442,17 +449,19 @@ class HomePageUi extends StatelessWidget {
                                                           fontFamily: 'Manrope',
                                                           fontSize: 14,
                                                           fontWeight:
-                                                              FontWeight.w600,
+                                                              FontWeight
+                                                                  .w500, // Slightly lighter for readability
                                                           color:
                                                               AppColors
                                                                   .pureWhite,
-                                                          height: 1.2,
+                                                          height:
+                                                              1.4, // Improved line height
                                                         ),
                                                       ),
                                                     ),
                                                   ),
 
-                                                  const SizedBox(height: 10),
+                                                  const SizedBox(height: 12),
 
                                                   Center(
                                                     child: AppTexts.medium(
@@ -466,7 +475,7 @@ class HomePageUi extends StatelessWidget {
                                                   Center(
                                                     child: AppTexts.semiBold(
                                                       data.username,
-                                                      fontSize: 12,
+                                                      fontSize: 14,
                                                     ),
                                                   ),
                                                 ],
@@ -482,7 +491,7 @@ class HomePageUi extends StatelessWidget {
                     ),
 
                     // Footer (Warranty & Why AirDrop)
-                    // 🔹 RESPONSIVE: Use double.infinity instead of MediaQuery width to respect constraints
+                    const SizedBox(height: 24),
                     AspectRatio(
                       aspectRatio: 375 / 367, // use SVG design size
                       child: SvgPicture.asset(
@@ -491,7 +500,7 @@ class HomePageUi extends StatelessWidget {
                       ),
                     ),
 
-                    const SizedBox(height: 20),
+                    const SizedBox(height: 40), // Bottom padding
                   ],
                 ),
               ),

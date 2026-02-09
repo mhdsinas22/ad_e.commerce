@@ -32,7 +32,12 @@ class ProfilePage extends StatelessWidget {
               },
             ),
             SizedBox(height: 10),
-            ProfileMenuItem(title: "My Wallet", onTap: () {}),
+            ProfileMenuItem(
+              title: "My Wallet",
+              onTap: () {
+                Appnavigotor.pushnamed(context, RouteNames.wallet, []);
+              },
+            ),
             SizedBox(height: 10),
             ProfileMenuItem(
               title: "My Warranty",

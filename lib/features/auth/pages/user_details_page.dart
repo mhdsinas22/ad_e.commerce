@@ -9,6 +9,8 @@ import 'package:ad_e_commerce/features/auth/bloc/user_details/user_details_bloc.
 import 'package:ad_e_commerce/features/auth/bloc/user_details/user_details_event.dart';
 import 'package:ad_e_commerce/features/auth/bloc/user_details/user_details_state.dart';
 import 'package:ad_e_commerce/features/auth/widgets/phone_input_field.dart';
+import 'package:ad_e_commerce/features/profile/data/datasource/wallet_remote_datasource_impl.dart';
+import 'package:ad_e_commerce/features/profile/data/repositories/wallet_repo_impl.dart';
 import 'package:ad_e_commerce/features/repair/bloc/repair_image/repair_image_bloc.dart';
 import 'package:ad_e_commerce/features/repair/data/datasources/cloudinary_remote_datasource.dart';
 import 'package:flutter/material.dart';
@@ -23,6 +25,10 @@ class UserDetailsPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final userRepository = UserRepository(Supabase.instance.client);
     final authRepository = AuthRepository(Supabase.instance.client);
+    final walletrepodatasource = WalletRemoteDatasourceImpl(
+      Supabase.instance.client,
+    );
+    final walletRepo = WalletRepoImpl(walletrepodatasource);
     return MultiBlocProvider(
       providers: [
         BlocProvider(
@@ -31,6 +37,7 @@ class UserDetailsPage extends StatelessWidget {
                 phone: phone,
                 userRepositoryy: userRepository,
                 authRepository: authRepository,
+                walletRepo: walletRepo,
               ),
         ),
         BlocProvider(
