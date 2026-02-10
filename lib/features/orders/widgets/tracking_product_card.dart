@@ -83,7 +83,25 @@ class TrackingProductCard extends StatelessWidget {
                       "₹ ${orderItem.price.toStringAsFixed(0).replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},')}",
                       fontSize: 18,
                     ),
-                    if (order.status.toLowerCase() == 'in transit') ...[
+                    if (order.status.toLowerCase() == 'packed' ||
+                        order.status.toLowerCase() == 'placed') ...[
+                      Row(
+                        children: [
+                          Icon(
+                            Icons.access_time,
+                            color: AppColors.orange,
+                            size: 20,
+                          ),
+                          const SizedBox(width: 4),
+                          AppTexts.medium(
+                            "Processing",
+                            color: AppColors.orange,
+                            fontSize: 14,
+                          ),
+                        ],
+                      ),
+                    ],
+                    if (order.status.toLowerCase() == 'shipped') ...[
                       Row(
                         children: [
                           Icon(
@@ -94,13 +112,14 @@ class TrackingProductCard extends StatelessWidget {
                           ),
                           const SizedBox(width: 4),
                           AppTexts.medium(
-                            "In Transit",
+                            "shipped",
                             color: AppColors.primaryBlue,
                             fontSize: 14,
                           ),
                         ],
                       ),
                     ],
+
                     if (order.status.toLowerCase() == 'delivered') ...[
                       Row(
                         children: [

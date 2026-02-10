@@ -35,6 +35,53 @@ class OrderItemWidget extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          if (orders.status.toLowerCase() == 'packed' ||
+              orders.status.toLowerCase() == 'placed') ...[
+            Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                Icon(Icons.access_time, color: AppColors.orange, size: 20),
+                const SizedBox(width: 4),
+                AppTexts.medium(
+                  "Processing",
+                  color: AppColors.orange,
+                  fontSize: 14,
+                ),
+              ],
+            ),
+          ],
+          if (orders.status.toLowerCase() == 'shipped') ...[
+            Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                Icon(
+                  Icons.local_shipping_outlined, // Better icon matching design
+                  color: AppColors.primaryBlue,
+                  size: 20,
+                ),
+                const SizedBox(width: 4),
+                AppTexts.medium(
+                  "shipped",
+                  color: AppColors.primaryBlue,
+                  fontSize: 14,
+                ),
+              ],
+            ),
+          ],
+          if (orders.status.toLowerCase() == 'delivered') ...[
+            Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                Icon(
+                  Icons.check_circle_outline, // Better icon matching design
+                  color: Colors.green,
+                  size: 20,
+                ),
+                const SizedBox(width: 4),
+                AppTexts.medium("Delivered", color: Colors.green, fontSize: 14),
+              ],
+            ),
+          ],
           // Image
           Container(
             width: 80,

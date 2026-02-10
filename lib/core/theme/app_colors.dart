@@ -12,4 +12,5 @@ class AppColors {
   static const Color veryLightGrey = Color(0xFFf8f8f8);
   static const Color purered = Color(0xffFF0000);
   static const Color lightbluish = Color(0xFFE9ECFF);
+  static const Color orange = Color(0xFFEB7B0C);
 }
