@@ -109,306 +109,331 @@ class CategoryFiltredPage extends StatelessWidget {
                 AppSliverAppBar(),
 
                 SliverToBoxAdapter(
-                  child: Column(
-                    children: [
-                      SearchBarw(),
-                      BlocBuilder<ProductBloc, ProductState>(
-                        builder: (context, state) {
-                          if (state.productStatus == ProductStatus.loading) {
-                            return Padding(
-                              padding: const EdgeInsets.symmetric(
-                                horizontal: 16,
-                                vertical: 12,
-                              ),
-                              child: GridView.builder(
-                                shrinkWrap: true,
-                                physics: const NeverScrollableScrollPhysics(),
-                                gridDelegate:
-                                    SliverGridDelegateWithFixedCrossAxisCount(
-                                      crossAxisCount: crossAxisCount,
-                                      mainAxisSpacing: 16,
-                                      crossAxisSpacing: 16,
-                                      childAspectRatio: childAspectRatio,
-                                      mainAxisExtent:
-                                          screenWidth < 600 ? 320 : 360,
-                                    ),
-                                itemCount: 8,
-                                itemBuilder: (context, index) {
-                                  return AppShimmer.productCard();
-                                },
-                              ),
-                            );
-                          }
-                          if (state.productStatus == ProductStatus.success) {
-                            final baseFilteredList =
-                                state.products.where((product) {
-                                  final matchCondition =
-                                      condition == PhoneCondition.empty ||
-                                      product.condition ==
-                                          Helpers.conditionToString(condition);
-                                  final matchCategory =
-                                      category == Category.empty ||
-                                      product.category ==
-                                          Helpers.categoryToString(category);
-                                  final matchSubCategory =
-                                      !isSubCategory ||
-                                      product.subCategory ==
-                                          Helpers.subCategoryToString(
-                                            subCategory,
-                                          );
-                                  final matchFlashSale =
-                                      !isFlashSale ||
-                                      product.tag == "Flash Sale";
-                                  final matchBestSeller =
-                                      !isBestSeller ||
-                                      product.tag == "Best Seller";
-                                  final matchpricebestsellter =
-                                      priceAmount == null
-                                          ? true
-                                          : priceTYpe == "Under"
-                                          ? product.price <= priceAmount!
-                                          : product.price >= priceAmount!;
-                                  final matchPhoneCategory =
-                                      !onlyPhones ||
-                                      product.category == "Phones";
-                                  PhoneCondition? dropdownConditionEnum;
-
-                                  if (state.selectedCondition == "Brand New") {
-                                    dropdownConditionEnum =
-                                        PhoneCondition.brandNew;
-                                  } else if (state.selectedCondition ==
-                                      "Pre-Owned") {
-                                    dropdownConditionEnum =
-                                        PhoneCondition.preOwned;
-                                  } else {
-                                    dropdownConditionEnum =
-                                        null; // Select Condition
-                                  }
-                                  final matchDropdownCondition =
-                                      dropdownConditionEnum == null
-                                          ? true
-                                          : product.condition ==
-                                              Helpers.conditionToString(
-                                                dropdownConditionEnum,
-                                              );
-                                  final matchWarranty =
-                                      state.selectedWarranty == null ||
-                                              state.selectedWarranty ==
-                                                  "Choose Warranty"
-                                          ? true
-                                          : state.selectedWarranty ==
-                                              "Apple Warranty"
-                                          ? product.warranties.any(
-                                            (w) =>
-                                                w.warrantyTypeId.toString() ==
-                                                WarrantyTypeIds.apple,
-                                          )
-                                          : state.selectedWarranty ==
-                                              "Shop Warranty"
-                                          ? product.warranties.any(
-                                            (w) =>
-                                                w.warrantyTypeId.toString() ==
-                                                WarrantyTypeIds.shop,
-                                          )
-                                          : true;
-
-                                  return matchCondition &&
-                                      matchSubCategory &&
-                                      matchFlashSale &&
-                                      matchPhoneCategory &&
-                                      matchBestSeller &&
-                                      matchpricebestsellter &&
-                                      matchCategory &&
-                                      matchDropdownCondition &&
-                                      matchWarranty;
-                                }).toList();
-
-                            return BlocBuilder<SearchBloc, SearchState>(
-                              builder: (context, state) {
-                                final query = state.query.toLowerCase();
-                                final finallist =
-                                    baseFilteredList.where((product) {
-                                      if (query.isEmpty) return true;
-                                      return product.title
-                                              .toLowerCase()
-                                              .contains(query) ||
-                                          product.price
-                                              .toString()
-                                              .toLowerCase()
-                                              .contains(query);
-                                    }).toList();
-                                return Center(
-                                  child: Container(
-                                    constraints: const BoxConstraints(
-                                      maxWidth: 1200,
-                                    ),
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        if (showConditionDropdown)
-                                          Padding(
-                                            padding: const EdgeInsets.symmetric(
-                                              horizontal: 16.0,
-                                              vertical: 10,
-                                            ),
-                                            child: BlocBuilder<
-                                              ProductBloc,
-                                              ProductState
-                                            >(
-                                              builder: (context, state) {
-                                                return CustomDropdown(
-                                                  hintText: "Select Condition",
-                                                  value:
-                                                      state.selectedCondition ==
-                                                              "Select Condition"
-                                                          ? null
-                                                          : state
-                                                              .selectedCondition,
-                                                  items: const [
-                                                    "Brand New",
-                                                    "Pre-Owned",
-                                                  ],
-                                                  onChanged: (value) {
-                                                    context
-                                                        .read<ProductBloc>()
-                                                        .add(
-                                                          UpdateConditionFilter(
-                                                            value!,
-                                                          ),
-                                                        );
-                                                  },
-                                                );
-                                              },
-                                            ),
-                                          ),
-                                        if (showWarrantyDropdown)
-                                          Padding(
-                                            padding: const EdgeInsets.symmetric(
-                                              horizontal: 16.0,
-                                              vertical: 10,
-                                            ),
-                                            child: BlocBuilder<
-                                              ProductBloc,
-                                              ProductState
-                                            >(
-                                              builder: (context, state) {
-                                                return CustomDropdown(
-                                                  hintText: "Choose Warranty",
-                                                  value:
-                                                      state.selectedWarranty ==
-                                                              "Choose Warranty"
-                                                          ? null
-                                                          : state
-                                                              .selectedWarranty,
-                                                  items: const [
-                                                    "Apple Warranty",
-                                                    "Shop Warranty",
-                                                  ],
-                                                  onChanged: (value) {
-                                                    context
-                                                        .read<ProductBloc>()
-                                                        .add(
-                                                          UpdateWarrantyFilter(
-                                                            value!,
-                                                          ),
-                                                        );
-                                                  },
-                                                );
-                                              },
-                                            ),
-                                          ),
-
-                                        Padding(
-                                          padding: const EdgeInsets.symmetric(
-                                            horizontal: 16.0,
-                                            vertical: 10.0,
-                                          ),
-                                          child: AppTexts.medium(
-                                            "Result: ${finallist.length} Items Found",
-                                            color: Colors.grey.shade700,
-                                            fontSize: 14,
-                                          ),
+                  child: Center(
+                    child: Container(
+                      constraints: const BoxConstraints(maxWidth: 1200),
+                      child: Column(
+                        children: [
+                          SearchBarw(),
+                          BlocBuilder<ProductBloc, ProductState>(
+                            builder: (context, state) {
+                              if (state.productStatus ==
+                                  ProductStatus.loading) {
+                                return Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                    horizontal: 16,
+                                    vertical: 12,
+                                  ),
+                                  child: GridView.builder(
+                                    shrinkWrap: true,
+                                    physics:
+                                        const NeverScrollableScrollPhysics(),
+                                    gridDelegate:
+                                        SliverGridDelegateWithFixedCrossAxisCount(
+                                          crossAxisCount: crossAxisCount,
+                                          mainAxisSpacing: 16,
+                                          crossAxisSpacing: 16,
+                                          childAspectRatio: childAspectRatio,
+                                          mainAxisExtent:
+                                              screenWidth < 600 ? 320 : 360,
                                         ),
-                                        SizedBox(
-                                          child: GridView.builder(
-                                            padding: const EdgeInsets.symmetric(
-                                              horizontal: 16,
-                                              vertical: 12,
-                                            ),
-                                            shrinkWrap: true,
-                                            physics:
-                                                const NeverScrollableScrollPhysics(),
-                                            gridDelegate:
-                                                SliverGridDelegateWithFixedCrossAxisCount(
-                                                  crossAxisCount:
-                                                      crossAxisCount,
-                                                  mainAxisSpacing: 16,
-                                                  crossAxisSpacing: 16,
-                                                  childAspectRatio:
-                                                      childAspectRatio,
-                                                  mainAxisExtent:
-                                                      screenWidth < 600
-                                                          ? 320
-                                                          : 360,
-                                                ),
-                                            itemCount: finallist.length,
-                                            itemBuilder: (context, index) {
-                                              final product = finallist[index];
-
-                                              return SearchProductGridItem(
-                                                product: product,
-                                              );
-                                            },
-                                          ),
-                                        ),
-                                      ],
-                                    ),
+                                    itemCount: 8,
+                                    itemBuilder: (context, index) {
+                                      return AppShimmer.productCard();
+                                    },
                                   ),
                                 );
-                              },
-                            );
-                          }
-                          if (state.productStatus == ProductStatus.failure) {
-                            return const Padding(
-                              padding: EdgeInsets.all(30),
-                              child: Center(child: Text("No products found")),
-                            );
-                          }
-                          // Initial State
-                          return Column(
-                            children: [
-                              Padding(
-                                padding: const EdgeInsets.symmetric(
-                                  horizontal: 20,
-                                  vertical: 22,
-                                ),
-                                child: Center(
-                                  child: Container(
-                                    constraints: const BoxConstraints(
-                                      maxWidth: 1200,
+                              }
+                              if (state.productStatus ==
+                                  ProductStatus.success) {
+                                final baseFilteredList =
+                                    state.products.where((product) {
+                                      final matchCondition =
+                                          condition == PhoneCondition.empty ||
+                                          product.condition ==
+                                              Helpers.conditionToString(
+                                                condition,
+                                              );
+                                      final matchCategory =
+                                          category == Category.empty ||
+                                          product.category ==
+                                              Helpers.categoryToString(
+                                                category,
+                                              );
+                                      final matchSubCategory =
+                                          !isSubCategory ||
+                                          product.subCategory ==
+                                              Helpers.subCategoryToString(
+                                                subCategory,
+                                              );
+                                      final matchFlashSale =
+                                          !isFlashSale ||
+                                          product.tag == "Flash Sale";
+                                      final matchBestSeller =
+                                          !isBestSeller ||
+                                          product.tag == "Best Seller";
+                                      final matchpricebestsellter =
+                                          priceAmount == null
+                                              ? true
+                                              : priceTYpe == "Under"
+                                              ? product.price <= priceAmount!
+                                              : product.price >= priceAmount!;
+                                      final matchPhoneCategory =
+                                          !onlyPhones ||
+                                          product.category == "Phones";
+                                      PhoneCondition? dropdownConditionEnum;
+
+                                      if (state.selectedCondition ==
+                                          "Brand New") {
+                                        dropdownConditionEnum =
+                                            PhoneCondition.brandNew;
+                                      } else if (state.selectedCondition ==
+                                          "Pre-Owned") {
+                                        dropdownConditionEnum =
+                                            PhoneCondition.preOwned;
+                                      } else {
+                                        dropdownConditionEnum =
+                                            null; // Select Condition
+                                      }
+                                      final matchDropdownCondition =
+                                          dropdownConditionEnum == null
+                                              ? true
+                                              : product.condition ==
+                                                  Helpers.conditionToString(
+                                                    dropdownConditionEnum,
+                                                  );
+                                      final matchWarranty =
+                                          state.selectedWarranty == null ||
+                                                  state.selectedWarranty ==
+                                                      "Choose Warranty"
+                                              ? true
+                                              : state.selectedWarranty ==
+                                                  "Apple Warranty"
+                                              ? product.warranties.any(
+                                                (w) =>
+                                                    w.warrantyTypeId
+                                                        .toString() ==
+                                                    WarrantyTypeIds.apple,
+                                              )
+                                              : state.selectedWarranty ==
+                                                  "Shop Warranty"
+                                              ? product.warranties.any(
+                                                (w) =>
+                                                    w.warrantyTypeId
+                                                        .toString() ==
+                                                    WarrantyTypeIds.shop,
+                                              )
+                                              : true;
+
+                                      return matchCondition &&
+                                          matchSubCategory &&
+                                          matchFlashSale &&
+                                          matchPhoneCategory &&
+                                          matchBestSeller &&
+                                          matchpricebestsellter &&
+                                          matchCategory &&
+                                          matchDropdownCondition &&
+                                          matchWarranty;
+                                    }).toList();
+
+                                return BlocBuilder<SearchBloc, SearchState>(
+                                  builder: (context, state) {
+                                    final query = state.query.toLowerCase();
+                                    final finallist =
+                                        baseFilteredList.where((product) {
+                                          if (query.isEmpty) return true;
+                                          return product.title
+                                                  .toLowerCase()
+                                                  .contains(query) ||
+                                              product.price
+                                                  .toString()
+                                                  .toLowerCase()
+                                                  .contains(query);
+                                        }).toList();
+                                    return Center(
+                                      child: Container(
+                                        constraints: const BoxConstraints(
+                                          maxWidth: 1200,
+                                        ),
+                                        child: Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            if (showConditionDropdown)
+                                              Padding(
+                                                padding:
+                                                    const EdgeInsets.symmetric(
+                                                      horizontal: 16.0,
+                                                      vertical: 10,
+                                                    ),
+                                                child: BlocBuilder<
+                                                  ProductBloc,
+                                                  ProductState
+                                                >(
+                                                  builder: (context, state) {
+                                                    return CustomDropdown(
+                                                      hintText:
+                                                          "Select Condition",
+                                                      value:
+                                                          state.selectedCondition ==
+                                                                  "Select Condition"
+                                                              ? null
+                                                              : state
+                                                                  .selectedCondition,
+                                                      items: const [
+                                                        "Brand New",
+                                                        "Pre-Owned",
+                                                      ],
+                                                      onChanged: (value) {
+                                                        context
+                                                            .read<ProductBloc>()
+                                                            .add(
+                                                              UpdateConditionFilter(
+                                                                value!,
+                                                              ),
+                                                            );
+                                                      },
+                                                    );
+                                                  },
+                                                ),
+                                              ),
+                                            if (showWarrantyDropdown)
+                                              Padding(
+                                                padding:
+                                                    const EdgeInsets.symmetric(
+                                                      horizontal: 16.0,
+                                                      vertical: 10,
+                                                    ),
+                                                child: BlocBuilder<
+                                                  ProductBloc,
+                                                  ProductState
+                                                >(
+                                                  builder: (context, state) {
+                                                    return CustomDropdown(
+                                                      hintText:
+                                                          "Choose Warranty",
+                                                      value:
+                                                          state.selectedWarranty ==
+                                                                  "Choose Warranty"
+                                                              ? null
+                                                              : state
+                                                                  .selectedWarranty,
+                                                      items: const [
+                                                        "Apple Warranty",
+                                                        "Shop Warranty",
+                                                      ],
+                                                      onChanged: (value) {
+                                                        context
+                                                            .read<ProductBloc>()
+                                                            .add(
+                                                              UpdateWarrantyFilter(
+                                                                value!,
+                                                              ),
+                                                            );
+                                                      },
+                                                    );
+                                                  },
+                                                ),
+                                              ),
+
+                                            Padding(
+                                              padding:
+                                                  const EdgeInsets.symmetric(
+                                                    horizontal: 16.0,
+                                                    vertical: 10.0,
+                                                  ),
+                                              child: AppTexts.medium(
+                                                "Result: ${finallist.length} Items Found",
+                                                color: Colors.grey.shade700,
+                                                fontSize: 14,
+                                              ),
+                                            ),
+                                            SizedBox(
+                                              child: GridView.builder(
+                                                padding:
+                                                    const EdgeInsets.symmetric(
+                                                      horizontal: 16,
+                                                      vertical: 12,
+                                                    ),
+                                                shrinkWrap: true,
+                                                physics:
+                                                    const NeverScrollableScrollPhysics(),
+                                                gridDelegate:
+                                                    SliverGridDelegateWithFixedCrossAxisCount(
+                                                      crossAxisCount:
+                                                          crossAxisCount,
+                                                      mainAxisSpacing: 16,
+                                                      crossAxisSpacing: 16,
+                                                      childAspectRatio:
+                                                          childAspectRatio,
+                                                      mainAxisExtent:
+                                                          screenWidth < 600
+                                                              ? 320
+                                                              : 360,
+                                                    ),
+                                                itemCount: finallist.length,
+                                                itemBuilder: (context, index) {
+                                                  final product =
+                                                      finallist[index];
+
+                                                  return SearchProductGridItem(
+                                                    product: product,
+                                                  );
+                                                },
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    );
+                                  },
+                                );
+                              }
+                              if (state.productStatus ==
+                                  ProductStatus.failure) {
+                                return const Padding(
+                                  padding: EdgeInsets.all(30),
+                                  child: Center(
+                                    child: Text("No products found"),
+                                  ),
+                                );
+                              }
+                              // Initial State
+                              return Column(
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                      horizontal: 20,
+                                      vertical: 22,
                                     ),
-                                    width: double.infinity,
-                                    child: AppTexts.medium(
-                                      "Select a Category to Browse",
-                                      fontSize: 18,
+                                    child: Center(
+                                      child: Container(
+                                        constraints: const BoxConstraints(
+                                          maxWidth: 1200,
+                                        ),
+                                        width: double.infinity,
+                                        child: AppTexts.medium(
+                                          "Select a Category to Browse",
+                                          fontSize: 18,
+                                        ),
+                                      ),
                                     ),
                                   ),
-                                ),
-                              ),
-                              Center(
-                                child: Container(
-                                  constraints: const BoxConstraints(
-                                    maxWidth: 1200,
+                                  Center(
+                                    child: Container(
+                                      constraints: const BoxConstraints(
+                                        maxWidth: 1200,
+                                      ),
+                                      child: Center(child: Text("sorryy")),
+                                    ),
                                   ),
-                                  child: Center(child: Text("sorryy")),
-                                ),
-                              ),
-                            ],
-                          );
-                        },
+                                ],
+                              );
+                            },
+                          ),
+                        ],
                       ),
-                    ],
+                    ),
                   ),
                 ),
               ],

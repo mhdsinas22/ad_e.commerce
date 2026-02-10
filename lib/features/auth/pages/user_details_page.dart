@@ -101,34 +101,39 @@ class _UserDetailsViewState extends State<_UserDetailsView> {
         child: SafeArea(
           child: SingleChildScrollView(
             padding: const EdgeInsets.all(24.0),
-            child: Form(
-              key: _formKey,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  Padding(
-                    padding: EdgeInsets.symmetric(
-                      horizontal: 8.0,
-                      vertical: 10.0,
-                    ),
-                    child: AppTexts.bold(
-                      "Complete\nyour Profile",
-                      fontSize: 50,
-                    ),
+            child: Center(
+              child: Container(
+                constraints: const BoxConstraints(maxWidth: 500),
+                child: Form(
+                  key: _formKey,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      Padding(
+                        padding: EdgeInsets.symmetric(
+                          horizontal: 8.0,
+                          vertical: 10.0,
+                        ),
+                        child: AppTexts.bold(
+                          "Complete\nyour Profile",
+                          fontSize: 50,
+                        ),
+                      ),
+                      const SizedBox(height: 16),
+                      Row(children: [CameraContainer()]),
+                      const SizedBox(height: 16),
+                      const _NameInput(),
+                      const SizedBox(height: 16),
+                      const _EmailInput(),
+                      const SizedBox(height: 16),
+                      _Phonenumber(),
+                      const SizedBox(height: 32),
+                      const _PasswordInput(),
+                      const SizedBox(height: 32),
+                      const _SaveButton(),
+                    ],
                   ),
-                  const SizedBox(height: 16),
-                  Row(children: [CameraContainer()]),
-                  const SizedBox(height: 16),
-                  const _NameInput(),
-                  const SizedBox(height: 16),
-                  const _EmailInput(),
-                  const SizedBox(height: 16),
-                  _Phonenumber(),
-                  const SizedBox(height: 32),
-                  const _PasswordInput(),
-                  const SizedBox(height: 32),
-                  const _SaveButton(),
-                ],
+                ),
               ),
             ),
           ),

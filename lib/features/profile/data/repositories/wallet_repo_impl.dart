@@ -2,6 +2,7 @@ import 'package:ad_e_commerce/features/profile/data/datasource/wallet_remote_dat
 
 import 'package:ad_e_commerce/features/profile/domain/enitites/wallet/reward_points.dart';
 import 'package:ad_e_commerce/features/profile/domain/enitites/wallet/wallet.dart';
+import 'package:ad_e_commerce/features/profile/domain/enitites/wallet/wallet_transaction.dart';
 import 'package:ad_e_commerce/features/profile/domain/repositories/wallet_repo.dart';
 
 class WalletRepoImpl implements WalletRepo {
@@ -27,5 +28,15 @@ class WalletRepoImpl implements WalletRepo {
   @override
   Future<void> addRewardPoints(String userId, int points) {
     return remote.addRewardPoints(userId, points);
+  }
+
+  @override
+  Future<void> createwalletforUser(String userId) {
+    return remote.createWalletForUser(userId);
+  }
+
+  @override
+  Future<List<WalletTransaction>> getTransactions(String walletid) async {
+    return await remote.getTransactions(walletid);
   }
 }

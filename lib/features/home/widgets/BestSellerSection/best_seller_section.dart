@@ -34,37 +34,48 @@ class BestSellersSection extends StatelessWidget {
       },
     ];
 
-    return GridView.builder(
-      shrinkWrap: true,
-      physics: const NeverScrollableScrollPhysics(),
-      padding: const EdgeInsets.symmetric(horizontal: 16),
-      itemCount: bestSellerPrices.length,
-      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount: 2, // 👈 2 cards per row
-        crossAxisSpacing: 12, // 👈 horizontal gap
-        mainAxisSpacing: 12, // 👈 vertical gap
-        childAspectRatio: 1.9, // 👈 IMPORTANT (card shape)
-      ),
-      itemBuilder: (context, index) {
-        final item = bestSellerPrices[index];
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        int crossAxisCount = 2;
+        if (constraints.maxWidth > 1100) {
+          crossAxisCount = 5;
+        } else if (constraints.maxWidth > 700) {
+          crossAxisCount = 4;
+        }
 
-        return PricePromoCard(
-          title: "Best sellers",
-          label: item["label"]!,
-          price: item["price"].toString(),
-          imagePath: item["imagePath"]!,
-          backgroundColor: AppColors.brightBlue,
-          onTap: () {
-            Appnavigotor.push(
-              context,
-              CategoryFiltredPage(
-                condition: PhoneCondition.empty,
-                subCategory: SubCategory.empty,
-                isBestSeller: true,
-                category: Category.phones,
-                priceTYpe: item["label"],
-                priceAmount: int.parse(item["price"]!.replaceAll(",", "")),
-              ),
+        return GridView.builder(
+          shrinkWrap: true,
+          physics: const NeverScrollableScrollPhysics(),
+          padding: const EdgeInsets.symmetric(horizontal: 16),
+          itemCount: bestSellerPrices.length,
+          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+            crossAxisCount: crossAxisCount,
+            crossAxisSpacing: 12,
+            mainAxisSpacing: 12,
+            childAspectRatio: 1.9,
+          ),
+          itemBuilder: (context, index) {
+            final item = bestSellerPrices[index];
+
+            return PricePromoCard(
+              title: "Best sellers",
+              label: item["label"]!,
+              price: item["price"].toString(),
+              imagePath: item["imagePath"]!,
+              backgroundColor: AppColors.brightBlue,
+              onTap: () {
+                Appnavigotor.push(
+                  context,
+                  CategoryFiltredPage(
+                    condition: PhoneCondition.empty,
+                    subCategory: SubCategory.empty,
+                    isBestSeller: true,
+                    category: Category.phones,
+                    priceTYpe: item["label"],
+                    priceAmount: int.parse(item["price"]!.replaceAll(",", "")),
+                  ),
+                );
+              },
             );
           },
         );

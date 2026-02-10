@@ -69,22 +69,27 @@ class PaymentPageUi extends StatelessWidget {
               return SizedBox(
                 width: double.infinity,
                 height: 327,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Center(
-                      child: Lottie.asset(
-                        AppAnimations.deliverytruckloading,
-                        width: 200,
-                        height: 200,
-                      ),
+                child: Center(
+                  child: Container(
+                    constraints: const BoxConstraints(maxWidth: 600),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Center(
+                          child: Lottie.asset(
+                            AppAnimations.deliverytruckloading,
+                            width: 200,
+                            height: 200,
+                          ),
+                        ),
+                        const SizedBox(height: 5),
+                        AppTexts.medium(
+                          "Redirecting to payment page",
+                          fontSize: 14,
+                        ),
+                      ],
                     ),
-                    const SizedBox(height: 5),
-                    AppTexts.medium(
-                      "Redirecting to payment page",
-                      fontSize: 14,
-                    ),
-                  ],
+                  ),
                 ),
               );
             },
@@ -101,33 +106,38 @@ class PaymentPageUi extends StatelessWidget {
               return SizedBox(
                 width: double.infinity,
                 height: double.infinity,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Lottie.asset(
-                      repeat: false,
-                      AppAnimations.successAnimation,
-                      width: 200,
-                      height: 200,
+                child: Center(
+                  child: Container(
+                    constraints: const BoxConstraints(maxWidth: 600),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Lottie.asset(
+                          repeat: false,
+                          AppAnimations.successAnimation,
+                          width: 200,
+                          height: 200,
+                        ),
+                        const SizedBox(height: 5),
+                        AppTexts.medium(
+                          "ThankYou for shopping with Airdrop",
+                          fontSize: 14,
+                        ),
+                        const SizedBox(height: 10),
+                        PrimaryButton(
+                          width: 100,
+                          height: 50,
+                          text: "Done",
+                          onPressed: () {
+                            Appnavigotor.pushNamedAndRemoveUntil(
+                              context,
+                              RouteNames.mainShell,
+                            );
+                          },
+                        ),
+                      ],
                     ),
-                    const SizedBox(height: 5),
-                    AppTexts.medium(
-                      "ThankYou for shopping with Airdrop",
-                      fontSize: 14,
-                    ),
-                    const SizedBox(height: 10),
-                    PrimaryButton(
-                      width: 100,
-                      height: 50,
-                      text: "Done",
-                      onPressed: () {
-                        Appnavigotor.pushNamedAndRemoveUntil(
-                          context,
-                          RouteNames.mainShell,
-                        );
-                      },
-                    ),
-                  ],
+                  ),
                 ),
               );
             },
@@ -141,61 +151,67 @@ class PaymentPageUi extends StatelessWidget {
       },
       child: Scaffold(
         body: SafeArea(
-          child: Column(
-            children: [
-              const HeaderSection(),
-              Expanded(
-                child: SingleChildScrollView(
-                  child: Column(
-                    children: [
-                      const SizedBox(height: 10),
-                      const PaymentMethodSection(),
-                      const ProductSummarySection(),
-                      const PriceDetailsSection(),
-                    ],
-                  ),
-                ),
-              ),
-              CheckoutButton(
-                text: 'Proceed to Checkout',
-                onTap: () {
-                  final cartstate = context.read<CartBloc>().state;
-
-                  if (cartstate.cartitems.isEmpty) return;
-                  final orderitems =
-                      cartstate.cartitems.map((element) {
-                        return OrderItem(
-                          orderId: "",
-                          productId: element.productId,
-                          productName: element.title,
-                          productImage: element.imageUrl,
-                          sku: "sku1",
-                          price: element.price,
-                          quantity: element.quantity,
-                          productStorge: element.storeage,
-                          productColor: element.color,
-                          productModelNumber: element.modelNumber,
-                          productrating: element.rating,
-                          productNoOfRating: element.noOfRating,
-                        );
-                      }).toList();
-                  context.read<OrderBloc>().add(
-                    CreateOrderEvent(
-                      orders: Orders(
-                        userId: supabase.auth.currentUser!.id,
-                        totalAmount: cartstate.totalAmount,
-                        status: "placed",
-                        paymentMethod: "cod",
-                        shippingAddress: selectedAddress.toJson(),
-                        orderItems: [],
+          child: Center(
+            child: Container(
+              constraints: const BoxConstraints(maxWidth: 1200),
+              child: Column(
+                children: [
+                  const HeaderSection(),
+                  Expanded(
+                    child: SingleChildScrollView(
+                      child: Column(
+                        children: [
+                          const SizedBox(height: 10),
+                          const PaymentMethodSection(),
+                          const ProductSummarySection(),
+                          const PriceDetailsSection(),
+                        ],
                       ),
-                      orderitems: orderitems,
                     ),
-                  );
-                },
+                  ),
+                  CheckoutButton(
+                    text: 'Proceed to Checkout',
+                    onTap: () {
+                      final cartstate = context.read<CartBloc>().state;
+
+                      if (cartstate.cartitems.isEmpty) return;
+                      final orderitems =
+                          cartstate.cartitems.map((element) {
+                            return OrderItem(
+                              orderId: "",
+                              productId: element.productId,
+                              productName: element.title,
+                              productImage: element.imageUrl,
+                              sku: "sku1",
+                              price: element.price,
+                              quantity: element.quantity,
+                              productStorge: element.storeage,
+                              productColor: element.color,
+                              productModelNumber: element.modelNumber,
+                              productrating: element.rating,
+                              productNoOfRating: element.noOfRating,
+                            );
+                          }).toList();
+                      context.read<OrderBloc>().add(
+                        CreateOrderEvent(
+                          orders: Orders(
+                            userId: supabase.auth.currentUser!.id,
+                            totalAmount: cartstate.totalAmount,
+                            status: "placed",
+                            paymentMethod: "cod",
+                            shippingAddress: selectedAddress.toJson(),
+                            orderItems: [],
+                            walletUsed: cartstate.walletUsed,
+                          ),
+                          orderitems: orderitems,
+                        ),
+                      );
+                    },
+                  ),
+                  const SizedBox(height: 30),
+                ],
               ),
-              const SizedBox(height: 30),
-            ],
+            ),
           ),
         ),
       ),

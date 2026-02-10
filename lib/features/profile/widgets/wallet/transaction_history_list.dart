@@ -1,38 +1,14 @@
+import 'package:ad_e_commerce/features/profile/domain/enitites/wallet/wallet_transaction.dart';
 import 'package:ad_e_commerce/features/profile/widgets/wallet/transaction_item_card.dart';
 import 'package:flutter/material.dart';
 
 class TransactionHistoryList extends StatelessWidget {
-  const TransactionHistoryList({super.key});
+  final List<WalletTransaction> transaction;
+  const TransactionHistoryList({super.key, required this.transaction});
 
   @override
   Widget build(BuildContext context) {
     // Mock Data based on the image
-    final transactions = [
-      {
-        'title': 'Refund',
-        'amount': '+80,000',
-        'isCredit': true,
-        'icon': Icons.arrow_forward,
-      },
-      {
-        'title': 'Phone Purchase',
-        'amount': '-80,000',
-        'isCredit': false,
-        'icon': Icons.arrow_back,
-      },
-      {
-        'title': 'Refund',
-        'amount': '+80,000',
-        'isCredit': true,
-        'icon': Icons.arrow_forward,
-      },
-      {
-        'title': 'Phone Purchase',
-        'amount': '-80,000',
-        'isCredit': false,
-        'icon': Icons.arrow_back,
-      },
-    ];
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -46,12 +22,13 @@ class TransactionHistoryList extends StatelessWidget {
           ),
         ),
         const SizedBox(height: 16),
-        ...transactions.map((tx) {
+        ...transaction.map((tx) {
+          final isCredit = tx.type == 'credit';
           return TransactionItemCard(
-            title: tx['title'] as String,
-            amount: tx['amount'] as String,
-            isCredit: tx['isCredit'] as bool,
-            iconInfo: tx['icon'] as IconData,
+            title: tx.reason,
+            amount: tx.amount.toString(),
+            isCredit: isCredit,
+            iconInfo: isCredit ? Icons.arrow_forward : Icons.arrow_back,
           );
         }),
       ],

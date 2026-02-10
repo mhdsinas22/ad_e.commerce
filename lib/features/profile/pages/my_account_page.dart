@@ -11,39 +11,56 @@ class MyAccountPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: ProfileSideAppbar(title: "Account"),
-      body: Column(
-        children: [
-          SizedBox(height: 20),
-          ProfileMenuItem(
-            title: "Profile Settings",
-            onTap: () {
-              Appnavigotor.pushnamed(context, RouteNames.profileSetting, []);
-            },
+      body: Center(
+        child: Container(
+          constraints: const BoxConstraints(maxWidth: 1200),
+          child: Column(
+            children: [
+              SizedBox(height: 20),
+              ProfileMenuItem(
+                title: "Profile Settings",
+                onTap: () {
+                  Appnavigotor.pushnamed(
+                    context,
+                    RouteNames.profileSetting,
+                    [],
+                  );
+                },
+              ),
+              SizedBox(height: 10),
+              ProfileMenuItem(
+                title: "Forgotten password",
+                onTap: () {
+                  Appnavigotor.pushnamed(
+                    context,
+                    RouteNames.forgotPassword,
+                    [],
+                  );
+                },
+              ),
+              SizedBox(height: 10),
+              ProfileMenuItem(
+                title: "My Address",
+                onTap: () {
+                  Appnavigotor.pushnamed(context, RouteNames.checkout, {
+                    "isMyaddressScreen": true,
+                  });
+                },
+              ),
+              SizedBox(height: 10),
+              ProfileMenuItem(
+                title: "Support & Legal",
+                onTap: () {
+                  Appnavigotor.pushnamed(
+                    context,
+                    RouteNames.supportlegelpage,
+                    [],
+                  );
+                },
+              ),
+            ],
           ),
-          SizedBox(height: 10),
-          ProfileMenuItem(
-            title: "Forgotten password",
-            onTap: () {
-              Appnavigotor.pushnamed(context, RouteNames.forgotPassword, []);
-            },
-          ),
-          SizedBox(height: 10),
-          ProfileMenuItem(
-            title: "My Address",
-            onTap: () {
-              Appnavigotor.pushnamed(context, RouteNames.checkout, {
-                "isMyaddressScreen": true,
-              });
-            },
-          ),
-          SizedBox(height: 10),
-          ProfileMenuItem(
-            title: "Support & Legal",
-            onTap: () {
-              Appnavigotor.pushnamed(context, RouteNames.supportlegelpage, []);
-            },
-          ),
-        ],
+        ),
       ),
     );
   }

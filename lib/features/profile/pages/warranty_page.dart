@@ -49,7 +49,7 @@ class WarrantyPage extends StatelessWidget {
         ),
         body: Center(
           child: ConstrainedBox(
-            constraints: const BoxConstraints(maxWidth: 600),
+            constraints: const BoxConstraints(maxWidth: 1200),
             child: BlocBuilder<WarrantyBloc, WarrantyState>(
               builder: (context, state) {
                 if (state.status == WarrantyStatus.loading) {

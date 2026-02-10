@@ -53,34 +53,39 @@ class _SignupFormState extends State<_SignupForm> {
         child: SafeArea(
           child: Padding(
             padding: const EdgeInsets.all(24.0),
-            child: Form(
-              key: _formKey,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  SizedBox(height: 30),
-                  Row(
+            child: Center(
+              child: Container(
+                constraints: const BoxConstraints(maxWidth: 500),
+                child: Form(
+                  key: _formKey,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
-                      SvgPicture.asset(AssetConstants.createAccountText),
+                      SizedBox(height: 30),
+                      Row(
+                        children: [
+                          SvgPicture.asset(AssetConstants.createAccountText),
+                        ],
+                      ),
+                      const SizedBox(height: 8),
+                      const SizedBox(height: 48),
+                      const Spacer(flex: 6),
+                      _PhoneInput(),
+                      const SizedBox(height: 20),
+                      _SendOtpButton(formKey: _formKey),
+                      const SizedBox(height: 30),
+                      InkWell(
+                        onTap: () {
+                          Navigator.pushReplacementNamed(
+                            context,
+                            RouteNames.onboardingstartpage,
+                          );
+                        },
+                        child: Center(child: AppTexts.regular("Cancel")),
+                      ),
                     ],
                   ),
-                  const SizedBox(height: 8),
-                  const SizedBox(height: 48),
-                  const Spacer(flex: 6),
-                  _PhoneInput(),
-                  const SizedBox(height: 20),
-                  _SendOtpButton(formKey: _formKey),
-                  const SizedBox(height: 30),
-                  InkWell(
-                    onTap: () {
-                      Navigator.pushReplacementNamed(
-                        context,
-                        RouteNames.onboardingstartpage,
-                      );
-                    },
-                    child: Center(child: AppTexts.regular("Cancel")),
-                  ),
-                ],
+                ),
               ),
             ),
           ),

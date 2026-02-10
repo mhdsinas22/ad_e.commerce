@@ -1,10 +1,38 @@
 import 'package:ad_e_commerce/core/theme/app_colors.dart';
+import 'package:ad_e_commerce/features/profile/bloc/wallet/wallet_bloc.dart';
+import 'package:ad_e_commerce/features/profile/bloc/wallet/wallet_event.dart';
+import 'package:ad_e_commerce/features/profile/bloc/wallet/wallet_state.dart';
+import 'package:ad_e_commerce/features/profile/data/datasource/wallet_remote_datasource_impl.dart';
+import 'package:ad_e_commerce/features/profile/data/repositories/wallet_repo_impl.dart';
 import 'package:ad_e_commerce/features/profile/widgets/wallet/transaction_history_list.dart';
 import 'package:ad_e_commerce/features/profile/widgets/wallet/wallet_credit_card.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
 class WalletPage extends StatelessWidget {
   const WalletPage({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    final supbase = Supabase.instance.client;
+    final walletrepo = WalletRepoImpl(WalletRemoteDatasourceImpl(supbase));
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(
+          create:
+              (context) =>
+                  WalletBloc(walletrepo)
+                    ..add(FetchWallet(supbase.auth.currentUser!.id)),
+        ),
+      ],
+      child: WalletPageUi(),
+    );
+  }
+}
+
+class WalletPageUi extends StatelessWidget {
+  const WalletPageUi({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -41,30 +69,35 @@ class WalletPage extends StatelessWidget {
         elevation: 0,
         backgroundColor: Colors.transparent,
       ),
-      body: LayoutBuilder(
-        builder: (context, constraints) {
-          // Responsive width for larger screens (e.g., tablet/web)
-          final isLargeScreen = constraints.maxWidth > 600;
-          final contentWidth = isLargeScreen ? 600.0 : double.infinity;
-
-          return Center(
-            child: SizedBox(
-              width: contentWidth,
-              child: SingleChildScrollView(
-                padding: const EdgeInsets.all(24),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const SizedBox(height: 16),
-                    const WalletCreditCard(),
-                    const SizedBox(height: 32),
-                    const TransactionHistoryList(),
-                  ],
-                ),
+      body: Container(
+        constraints: const BoxConstraints(maxWidth: 1200),
+        child: SingleChildScrollView(
+          padding: const EdgeInsets.all(24),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const SizedBox(height: 16),
+              const WalletCreditCard(),
+              const SizedBox(height: 32),
+              BlocBuilder<WalletBloc, WalletState>(
+                builder: (context, state) {
+                  if (state.status == WalletStatus.loading) {
+                    return const Center(child: CircularProgressIndicator());
+                  }
+                  if (state.transactions.isEmpty) {
+                    return const Center(child: Text("No transactions"));
+                  }
+                  if (state.error != null) {
+                    return Center(child: Text(state.error.toString()));
+                  }
+                  return TransactionHistoryList(
+                    transaction: state.transactions,
+                  );
+                },
               ),
-            ),
-          );
-        },
+            ],
+          ),
+        ),
       ),
     );
   }

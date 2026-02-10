@@ -1,6 +1,9 @@
 abstract class WalletEvent {}
 
-class LoadWallet extends WalletEvent {}
+class FetchWallet extends WalletEvent {
+  final String userId;
+  FetchWallet(this.userId);
+}
 
 class UseWallet extends WalletEvent {
   final double amount;

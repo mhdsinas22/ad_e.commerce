@@ -21,11 +21,11 @@ class ProfileMenuItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 20),
-      child: Column(
-        children: [
-          GestureDetector(
-            onTap: onTap,
-            child: Row(
+      child: InkWell(
+        onTap: onTap,
+        child: Column(
+          children: [
+            Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 AppTexts.medium(title, fontSize: 14),
@@ -40,9 +40,9 @@ class ProfileMenuItem extends StatelessWidget {
                 ),
               ],
             ),
-          ),
-          const Divider(),
-        ],
+            const Divider(),
+          ],
+        ),
       ),
     );
   }

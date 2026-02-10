@@ -113,19 +113,49 @@ class CategoryListSection extends StatelessWidget {
       },
     ];
 
-    return Column(
-      children:
-          bestSellingCategories.map((item) {
-            return Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16.0),
-              child: BestSellingCategoryCard(
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        if (constraints.maxWidth > 700) {
+          // Desktop / Tablet -> Grid
+          return GridView.builder(
+            shrinkWrap: true,
+            physics: const NeverScrollableScrollPhysics(),
+            padding: const EdgeInsets.symmetric(horizontal: 16),
+            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: constraints.maxWidth > 1100 ? 3 : 2,
+              crossAxisSpacing: 16,
+              mainAxisSpacing: 16,
+              childAspectRatio: 2.2,
+            ),
+            itemCount: bestSellingCategories.length,
+            itemBuilder: (context, index) {
+              final item = bestSellingCategories[index];
+              return BestSellingCategoryCard(
                 title: item["title"],
                 subtitle: item["subtitle"],
                 image: item["image"],
                 onTap: item["onTap"],
-              ),
-            );
-          }).toList(),
+              );
+            },
+          );
+        } else {
+          // Mobile -> List
+          return Column(
+            children:
+                bestSellingCategories.map((item) {
+                  return Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                    child: BestSellingCategoryCard(
+                      title: item["title"],
+                      subtitle: item["subtitle"],
+                      image: item["image"],
+                      onTap: item["onTap"],
+                    ),
+                  );
+                }).toList(),
+          );
+        }
+      },
     );
   }
 }

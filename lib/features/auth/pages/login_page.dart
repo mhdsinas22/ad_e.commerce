@@ -82,57 +82,65 @@ class _LoginFormState extends State<_LoginForm> {
           child: SingleChildScrollView(
             physics: NeverScrollableScrollPhysics(),
             padding: const EdgeInsets.symmetric(horizontal: 24.0),
-            child: Form(
-              key: _formKey,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const SizedBox(height: 60),
-                  AppTexts.semiBold('Login', fontSize: 52),
-                  const SizedBox(height: 8),
-                  AppTexts.medium('Good to see you back!', fontSize: 16),
-                  const SizedBox(height: 48),
-                  _UsernameInput(submitted: _submitted),
-                  const SizedBox(height: 16),
-                  _PasswordInput(submitted: _submitted),
-                  const SizedBox(height: 12),
-                  Align(
-                    alignment: Alignment.centerRight,
-                    child: TextButton(
-                      onPressed: () {
-                        Navigator.pushNamed(context, RouteNames.forgotPassword);
-                      },
-                      child: AppTexts.medium(
-                        "Forgot Password?",
-                        color: AppColors.primaryBlue,
-                        fontSize: 14,
+            child: Center(
+              child: Container(
+                constraints: const BoxConstraints(maxWidth: 500),
+                child: Form(
+                  key: _formKey,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const SizedBox(height: 60),
+                      AppTexts.semiBold('Login', fontSize: 52),
+                      const SizedBox(height: 8),
+                      AppTexts.medium('Good to see you back!', fontSize: 16),
+                      const SizedBox(height: 48),
+                      _UsernameInput(submitted: _submitted),
+                      const SizedBox(height: 16),
+                      _PasswordInput(submitted: _submitted),
+                      const SizedBox(height: 12),
+                      Align(
+                        alignment: Alignment.centerRight,
+                        child: TextButton(
+                          onPressed: () {
+                            Navigator.pushNamed(
+                              context,
+                              RouteNames.forgotPassword,
+                            );
+                          },
+                          child: AppTexts.medium(
+                            "Forgot Password?",
+                            color: AppColors.primaryBlue,
+                            fontSize: 14,
+                          ),
+                        ),
                       ),
-                    ),
+                      const SizedBox(height: 24),
+                      _LoginButton(
+                        formKey: _formKey,
+                        onSubmitAttempt: () {
+                          setState(() {
+                            _submitted = true;
+                          });
+                        },
+                      ),
+                      const SizedBox(height: 16),
+                      Center(
+                        child: TextButton(
+                          onPressed: () {
+                            Navigator.pushReplacementNamed(
+                              context,
+                              RouteNames.onboardingstartpage,
+                            );
+                          },
+                          child: AppTexts.medium("Cancel", color: Colors.grey),
+                        ),
+                      ),
+                      const SizedBox(height: 20),
+                      const SizedBox(height: 20),
+                    ],
                   ),
-                  const SizedBox(height: 24),
-                  _LoginButton(
-                    formKey: _formKey,
-                    onSubmitAttempt: () {
-                      setState(() {
-                        _submitted = true;
-                      });
-                    },
-                  ),
-                  const SizedBox(height: 16),
-                  Center(
-                    child: TextButton(
-                      onPressed: () {
-                        Navigator.pushReplacementNamed(
-                          context,
-                          RouteNames.onboardingstartpage,
-                        );
-                      },
-                      child: AppTexts.medium("Cancel", color: Colors.grey),
-                    ),
-                  ),
-                  const SizedBox(height: 20),
-                  const SizedBox(height: 20),
-                ],
+                ),
               ),
             ),
           ),

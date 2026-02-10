@@ -15,6 +15,8 @@ import 'package:ad_e_commerce/features/product/data/datasources/product_remote_d
 import 'package:ad_e_commerce/features/product/data/repositories/product_repository_impl.dart';
 import 'package:ad_e_commerce/features/product/domain/usecases/get_flashsale_product_usecase.dart';
 import 'package:ad_e_commerce/features/product/domain/usecases/get_product_usecase.dart';
+import 'package:ad_e_commerce/features/profile/data/datasource/wallet_remote_datasource_impl.dart';
+import 'package:ad_e_commerce/features/profile/data/repositories/wallet_repo_impl.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
@@ -43,6 +45,7 @@ void main() async {
   final supabase = Supabase.instance.client;
   final cartRepository = CartRepositoryImpl(CartRemoteDatasourceimpl(supabase));
   final addtoCartusecase = AddToCartUsecase(cartRepository);
+  final walletrepo = WalletRepoImpl(WalletRemoteDatasourceImpl(supabase));
   final addressRepository = AddressRepositoryimpl(
     AddressRemoteDatasoureimpl(supabase),
   );
@@ -66,7 +69,7 @@ void main() async {
         BlocProvider(
           create:
               (context) =>
-                  CartBloc(addtoCartusecase, cartRepository)
+                  CartBloc(addtoCartusecase, cartRepository, walletrepo)
                     ..add(GetCartItemsEvent()),
         ),
         BlocProvider(

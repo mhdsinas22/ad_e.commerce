@@ -3,18 +3,23 @@ import 'package:ad_e_commerce/features/cart/bloc/cart_state.dart';
 import 'package:ad_e_commerce/features/cart/domain/repositories/cart_repository.dart';
 import 'package:ad_e_commerce/features/cart/domain/usecases/add_to_cart_usecase.dart';
 import 'package:ad_e_commerce/features/cart/domain/enities/cart_item.dart';
+import 'package:ad_e_commerce/features/profile/domain/repositories/wallet_repo.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
 class CartBloc extends Bloc<CartEvent, CartState> {
   final AddToCartUsecase addToCartUsecase;
   final CartRepository cartRepository;
+  final WalletRepo walletRepo;
 
-  CartBloc(this.addToCartUsecase, this.cartRepository) : super(CartState()) {
+  CartBloc(this.addToCartUsecase, this.cartRepository, this.walletRepo)
+    : super(CartState()) {
     on<AddToCartEvent>(_addTocart);
     on<RemoveCartItemEvent>(_removeCartItem);
     on<UpdateCartItemEvent>(_updateCartItem);
     on<GetCartItemsEvent>(_getCartItem);
     on<ClearCartEvent>(_clearCart);
+    on<ApplyWalletEvent>(_applyWallet);
   }
 
   Future<void> _addTocart(AddToCartEvent event, Emitter<CartState> emit) async {
@@ -197,6 +202,8 @@ class CartBloc extends Bloc<CartEvent, CartState> {
     try {
       final items = await cartRepository.getCartItems();
       final totals = _calculateTotals(items);
+      final userid = await Supabase.instance.client.auth.currentUser?.id;
+      final walletBalance = await walletRepo.getWallet(userid!);
       emit(
         state.copyWith(
           status: CartStatus.loaded,
@@ -206,6 +213,7 @@ class CartBloc extends Bloc<CartEvent, CartState> {
           deliveryFee: totals['deliveryFee'],
           totalAmount: totals['totalAmount'],
           isAdding: false,
+          walletBalance: walletBalance.balance,
         ),
       );
     } catch (e) {
@@ -224,21 +232,22 @@ class CartBloc extends Bloc<CartEvent, CartState> {
       subTotal += (item.price * item.quantity);
     }
 
-    // Voucher Logic: Apply voucher only if subtotal > 0 (or some threshold)
-    double voucher = subTotal > 0 ? kVoucherAmount : 0;
-
     // Delivery Fee Logic: Apply only if cart is not empty
     double delivery = subTotal > 0 ? kDeliveryFee : 0;
 
-    // Total Calculation
-    double total = subTotal - voucher + delivery;
+    double walletUsed = state.walletUsed;
+    if (walletUsed > state.walletBalance) {
+      walletUsed = state.walletBalance;
+    }
+    if (walletUsed > subTotal) {
+      walletUsed = subTotal;
+    }
 
-    // Ensure total is not negative
-    if (total < 0) total = 0;
+    double total = subTotal - walletUsed;
 
     return {
       'subTotal': subTotal,
-      'voucherAmount': voucher,
+      'walletUsed': walletUsed,
       'deliveryFee': delivery,
       'totalAmount': total,
     };
@@ -263,5 +272,27 @@ class CartBloc extends Bloc<CartEvent, CartState> {
     } catch (e) {
       emit(state.copyWith(status: CartStatus.error, error: e.toString()));
     }
+  }
+
+  Future<void> _applyWallet(
+    ApplyWalletEvent event,
+    Emitter<CartState> emit,
+  ) async {
+    double enterAmount = event.walletAmount;
+    // Wallet balance limit
+    if (enterAmount > state.walletBalance) {
+      enterAmount = state.walletBalance;
+    }
+    // SubTotal limit
+    if (enterAmount > state.subTotal) {
+      enterAmount = state.subTotal;
+    }
+    final total = state.subTotal - enterAmount + state.deliveryFee;
+    emit(
+      state.copyWith(
+        walletUsed: enterAmount,
+        totalAmount: total < 0 ? 0 : total,
+      ),
+    );
   }
 }

@@ -1,6 +1,8 @@
+import 'package:ad_e_commerce/core/utils/app_logger.dart';
 import 'package:ad_e_commerce/features/profile/data/datasource/wallet_remote_datasource.dart';
 import 'package:ad_e_commerce/features/profile/data/models/reward_points_model.dart';
 import 'package:ad_e_commerce/features/profile/data/models/wallet_model.dart';
+import 'package:ad_e_commerce/features/profile/data/models/wallet_transaction_model.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 class WalletRemoteDatasourceImpl implements WalletRemoteDataSource {
@@ -21,11 +23,25 @@ class WalletRemoteDatasourceImpl implements WalletRemoteDataSource {
   @override
   Future<void> createWallet(String userId) async {
     try {
-      await supbase.from("wallets").insert({"user_id": userId, "balance": 0});
+      final user = supbase.auth.currentUser!.id;
+      print("Waller ueedi:-${user}");
+      await supbase.from("wallets").insert({"user_id": user, "balance": 0});
       await supbase.from("reward_points").insert({
-        "user_id": userId,
+        "user_id": user,
         "points": 0,
       });
+    } catch (e) {
+      print(e.toString());
+    }
+  }
+
+  @override
+  Future<void> createWalletForUser(String userId) async {
+    try {
+      await supbase.rpc(
+        "create_wallet_for_user",
+        params: {"p_user_id": userId},
+      );
     } catch (e) {
       print(e.toString());
     }
@@ -69,5 +85,48 @@ class WalletRemoteDatasourceImpl implements WalletRemoteDataSource {
       'debit_wallet',
       params: {'p_amount': amount, 'p_reason': reason, 'p_user_id': userId},
     );
+  }
+
+  @override
+  Future<void> addRewardAsWallet(String userid, int points) async {
+    try {
+      await supbase.rpc(
+        "add_reward_as_wallet",
+        params: {"p_user_id": userid, "p_points": points},
+      );
+    } catch (e) {
+      print('ADD REWARD AS WALLET ERROR: $e');
+      rethrow;
+    }
+  }
+
+  @override
+  Future<List<WalletTransactionModel>> getTransactions(String walletid) async {
+    try {
+      final res = await supbase
+          .from("wallet_transactions")
+          .select()
+          .eq("wallet_id", walletid)
+          .order("created_at", ascending: false);
+      return res.map((e) => WalletTransactionModel.fromJson(e)).toList();
+    } catch (e) {
+      print(e.toString());
+      rethrow;
+    }
+  }
+
+  @override
+  Future<void> debitWalletForOrder({
+    required String userId,
+    required double amount,
+  }) async {
+    try {
+      await supbase.rpc(
+        "debit_wallet_for_order",
+        params: {"p_user_id": userId, "p_amount": amount},
+      );
+    } catch (e) {
+      AppLogger.error("DEBIT WALLET FOR ORDER ERROR: $e");
+    }
   }
 }

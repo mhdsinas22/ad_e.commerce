@@ -1,3 +1,4 @@
+import 'package:ad_e_commerce/core/utils/app_logger.dart';
 import 'package:ad_e_commerce/features/orders/data/datasource/order_remote_datasource.dart';
 import 'package:ad_e_commerce/features/orders/data/models/order_item_model.dart';
 import 'package:ad_e_commerce/features/orders/data/models/order_model.dart';
@@ -26,16 +27,27 @@ class OrderRepoImpl implements OrderRepo {
         orderitems.map((e) => OrderItemModel.fromEntity(e)).toList(),
       );
 
-      // 3 Debit wallet AFTER order success
-      await walletRemoteDataSource.debitWallet(
-        userId: order.userId,
-        amount: order.totalAmount,
-        reason: "Order Payment",
-      );
+      double payableAmount = order.totalAmount;
 
-      // 4 Add reward points
-      final points = order.totalAmount ~/ 100;
-      await walletRemoteDataSource.addRewardPoints(order.userId, points);
+      // 3 Wallet use cheythal mathram
+      if (order.walletUsed > 0) {
+        await walletRemoteDataSource.debitWalletForOrder(
+          userId: order.userId,
+          amount: order.walletUsed,
+        );
+
+        AppLogger.info("wallet used amount :- ${order.walletUsed}");
+
+        payableAmount = order.totalAmount - order.walletUsed;
+      }
+
+      // 4 Reward points (payable amount base cheyth)
+      final points = payableAmount ~/ 100;
+
+      if (points > 0) {
+        await walletRemoteDataSource.addRewardPoints(order.userId, points);
+        await walletRemoteDataSource.addRewardAsWallet(order.userId, points);
+      }
 
       return orderId;
     } catch (e) {

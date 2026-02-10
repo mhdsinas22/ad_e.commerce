@@ -8,7 +8,6 @@ import 'package:ad_e_commerce/features/home/pages/category_filtred_page.dart';
 
 import 'package:ad_e_commerce/features/product/bloc/proudctbloc/product_bloc.dart';
 import 'package:ad_e_commerce/features/search/bloc/search_bloc.dart';
-import 'package:ad_e_commerce/features/search/widgets/search_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -40,7 +39,6 @@ class AccesoriesCategoriesPageUi extends StatelessWidget {
             SliverToBoxAdapter(
               child: Column(
                 children: [
-                  SearchBarw(),
                   Align(
                     alignment: Alignment.bottomLeft,
 

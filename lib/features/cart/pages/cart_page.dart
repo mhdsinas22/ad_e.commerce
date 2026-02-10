@@ -58,16 +58,21 @@ class _CartPageState extends State<_CartPage> {
         title: AppTexts.bold("My Carts", fontSize: 18),
       ),
       body: SafeArea(
-        child: LayoutBuilder(
-          builder: (context, constraints) {
-            bool isDesktop = constraints.maxWidth > 800;
+        child: Center(
+          child: Container(
+            constraints: const BoxConstraints(maxWidth: 1200),
+            child: LayoutBuilder(
+              builder: (context, constraints) {
+                bool isDesktop = constraints.maxWidth > 800;
 
-            if (isDesktop) {
-              return _buildDesktopLayout();
-            } else {
-              return _buildMobileLayout();
-            }
-          },
+                if (isDesktop) {
+                  return _buildDesktopLayout();
+                } else {
+                  return _buildMobileLayout();
+                }
+              },
+            ),
+          ),
         ),
       ),
     );

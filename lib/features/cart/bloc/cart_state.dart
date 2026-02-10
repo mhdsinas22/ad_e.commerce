@@ -12,6 +12,8 @@ class CartState {
   final double deliveryFee;
   final bool isAdding;
   final String? loadingProductid;
+  final double walletBalance; // user wallet balance
+  final double walletUsed; // user entered wallet amount
 
   CartState({
     this.status = CartStatus.initial,
@@ -23,6 +25,8 @@ class CartState {
     this.deliveryFee = 0.0,
     this.isAdding = false,
     this.loadingProductid,
+    this.walletBalance = 0.0,
+    this.walletUsed = 0.0,
   });
 
   CartState copyWith({
@@ -36,6 +40,8 @@ class CartState {
     bool? isAdding,
     String? loadingProductid,
     bool clearLoadingProductId = false,
+    double? walletBalance, // user wallet balance
+    double? walletUsed, // user entered wallet amount
   }) {
     return CartState(
       status: status ?? this.status,
@@ -50,6 +56,8 @@ class CartState {
           clearLoadingProductId
               ? ""
               : loadingProductid ?? this.loadingProductid,
+      walletBalance: walletBalance ?? this.walletBalance,
+      walletUsed: walletUsed ?? this.walletUsed,
     );
   }
 }

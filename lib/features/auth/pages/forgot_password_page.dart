@@ -80,123 +80,130 @@ class _ForgotPasswordViewState extends State<ForgotPasswordView> {
         child: SafeArea(
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 24.0),
-            child: Form(
-              key: _formKey,
-              child: Column(
-                children: [
-                  const Spacer(flex: 3),
-                  const Text(
-                    'Enter your Mail ID',
-                    style: TextStyle(
-                      fontSize: 24,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.black,
-                      height: 1.2,
-                      fontFamily: "Manrope",
-                    ),
-                    textAlign: TextAlign.center,
-                  ),
-                  const SizedBox(height: 12),
-                  const Text(
-                    'Enter your registered mail id for\nconfirmation link',
-                    style: TextStyle(
-                      fontSize: 16,
-                      color: Color(0xFF666666),
-                      height: 1.5,
-                      fontFamily: "Manrope",
-                    ),
-                    textAlign: TextAlign.center,
-                  ),
-                  const SizedBox(height: 32),
-                  BlocBuilder<ForgotPasswordBloc, ForgotPasswordState>(
-                    builder: (context, state) {
-                      return TextFormField(
-                        controller: _emailController,
-                        style: const TextStyle(
+            child: Center(
+              child: Container(
+                constraints: const BoxConstraints(maxWidth: 500),
+                child: Form(
+                  key: _formKey,
+                  child: Column(
+                    children: [
+                      const Spacer(flex: 3),
+                      const Text(
+                        'Enter your Mail ID',
+                        style: TextStyle(
+                          fontSize: 24,
+                          fontWeight: FontWeight.bold,
                           color: Colors.black,
-                          fontSize: 16,
+                          height: 1.2,
                           fontFamily: "Manrope",
                         ),
-                        decoration: InputDecoration(
-                          hintText: 'Mail ID',
-                          hintStyle: TextStyle(
-                            color: Colors.grey[400],
-                            fontSize: 15,
-                            fontFamily: "Manrope",
-                          ),
-                          filled: true,
-                          fillColor: const Color(0xFFF9F9F9),
-                          contentPadding: const EdgeInsets.symmetric(
-                            vertical: 18,
-                            horizontal: 24,
-                          ),
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(30),
-                            borderSide: BorderSide.none,
-                          ),
-                          enabledBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(30),
-                            borderSide: BorderSide.none,
-                          ),
-                          focusedBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(30),
-                            borderSide: BorderSide.none,
-                          ),
-                          errorBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(30),
-                            borderSide: const BorderSide(color: Colors.red),
-                          ),
+                        textAlign: TextAlign.center,
+                      ),
+                      const SizedBox(height: 12),
+                      const Text(
+                        'Enter your registered mail id for\nconfirmation link',
+                        style: TextStyle(
+                          fontSize: 16,
+                          color: Color(0xFF666666),
+                          height: 1.5,
+                          fontFamily: "Manrope",
                         ),
-                        keyboardType: TextInputType.emailAddress,
-                        textInputAction: TextInputAction.send,
-                        onChanged: (value) {
-                          context.read<ForgotPasswordBloc>().add(
-                            ForgotPasswordEmailChanged(value),
-                          );
-                        },
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return 'Email is required';
-                          }
-                          if (!_isEmailValid(value)) {
-                            return 'Email must be in valid format';
-                          }
-                          return null;
-                        },
-                        onFieldSubmitted: (value) => _onSubmitted(),
-                      );
-                    },
-                  ),
-                  const Spacer(flex: 4),
-                  BlocBuilder<ForgotPasswordBloc, ForgotPasswordState>(
-                    builder: (context, state) {
-                      if (state.status == ForgotPasswordStatus.loading) {
-                        return const Center(child: CircularProgressIndicator());
-                      }
-                      return Column(
-                        children: [
-                          CircularArrowButton(onTap: _onSubmitted),
-                          const SizedBox(height: 16),
-                          TextButton(
-                            onPressed: () {
-                              Navigator.of(context).pop();
-                            },
-                            style: TextButton.styleFrom(
-                              foregroundColor: Colors.grey[600],
-                              textStyle: const TextStyle(
-                                fontSize: 16,
-                                fontWeight: FontWeight.w400,
+                        textAlign: TextAlign.center,
+                      ),
+                      const SizedBox(height: 32),
+                      BlocBuilder<ForgotPasswordBloc, ForgotPasswordState>(
+                        builder: (context, state) {
+                          return TextFormField(
+                            controller: _emailController,
+                            style: const TextStyle(
+                              color: Colors.black,
+                              fontSize: 16,
+                              fontFamily: "Manrope",
+                            ),
+                            decoration: InputDecoration(
+                              hintText: 'Mail ID',
+                              hintStyle: TextStyle(
+                                color: Colors.grey[400],
+                                fontSize: 15,
                                 fontFamily: "Manrope",
                               ),
+                              filled: true,
+                              fillColor: const Color(0xFFF9F9F9),
+                              contentPadding: const EdgeInsets.symmetric(
+                                vertical: 18,
+                                horizontal: 24,
+                              ),
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(30),
+                                borderSide: BorderSide.none,
+                              ),
+                              enabledBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(30),
+                                borderSide: BorderSide.none,
+                              ),
+                              focusedBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(30),
+                                borderSide: BorderSide.none,
+                              ),
+                              errorBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(30),
+                                borderSide: const BorderSide(color: Colors.red),
+                              ),
                             ),
-                            child: const Text('Cancel'),
-                          ),
-                        ],
-                      );
-                    },
+                            keyboardType: TextInputType.emailAddress,
+                            textInputAction: TextInputAction.send,
+                            onChanged: (value) {
+                              context.read<ForgotPasswordBloc>().add(
+                                ForgotPasswordEmailChanged(value),
+                              );
+                            },
+                            validator: (value) {
+                              if (value == null || value.isEmpty) {
+                                return 'Email is required';
+                              }
+                              if (!_isEmailValid(value)) {
+                                return 'Email must be in valid format';
+                              }
+                              return null;
+                            },
+                            onFieldSubmitted: (value) => _onSubmitted(),
+                          );
+                        },
+                      ),
+                      const Spacer(flex: 4),
+                      BlocBuilder<ForgotPasswordBloc, ForgotPasswordState>(
+                        builder: (context, state) {
+                          if (state.status == ForgotPasswordStatus.loading) {
+                            return const Center(
+                              child: CircularProgressIndicator(),
+                            );
+                          }
+                          return Column(
+                            children: [
+                              CircularArrowButton(onTap: _onSubmitted),
+                              const SizedBox(height: 16),
+                              TextButton(
+                                onPressed: () {
+                                  Navigator.of(context).pop();
+                                },
+                                style: TextButton.styleFrom(
+                                  foregroundColor: Colors.grey[600],
+                                  textStyle: const TextStyle(
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.w400,
+                                    fontFamily: "Manrope",
+                                  ),
+                                ),
+                                child: const Text('Cancel'),
+                              ),
+                            ],
+                          );
+                        },
+                      ),
+                      const SizedBox(height: 16),
+                    ],
                   ),
-                  const SizedBox(height: 16),
-                ],
+                ),
               ),
             ),
           ),

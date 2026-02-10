@@ -6,11 +6,28 @@ class UserRepository {
   UserRepository(this.client);
   Future<void> createUser(UserModel user) async {
     try {
-      await client.from("users").insert(user.toJson());
+      await client.from("profiles").insert(user.toJson());
     } on PostgrestException catch (e) {
       throw Exception(e.message);
     } catch (_) {
       throw Exception("Unknown error");
+    }
+  }
+
+  Future<void> createUserprofile(UserModel user) async {
+    try {
+      await client.rpc(
+        'create_user_profile',
+        params: {
+          'p_user_id': user.userId,
+          'p_phone': user.phone,
+          'p_email': user.email,
+          'p_username': user.username,
+          'p_image_url': user.imageUrl,
+        },
+      );
+    } catch (e) {
+      print("eror:-${e.toString()}");
     }
   }
 }

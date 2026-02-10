@@ -25,3 +25,8 @@ class UpdateCartItemEvent extends CartEvent {
 class GetCartItemsEvent extends CartEvent {}
 
 class ClearCartEvent extends CartEvent {}
+
+class ApplyWalletEvent extends CartEvent {
+  final double walletAmount;
+  ApplyWalletEvent(this.walletAmount);
+}

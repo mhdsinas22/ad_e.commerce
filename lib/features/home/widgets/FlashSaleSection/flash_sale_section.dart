@@ -20,7 +20,7 @@ class FlashSaleSection extends StatelessWidget {
             if (state.productStatus == ProductStatus.loading) {
               return ListView.separated(
                 scrollDirection: Axis.horizontal,
-                padding: const EdgeInsets.symmetric(horizontal: 12),
+                padding: const EdgeInsets.symmetric(horizontal: 16),
                 itemCount: 5,
                 separatorBuilder: (_, __) => const SizedBox(width: 10),
                 itemBuilder: (context, index) {
@@ -40,7 +40,7 @@ class FlashSaleSection extends StatelessWidget {
             }
             return ListView.separated(
               scrollDirection: Axis.horizontal,
-              padding: const EdgeInsets.symmetric(horizontal: 12),
+              padding: const EdgeInsets.symmetric(horizontal: 16),
               itemCount: state.flashSaleProducts.length,
               separatorBuilder:
                   (_, __) => const SizedBox(width: 10), // ⭐ exact gap

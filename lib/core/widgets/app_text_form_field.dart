@@ -15,7 +15,7 @@ class AppTextFormField extends StatelessWidget {
   final double borderradiusno;
   final String? initialValue;
   final double width;
-  final double height;
+  final double? height;
   const AppTextFormField({
     super.key,
     required this.hintText,
@@ -31,8 +31,8 @@ class AppTextFormField extends StatelessWidget {
     this.readOnly = false,
     this.initialValue,
     this.borderradiusno = 30,
-    this.width = 344,
-    this.height = 50,
+    this.width = double.infinity,
+    this.height,
   });
 
   @override

@@ -3,6 +3,7 @@ import 'package:ad_e_commerce/core/theme/app_colors.dart';
 import 'package:ad_e_commerce/core/utils/navigator.dart';
 import 'package:ad_e_commerce/core/widgets/app_text.dart';
 import 'package:ad_e_commerce/features/cart/bloc/cart_bloc.dart';
+import 'package:ad_e_commerce/features/cart/bloc/cart_event.dart';
 import 'package:ad_e_commerce/features/cart/bloc/cart_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -15,8 +16,6 @@ class CartSummaryWidget extends StatelessWidget {
     return BlocBuilder<CartBloc, CartState>(
       builder: (context, state) {
         final subTotal = state.subTotal;
-        final voucher = state.voucherAmount;
-        final delivery = state.deliveryFee;
         final total = state.totalAmount;
         final isCartEmpty = state.cartitems.isEmpty;
 
@@ -33,23 +32,25 @@ class CartSummaryWidget extends StatelessWidget {
               ),
               const SizedBox(height: 8),
               // Show voucher as negative value if applied
-              _buildSummaryRow(
-                "Voucher",
-                voucher > 0 ? "-${_formatMoney(voucher)}" : "INR 0",
-                isBold: false,
+              GestureDetector(
+                onTap: () {
+                  _showWalletBottomSheet(context, state);
+                },
+                child: _buildSummaryRow(
+                  "Wallet",
+                  state.walletUsed > 0
+                      ? "- ${_formatMoney(state.walletUsed)}"
+                      : "Add",
+                  isBold: false,
+                ),
               ),
               const SizedBox(height: 8),
-              _buildSummaryRow(
-                "Delivery Fee",
-                _formatMoney(delivery),
-                isBold: false,
-              ),
+              _buildSummaryRow("Delivery Fee", "Free", isBold: false),
               const SizedBox(height: 16),
               const Divider(color: AppColors.lightGrey, thickness: 1),
               const SizedBox(height: 16),
               _buildSummaryRow("Total", _formatMoney(total), isBold: true),
               const SizedBox(height: 24),
-
               // Checkout Button
               SizedBox(
                 width: double.infinity,
@@ -124,4 +125,115 @@ class CartSummaryWidget extends StatelessWidget {
 
     return "INR $result";
   }
+}
+
+void _showWalletBottomSheet(BuildContext context, CartState state) {
+  final TextEditingController controller = TextEditingController(
+    text: state.walletUsed > 0 ? state.walletUsed.toString() : "",
+  );
+
+  showModalBottomSheet(
+    backgroundColor: AppColors.pureWhite,
+    context: context,
+    isScrollControlled: true,
+    shape: const RoundedRectangleBorder(
+      borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
+    ),
+    builder: (_) {
+      String? errorText;
+      double enteredAmount = 0;
+
+      return StatefulBuilder(
+        builder: (context, setState) {
+          return Padding(
+            padding: EdgeInsets.only(
+              left: 20,
+              right: 20,
+              top: 20,
+              bottom: MediaQuery.of(context).viewInsets.bottom + 20,
+            ),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                // 🔹 Title
+                AppTexts.bold("Apply Wallet", fontSize: 18),
+
+                const SizedBox(height: 8),
+
+                // 🔹 Available balance
+                AppTexts.regular(
+                  "Available Balance: INR ${state.walletBalance}",
+                  color: Colors.green,
+                ),
+
+                const SizedBox(height: 16),
+
+                // 🔹 Input
+                TextField(
+                  controller: controller,
+                  keyboardType: TextInputType.number,
+                  onChanged: (value) {
+                    enteredAmount = double.tryParse(value) ?? 0;
+
+                    if (enteredAmount > state.walletBalance) {
+                      errorText = "Amount exceeds wallet balance";
+                    } else if (enteredAmount > state.subTotal) {
+                      errorText = "Amount exceeds cart total";
+                    } else {
+                      errorText = null;
+                    }
+
+                    setState(() {});
+                  },
+                  decoration: InputDecoration(
+                    hintText: "Enter wallet amount",
+                    errorText: errorText,
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                  ),
+                ),
+
+                const SizedBox(height: 20),
+
+                // 🔹 Apply Button
+                SizedBox(
+                  width: double.infinity,
+                  height: 48,
+                  child: ElevatedButton(
+                    onPressed:
+                        errorText != null || enteredAmount <= 0
+                            ? null
+                            : () {
+                              context.read<CartBloc>().add(
+                                ApplyWalletEvent(enteredAmount),
+                              );
+
+                              Navigator.pop(context);
+                            },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: AppColors.primaryBlue,
+                      disabledBackgroundColor: AppColors.primaryBlue
+                          .withOpacity(0.4),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                    ),
+                    child: AppTexts.semiBold(
+                      "Apply Wallet",
+                      color: Colors.white,
+                      fontSize: 16,
+                    ),
+                  ),
+                ),
+
+                const SizedBox(height: 8),
+              ],
+            ),
+          );
+        },
+      );
+    },
+  );
 }

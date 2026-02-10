@@ -4,7 +4,6 @@ import 'package:ad_e_commerce/data/repositories/user_repository.dart';
 import 'package:ad_e_commerce/features/auth/bloc/user_details/user_details_event.dart';
 import 'package:ad_e_commerce/features/auth/bloc/user_details/user_details_state.dart';
 import 'package:ad_e_commerce/features/profile/domain/repositories/wallet_repo.dart';
-
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
@@ -78,9 +77,9 @@ class UserDetailsBloc extends Bloc<UserDetailsEvent, UserDetailsState> {
       } else {
         message = e.message;
       }
-
       emit(state.copyWith(status: UserDetailsStatus.failure, error: message));
     } catch (e) {
+      print("error:_${e.toString()}");
       emit(
         state.copyWith(
           status: UserDetailsStatus.failure,

@@ -16,89 +16,100 @@ class SupportLegelPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: ProfileSideAppbar(title: "Support & Legal"),
-      body: Column(
-        children: [
-          SizedBox(height: 20),
+      body: Center(
+        child: Container(
+          constraints: const BoxConstraints(maxWidth: 1200),
+          child: Column(
+            children: [
+              SizedBox(height: 20),
 
-          ProfileMenuItem(title: "Help & Support", onTap: () {}),
-          SizedBox(height: 10),
-          ProfileMenuItem(
-            title: "Terms & Conditions / Privacy Policy",
-            onTap: () {},
-          ),
-          SizedBox(height: 10),
-          ProfileMenuItem(
-            isneedChangedbuttoncolor: true,
-            buttoncolor: AppColors.purered,
-            title: "Log Out",
-            onTap: () {
-              showModalBottomSheet(
-                backgroundColor: AppColors.pureWhite,
-                context: context,
-                builder: (context) {
-                  return SizedBox(
-                    height: 400,
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Center(
-                          child: Image.asset(AssetConstants.logoutpngtemp),
-                        ),
-                        SizedBox(height: 50),
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Expanded(
-                                child: ElevatedButton(
-                                  style: ElevatedButton.styleFrom(
-                                    backgroundColor: AppColors.pureWhite,
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(10),
+              ProfileMenuItem(title: "Help & Support", onTap: () {}),
+              SizedBox(height: 10),
+              ProfileMenuItem(
+                title: "Terms & Conditions / Privacy Policy",
+                onTap: () {},
+              ),
+              SizedBox(height: 10),
+              ProfileMenuItem(
+                isneedChangedbuttoncolor: true,
+                buttoncolor: AppColors.purered,
+                title: "Log Out",
+                onTap: () {
+                  showModalBottomSheet(
+                    backgroundColor: AppColors.pureWhite,
+                    context: context,
+                    builder: (context) {
+                      return SizedBox(
+                        height: 400,
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Center(
+                              child: Image.asset(AssetConstants.logoutpngtemp),
+                            ),
+                            SizedBox(height: 50),
+                            Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Expanded(
+                                    child: ElevatedButton(
+                                      style: ElevatedButton.styleFrom(
+                                        backgroundColor: AppColors.pureWhite,
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius: BorderRadius.circular(
+                                            10,
+                                          ),
+                                        ),
+                                      ),
+                                      onPressed: () {
+                                        Appnavigotor.pop(context);
+                                      },
+                                      child: AppTexts.semiBold("Cancel"),
                                     ),
                                   ),
-                                  onPressed: () {
-                                    Appnavigotor.pop(context);
-                                  },
-                                  child: AppTexts.semiBold("Cancel"),
-                                ),
-                              ),
-                              SizedBox(width: 10),
-                              Expanded(
-                                child: ElevatedButton(
-                                  style: ElevatedButton.styleFrom(
-                                    backgroundColor: AppColors.purered,
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(10),
+                                  SizedBox(width: 10),
+                                  Expanded(
+                                    child: ElevatedButton(
+                                      style: ElevatedButton.styleFrom(
+                                        backgroundColor: AppColors.purered,
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius: BorderRadius.circular(
+                                            10,
+                                          ),
+                                        ),
+                                      ),
+                                      onPressed: () async {
+                                        final supbase =
+                                            Supabase.instance.client;
+                                        await supbase.auth.signOut();
+                                        Appnavigotor.pushNamedAndRemoveUntil(
+                                          // ignore: use_build_context_synchronously
+                                          context,
+                                          RouteNames.login,
+                                        );
+                                      },
+                                      child: AppTexts.semiBold(
+                                        "LogOut",
+                                        color: AppColors.pureWhite,
+                                      ),
                                     ),
                                   ),
-                                  onPressed: () async {
-                                    final supbase = Supabase.instance.client;
-                                    await supbase.auth.signOut();
-                                    Appnavigotor.pushNamedAndRemoveUntil(
-                                      // ignore: use_build_context_synchronously
-                                      context,
-                                      RouteNames.login,
-                                    );
-                                  },
-                                  child: AppTexts.semiBold(
-                                    "LogOut",
-                                    color: AppColors.pureWhite,
-                                  ),
-                                ),
+                                ],
                               ),
-                            ],
-                          ),
+                            ),
+                          ],
                         ),
-                      ],
-                    ),
+                      );
+                    },
                   );
                 },
-              );
-            },
+              ),
+            ],
           ),
-        ],
+        ),
       ),
     );
   }

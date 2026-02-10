@@ -36,6 +36,8 @@ import 'package:ad_e_commerce/features/home/data/repository/testmonial_repositor
 import 'package:ad_e_commerce/features/product/domain/usecases/get_flashsale_product_usecase.dart';
 import 'package:ad_e_commerce/features/product/domain/usecases/get_product_usecase.dart';
 import 'package:ad_e_commerce/features/product/widgets/product_image_carousel.dart';
+import 'package:ad_e_commerce/features/profile/data/datasource/wallet_remote_datasource_impl.dart';
+import 'package:ad_e_commerce/features/profile/data/repositories/wallet_repo_impl.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -67,6 +69,7 @@ class HomePage extends StatelessWidget {
       CartRemoteDatasourceimpl(supabase),
     );
     final addtoCartUsecase = AddToCartUsecase(cartRepository);
+    final walletrepo = WalletRepoImpl(WalletRemoteDatasourceImpl(supabase));
     List<String> images = [];
     return MultiBlocProvider(
       providers: [
@@ -102,7 +105,9 @@ class HomePage extends StatelessWidget {
                     ..add(LoadTestimonialEvent()),
         ),
         BlocProvider(
-          create: (context) => CartBloc(addtoCartUsecase, cartRepository),
+          create:
+              (context) =>
+                  CartBloc(addtoCartUsecase, cartRepository, walletrepo),
         ),
       ],
       child: HomePageUi(),

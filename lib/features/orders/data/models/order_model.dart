@@ -10,7 +10,12 @@ class OrderModel extends Orders {
     required super.paymentMethod,
     required super.shippingAddress,
     required super.orderItems,
+    required super.walletUsed,
     super.orderNumber,
+    super.packedAt,
+    super.shippedAt,
+    super.deliveredAt,
+    super.createdAt,
   });
   factory OrderModel.fromJson(Map<String, dynamic> json) {
     return OrderModel(
@@ -25,6 +30,21 @@ class OrderModel extends Orders {
           (json["order_items"] as List)
               .map((e) => OrderItemModel.fromJson(e))
               .toList(),
+      walletUsed: (json["wallet_used"] as num?)?.toDouble() ?? 0.0,
+      packedAt:
+          json['packed_at'] != null ? DateTime.parse(json['packed_at']) : null,
+      shippedAt:
+          json['shipped_at'] != null
+              ? DateTime.parse(json['shipped_at'])
+              : null,
+      deliveredAt:
+          json['delivered_at'] != null
+              ? DateTime.parse(json['delivered_at'])
+              : null,
+      createdAt:
+          json['created_at'] != null
+              ? DateTime.parse(json['created_at'])
+              : null,
     );
   }
   factory OrderModel.fromEntity(Orders order) {
@@ -37,6 +57,10 @@ class OrderModel extends Orders {
       shippingAddress: order.shippingAddress,
       orderItems: order.orderItems,
       orderNumber: order.orderNumber,
+      walletUsed: order.walletUsed,
+      packedAt: order.packedAt,
+      shippedAt: order.shippedAt,
+      deliveredAt: order.deliveredAt,
     );
   }
   Map<String, dynamic> toJson() => {
@@ -45,5 +69,6 @@ class OrderModel extends Orders {
     "status": status,
     "payment_method": paymentMethod,
     "shipping_address": shippingAddress,
+    "wallet_used": walletUsed,
   };
 }

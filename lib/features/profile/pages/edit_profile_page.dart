@@ -150,70 +150,80 @@ class _EditProfileViewState extends State<_EditProfileView> {
 
           return SingleChildScrollView(
             padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 20),
-            child: Column(
-              children: [
-                const SizedBox(height: 10),
-                ProfileHeader(
-                  imageUrl: state.user?.imageUrl,
-                  imageFile: state.selectedImage,
-                  onEditTap: _pickImage,
-                ),
-                const SizedBox(height: 40),
-
-                ProfileTextField(
-                  label: "User Name",
-                  controller: _usernameController,
-                ),
-                const SizedBox(height: 24),
-
-                ProfileTextField(label: "Name", controller: _nameController),
-                const SizedBox(height: 24),
-
-                ProfileTextField(
-                  label: "Phone Number",
-                  controller: _phoneController,
-                  keyboardType: TextInputType.phone,
-                ),
-                const SizedBox(height: 24),
-
-                ProfileTextField(
-                  label: "Email Address",
-                  controller: _emailController,
-                  keyboardType: TextInputType.emailAddress,
-                  readOnly: true,
-                ),
-
-                const SizedBox(height: 60),
-
-                SizedBox(
-                  width: double.infinity,
-                  height: 56, // Tall button
-                  child: ElevatedButton(
-                    onPressed: state.isSubmitting ? null : _saveChanges,
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: const Color(0xFF0055FF), // Bright blue
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(16),
-                      ),
-                      elevation: 0,
+            child: Center(
+              child: Container(
+                constraints: const BoxConstraints(maxWidth: 1200),
+                child: Column(
+                  children: [
+                    const SizedBox(height: 10),
+                    ProfileHeader(
+                      imageUrl: state.user?.imageUrl,
+                      imageFile: state.selectedImage,
+                      onEditTap: _pickImage,
                     ),
-                    child:
-                        state.isSubmitting
-                            ? const CircularProgressIndicator(
-                              color: Colors.white,
-                            )
-                            : const Text(
-                              "Save Changes",
-                              style: TextStyle(
-                                fontSize: 16,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.white,
-                              ),
-                            ),
-                  ),
+                    const SizedBox(height: 40),
+
+                    ProfileTextField(
+                      label: "User Name",
+                      controller: _usernameController,
+                    ),
+                    const SizedBox(height: 24),
+
+                    ProfileTextField(
+                      label: "Name",
+                      controller: _nameController,
+                    ),
+                    const SizedBox(height: 24),
+
+                    ProfileTextField(
+                      label: "Phone Number",
+                      controller: _phoneController,
+                      keyboardType: TextInputType.phone,
+                    ),
+                    const SizedBox(height: 24),
+
+                    ProfileTextField(
+                      label: "Email Address",
+                      controller: _emailController,
+                      keyboardType: TextInputType.emailAddress,
+                      readOnly: true,
+                    ),
+
+                    const SizedBox(height: 60),
+
+                    SizedBox(
+                      width: double.infinity,
+                      height: 56, // Tall button
+                      child: ElevatedButton(
+                        onPressed: state.isSubmitting ? null : _saveChanges,
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: const Color(
+                            0xFF0055FF,
+                          ), // Bright blue
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(16),
+                          ),
+                          elevation: 0,
+                        ),
+                        child:
+                            state.isSubmitting
+                                ? const CircularProgressIndicator(
+                                  color: Colors.white,
+                                )
+                                : const Text(
+                                  "Save Changes",
+                                  style: TextStyle(
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.white,
+                                  ),
+                                ),
+                      ),
+                    ),
+                    const SizedBox(height: 30),
+                  ],
                 ),
-                const SizedBox(height: 30),
-              ],
+              ),
             ),
           );
         },

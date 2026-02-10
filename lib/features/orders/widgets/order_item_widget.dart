@@ -1,7 +1,9 @@
 import 'package:ad_e_commerce/core/theme/app_colors.dart';
 import 'package:ad_e_commerce/core/widgets/app_text.dart';
+import 'package:ad_e_commerce/core/widgets/primary_button.dart';
 import 'package:ad_e_commerce/features/orders/domain/enities/order_item.dart';
 import 'package:ad_e_commerce/features/orders/domain/enities/orders.dart';
+import 'package:ad_e_commerce/features/orders/pages/order_details_page.dart';
 import 'package:flutter/material.dart';
 
 class OrderItemWidget extends StatelessWidget {
@@ -96,6 +98,23 @@ class OrderItemWidget extends StatelessWidget {
           AppTexts.bold(
             "₹ ${orderItem.price.toStringAsFixed(0).replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},')}",
             fontSize: 16,
+          ),
+          const SizedBox(height: 12),
+          PrimaryButton(
+            fontsize: 16,
+            height: 30,
+            text: "View Details",
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder:
+                      (context) =>
+                          OrderDetailsPage(order: orders, orderItem: orderItem),
+                ),
+              );
+            },
+            borderRadius: 10,
           ),
         ],
       ),

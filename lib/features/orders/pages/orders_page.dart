@@ -74,7 +74,7 @@ class OrderPageUi extends StatelessWidget {
       ),
       body: Center(
         child: ConstrainedBox(
-          constraints: const BoxConstraints(maxWidth: 600),
+          constraints: const BoxConstraints(maxWidth: 1200),
           child: BlocBuilder<OrderBloc, OrderState>(
             builder: (context, state) {
               if (state.status == OrdersStatus.loading) {

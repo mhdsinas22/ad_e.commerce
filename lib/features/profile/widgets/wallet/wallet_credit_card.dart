@@ -1,5 +1,9 @@
 import 'package:ad_e_commerce/core/theme/app_colors.dart';
+import 'package:ad_e_commerce/core/widgets/app_text.dart';
+import 'package:ad_e_commerce/features/profile/bloc/wallet/wallet_bloc.dart';
+import 'package:ad_e_commerce/features/profile/bloc/wallet/wallet_state.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class WalletCreditCard extends StatelessWidget {
   const WalletCreditCard({super.key});
@@ -74,47 +78,36 @@ class WalletCreditCard extends StatelessWidget {
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(
-                            "NAME",
-                            style: TextStyle(
-                              color: Colors.white.withOpacity(0.7),
-                              fontSize: 12,
-                              fontWeight: FontWeight.w500,
-                              letterSpacing: 1.0,
-                            ),
-                          ),
+                          AppTexts.semiBold("NAME", color: AppColors.pureWhite),
                           const SizedBox(height: 4),
-                          const Text(
+                          AppTexts.semiBold(
                             "Andres Nors",
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 18,
-                              fontWeight: FontWeight.bold,
-                            ),
+                            fontSize: 18,
+                            color: AppColors.pureWhite,
                           ),
                         ],
                       ),
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.end,
                         children: [
-                          Text(
+                          AppTexts.regular(
                             "NUMBER",
-                            style: TextStyle(
-                              color: Colors.white.withOpacity(0.7),
-                              fontSize: 12,
-                              fontWeight: FontWeight.w500,
-                              letterSpacing: 1.0,
-                            ),
+                            color: Colors.white.withOpacity(0.7),
+                            fontSize: 12,
                           ),
                           const SizedBox(height: 4),
-                          const Text(
-                            "**** **** 1106",
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 18,
-                              fontWeight: FontWeight.bold,
-                              letterSpacing: 1.5,
-                            ),
+                          BlocBuilder<WalletBloc, WalletState>(
+                            builder: (context, state) {
+                              return Text(
+                                state.walletNumber,
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.bold,
+                                  letterSpacing: 1.5,
+                                ),
+                              );
+                            },
                           ),
                         ],
                       ),
@@ -133,13 +126,17 @@ class WalletCreditCard extends StatelessWidget {
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      const Text(
-                        "₹ 240,450",
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 24,
-                          fontWeight: FontWeight.bold,
-                        ),
+                      BlocBuilder<WalletBloc, WalletState>(
+                        builder: (context, state) {
+                          return Text(
+                            "₹ ${state.balance}",
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 24,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          );
+                        },
                       ),
                       const SizedBox(height: 4),
                       Text(
