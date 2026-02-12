@@ -1,3 +1,4 @@
+import 'package:ad_e_commerce/core/utils/app_logger.dart';
 import 'package:ad_e_commerce/data/models/user_model.dart';
 import 'package:ad_e_commerce/data/repositories/auth_repository.dart';
 import 'package:ad_e_commerce/data/repositories/user_repository.dart';
@@ -79,7 +80,7 @@ class UserDetailsBloc extends Bloc<UserDetailsEvent, UserDetailsState> {
       }
       emit(state.copyWith(status: UserDetailsStatus.failure, error: message));
     } catch (e) {
-      print("error:_${e.toString()}");
+      AppLogger.error("User Details Bloc Error:-${e.toString()}");
       emit(
         state.copyWith(
           status: UserDetailsStatus.failure,

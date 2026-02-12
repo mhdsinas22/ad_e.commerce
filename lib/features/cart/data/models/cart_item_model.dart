@@ -1,3 +1,4 @@
+import 'package:ad_e_commerce/core/utils/app_logger.dart';
 import 'package:ad_e_commerce/features/cart/domain/enities/cart_item.dart';
 
 class CartItemModel extends CartItem {
@@ -17,7 +18,7 @@ class CartItemModel extends CartItem {
   });
   factory CartItemModel.fromJson(Map<String, dynamic> json) {
     final product = json["products"];
-    print("PRODUCT JSON 👉 $product");
+    AppLogger.info("PRODUCT JSON 👉 $product");
     return CartItemModel(
       id: json["id"] ?? "",
       productId: json["product_id"] ?? "",

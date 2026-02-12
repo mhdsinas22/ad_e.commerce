@@ -1,5 +1,6 @@
 class RouteNames {
   static const login = '/login';
+  static const phoneLogin = '/phone-login';
   static const otp = '/otp';
   static const signup = '/signup';
   static const userDetails = '/user-details';

@@ -62,7 +62,7 @@ class OnboardingStartpage extends StatelessWidget {
                           onTap: () {
                             Navigator.pushReplacementNamed(
                               context,
-                              RouteNames.login,
+                              RouteNames.phoneLogin,
                             );
                           },
                           splashColor: Colors.transparent,

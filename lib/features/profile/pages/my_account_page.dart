@@ -29,17 +29,6 @@ class MyAccountPage extends StatelessWidget {
               ),
               SizedBox(height: 10),
               ProfileMenuItem(
-                title: "Forgotten password",
-                onTap: () {
-                  Appnavigotor.pushnamed(
-                    context,
-                    RouteNames.forgotPassword,
-                    [],
-                  );
-                },
-              ),
-              SizedBox(height: 10),
-              ProfileMenuItem(
                 title: "My Address",
                 onTap: () {
                   Appnavigotor.pushnamed(context, RouteNames.checkout, {

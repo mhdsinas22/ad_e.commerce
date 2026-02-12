@@ -1,3 +1,4 @@
+import 'package:ad_e_commerce/core/utils/app_logger.dart';
 import 'package:ad_e_commerce/features/checkout/data/datasource/address_remote_datasource.dart';
 import 'package:ad_e_commerce/features/checkout/data/models/address_model.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -16,7 +17,7 @@ class AddressRemoteDatasoureimpl implements AddressRemoteDatasource {
           .eq("user_id", userId);
       return response.map((e) => AddressModel.fromJson(e)).toList();
     } catch (e) {
-      print("get AddesEEROR:_${e.toString()}");
+      AppLogger.error("get AddesEEROR:_${e.toString()}");
       return [];
     }
   }
@@ -26,7 +27,7 @@ class AddressRemoteDatasoureimpl implements AddressRemoteDatasource {
     try {
       await supabase.from("address").insert(address.toJson());
     } catch (e) {
-      print("Add ADDress:-${e.toString()}");
+      AppLogger.error("Add ADDress:-${e.toString()}");
     }
   }
 
@@ -38,7 +39,7 @@ class AddressRemoteDatasoureimpl implements AddressRemoteDatasource {
           .update(address.toJson())
           .eq("id", address.id!);
     } catch (e) {
-      print("Update Address:-${e.toString()}");
+      AppLogger.error("Update Address:-${e.toString()}");
     }
   }
 
@@ -47,7 +48,7 @@ class AddressRemoteDatasoureimpl implements AddressRemoteDatasource {
     try {
       await supabase.from("address").delete().eq("id", id);
     } catch (e) {
-      print("Delete Address:-${e.toString()}");
+      AppLogger.error("Delete Address:-${e.toString()}");
     }
   }
 }

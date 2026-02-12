@@ -1,30 +1,43 @@
+import 'package:ad_e_commerce/core/routes/route_names.dart';
 import 'package:ad_e_commerce/core/theme/app_colors.dart';
+import 'package:ad_e_commerce/core/utils/navigator.dart';
 import 'package:ad_e_commerce/core/widgets/app_text.dart';
 import 'package:ad_e_commerce/features/auth/bloc/otp/otp_bloc.dart';
 import 'package:ad_e_commerce/features/auth/bloc/otp/otp_event.dart';
 import 'package:ad_e_commerce/features/auth/bloc/otp/otp_state.dart';
+import 'package:ad_e_commerce/features/profile/data/datasource/wallet_remote_datasource_impl.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
-import 'user_details_page.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
 class OtpPage extends StatelessWidget {
   final String phone;
-  const OtpPage({super.key, this.phone = ""});
+  final String name;
+  const OtpPage({super.key, this.phone = "", this.name = ""});
 
   @override
   Widget build(BuildContext context) {
+    final walletRemoteDataSource = WalletRemoteDatasourceImpl(
+      Supabase.instance.client,
+    );
     return BlocProvider(
-      create: (context) => OtpBloc(phone: phone),
-      child: _OtpView(phone: phone),
+      create:
+          (context) => OtpBloc(
+            name: name,
+            phone: phone,
+            walletRemoteDataSource: walletRemoteDataSource,
+          ),
+      child: _OtpView(phone: phone, name: name),
     );
   }
 }
 
 class _OtpView extends StatelessWidget {
   final String phone;
-  const _OtpView({required this.phone});
+  final String name;
+  const _OtpView({required this.phone, required this.name});
 
   @override
   Widget build(BuildContext context) {
@@ -50,9 +63,7 @@ class _OtpView extends StatelessWidget {
                   backgroundColor: Colors.green,
                 ),
               );
-            Navigator.of(context).push(
-              MaterialPageRoute(builder: (_) => UserDetailsPage(phone: phone)),
-            );
+            Appnavigotor.pushNamedAndRemoveUntil(context, RouteNames.mainShell);
           }
         },
         child: SafeArea(

@@ -3,6 +3,7 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 class AuthRepository {
   final SupabaseClient supabaseClient;
   AuthRepository(this.supabaseClient);
+
   Future<String?> login({
     required String emailorUsername,
     required String password,
@@ -70,6 +71,10 @@ class AuthRepository {
     return response;
   }
 
+  Future<void> sendOtp({required String phone}) async {
+    await supabaseClient.auth.signInWithOtp(phone: phone);
+  }
+
   Future<void> updateEmailAndPassword({
     required String email,
     required String password,
@@ -110,6 +115,21 @@ class AuthRepository {
     } catch (e) {
       throw 'An unexpected error occurred';
     }
+  }
+
+  Future<String?> checkPhoneExists(String phone) async {
+    final response =
+        await Supabase.instance.client
+            .from('profiles')
+            .select()
+            .eq('phone', phone)
+            .maybeSingle();
+
+    if (response == null) {
+      return "USER_NOT_FOUND";
+    }
+
+    return null; // phone exists
   }
 }
 

@@ -1,13 +1,12 @@
-import 'package:ad_e_commerce/core/constants/asset_constants.dart';
 import 'package:ad_e_commerce/core/routes/route_names.dart';
 import 'package:ad_e_commerce/core/widgets/app_text.dart';
+import 'package:ad_e_commerce/core/widgets/app_text_form_field.dart';
 import 'package:ad_e_commerce/core/widgets/primary_button.dart';
 import 'package:ad_e_commerce/features/auth/bloc/signup/signup_bloc.dart';
 import 'package:ad_e_commerce/features/auth/bloc/signup/signup_event.dart';
 import 'package:ad_e_commerce/features/auth/bloc/signup/signup_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
 
 class SignupPage extends StatelessWidget {
@@ -41,7 +40,7 @@ class _SignupFormState extends State<_SignupForm> {
             Navigator.pushNamed(
               context,
               RouteNames.otp,
-              arguments: state.phone,
+              arguments: {"phone": state.phone, "name": state.name},
             );
           }
           if (state is SignupError) {
@@ -61,15 +60,35 @@ class _SignupFormState extends State<_SignupForm> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
-                      SizedBox(height: 30),
-                      Row(
-                        children: [
-                          SvgPicture.asset(AssetConstants.createAccountText),
-                        ],
+                      SizedBox(height: 10),
+                      Padding(
+                        padding: EdgeInsets.symmetric(
+                          horizontal: 8.0,
+                          vertical: 10.0,
+                        ),
+                        child: AppTexts.bold("Create\nAccount", fontSize: 50),
                       ),
                       const SizedBox(height: 8),
                       const SizedBox(height: 48),
+
                       const Spacer(flex: 6),
+                      BlocBuilder<SignupBloc, SignupState>(
+                        builder: (context, state) {
+                          return AppTextFormField(
+                            onChanged: (value) {
+                              context.read<SignupBloc>().add(
+                                NameChangedEvent(value),
+                              );
+                            },
+                            padding: EdgeInsets.symmetric(horizontal: 1),
+                            hintText: "Enter the Name",
+                            width: double.infinity,
+                            borderradiusno: 32,
+                            height: 50,
+                          );
+                        },
+                      ),
+                      const SizedBox(height: 10),
                       _PhoneInput(),
                       const SizedBox(height: 20),
                       _SendOtpButton(formKey: _formKey),

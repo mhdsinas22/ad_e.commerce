@@ -1,3 +1,4 @@
+import 'package:ad_e_commerce/core/utils/app_logger.dart';
 import 'package:ad_e_commerce/features/home/bloc/banners/banner_event.dart';
 import 'package:ad_e_commerce/features/home/bloc/banners/banner_state.dart';
 import 'package:ad_e_commerce/features/home/domain/repositories/airdropbenfits_repository.dart';
@@ -43,7 +44,7 @@ class BannerBloc extends Bloc<BannerEvent, BannerState> {
         ),
       );
     } catch (e) {
-      print("Error:-${e.toString()}");
+      AppLogger.error("Error:-${e.toString()}");
       emit(
         state.copyWith(status: BannerStatus.error, errorMessage: e.toString()),
       );

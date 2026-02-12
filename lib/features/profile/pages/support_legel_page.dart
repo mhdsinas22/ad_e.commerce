@@ -88,7 +88,7 @@ class SupportLegelPage extends StatelessWidget {
                                         Appnavigotor.pushNamedAndRemoveUntil(
                                           // ignore: use_build_context_synchronously
                                           context,
-                                          RouteNames.login,
+                                          RouteNames.phoneLogin,
                                         );
                                       },
                                       child: AppTexts.semiBold(

@@ -16,6 +16,7 @@ class AppTextFormField extends StatelessWidget {
   final String? initialValue;
   final double width;
   final double? height;
+  final EdgeInsetsGeometry? padding;
   const AppTextFormField({
     super.key,
     required this.hintText,
@@ -33,11 +34,13 @@ class AppTextFormField extends StatelessWidget {
     this.borderradiusno = 30,
     this.width = double.infinity,
     this.height,
+    this.padding,
   });
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
+    return Container(
+      padding: padding ?? EdgeInsets.zero,
       width: width,
       height: height,
       child: TextFormField(

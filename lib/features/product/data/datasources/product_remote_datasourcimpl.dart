@@ -1,3 +1,4 @@
+import 'package:ad_e_commerce/core/utils/app_logger.dart';
 import 'package:ad_e_commerce/features/product/data/datasources/product_remote_datasource.dart';
 import 'package:ad_e_commerce/features/home/domain/enitites/models/product_model.dart';
 import 'package:ad_e_commerce/features/home/domain/enitites/models/product_stock_model.dart';
@@ -29,8 +30,9 @@ class ProductRemoteDatasourceImpl implements ProductRemoteDatasource {
               .update(model.toUpdateMap())
               .eq('id', model.id!)
               .select();
-      print("UPDATE RESPONSE => $response");
+      AppLogger.info('UPDATE PRODUCT RESPONSE:-${response.toString()}');
     } catch (e) {
+      AppLogger.error("UPDATE PRODUCT ERROR:-${e.toString()}");
       throw Exception('Update product failed: $e');
     } finally {}
   }

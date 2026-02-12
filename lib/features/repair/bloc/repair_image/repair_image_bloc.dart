@@ -1,11 +1,9 @@
-import 'dart:io';
-
-import 'package:ad_e_commerce/features/repair/data/datasources/cloudinary_remote_datasource.dart';
+import 'package:ad_e_commerce/features/repair/data/datasources/repair_storage_service.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/foundation.dart';
-
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
 // --- Events ---
 abstract class RepairImageEvent extends Equatable {
@@ -46,6 +44,7 @@ class RepairImageState extends Equatable {
   final List<Uint8List> images;
   final List<String> uploadedUrls;
   final bool isUploading;
+
   const RepairImageState({
     this.images = const [],
     this.uploadedUrls = const [],
@@ -71,9 +70,9 @@ class RepairImageState extends Equatable {
 // --- BLoC ---
 class RepairImageBloc extends Bloc<RepairImageEvent, RepairImageState> {
   final ImagePicker picker = ImagePicker();
-  final CloudinaryRemoteDatasource cloudinaryRemoteDatasource;
+  final RepairStorageService repairStorageService;
 
-  RepairImageBloc(this.cloudinaryRemoteDatasource) : super(RepairImageState()) {
+  RepairImageBloc(this.repairStorageService) : super(const RepairImageState()) {
     on<PickImage>(_onPickImage);
     on<RemoveImage>(_onRemoveImage);
     on<UploadImages>(_onUploadImages);
@@ -83,12 +82,23 @@ class RepairImageBloc extends Bloc<RepairImageEvent, RepairImageState> {
       emit(state.copyWith(isUploading: true));
 
       final image = state.images.last;
-      final url = await cloudinaryRemoteDatasource.uploadImageBytes(image);
 
-      emit(state.copyWith(uploadedUrls: [url], isUploading: false));
+      final userId =
+          Supabase.instance.client.auth.currentUser?.id ?? 'anonymous';
+
+      try {
+        final url = await repairStorageService.uploadRepairImageBytes(
+          bytes: image,
+          userId: userId,
+        );
+
+        emit(state.copyWith(uploadedUrls: [url], isUploading: false));
+      } catch (e) {
+        emit(state.copyWith(isUploading: false));
+      }
     });
 
-    on<ClearImages>(_onClearImages); // ✅ ADD
+    on<ClearImages>(_onClearImages);
     on<PickSingleImage>(_onGalleryPick);
   }
   void _onClearImages(ClearImages event, Emitter<RepairImageState> emit) {
@@ -102,26 +112,16 @@ class RepairImageBloc extends Bloc<RepairImageEvent, RepairImageState> {
     Emitter<RepairImageState> emit,
   ) async {
     final XFile? image = await picker.pickImage(
-      source: event.source, // ✅ use event.source
+      source: event.source,
       imageQuality: 70,
     );
     if (image == null) return;
-    final file = File(image.path);
-    final bytes = await image.readAsBytes();
-    emit(
-      state.copyWith(
-        images: [bytes], // ✅ VERY IMPORTANT
-        uploadedUrls: [],
-        isUploading: true,
-      ),
-    );
 
-    try {
-      final url = await cloudinaryRemoteDatasource.uploadImage(file);
-      emit(state.copyWith(uploadedUrls: [url], isUploading: false));
-    } catch (e) {
-      emit(state.copyWith(isUploading: false));
-    }
+    final bytes = await image.readAsBytes();
+    emit(state.copyWith(images: [bytes], uploadedUrls: [], isUploading: true));
+
+    // Auto upload matches original behavior for single pick
+    add(UploadSingleImage());
   }
 
   Future<void> _onPickImage(
@@ -142,16 +142,24 @@ class RepairImageBloc extends Bloc<RepairImageEvent, RepairImageState> {
             source: ImageSource.camera,
           );
           if (pickedFile == null) return;
-          // List<File>.from(state.images)..add(File(pickedFile.path));
           final bytes = await pickedFile.readAsBytes();
           emit(state.copyWith(images: [...state.images, bytes]));
         } else {
-          final files = await picker.pickMultiImage();
-          if (files.isEmpty) return;
-          final bytesList = await Future.wait(
-            files.map((e) => e.readAsBytes()),
-          );
-          emit(state.copyWith(images: [...state.images, ...bytesList]));
+          if (event.source == ImageSource.gallery) {
+            final files = await picker.pickMultiImage();
+            if (files.isEmpty) return;
+            final bytesList = await Future.wait(
+              files.map((e) => e.readAsBytes()),
+            );
+            emit(state.copyWith(images: [...state.images, ...bytesList]));
+          } else {
+            final XFile? pickedFile = await picker.pickImage(
+              source: event.source,
+            );
+            if (pickedFile == null) return;
+            final bytes = await pickedFile.readAsBytes();
+            emit(state.copyWith(images: [...state.images, bytes]));
+          }
         }
       }
     } catch (_) {
@@ -173,8 +181,13 @@ class RepairImageBloc extends Bloc<RepairImageEvent, RepairImageState> {
     emit(state.copyWith(isUploading: true));
     final urls = <String>[];
     try {
+      final userId =
+          Supabase.instance.client.auth.currentUser?.id ?? 'anonymous';
       for (final bytes in state.images) {
-        final url = await cloudinaryRemoteDatasource.uploadImageBytes(bytes);
+        final url = await repairStorageService.uploadRepairImageBytes(
+          bytes: bytes,
+          userId: userId,
+        );
         urls.add(url);
       }
       emit(state.copyWith(uploadedUrls: urls, isUploading: false));

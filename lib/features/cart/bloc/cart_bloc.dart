@@ -1,3 +1,4 @@
+import 'package:ad_e_commerce/core/utils/app_logger.dart';
 import 'package:ad_e_commerce/features/cart/bloc/cart_event.dart';
 import 'package:ad_e_commerce/features/cart/bloc/cart_state.dart';
 import 'package:ad_e_commerce/features/cart/domain/repositories/cart_repository.dart';
@@ -96,7 +97,7 @@ class CartBloc extends Bloc<CartEvent, CartState> {
       // final items = await cartRepository.getCartItems();
       // emit(state.copyWith(cartitem: items));
     } catch (e) {
-      print("Remove:_${e.toString()}");
+      AppLogger.error("Remove Cart Item Error:-${e.toString()}");
       // Revert on error
       final totals = _calculateTotals(originalItems);
       emit(
@@ -202,7 +203,7 @@ class CartBloc extends Bloc<CartEvent, CartState> {
     try {
       final items = await cartRepository.getCartItems();
       final totals = _calculateTotals(items);
-      final userid = await Supabase.instance.client.auth.currentUser?.id;
+      final userid = Supabase.instance.client.auth.currentUser?.id;
       final walletBalance = await walletRepo.getWallet(userid!);
       emit(
         state.copyWith(
@@ -217,7 +218,7 @@ class CartBloc extends Bloc<CartEvent, CartState> {
         ),
       );
     } catch (e) {
-      print("GetCartItems:_${e.toString()}");
+      AppLogger.error("GetCartItems:_${e.toString()}");
       emit(state.copyWith(status: CartStatus.error, error: e.toString()));
     }
   }

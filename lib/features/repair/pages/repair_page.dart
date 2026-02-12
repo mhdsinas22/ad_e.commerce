@@ -5,9 +5,9 @@ import 'package:ad_e_commerce/core/widgets/app_text.dart';
 import 'package:ad_e_commerce/core/widgets/warranty_info_section.dart';
 import 'package:ad_e_commerce/features/repair/bloc/issue/issue_bloc.dart';
 import 'package:ad_e_commerce/features/repair/bloc/issue/issue_event.dart';
-import 'package:ad_e_commerce/features/repair/data/datasources/cloudinary_remote_datasource.dart';
+import 'package:ad_e_commerce/features/repair/data/datasources/repair_storage_service.dart';
 import 'package:ad_e_commerce/features/repair/pages/issue_select_page.dart';
-import 'package:dio/dio.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -32,15 +32,13 @@ class RepairPage extends StatelessWidget {
         BlocProvider(create: (_) => ServiceBloc()),
         BlocProvider(create: (_) => BrandBloc()..add(LoadBrands())),
         BlocProvider(create: (_) => IssueBloc()),
-        BlocProvider(
-          create: (_) => RepairImageBloc(CloudinaryRemoteDatasource()),
-        ),
+        BlocProvider(create: (_) => RepairImageBloc(RepairStorageService())),
         BlocProvider(
           create:
               (context) => RepairFormBloc(
                 repository: RepairRepositoryImpl(
                   RepairRemoteDataSourceImpl(Supabase.instance.client),
-                  CloudinaryRemoteDatasource(dio: Dio()),
+                  RepairStorageService(),
                 ),
               ),
         ),

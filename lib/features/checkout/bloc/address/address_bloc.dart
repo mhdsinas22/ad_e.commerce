@@ -1,3 +1,4 @@
+import 'package:ad_e_commerce/core/utils/app_logger.dart';
 import 'package:ad_e_commerce/features/checkout/bloc/address/address_event.dart';
 import 'package:ad_e_commerce/features/checkout/bloc/address/address_state.dart';
 import 'package:ad_e_commerce/features/checkout/domain/repositories/address_repository.dart';
@@ -17,7 +18,7 @@ class AddressBloc extends Bloc<AddressEvent, AddressState> {
     Emitter<AddressState> emit,
   ) async {
     emit(state.copyWith(status: AddressStatus.loading));
-    print("wokribsubmit");
+    AppLogger.info("wokribsubmit");
     try {
       await addressRepository.addAddress(event.address);
       final updatedList = await addressRepository.getAddresses();
@@ -25,7 +26,7 @@ class AddressBloc extends Bloc<AddressEvent, AddressState> {
         state.copyWith(status: AddressStatus.success, addresses: updatedList),
       );
     } catch (e) {
-      print("Weeoe:-${e.toString()}");
+      AppLogger.error("Weeoe:-${e.toString()}");
       emit(state.copyWith(status: AddressStatus.error, error: e.toString()));
     }
   }
@@ -35,13 +36,13 @@ class AddressBloc extends Bloc<AddressEvent, AddressState> {
     Emitter<AddressState> emit,
   ) async {
     emit(state.copyWith(status: AddressStatus.loading));
-    print("Feethc wrokds");
+    AppLogger.info("Feethc wrokds");
     try {
       final address = await addressRepository.getAddresses();
-      print("ADdes:-$address");
+      AppLogger.info("ADdes:-$address");
       emit(state.copyWith(addresses: address));
     } catch (e) {
-      print("error:-${e.toString()}");
+      AppLogger.error("error:-${e.toString()}");
     }
   }
 
@@ -58,7 +59,7 @@ class AddressBloc extends Bloc<AddressEvent, AddressState> {
         state.copyWith(status: AddressStatus.success, addresses: updatedList),
       );
     } catch (e) {
-      print("Update RROR:${e.toString()}");
+      AppLogger.error("Update RROR:${e.toString()}");
       emit(state.copyWith(status: AddressStatus.error, error: e.toString()));
     }
   }
@@ -76,7 +77,7 @@ class AddressBloc extends Bloc<AddressEvent, AddressState> {
         state.copyWith(status: AddressStatus.success, addresses: updatedList),
       );
     } catch (e) {
-      print("Delete error:_${e.toString()}");
+      AppLogger.error("Delete error:_${e.toString()}");
       emit(state.copyWith(status: AddressStatus.error, error: e.toString()));
     }
   }

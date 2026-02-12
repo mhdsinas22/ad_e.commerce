@@ -1,3 +1,4 @@
+import 'package:ad_e_commerce/core/utils/app_logger.dart';
 import 'package:ad_e_commerce/features/profile/bloc/wallet/wallet_event.dart';
 import 'package:ad_e_commerce/features/profile/bloc/wallet/wallet_state.dart';
 import 'package:ad_e_commerce/features/profile/domain/repositories/wallet_repo.dart';
@@ -25,7 +26,7 @@ class WalletBloc extends Bloc<WalletEvent, WalletState> {
         ),
       );
     } catch (e) {
-      print("Error:_${e.toString()}");
+      AppLogger.error("Wallet Error:-${e.toString()}");
       emit(state.copyWith(status: WalletStatus.failure, error: e.toString()));
     }
   }

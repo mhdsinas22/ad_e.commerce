@@ -1,19 +1,24 @@
 // ignore_for_file: unused_element
-
 import 'dart:async';
-
+import 'package:ad_e_commerce/core/utils/app_logger.dart';
 import 'package:ad_e_commerce/features/auth/bloc/otp/otp_event.dart';
 import 'package:ad_e_commerce/features/auth/bloc/otp/otp_state.dart';
+import 'package:ad_e_commerce/features/profile/data/datasource/wallet_remote_datasource.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 class OtpBloc extends Bloc<OtpEvent, OtpState> {
   final SupabaseClient supabase;
+  final WalletRemoteDataSource walletRemoteDataSource;
   final String phone;
+  final String name;
   Timer? _timer;
-  OtpBloc({required this.phone})
-    : supabase = Supabase.instance.client,
-      super(const OtpState()) {
+  OtpBloc({
+    required this.phone,
+    required this.walletRemoteDataSource,
+    required this.name,
+  }) : supabase = Supabase.instance.client,
+       super(const OtpState()) {
     // on<OtpTimerTicked>(_onTimerTicked);
     _startTimer();
     // OTP input Change
@@ -40,11 +45,32 @@ class OtpBloc extends Bloc<OtpEvent, OtpState> {
     }
     emit(state.copyWith(status: OtpStatus.verifying));
     try {
-      await supabase.auth.verifyOTP(
+      final res = await supabase.auth.verifyOTP(
         type: OtpType.sms,
         token: state.otpCode,
         phone: "+91$phone",
       );
+      if (res.session != null) {
+        final user = res.user;
+        // 1.Profile Check
+        final existingProfile =
+            await supabase
+                .from('profiles')
+                .select('user_id')
+                .eq('user_id', user!.id)
+                .maybeSingle();
+        AppLogger.info("Existing Profile: $existingProfile");
+        if (existingProfile == null) {
+          await supabase.from('profiles').insert({
+            'user_id': user.id,
+            'phone': phone, // already +91 format
+            "username": name,
+          }).maybeSingle();
+          // 2. Wallet Check
+          await walletRemoteDataSource.createWallet(user.id);
+        }
+      }
+
       emit(state.copyWith(status: OtpStatus.verified));
     } catch (e) {
       emit(

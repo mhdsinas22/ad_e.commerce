@@ -3,38 +3,48 @@ import 'package:equatable/equatable.dart';
 
 class SignupState extends Equatable {
   final String phone;
-  const SignupState(this.phone);
+  final String name;
+  const SignupState(this.phone, this.name);
   @override
-  List<Object?> get props => [phone];
+  List<Object?> get props => [phone, name];
 }
 
 class SignupInitial extends SignupState {
   @override
   // ignore: overridden_fields
   final String phone;
-  const SignupInitial({this.phone = ""}) : super(phone);
+  @override
+  // ignore: overridden_fields
+  final String name;
+  const SignupInitial({this.phone = "", this.name = ""}) : super(phone, name);
 }
 
 class SignupLoading extends SignupState {
   @override
   // ignore: overridden_fields
   final String phone;
-  const SignupLoading({this.phone = ""}) : super(phone);
+  @override
+  // ignore: overridden_fields
+  final String name;
+  const SignupLoading({this.phone = "", this.name = ""}) : super(phone, name);
 }
 
 class OtpSend extends SignupState {
   @override
   // ignore: overridden_fields
   final String phone;
-
-  const OtpSend(this.phone) : super(phone);
+  @override
+  // ignore: overridden_fields
+  final String name;
+  const OtpSend(this.phone, this.name) : super(phone, name);
 }
 
 class SignupSuccess extends SignupState {
-  const SignupSuccess(super.phone);
+  const SignupSuccess(super.phone, super.name);
 }
 
 class SignupError extends SignupState {
   final String message;
-  const SignupError(this.message, {required String phone}) : super(phone);
+  const SignupError(this.message, {required String phone, required String name})
+    : super(phone, name);
 }

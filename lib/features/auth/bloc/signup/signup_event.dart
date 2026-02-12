@@ -36,3 +36,11 @@ class PhoneChangedEvent extends SignupEvent {
   @override
   List<Object?> get props => [phone];
 }
+
+class NameChangedEvent extends SignupEvent {
+  final String name;
+  const NameChangedEvent(this.name);
+
+  @override
+  List<Object?> get props => [name];
+}

@@ -12,10 +12,17 @@ class WalletRemoteDatasourceImpl implements WalletRemoteDataSource {
   Future<WalletModel> getWallet(String userId) async {
     try {
       final res =
-          await supbase.from("wallets").select().eq("user_id", userId).single();
+          await supbase
+              .from("wallets")
+              .select()
+              .eq("user_id", userId)
+              .maybeSingle();
+      if (res == null) {
+        throw Exception("Wallet not found");
+      }
       return WalletModel.fromJson(res);
     } catch (e) {
-      print(e.toString());
+      AppLogger.error("GET WALLET ERROR: ${e.toString()}");
       rethrow;
     }
   }
@@ -24,14 +31,16 @@ class WalletRemoteDatasourceImpl implements WalletRemoteDataSource {
   Future<void> createWallet(String userId) async {
     try {
       final user = supbase.auth.currentUser!.id;
-      print("Waller ueedi:-${user}");
-      await supbase.from("wallets").insert({"user_id": user, "balance": 0});
-      await supbase.from("reward_points").insert({
+      await supbase.from("wallets").upsert({
+        "user_id": user,
+        "balance": 0,
+      }, onConflict: "user_id");
+      await supbase.from("reward_points").upsert({
         "user_id": user,
         "points": 0,
-      });
+      }, onConflict: "user_id");
     } catch (e) {
-      print(e.toString());
+      AppLogger.error("CREATE WALLET ERROR: ${e.toString()}");
     }
   }
 
@@ -43,7 +52,7 @@ class WalletRemoteDatasourceImpl implements WalletRemoteDataSource {
         params: {"p_user_id": userId},
       );
     } catch (e) {
-      print(e.toString());
+      AppLogger.error("CREATE WALLET FOR USER ERROR: ${e.toString()}");
     }
   }
 
@@ -55,10 +64,14 @@ class WalletRemoteDatasourceImpl implements WalletRemoteDataSource {
               .from("reward_points")
               .select()
               .eq("user_id", userId)
-              .single();
+              .maybeSingle();
+      if (response == null) {
+        await createWallet(userId);
+        return RewardPointsModel(userId: userId, points: 0);
+      }
       return RewardPointsModel.fromJson(response);
     } catch (e) {
-      print(e.toString());
+      AppLogger.error("GET REWARD POINTS ERROR: ${e.toString()}");
       rethrow;
     }
   }
@@ -71,7 +84,7 @@ class WalletRemoteDatasourceImpl implements WalletRemoteDataSource {
         params: {"p_user_id": userId, "p_points": points},
       );
     } catch (e) {
-      print(e.toString());
+      AppLogger.error("ADD REWARD POINTS ERROR: ${e.toString()}");
     }
   }
 
@@ -95,7 +108,7 @@ class WalletRemoteDatasourceImpl implements WalletRemoteDataSource {
         params: {"p_user_id": userid, "p_points": points},
       );
     } catch (e) {
-      print('ADD REWARD AS WALLET ERROR: $e');
+      AppLogger.error("ADD REWARD AS WALLET ERROR: ${e.toString()}");
       rethrow;
     }
   }
@@ -110,7 +123,7 @@ class WalletRemoteDatasourceImpl implements WalletRemoteDataSource {
           .order("created_at", ascending: false);
       return res.map((e) => WalletTransactionModel.fromJson(e)).toList();
     } catch (e) {
-      print(e.toString());
+      AppLogger.error("GET TRANSACTIONS ERROR: ${e.toString()}");
       rethrow;
     }
   }

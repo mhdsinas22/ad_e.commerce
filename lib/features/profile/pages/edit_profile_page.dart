@@ -176,9 +176,11 @@ class _EditProfileViewState extends State<_EditProfileView> {
                     const SizedBox(height: 24),
 
                     ProfileTextField(
+                      needEditIcon: false,
                       label: "Phone Number",
                       controller: _phoneController,
                       keyboardType: TextInputType.phone,
+                      readOnly: true,
                     ),
                     const SizedBox(height: 24),
 
@@ -186,7 +188,6 @@ class _EditProfileViewState extends State<_EditProfileView> {
                       label: "Email Address",
                       controller: _emailController,
                       keyboardType: TextInputType.emailAddress,
-                      readOnly: true,
                     ),
 
                     const SizedBox(height: 60),

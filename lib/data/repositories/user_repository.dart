@@ -1,3 +1,4 @@
+import 'package:ad_e_commerce/core/utils/app_logger.dart';
 import 'package:ad_e_commerce/data/models/user_model.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
@@ -27,7 +28,7 @@ class UserRepository {
         },
       );
     } catch (e) {
-      print("eror:-${e.toString()}");
+      AppLogger.error("CREATE USER PROFILE ERROR:-${e.toString()}");
     }
   }
 }

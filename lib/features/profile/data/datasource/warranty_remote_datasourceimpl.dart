@@ -1,3 +1,4 @@
+import 'package:ad_e_commerce/core/utils/app_logger.dart';
 import 'package:ad_e_commerce/features/profile/data/datasource/warranty_remote_datasource.dart';
 import 'package:ad_e_commerce/features/profile/data/models/warranty_model.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -10,7 +11,7 @@ class WarrantyRemoteDatasourceimpl implements WarrantyRemoteDatasource {
     try {
       await supabase.from("warranties").insert(warrantymodel.toJson());
     } catch (e) {
-      print("CRETA WARRANRTY:_${e.toString()}");
+      AppLogger.error("CREATE WARRANTY ERROR:-${e.toString()}");
     }
   }
 
@@ -23,7 +24,6 @@ class WarrantyRemoteDatasourceimpl implements WarrantyRemoteDatasource {
           .eq("user_id", userId);
       return result.map((e) => WarrantyModel.fromJson(e)).toList();
     } catch (e) {
-      print("GET WARRANTY:_${e.toString()}");
       return [];
     }
   }

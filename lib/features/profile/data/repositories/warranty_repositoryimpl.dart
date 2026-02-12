@@ -1,3 +1,4 @@
+import 'package:ad_e_commerce/core/utils/app_logger.dart';
 import 'package:ad_e_commerce/features/profile/data/datasource/warranty_remote_datasource.dart';
 import 'package:ad_e_commerce/features/profile/data/models/warranty_model.dart';
 import 'package:ad_e_commerce/features/profile/domain/enitites/warranty.dart';
@@ -13,7 +14,7 @@ class WarrantyRepositoryimpl implements WarrantyRepository {
         warranty as WarrantyModel,
       );
     } catch (e) {
-      print("Error creating warranty:${e.toString()}");
+      AppLogger.error("Error creating warranty:${e.toString()}");
     }
   }
 
@@ -22,7 +23,7 @@ class WarrantyRepositoryimpl implements WarrantyRepository {
     try {
       return await warrantyRemoteDatasource.getWarranties(userId);
     } catch (e) {
-      print("GET ERROR:_${e.toString()}");
+      AppLogger.error("GET ERROR:_${e.toString()}");
       return [];
     }
   }

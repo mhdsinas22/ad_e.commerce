@@ -19,7 +19,7 @@ class ProfileRemoteDataSourceImpl implements ProfileRemoteDataSource {
     try {
       final response =
           await supabaseClient
-              .from('users')
+              .from('profiles')
               .select()
               .eq('user_id', userId)
               .single();
@@ -35,7 +35,7 @@ class ProfileRemoteDataSourceImpl implements ProfileRemoteDataSource {
     try {
       final response =
           await supabaseClient
-              .from('users')
+              .from('profiles')
               .update(user.toJson())
               .eq('user_id', user.userId)
               .select()

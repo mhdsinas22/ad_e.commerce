@@ -1,3 +1,4 @@
+import 'package:ad_e_commerce/core/utils/app_logger.dart';
 import 'package:ad_e_commerce/features/orders/bloc/order_event.dart';
 import 'package:ad_e_commerce/features/orders/bloc/order_state.dart';
 
@@ -47,6 +48,8 @@ class OrderBloc extends Bloc<OrderEvent, OrderState> {
           orderitems: [],
         ),
       );
-    } catch (e) {}
+    } catch (e) {
+      AppLogger.error("Order Error:-${e.toString()}");
+    }
   }
 }

@@ -1,3 +1,4 @@
+import 'package:ad_e_commerce/core/utils/app_logger.dart';
 import 'package:ad_e_commerce/features/auth/bloc/signup/signup_event.dart';
 import 'package:ad_e_commerce/features/auth/bloc/signup/signup_state.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -9,13 +10,19 @@ class SignupBloc extends Bloc<SignupEvent, SignupState> {
     // Send Otp
     on<SendOtpEvent>((event, emit) async {
       final phone = state.phone;
-      emit(SignupLoading(phone: phone));
+      final name = state.name;
 
+      emit(SignupLoading(phone: phone, name: name));
+      if (name.trim().isEmpty) {
+        emit(SignupError("Name is required", phone: phone, name: name));
+        return;
+      }
       if (phone.length != 10) {
         emit(
           SignupError(
             "Enter valid 10-digit phone number:-$phone",
             phone: phone,
+            name: name,
           ),
         );
         return;
@@ -24,44 +31,35 @@ class SignupBloc extends Bloc<SignupEvent, SignupState> {
         // Check phone already exists in DB
         final existingUser =
             await supabase
-                .from("users")
-                .select("id")
+                .from("profiles")
+                .select("user_id")
                 .eq("phone", phone)
                 .maybeSingle();
         if (existingUser != null) {
-          emit(SignupError("Already registered. Please login", phone: phone));
+          emit(
+            SignupError(
+              "Already registered. Please login",
+              phone: phone,
+              name: name,
+            ),
+          );
           return;
         }
+
         await supabase.auth.signInWithOtp(phone: "+91$phone");
-        emit(OtpSend(phone));
+        emit(OtpSend(phone, name));
       } catch (e) {
-        emit(SignupError("OTP send failed:-$e", phone: phone));
+        AppLogger.error("OTP SEND ERROR:-${e.toString()}");
+        emit(SignupError("OTP send failed:-$e", phone: phone, name: name));
       }
     });
     // VERIFY OTP
-    on<VerifyOtpEvent>((event, emit) async {
-      final phone = (state as OtpSend).phone;
-      emit(SignupLoading(phone: phone));
-      try {
-        final res = await supabase.auth.verifyOTP(
-          phone: "+91$phone",
-          token: event.otp,
-          type: OtpType.sms,
-        );
-        if (res.session != null) {
-          emit(SignupSuccess(phone));
-        } else {
-          emit(SignupError("OTP verification failed", phone: phone));
-        }
-      } on AuthException catch (e) {
-        emit(SignupError(e.message, phone: phone));
-      } catch (e) {
-        emit(SignupError("Invalid OTP", phone: phone));
-      }
-    });
 
     on<PhoneChangedEvent>((event, emit) {
-      emit(SignupInitial(phone: event.phone));
+      emit(SignupInitial(phone: event.phone, name: state.name));
+    });
+    on<NameChangedEvent>((event, emit) {
+      emit(SignupInitial(name: event.name, phone: state.phone));
     });
   }
 }

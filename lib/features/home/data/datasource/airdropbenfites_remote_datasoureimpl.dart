@@ -1,4 +1,5 @@
 import 'package:ad_e_commerce/core/error/exceptions.dart';
+import 'package:ad_e_commerce/core/utils/app_logger.dart';
 import 'package:ad_e_commerce/features/home/data/datasource/airdropbenfites_remote_datasoure.dart';
 import 'package:ad_e_commerce/features/home/models/airdropbenfites_model.dart';
 import 'package:ad_e_commerce/features/home/domain/enitites/airdropbenfites_entity.dart';
@@ -19,7 +20,7 @@ class AirdropbenfitesRemoteDatasoureimpl
           .map((e) => AirdropbenfitesModel.fromJson(e))
           .toList();
     } catch (e) {
-      print("REAL ERROR: $e");
+      AppLogger.error("REAL ERROR: $e");
       final ServerException ser = ServerException(e.toString());
 
       throw ser;

@@ -12,7 +12,7 @@ import 'package:ad_e_commerce/features/auth/widgets/phone_input_field.dart';
 import 'package:ad_e_commerce/features/profile/data/datasource/wallet_remote_datasource_impl.dart';
 import 'package:ad_e_commerce/features/profile/data/repositories/wallet_repo_impl.dart';
 import 'package:ad_e_commerce/features/repair/bloc/repair_image/repair_image_bloc.dart';
-import 'package:ad_e_commerce/features/repair/data/datasources/cloudinary_remote_datasource.dart';
+import 'package:ad_e_commerce/features/repair/data/datasources/repair_storage_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -41,7 +41,7 @@ class UserDetailsPage extends StatelessWidget {
               ),
         ),
         BlocProvider(
-          create: (context) => RepairImageBloc(CloudinaryRemoteDatasource()),
+          create: (context) => RepairImageBloc(RepairStorageService()),
         ),
       ],
 

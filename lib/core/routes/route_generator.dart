@@ -1,7 +1,9 @@
 import 'package:ad_e_commerce/features/auth/pages/forgot_password_page.dart';
 import 'package:ad_e_commerce/features/auth/pages/login_page.dart';
 import 'package:ad_e_commerce/features/auth/pages/otp_page.dart';
+import 'package:ad_e_commerce/features/auth/pages/phone_login_page.dart';
 import 'package:ad_e_commerce/features/auth/pages/reset_password_page.dart';
+import 'package:ad_e_commerce/features/auth/pages/signup_page.dart';
 import 'package:ad_e_commerce/features/auth/pages/user_details_page.dart';
 import 'package:ad_e_commerce/features/auth/pages/email_verification_page.dart';
 import 'package:ad_e_commerce/features/bottom_navigation/pages/main_shell_page.dart';
@@ -34,15 +36,17 @@ class RouteGenerator {
     switch (settings.name) {
       case RouteNames.login:
         return MaterialPageRoute(builder: (_) => const LoginPage());
-
+      case RouteNames.phoneLogin:
+        return MaterialPageRoute(builder: (_) => const PhoneLoginPage());
       case RouteNames.otp:
-        final phone = settings.arguments as String;
-        return MaterialPageRoute(builder: (_) => OtpPage(phone: phone));
+        final phone = settings.arguments as Map<String, dynamic>;
+        final name = settings.arguments as Map<String, dynamic>;
+        return MaterialPageRoute(
+          builder: (_) => OtpPage(phone: phone["phone"], name: name["name"]),
+        );
 
       case RouteNames.signup:
-        return MaterialPageRoute(
-          builder: (_) => const UserDetailsPage(phone: ""),
-        );
+        return MaterialPageRoute(builder: (_) => SignupPage());
 
       case RouteNames.userDetails:
         return MaterialPageRoute(

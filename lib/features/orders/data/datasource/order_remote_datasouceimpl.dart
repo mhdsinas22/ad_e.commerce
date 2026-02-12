@@ -1,3 +1,4 @@
+import 'package:ad_e_commerce/core/utils/app_logger.dart';
 import 'package:ad_e_commerce/features/orders/data/datasource/order_remote_datasource.dart';
 import 'package:ad_e_commerce/features/orders/data/models/order_item_model.dart';
 import 'package:ad_e_commerce/features/orders/data/models/order_model.dart';
@@ -18,7 +19,7 @@ class OrderRemoteDatasouceimpl implements OrderRemoteDatasource {
               .single();
       return res["id"] as String;
     } catch (e) {
-      print("Crete order error:_${e.toString()}");
+      AppLogger.error("CREATE ORDER ERROR: ${e.toString()}");
       throw Exception("Create order failed: $e");
     }
   }
@@ -32,7 +33,7 @@ class OrderRemoteDatasouceimpl implements OrderRemoteDatasource {
       final data = items.map((e) => e.toJson(orderID: orderId)).toList();
       await supabase.from("order_items").insert(data);
     } catch (e) {
-      print("Create order items  ERROR:_${e.toString()}");
+      AppLogger.error("CREATE ORDER ITEMS ERROR: ${e.toString()}");
       throw Exception("Create order items failed: $e");
     }
   }
@@ -51,7 +52,7 @@ class OrderRemoteDatasouceimpl implements OrderRemoteDatasource {
 
       return res.map<OrderModel>((e) => OrderModel.fromJson(e)).toList();
     } catch (e) {
-      print("GET ORDERS ERROR:_${e.toString()}");
+      AppLogger.error("GET ORDERS ERROR: ${e.toString()}");
       throw Exception("GET order failed: $e");
     }
   }
@@ -65,7 +66,7 @@ class OrderRemoteDatasouceimpl implements OrderRemoteDatasource {
           .eq("order_id", orderId);
       return res.map((e) => OrderItemModel.fromJson(e)).toList();
     } catch (e) {
-      print("GET ORDERSITEms ERROR:_${e.toString()}");
+      AppLogger.error("GET ORDER ITEMS ERROR: ${e.toString()}");
       throw Exception("GET orderItems failed: $e");
     }
   }
@@ -81,7 +82,7 @@ class OrderRemoteDatasouceimpl implements OrderRemoteDatasource {
           .update({"status": status})
           .eq("id", orderId);
     } catch (e) {
-      print(" UPDAYE  ERROR:_${e.toString()}");
+      AppLogger.error("UPDATE ORDER ERROR: ${e.toString()}");
       throw Exception("Updtae order failed: $e");
     }
   }
@@ -91,7 +92,7 @@ class OrderRemoteDatasouceimpl implements OrderRemoteDatasource {
     try {
       await supabase.from("orders").delete().eq("id", orderId);
     } catch (e) {
-      print(" DELETE  ERROR:_${e.toString()}");
+      AppLogger.error("DELETE ORDER ERROR: ${e.toString()}");
       throw Exception("DELTE order failed: $e");
     }
   }

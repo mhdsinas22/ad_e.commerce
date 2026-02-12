@@ -43,15 +43,13 @@ class OrderRepoImpl implements OrderRepo {
 
       // 4 Reward points (payable amount base cheyth)
       final points = payableAmount ~/ 100;
-
-      if (points > 0) {
-        await walletRemoteDataSource.addRewardPoints(order.userId, points);
+      if (points >= 0) {
         await walletRemoteDataSource.addRewardAsWallet(order.userId, points);
       }
 
       return orderId;
     } catch (e) {
-      print("ORDER ERROR:_${e.toString()}");
+      AppLogger.error("Create Order Repo Error:-${e.toString()}");
       throw Exception("Create order Repo failed: $e");
     }
   }
@@ -62,7 +60,7 @@ class OrderRepoImpl implements OrderRepo {
       final orders = await remote.getOrders(userId: userId);
       return orders;
     } catch (e) {
-      print("Get order Repo error:_${e.toString()}");
+      AppLogger.error("Get Order Repo Error:-${e.toString()}");
       throw Exception("Get order REpo failed: $e");
     }
   }
@@ -73,7 +71,7 @@ class OrderRepoImpl implements OrderRepo {
       final orders = await remote.getOrderItems(orderId: orderId);
       return orders;
     } catch (e) {
-      print("Get orderitems Repo error:_${e.toString()}");
+      AppLogger.error("Get OrderItems Repo Error:-${e.toString()}");
       throw Exception("Get orderitems REpo failed: $e");
     }
   }
@@ -86,7 +84,7 @@ class OrderRepoImpl implements OrderRepo {
     try {
       return remote.updateOrderStatus(orderId: orderId, status: status);
     } catch (e) {
-      print("Update order Repo error:_${e.toString()}");
+      AppLogger.error("Update Order Repo Error:-${e.toString()}");
       throw Exception("Update order REpo failed: $e");
     }
   }
@@ -96,8 +94,8 @@ class OrderRepoImpl implements OrderRepo {
     try {
       return remote.deleteOrder(orderId: orderId);
     } catch (e) {
-      print("Update order Repo error:_${e.toString()}");
-      throw Exception("Update order REpo failed: $e");
+      AppLogger.error("Delete Order Repo Error:-${e.toString()}");
+      throw Exception("Delete order REpo failed: $e");
     }
   }
 }

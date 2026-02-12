@@ -1,3 +1,4 @@
+import 'package:ad_e_commerce/core/utils/app_logger.dart';
 import 'package:ad_e_commerce/features/cart/data/datasources/cart_remote_datasource.dart';
 import 'package:ad_e_commerce/features/cart/data/models/cart_item_model.dart';
 import 'package:ad_e_commerce/features/cart/domain/enities/cart_item.dart';
@@ -26,7 +27,7 @@ class CartRemoteDatasourceimpl implements CartRemoteDataSource {
         "price": price,
       });
     } catch (e) {
-      print("AddToCart error: $e");
+      AppLogger.error("Add To Cart Error:-${e.toString()}");
       rethrow;
     }
   }
@@ -42,15 +43,16 @@ class CartRemoteDatasourceimpl implements CartRemoteDataSource {
           .update({"quantity": quantity})
           .eq("id", cartItemId);
     } catch (e) {
-      print("updateCartErrod:-${e.toString()}");
+      AppLogger.error("updateCartErrod:-${e.toString()}");
       rethrow;
     }
   }
 
   @override
   Future<List<CartItem>> getCartItems() async {
+    final userId = supabase.auth.currentUser!.id;
+    AppLogger.info("USER ID: $userId");
     try {
-      final userId = supabase.auth.currentUser!.id;
       final cart =
           await supabase
               .from("carts")
@@ -66,16 +68,16 @@ class CartRemoteDatasourceimpl implements CartRemoteDataSource {
             ''' id,product_id,store_name,quantity,price,products(id,title,model_number,image_url,color,storage,rating,no_of_reviews)''',
           )
           .eq("cart_id", cart["id"]);
-      print("AUTH USER ID: $userId");
-      print("CART ROW: $cart");
-      print("CART + PRODUCT DATA:$response");
+      AppLogger.info("AUTH USER ID: $userId");
+      AppLogger.info("CART ROW: $cart");
+      AppLogger.info("CART + PRODUCT DATA:$response");
 
-      print(
+      AppLogger.info(
         "response:- ${response.map((e) => CartItemModel.fromJson(e)).toList()}",
       );
       return response.map((e) => CartItemModel.fromJson(e)).toList();
     } catch (e) {
-      print("GetCArtItems:-${e.toString()}");
+      AppLogger.error("GetCArtItems:-${e.toString()}");
       rethrow;
     }
   }
@@ -85,32 +87,45 @@ class CartRemoteDatasourceimpl implements CartRemoteDataSource {
     try {
       await supabase.from("cart_items").delete().eq("id", cartitemid);
     } catch (e) {
-      print("RemoveCartItems:-${e.toString()}");
+      AppLogger.error("RemoveCartItems:-${e.toString()}");
       rethrow;
     }
   }
 
   Future<String> _getOrCreateCartId(String userId) async {
-    final existing =
-        await supabase
-            .from('carts')
-            .select('id')
-            .eq('user_id', userId)
-            .eq('is_active', true)
-            .maybeSingle();
+    try {
+      final existing =
+          await supabase
+              .from('carts')
+              .select('id')
+              .eq('user_id', userId)
+              .eq('is_active', true)
+              .maybeSingle();
 
-    if (existing != null) {
-      return existing['id'];
+      if (existing != null) {
+        return existing['id'];
+      }
+
+      final newCart =
+          await supabase
+              .from('carts')
+              .insert({
+                'user_id': userId,
+                'is_active': true, // 🔥 VERY IMPORTANT
+              })
+              .select('id')
+              .maybeSingle();
+
+      if (newCart == null) {
+        AppLogger.error("newCart:-${newCart.toString()}");
+        throw Exception("Cart not created. Check RLS policy.");
+      }
+
+      return newCart['id'];
+    } catch (e) {
+      AppLogger.error("GetOrCreateCartId:-${e.toString()}");
+      rethrow;
     }
-
-    final newCart =
-        await supabase
-            .from('carts')
-            .insert({'user_id': userId})
-            .select('id')
-            .single();
-
-    return newCart['id'];
   }
 
   @override
