@@ -110,13 +110,14 @@ class HomePage extends StatelessWidget {
                   CartBloc(addtoCartUsecase, cartRepository, walletrepo),
         ),
       ],
-      child: HomePageUi(),
+      child: HomePageUi(supabase: supabase),
     );
   }
 }
 
 class HomePageUi extends StatelessWidget {
-  const HomePageUi({super.key});
+  final SupabaseClient supabase;
+  const HomePageUi({super.key, required this.supabase});
 
   @override
   Widget build(BuildContext context) {

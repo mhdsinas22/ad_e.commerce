@@ -78,6 +78,21 @@ class _OtpView extends StatelessWidget {
                 const SizedBox(height: 20),
                 const _OtpInput(),
                 const _TimerAndResend(),
+
+                /// 👇 LOADING OVERLAY
+                BlocBuilder<OtpBloc, OtpState>(
+                  buildWhen: (p, c) => p.status != c.status,
+                  builder: (context, state) {
+                    if (state.status == OtpStatus.verifying) {
+                      return const Center(
+                        child: CircularProgressIndicator(
+                          color: AppColors.primaryBlue,
+                        ),
+                      );
+                    }
+                    return const SizedBox.shrink();
+                  },
+                ),
               ],
             ),
           ),
@@ -93,11 +108,15 @@ class _OtpInput extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<OtpBloc, OtpState>(
-      buildWhen: (previous, current) => previous.otpCode != current.otpCode,
+      buildWhen:
+          (previous, current) =>
+              previous.otpCode != current.otpCode ||
+              previous.status != current.status,
       builder: (context, state) {
         return Padding(
           padding: const EdgeInsets.symmetric(horizontal: 30),
           child: PinCodeTextField(
+            enabled: state.status != OtpStatus.verifying,
             appContext: context,
             length: 6,
             key: const Key('otpForm_otpInput_textField'),
@@ -123,8 +142,9 @@ class _OtpInput extends StatelessWidget {
               LengthLimitingTextInputFormatter(6),
               FilteringTextInputFormatter.digitsOnly,
             ],
-            onCompleted:
-                (value) => context.read<OtpBloc>().add(const OtpVerify()),
+            onCompleted: (value) {
+              context.read<OtpBloc>().add(OtpVerify());
+            },
           ),
         );
       },
@@ -139,18 +159,35 @@ class _TimerAndResend extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<OtpBloc, OtpState>(
       builder: (context, state) {
-        return Row(
-          mainAxisAlignment: MainAxisAlignment.center,
+        final minutes = state.timerSeconds ~/ 60;
+        final seconds = state.timerSeconds % 60;
+        return Column(
           children: [
-            const SizedBox(width: 16),
-            TextButton(
-              onPressed: () => context.read<OtpBloc>().add(ResendOtp()),
+            AppTexts.medium(
+              "${minutes.toString().padLeft(2, "0")}:${seconds.toString().padLeft(2, "0")}",
+              fontSize: 14,
+            ),
 
-              child: AppTexts.semiBold(
-                'Resend Code',
-                fontSize: 12,
-                color: AppColors.primaryBlue,
-              ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                const SizedBox(width: 16),
+                TextButton(
+                  onPressed:
+                      state.timerSeconds == 0
+                          ? () => context.read<OtpBloc>().add(ResendOtp())
+                          : null,
+
+                  child: AppTexts.semiBold(
+                    'Resend Code',
+                    fontSize: 12,
+                    color:
+                        state.timerSeconds == 0
+                            ? AppColors.primaryBlue
+                            : Colors.grey,
+                  ),
+                ),
+              ],
             ),
           ],
         );

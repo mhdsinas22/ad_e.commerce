@@ -12,7 +12,7 @@ class OtpState extends Equatable {
     this.otpCode = '',
     this.status = OtpStatus.initial,
     this.errorMessage,
-    this.timerSeconds = 30,
+    this.timerSeconds = 90,
   });
 
   OtpState copyWith({

@@ -1,8 +1,8 @@
-import 'package:ad_e_commerce/core/utils/app_logger.dart';
 import 'package:ad_e_commerce/data/repositories/auth_repository.dart';
 import 'package:ad_e_commerce/features/auth/bloc/login/login_event.dart';
 import 'package:ad_e_commerce/features/auth/bloc/login/login_state.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
 class LoginBloc extends Bloc<LoginEvent, LoginState> {
   final AuthRepository authRepository;
@@ -51,18 +51,36 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
   ) async {
     emit(state.copyWith(status: LoginStatus.loading));
     try {
-      final result = await authRepository.checkPhoneExists(event.phone);
-      if (result == null) {
-        final formattedPhone = "+91${event.phone}";
-        await authRepository.sendOtp(phone: formattedPhone);
-        emit(state.copyWith(status: LoginStatus.success, phone: event.phone));
+      // Step 1:  Check user exists in profiles table
+      final existingUser =
+          await Supabase.instance.client
+              .from("profiles")
+              .select("user_id")
+              .eq("phone", event.phone)
+              .maybeSingle();
+      if (existingUser == null) {
+        emit(
+          state.copyWith(
+            status: LoginStatus.failure,
+            errorMessage: "User not found. Please signup",
+          ),
+        );
+        return;
       }
+      // Step 2: Send OTP
+      final response = await Supabase.instance.client.functions.invoke(
+        "send-otp",
+        body: {"phone": event.phone},
+      );
+      if (response.status != 200) {
+        throw Exception("Otp send Failed");
+      }
+      emit(state.copyWith(status: LoginStatus.success, phone: event.phone));
     } catch (e) {
-      AppLogger.error("Error in login phone submitted: $e");
       emit(
         state.copyWith(
           status: LoginStatus.failure,
-          errorMessage: 'USER_NOT_FOUND',
+          errorMessage: 'something went wrong',
         ),
       );
     }

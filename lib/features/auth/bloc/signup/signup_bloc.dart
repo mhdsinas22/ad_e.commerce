@@ -46,7 +46,14 @@ class SignupBloc extends Bloc<SignupEvent, SignupState> {
           return;
         }
 
-        await supabase.auth.signInWithOtp(phone: "+91$phone");
+        final response = await supabase.functions.invoke(
+          "send-otp",
+          body: {"phone": phone},
+        );
+        if (response.status != 200) {
+          throw Exception("Otp send Failed");
+        }
+        AppLogger.info("OTP SEND SUCCESS:-${response.data}");
         emit(OtpSend(phone, name));
       } catch (e) {
         AppLogger.error("OTP SEND ERROR:-${e.toString()}");
@@ -54,7 +61,6 @@ class SignupBloc extends Bloc<SignupEvent, SignupState> {
       }
     });
     // VERIFY OTP
-
     on<PhoneChangedEvent>((event, emit) {
       emit(SignupInitial(phone: event.phone, name: state.name));
     });

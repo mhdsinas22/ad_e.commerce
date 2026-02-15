@@ -228,3 +228,19 @@ class _LoginButtonState extends State<_LoginButton> {
     );
   }
 }
+
+Future<void> sendOtp(String phone) async {
+  print("Calling sendOtp with: $phone");
+
+  try {
+    final response = await Supabase.instance.client.functions.invoke(
+      "send-otp",
+      body: {"phone": phone},
+    );
+
+    print("Status: ${response.status}");
+    print("Data: ${response.data}");
+  } catch (e) {
+    print("Exception otp : $e");
+  }
+}

@@ -1,6 +1,5 @@
 // ignore_for_file: unused_element
 import 'dart:async';
-import 'package:ad_e_commerce/core/utils/app_logger.dart';
 import 'package:ad_e_commerce/features/auth/bloc/otp/otp_event.dart';
 import 'package:ad_e_commerce/features/auth/bloc/otp/otp_state.dart';
 import 'package:ad_e_commerce/features/profile/data/datasource/wallet_remote_datasource.dart';
@@ -29,8 +28,7 @@ class OtpBloc extends Bloc<OtpEvent, OtpState> {
     on<OtpVerify>(_onVerifyOtp);
     // RESEND OTP
     on<ResendOtp>(_onResendOtp);
-    // Start timerr
-    _startTimer();
+    on<OtpTimerTicked>(_onTimerTicked); // ✅ ADD THIS
   }
   // VERIFY OTP LOGIC
   Future<void> _onVerifyOtp(OtpVerify event, Emitter<OtpState> emit) async {
@@ -45,33 +43,32 @@ class OtpBloc extends Bloc<OtpEvent, OtpState> {
     }
     emit(state.copyWith(status: OtpStatus.verifying));
     try {
-      final res = await supabase.auth.verifyOTP(
-        type: OtpType.sms,
-        token: state.otpCode,
-        phone: "+91$phone",
+      final res = await supabase.functions.invoke(
+        "verify-otp",
+        body: {"phone": phone, "otp": state.otpCode, "name": name},
       );
-      if (res.session != null) {
-        final user = res.user;
-        // 1.Profile Check
-        final existingProfile =
-            await supabase
-                .from('profiles')
-                .select('user_id')
-                .eq('user_id', user!.id)
-                .maybeSingle();
-        AppLogger.info("Existing Profile: $existingProfile");
-        if (existingProfile == null) {
-          await supabase.from('profiles').insert({
-            'user_id': user.id,
-            'phone': phone, // already +91 format
-            "username": name,
-          }).maybeSingle();
-          // 2. Wallet Check
-          await walletRemoteDataSource.createWallet(user.id);
-        }
-      }
 
-      emit(state.copyWith(status: OtpStatus.verified));
+      if (res.data != null && res.data['success'] == true) {
+        final data = res.data as Map<String, dynamic>;
+        final refreshToken = data['refreshToken'];
+
+        if (refreshToken == null) {
+          throw Exception("Refresh token is null from Edge Function");
+        }
+        await supabase.auth.setSession(refreshToken);
+        print("Refresh Token: $refreshToken");
+        print("USER ID: ${supabase.auth.currentUser?.id}");
+        print("SESSION: ${supabase.auth.currentSession}");
+
+        emit(state.copyWith(status: OtpStatus.verified));
+      } else {
+        emit(
+          state.copyWith(
+            status: OtpStatus.failed,
+            errorMessage: res.data?['message'] ?? "Invalid OTP",
+          ),
+        );
+      }
     } catch (e) {
       emit(
         state.copyWith(status: OtpStatus.failed, errorMessage: "Invalid Otp"),
@@ -82,8 +79,14 @@ class OtpBloc extends Bloc<OtpEvent, OtpState> {
   // RESEND  OTP LOGIC
   Future<void> _onResendOtp(ResendOtp event, Emitter<OtpState> emit) async {
     try {
-      await supabase.auth.signInWithOtp(phone: "+91$phone");
-      emit(state.copyWith(timerSeconds: 30, status: OtpStatus.initial));
+      await supabase.functions.invoke("send-otp", body: {"phone": phone});
+      emit(
+        state.copyWith(
+          timerSeconds: 30,
+          status: OtpStatus.initial,
+          otpCode: "",
+        ),
+      );
       _startTimer(); // restart timer properly
     } catch (e) {
       emit(
