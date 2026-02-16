@@ -1,9 +1,12 @@
 import 'package:ad_e_commerce/core/theme/app_colors.dart';
 import 'package:ad_e_commerce/core/widgets/app_text.dart';
 import 'package:ad_e_commerce/features/checkout/domain/enitites/address_entity.dart';
+import 'package:ad_e_commerce/core/constants/indian_states.dart';
 import 'package:flutter/material.dart';
 
 class AddressSection extends StatefulWidget {
+  final TextEditingController nameController;
+  final TextEditingController mobileController;
   final TextEditingController pincodeController;
   final TextEditingController houseController;
   final TextEditingController localityController;
@@ -13,6 +16,10 @@ class AddressSection extends StatefulWidget {
   final List<AddressEntity> addresses;
   final String selectedSaveAs;
   final ValueChanged<String> onSaveAsChanged;
+  final String? selectedState;
+  final String? selectedDistrict;
+  final ValueChanged<String?> onStateChanged;
+  final ValueChanged<String?> onDistrictChanged;
   final int selectedAddressIndex;
   final ValueChanged<int> onAddressSelected;
   final bool isEditingAddress;
@@ -21,6 +28,8 @@ class AddressSection extends StatefulWidget {
 
   const AddressSection({
     super.key,
+    required this.nameController,
+    required this.mobileController,
     required this.pincodeController,
     required this.houseController,
     required this.localityController,
@@ -29,6 +38,10 @@ class AddressSection extends StatefulWidget {
     required this.alternateNumberController,
     required this.selectedSaveAs,
     required this.onSaveAsChanged,
+    required this.selectedState,
+    required this.selectedDistrict,
+    required this.onStateChanged,
+    required this.onDistrictChanged,
     required this.addresses,
     required this.selectedAddressIndex,
     required this.onAddressSelected,
@@ -92,10 +105,59 @@ class _AddressSectionState extends State<AddressSection> {
               if (shouldShowForm) ...[
                 SizedBox(height: 30),
                 _buildTextField(
+                  label: 'Full Name*',
+                  hint: 'Enter your full name',
+                  controller: widget.nameController,
+                ),
+
+                const SizedBox(height: 20),
+
+                _buildTextField(
+                  label: 'Mobile Number*',
+                  hint: '10-digit mobile number',
+                  controller: widget.mobileController,
+                  keyboardType: TextInputType.phone,
+                  maxLength: 10,
+                ),
+
+                const SizedBox(height: 20),
+
+                // State & District Dropdowns
+                Row(
+                  children: [
+                    Expanded(
+                      child: _buildDropdown(
+                        label: 'State*',
+                        value: widget.selectedState,
+                        items: IndianStates.stateDistricts.keys.toList(),
+                        onChanged: widget.onStateChanged,
+                      ),
+                    ),
+                    const SizedBox(width: 16),
+                    Expanded(
+                      child: _buildDropdown(
+                        label: 'District*',
+                        value: widget.selectedDistrict,
+                        items:
+                            widget.selectedState != null
+                                ? IndianStates.stateDistricts[widget
+                                        .selectedState] ??
+                                    []
+                                : [],
+                        onChanged: widget.onDistrictChanged,
+                      ),
+                    ),
+                  ],
+                ),
+
+                const SizedBox(height: 20),
+
+                _buildTextField(
                   label: 'Enter Pincode*',
                   hint: 'Eg: 676517',
                   controller: widget.pincodeController,
                   keyboardType: TextInputType.number,
+                  maxLength: 6,
                 ),
 
                 const SizedBox(height: 20),
@@ -227,10 +289,20 @@ class _AddressSectionState extends State<AddressSection> {
                 onTap: () {
                   widget.onEditAddress(widget.addresses[index], index);
                 },
-                child: AppTexts.medium(
-                  "Edit",
-                  fontSize: 12,
-                  color: AppColors.primaryBlue,
+                child: Container(
+                  height: 20,
+                  width: 50,
+                  decoration: BoxDecoration(
+                    color: AppColors.primaryBlue,
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                  child: Center(
+                    child: AppTexts.medium(
+                      "Edit",
+                      fontSize: 12,
+                      color: AppColors.pureWhite,
+                    ),
+                  ),
                 ),
               )
               : SizedBox(),
@@ -244,6 +316,7 @@ class _AddressSectionState extends State<AddressSection> {
     required String hint,
     TextEditingController? controller,
     TextInputType keyboardType = TextInputType.text,
+    int? maxLength,
   }) {
     return Container(
       decoration: BoxDecoration(
@@ -252,18 +325,14 @@ class _AddressSectionState extends State<AddressSection> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
-            label,
-            style: TextStyle(
-              fontSize: 14,
-              color: Colors.transparent,
-            ), // Hidden for structure
-          ),
+          Text(label, style: TextStyle(fontSize: 12, color: Colors.grey[600])),
           TextFormField(
             keyboardType: keyboardType,
             controller: controller,
+            maxLength: maxLength,
             decoration: InputDecoration(
-              hintText: label,
+              hintText: hint,
+              counterText: "",
               hintStyle: TextStyle(
                 fontSize: 15,
                 color: Colors.grey[500],
@@ -276,6 +345,47 @@ class _AddressSectionState extends State<AddressSection> {
           ),
         ],
       ),
+    );
+  }
+
+  Widget _buildDropdown({
+    required String label,
+    required String? value,
+    required List<String> items,
+    required ValueChanged<String?> onChanged,
+  }) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(label, style: TextStyle(fontSize: 12, color: Colors.grey[600])),
+        SizedBox(height: 5),
+        Container(
+          padding: EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+          decoration: BoxDecoration(
+            border: Border.all(color: Colors.grey.shade300),
+            borderRadius: BorderRadius.circular(8),
+          ),
+          child: DropdownButtonHideUnderline(
+            child: DropdownButton<String>(
+              value: items.contains(value) ? value : null,
+              isExpanded: true,
+              hint: Text("Select"),
+              icon: Icon(Icons.arrow_drop_down, color: Colors.grey),
+              items:
+                  items.map((String item) {
+                    return DropdownMenuItem<String>(
+                      value: item,
+                      child: Text(
+                        item,
+                        style: TextStyle(fontSize: 14, color: Colors.black),
+                      ),
+                    );
+                  }).toList(),
+              onChanged: onChanged,
+            ),
+          ),
+        ),
+      ],
     );
   }
 

@@ -11,18 +11,26 @@ class AddressModel extends AddressEntity {
     required super.saveAs,
     super.userid,
     super.id,
+    required super.name,
+    required super.mobileNumber,
+    required super.state,
+    required super.district,
   });
   factory AddressModel.fromJson(Map<String, dynamic> json) {
     return AddressModel(
-      pincode: json["pincode"],
-      house: json["house"],
-      area: json["area"],
-      landmark: json["landmark"],
-      alternatePhone: json["alternate_phone"],
-      email: json["email"],
+      pincode: json["pincode"] ?? "",
+      house: json["house"] ?? "",
+      area: json["area"] ?? "",
+      landmark: json["landmark"] ?? "",
+      alternatePhone: json["alternate_phone"] ?? "",
+      email: json["email"] ?? "",
       saveAs: json["save_as"],
-      userid: json["user_id"],
-      id: json["id"],
+      userid: json["user_id"] ?? "",
+      id: json["id"] ?? "",
+      name: json["name"] ?? "",
+      mobileNumber: json["mobile_number"] ?? "",
+      state: json["state"] ?? "",
+      district: json["district"] ?? "",
     );
   }
   factory AddressModel.fromEntity(AddressEntity entity) {
@@ -36,6 +44,10 @@ class AddressModel extends AddressEntity {
       email: entity.email,
       alternatePhone: entity.alternatePhone,
       saveAs: entity.saveAs,
+      name: entity.name,
+      mobileNumber: entity.mobileNumber,
+      state: entity.state,
+      district: entity.district,
     );
   }
   Map<String, dynamic> toJson() {
@@ -48,6 +60,10 @@ class AddressModel extends AddressEntity {
       "email": email,
       "user_id": userid,
       "save_as": saveAs,
+      "name": name,
+      "mobile_number": mobileNumber,
+      "state": state,
+      "district": district,
     };
   }
 
@@ -59,6 +75,10 @@ class AddressModel extends AddressEntity {
     String? email,
     String? alternatePhone,
     String? saveAs,
+    String? name,
+    String? mobileNumber,
+    String? state,
+    String? district,
   }) {
     return AddressModel(
       id: id,
@@ -70,6 +90,10 @@ class AddressModel extends AddressEntity {
       email: email ?? this.email,
       alternatePhone: alternatePhone ?? this.alternatePhone,
       saveAs: saveAs ?? this.saveAs,
+      name: name ?? this.name,
+      mobileNumber: mobileNumber ?? this.mobileNumber,
+      state: state ?? this.state,
+      district: district ?? this.district,
     );
   }
 }

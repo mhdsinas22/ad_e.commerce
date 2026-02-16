@@ -28,7 +28,12 @@ class _CheckoutPageState extends State<CheckoutPage> {
   final landmarkController = TextEditingController();
   final emailController = TextEditingController();
   final alternateNumberController = TextEditingController();
+  final nameController = TextEditingController();
+  final mobileController = TextEditingController();
+
   String _selectedSaveAs = "home";
+  String? _selectedState;
+  String? _selectedDistrict;
   int _selectedAddressIndex =
       0; // Default to 'Add New' (index 2 based on previous logic)
   bool _isEditingAddress = false;
@@ -51,6 +56,9 @@ class _CheckoutPageState extends State<CheckoutPage> {
   }
 
   bool _isNewAddressValid() {
+    if (nameController.text.trim().isEmpty) return false;
+    if (mobileController.text.trim().length != 10) return false;
+    if (_selectedState == null || _selectedDistrict == null) return false;
     if (pincodeController.text.length != 6) return false;
     if (houseController.text.trim().isEmpty) return false;
     if (!emailController.text.contains('@')) return false;
@@ -73,6 +81,8 @@ class _CheckoutPageState extends State<CheckoutPage> {
     landmarkController.addListener(_onFormChanged);
     emailController.addListener(_onFormChanged);
     alternateNumberController.addListener(_onFormChanged);
+    nameController.addListener(_onFormChanged);
+    mobileController.addListener(_onFormChanged);
   }
 
   @override
@@ -83,6 +93,8 @@ class _CheckoutPageState extends State<CheckoutPage> {
     landmarkController.dispose();
     emailController.dispose();
     alternateNumberController.dispose();
+    nameController.dispose();
+    mobileController.dispose();
     super.dispose();
   }
 
@@ -106,11 +118,26 @@ class _CheckoutPageState extends State<CheckoutPage> {
                     alternateNumberController: alternateNumberController,
                     landmarkController: landmarkController,
                     localityController: localityController,
+                    nameController: nameController,
+                    mobileController: mobileController,
                     selectedSaveAs: _selectedSaveAs,
+                    selectedState: _selectedState,
+                    selectedDistrict: _selectedDistrict,
                     isEditingAddress: _isEditingAddress,
                     onSaveAsChanged: (value) {
                       setState(() {
                         _selectedSaveAs = value;
+                      });
+                    },
+                    onStateChanged: (value) {
+                      setState(() {
+                        _selectedState = value;
+                        _selectedDistrict = null; // Reset district
+                      });
+                    },
+                    onDistrictChanged: (value) {
+                      setState(() {
+                        _selectedDistrict = value;
                       });
                     },
                     selectedAddressIndex: _selectedAddressIndex,
@@ -131,6 +158,10 @@ class _CheckoutPageState extends State<CheckoutPage> {
                           landmarkController.clear();
                           emailController.clear();
                           alternateNumberController.clear();
+                          nameController.clear();
+                          mobileController.clear();
+                          _selectedState = null;
+                          _selectedDistrict = null;
                           _selectedSaveAs = "home";
                         } else {
                           // Existing address
@@ -147,6 +178,10 @@ class _CheckoutPageState extends State<CheckoutPage> {
                         emailController.text = address.email;
                         alternateNumberController.text =
                             address.alternatePhone ?? '';
+                        nameController.text = address.name;
+                        mobileController.text = address.mobileNumber;
+                        _selectedState = address.state;
+                        _selectedDistrict = address.district;
                         _selectedSaveAs = address.saveAs;
                         _selectedAddressIndex = index;
                         _isEditingAddress = true;
@@ -159,45 +194,62 @@ class _CheckoutPageState extends State<CheckoutPage> {
           ],
         ),
       ),
-      bottomNavigationBar: BlocBuilder<AddressBloc, AddressState>(
-        builder: (context, state) {
-          return SafeArea(
-            child:
-                widget.isMyaddressScreen
-                    ? Padding(
-                      padding: const EdgeInsets.all(16),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          const Spacer(),
-                          PrimaryButton(
-                            borderRadius: 10,
-                            width: 112,
-                            height: 45,
-                            backgroudColor: AppColors.purered,
-                            onPressed: () => _deleteAddress(state),
-                            text: "Delete",
-                          ),
-                          const SizedBox(width: 12),
-                          PrimaryButton(
-                            borderRadius: 10,
-                            width: 112,
-                            height: 45,
-                            text: "Save",
-                            onPressed:
-                                _isFormValid ? () => _saveAddress(state) : null,
-                          ),
-                          const Spacer(),
-                        ],
-                      ),
-                    )
-                    : CheckoutButton(
-                      text: 'Next',
-                      isEnabled: _isFormValid,
-                      onTap: () => _onNextPressed(state),
-                    ),
-          );
+      bottomNavigationBar: BlocListener<AddressBloc, AddressState>(
+        listenWhen:
+            (previous, current) => previous.addresses != current.addresses,
+        listener: (context, state) {
+          if (state.addresses.isNotEmpty) {
+            setState(() {
+              _selectedAddressIndex = 0;
+            });
+          } else {
+            setState(() {
+              _selectedAddressIndex = 0;
+            });
+          }
         },
+        child: BlocBuilder<AddressBloc, AddressState>(
+          builder: (context, state) {
+            return SafeArea(
+              child:
+                  widget.isMyaddressScreen
+                      ? Padding(
+                        padding: const EdgeInsets.all(16),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            const Spacer(),
+                            PrimaryButton(
+                              borderRadius: 10,
+                              width: 112,
+                              height: 45,
+                              backgroudColor: AppColors.purered,
+                              onPressed: () => _deleteAddress(state),
+                              text: "Delete",
+                            ),
+                            const SizedBox(width: 12),
+                            PrimaryButton(
+                              borderRadius: 10,
+                              width: 112,
+                              height: 45,
+                              text: "Save",
+                              onPressed:
+                                  _isFormValid
+                                      ? () => _saveAddress(state)
+                                      : null,
+                            ),
+                            const Spacer(),
+                          ],
+                        ),
+                      )
+                      : CheckoutButton(
+                        text: 'Next',
+                        isEnabled: _isFormValid,
+                        onTap: () => _onNextPressed(state),
+                      ),
+            );
+          },
+        ),
       ),
     );
   }
@@ -214,6 +266,10 @@ class _CheckoutPageState extends State<CheckoutPage> {
       email: emailController.text.trim(),
       alternatePhone: alternateNumberController.text.trim(),
       saveAs: _selectedSaveAs.toLowerCase(),
+      name: nameController.text.trim(),
+      mobileNumber: mobileController.text.trim(),
+      state: _selectedState!,
+      district: _selectedDistrict!,
     );
 
     context.read<AddressBloc>().add(SubmitAddressEvent(address));
@@ -281,6 +337,16 @@ class _CheckoutPageState extends State<CheckoutPage> {
                 : alternateNumberController.text.trim(),
 
         saveAs: _selectedSaveAs.toLowerCase(),
+        name:
+            nameController.text.trim().isEmpty
+                ? entity.name
+                : nameController.text.trim(),
+        mobileNumber:
+            mobileController.text.trim().isEmpty
+                ? entity.mobileNumber
+                : mobileController.text.trim(),
+        state: _selectedState ?? entity.state,
+        district: _selectedDistrict ?? entity.district,
       );
 
       context.read<AddressBloc>().add(UpdateAddressEvent(updatedAddress));

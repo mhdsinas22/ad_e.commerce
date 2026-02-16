@@ -39,7 +39,7 @@ class AddressBloc extends Bloc<AddressEvent, AddressState> {
     AppLogger.info("Feethc wrokds");
     try {
       final address = await addressRepository.getAddresses();
-      AppLogger.info("ADdes:-$address");
+      AppLogger.info("Address::-$address");
       emit(state.copyWith(addresses: address));
     } catch (e) {
       AppLogger.error("error:-${e.toString()}");

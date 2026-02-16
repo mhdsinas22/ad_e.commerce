@@ -1,5 +1,9 @@
 class AddressEntity {
   final String pincode;
+  final String name;
+  final String mobileNumber;
+  final String state;
+  final String district;
   final String house;
   final String area;
   final String? landmark;
@@ -11,6 +15,10 @@ class AddressEntity {
 
   AddressEntity({
     required this.pincode,
+    required this.name,
+    required this.mobileNumber,
+    required this.state,
+    required this.district,
     required this.house,
     required this.area,
     this.landmark,
