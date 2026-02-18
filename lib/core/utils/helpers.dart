@@ -2,7 +2,9 @@ import 'package:ad_e_commerce/core/routes/route_names.dart';
 import 'package:ad_e_commerce/core/utils/navigator.dart';
 import 'package:ad_e_commerce/features/home/models/category_model.dart';
 import 'package:ad_e_commerce/features/home/pages/category_filtred_page.dart';
+import 'package:ad_e_commerce/features/profile/domain/enitites/wallet/warranty.dart';
 import 'package:flutter/material.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class Helpers {
   Helpers._();
@@ -78,6 +80,38 @@ class Helpers {
         return "Second";
     }
   }
+
+  static Future<void> makePhoneCall(String phoneNumber) async {
+    final Uri url = Uri(scheme: 'tel', path: phoneNumber);
+
+    if (await canLaunchUrl(url)) {
+      await launchUrl(url);
+    } else {
+      debugPrint("Could not launch $url");
+    }
+  }
+
+  static Future<void> openStoreLocation() async {
+    final Uri url = Uri.parse(
+      "https://www.google.com/maps/dir//AIRDROP+APPLE+STORE+MALAPPURAM,+Kottappady,+Malappuram,+Kerala+676519/@11.051098,76.0739995,15z/data=!4m8!4m7!1m0!1m5!1m1!1s0x3ba64b005b6bd737:0x25505417b6c7b639!2m2!1d76.0749375!2d11.0466875?entry=ttu",
+    );
+
+    if (await canLaunchUrl(url)) {
+      await launchUrl(url, mode: LaunchMode.externalApplication);
+    } else {
+      debugPrint("Could not open map");
+    }
+  }
+
+  static Future<void> openWhatsapp(String phoneNumber) async {
+    final Uri url = Uri.parse("https://wa.me/$phoneNumber");
+
+    if (await canLaunchUrl(url)) {
+      await launchUrl(url, mode: LaunchMode.externalApplication);
+    } else {
+      debugPrint("Could not open WhatsApp");
+    }
+  }
 }
 
 Map<String, String> splitWarrantyCode(String code) {
@@ -116,4 +150,34 @@ void handleNavigation(BuildContext context, CategoryModel item) {
       Appnavigotor.pushnamed(context, RouteNames.tabletcategories, {});
       break;
   }
+}
+
+String buildDropdownTitle(Warranty warranty) {
+  final raw = warranty.product;
+
+  // Extract type
+  final typeMatch = RegExp(r'type:\s*([^,}]+)').firstMatch(raw);
+  final type = typeMatch?.group(1)?.trim();
+
+  if (type == "order") {
+    final nameMatch = RegExp(r'product_name:\s*([^,}]+)').firstMatch(raw);
+    final orderMatch = RegExp(r'order_number:\s*([^,}]+)').firstMatch(raw);
+
+    final name = nameMatch?.group(1)?.trim() ?? "Unknown";
+    final order = orderMatch?.group(1)?.trim() ?? "";
+
+    return "$name ($order)";
+  }
+
+  if (type == "repair") {
+    final nameMatch = RegExp(r'device_model:\s*([^,}]+)').firstMatch(raw);
+    final repairMatch = RegExp(r'repair_code:\s*([^,}]+)').firstMatch(raw);
+
+    final name = nameMatch?.group(1)?.trim() ?? "Unknown";
+    final repair = repairMatch?.group(1)?.trim() ?? "";
+
+    return "$name ($repair)";
+  }
+
+  return raw;
 }

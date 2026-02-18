@@ -1,43 +1,100 @@
-import 'package:ad_e_commerce/features/profile/domain/enitites/warranty.dart';
+import 'package:ad_e_commerce/features/profile/domain/enitites/wallet/warranty.dart';
 
 class WarrantyModel extends Warranty {
   WarrantyModel({
     super.id,
-    required super.warrantyCode,
-    required super.userid,
-    required super.imeiSerial,
-    required super.planType,
-    required super.product,
-    required super.specificPlan,
-    required super.startDate,
-    required super.expiryDate,
+    required super.warrantyCardid,
+    required super.startdate,
+    required super.expirydate,
     required super.status,
+    required super.planType,
+    required super.specificPlan,
+    required super.product,
+    required super.imeiSerial,
+    super.orderNumber,
+    super.repairCode,
+    super.displayName,
+    super.type,
   });
+
+  WarrantyModel copyWith({
+    String? id,
+    String? warrantyCardid,
+    DateTime? startdate,
+    DateTime? expirydate,
+    String? status,
+    String? planType,
+    String? specificPlan,
+    String? product,
+    String? imeiSerial,
+    String? orderNumber,
+    String? repairCode,
+    String? displayName,
+    String? type,
+  }) {
+    return WarrantyModel(
+      id: id ?? this.id,
+      warrantyCardid: warrantyCardid ?? this.warrantyCardid,
+      startdate: startdate ?? this.startdate,
+      expirydate: expirydate ?? this.expirydate,
+      status: status ?? this.status,
+      planType: planType ?? this.planType,
+      specificPlan: specificPlan ?? this.specificPlan,
+      product: product ?? this.product,
+      imeiSerial: imeiSerial ?? this.imeiSerial,
+      orderNumber: orderNumber ?? this.orderNumber,
+      repairCode: repairCode ?? this.repairCode,
+      displayName: displayName ?? this.displayName,
+      type: type ?? this.type,
+    );
+  }
+
+  static WarrantyModel fromEntity(Warranty entity) {
+    return WarrantyModel(
+      id: entity.id,
+      warrantyCardid: entity.warrantyCardid,
+      startdate: entity.startdate,
+      expirydate: entity.expirydate,
+      status: entity.status,
+      planType: entity.planType,
+      specificPlan: entity.specificPlan,
+      product: entity.product,
+      imeiSerial: entity.imeiSerial,
+      orderNumber: entity.orderNumber,
+      repairCode: entity.repairCode,
+      displayName: entity.displayName,
+      type: entity.type,
+    );
+  }
+
   factory WarrantyModel.fromJson(Map<String, dynamic> json) {
     return WarrantyModel(
       id: json["id"],
-      warrantyCode: json["warranty_code"],
-      userid: json["user_id"],
+      warrantyCardid: json["warranty_card_id"],
+      startdate: DateTime.parse(json["start_date"]),
+      expirydate: DateTime.parse(json["expiry_date"]),
+      status: json["status"],
+      planType: json["plan_type"],
+      specificPlan: json["selected_specific_plan"],
       product: json["product"],
       imeiSerial: json["imei_serial"],
-      planType: json["plan_type"],
-      specificPlan: json["select_specific_plan"],
-      startDate: DateTime.parse(json['start_date']),
-      expiryDate: DateTime.parse(json['expiry_date']),
-      status: json["status"],
+      orderNumber: json["order_number"],
+      repairCode: json["repair_code"],
+      displayName: json["display_name"],
+      type: json["type"],
     );
   }
+
   Map<String, dynamic> toJson() {
     return {
-      "user_id": userid,
-      "warranty_code": warrantyCode,
+      "warranty_card_id": warrantyCardid,
+      "start_date": startdate.toIso8601String(),
+      "expiry_date": expirydate.toIso8601String(),
+      "status": status,
+      "plan_type": planType,
+      "selected_specific_plan": specificPlan,
       "product": product,
       "imei_serial": imeiSerial,
-      "plan_type": planType,
-      "select_specific_plan": specificPlan,
-      "start_date": startDate.toIso8601String(),
-      "expiry_date": expiryDate.toIso8601String(),
-      "status": status,
     };
   }
 }

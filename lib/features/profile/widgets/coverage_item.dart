@@ -10,16 +10,16 @@ class CoverageItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 4),
+      padding: const EdgeInsets.symmetric(vertical: 6),
       child: Row(
         children: [
           Icon(
             isCovered ? Icons.check_circle_outline : Icons.cancel_outlined,
-            size: 20,
-            color: Colors.black,
+            size: 22,
+            color: const Color(0xFF1D1B20), // Dark grey/black for icons
           ),
-          const SizedBox(width: 4),
-          AppTexts.medium(text, fontSize: 12),
+          const SizedBox(width: 12),
+          AppTexts.medium(text, fontSize: 15, color: const Color(0xFF1D1B20)),
         ],
       ),
     );

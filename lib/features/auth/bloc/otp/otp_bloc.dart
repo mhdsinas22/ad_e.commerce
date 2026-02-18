@@ -56,9 +56,6 @@ class OtpBloc extends Bloc<OtpEvent, OtpState> {
           throw Exception("Refresh token is null from Edge Function");
         }
         await supabase.auth.setSession(refreshToken);
-        print("Refresh Token: $refreshToken");
-        print("USER ID: ${supabase.auth.currentUser?.id}");
-        print("SESSION: ${supabase.auth.currentSession}");
 
         emit(state.copyWith(status: OtpStatus.verified));
       } else {

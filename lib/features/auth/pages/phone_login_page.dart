@@ -230,7 +230,6 @@ class _LoginButtonState extends State<_LoginButton> {
 }
 
 Future<void> sendOtp(String phone) async {
-  print("Calling sendOtp with: $phone");
 
   try {
     final response = await Supabase.instance.client.functions.invoke(

@@ -8,6 +8,7 @@ class WarrantyBloc extends Bloc<WarrantyEvent, WarrantyState> {
   final WarrantyRepository warrantyRepository;
   WarrantyBloc(this.warrantyRepository) : super(WarrantyState()) {
     on<LoadWarrantiesEvent>(_loadWarrantiesEvent);
+    on<SelectWarrantyEvent>(_onSelectWarrantyEvent);
   }
   Future<void> _loadWarrantiesEvent(
     LoadWarrantiesEvent event,
@@ -26,9 +27,36 @@ class WarrantyBloc extends Bloc<WarrantyEvent, WarrantyState> {
         );
         return;
       }
-      final warranites = await warrantyRepository.getWarranties(user.id);
+      final result = await warrantyRepository.getWarrantyData(user.id);
+      if (result == null) {
+        emit(state.copyWith(status: WarrantyStatus.success, warranties: []));
+        return;
+      }
       emit(
-        state.copyWith(warranties: warranites, status: WarrantyStatus.success),
+        state.copyWith(
+          card: result.card,
+          warranties: result.warranties,
+          selectedWarranty:
+              result.warranties.isNotEmpty ? result.warranties.first : null,
+          status: WarrantyStatus.success,
+        ),
+      );
+    } catch (e) {
+      emit(state.copyWith(status: WarrantyStatus.failue, error: e.toString()));
+    }
+  }
+
+  Future<void> _onSelectWarrantyEvent(
+    SelectWarrantyEvent event,
+    Emitter<WarrantyState> emit,
+  ) async {
+    emit(state.copyWith(status: WarrantyStatus.loading));
+    try {
+      emit(
+        state.copyWith(
+          selectedWarranty: event.warranty,
+          status: WarrantyStatus.success,
+        ),
       );
     } catch (e) {
       emit(state.copyWith(status: WarrantyStatus.failue, error: e.toString()));
