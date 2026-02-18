@@ -126,4 +126,5 @@ class AssetConstants {
   static const String smartbestsellingpng = "assets/png/smartbestselling.png";
   static const String logoutpngtemp = "assets/png/images-removebg-preview.png";
   static const String malappuramstorephonto = "assets/png/2026-02-05.webp";
+  static const String kozhikodestorephonto = "assets/png/images (4).jpeg";
 }

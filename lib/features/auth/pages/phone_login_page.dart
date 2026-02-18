@@ -1,4 +1,5 @@
 import 'package:ad_e_commerce/core/routes/route_names.dart';
+import 'package:ad_e_commerce/core/utils/app_logger.dart';
 import 'package:ad_e_commerce/core/widgets/app_text.dart';
 import 'package:ad_e_commerce/data/repositories/auth_repository.dart';
 import 'package:ad_e_commerce/features/auth/bloc/login/login_bloc.dart';
@@ -141,6 +142,7 @@ class _UsernameInput extends StatelessWidget {
       buildWhen: (previous, current) => previous.phone != current.phone,
       builder: (context, state) {
         return TextFormField(
+          keyboardType: TextInputType.number,
           autovalidateMode:
               submitted
                   ? AutovalidateMode.onUserInteraction
@@ -230,16 +232,12 @@ class _LoginButtonState extends State<_LoginButton> {
 }
 
 Future<void> sendOtp(String phone) async {
-
   try {
-    final response = await Supabase.instance.client.functions.invoke(
+    await Supabase.instance.client.functions.invoke(
       "send-otp",
       body: {"phone": phone},
     );
-
-    print("Status: ${response.status}");
-    print("Data: ${response.data}");
   } catch (e) {
-    print("Exception otp : $e");
+    AppLogger.error("Exception otp : $e");
   }
 }

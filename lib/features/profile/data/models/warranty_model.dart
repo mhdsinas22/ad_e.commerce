@@ -17,6 +17,7 @@ class WarrantyModel extends Warranty {
     super.type,
   });
 
+  @override
   WarrantyModel copyWith({
     String? id,
     String? warrantyCardid,

@@ -91,10 +91,8 @@ class Helpers {
     }
   }
 
-  static Future<void> openStoreLocation() async {
-    final Uri url = Uri.parse(
-      "https://www.google.com/maps/dir//AIRDROP+APPLE+STORE+MALAPPURAM,+Kottappady,+Malappuram,+Kerala+676519/@11.051098,76.0739995,15z/data=!4m8!4m7!1m0!1m5!1m1!1s0x3ba64b005b6bd737:0x25505417b6c7b639!2m2!1d76.0749375!2d11.0466875?entry=ttu",
-    );
+  static Future<void> openStoreLocation(String link) async {
+    final Uri url = Uri.parse(link);
 
     if (await canLaunchUrl(url)) {
       await launchUrl(url, mode: LaunchMode.externalApplication);
