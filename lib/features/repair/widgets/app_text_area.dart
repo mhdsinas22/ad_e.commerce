@@ -8,6 +8,7 @@ class AppTextArea extends StatelessWidget {
   final double borderraduis;
   final double width;
   final double height;
+  final TextInputType keyboardType;
   final String? Function(String?)? validator;
   const AppTextArea({
     super.key,
@@ -18,6 +19,7 @@ class AppTextArea extends StatelessWidget {
     this.width = 365.21,
     this.height = 45,
     this.validator,
+    this.keyboardType = TextInputType.text,
   });
 
   @override
@@ -39,7 +41,7 @@ class AppTextArea extends StatelessWidget {
                 onChanged: (value) {
                   state.didChange(value);
                 },
-
+                keyboardType: keyboardType,
                 controller: controller,
                 maxLines: maxLines,
                 decoration: InputDecoration(

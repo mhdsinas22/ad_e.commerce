@@ -228,6 +228,7 @@ class _RepairPageViewState extends State<RepairPageView> {
                             child: AppTexts.medium("Mobile:", fontSize: 12),
                           ),
                           AppTextArea(
+                            keyboardType: TextInputType.phone,
                             controller: _mobileController,
                             hintText: '+ 910000000000',
                             maxLines: 1,
