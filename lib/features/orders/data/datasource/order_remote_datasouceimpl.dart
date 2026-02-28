@@ -9,8 +9,45 @@ class OrderRemoteDatasouceimpl implements OrderRemoteDatasource {
   final SupabaseClient supabase;
   OrderRemoteDatasouceimpl({required this.supabase});
   @override
-  Future<String> createOrder(OrderModel orders) async {
+  Future<String> createOrder(
+    OrderModel orders,
+    List<OrderItemModel> orderitems,
+  ) async {
     try {
+      // 1. Loop Each order item
+      for (var item in orderitems) {
+        final productId = item.productId;
+        final orderQty = item.quantity;
+        // 2. Get All stocks of that Product
+        final stocks = await supabase
+            .from("product_stocks")
+            .select()
+            .eq("product_id", productId)
+            .order("quantity", ascending: false);
+        if (stocks.isEmpty) {
+          throw Exception("No stock available");
+        }
+        // 3. Check total Stock
+        int totalStock = 0;
+        for (var stock in stocks) {
+          totalStock += stock["quantity"] as int;
+        }
+        if (totalStock < orderQty) {
+          throw Exception("No stock available");
+        }
+        // 4. split deduction Logic
+        int remaining = orderQty;
+        for (var stock in stocks) {
+          if (remaining == 0) break;
+          int storeQty = stock["quantity"] as int;
+          int deduct = remaining > storeQty ? storeQty : remaining;
+          await supabase
+              .from("product_stocks")
+              .update({"quantity": storeQty - deduct})
+              .eq("id", stock["id"]);
+          remaining -= deduct;
+        }
+      }
       final res =
           await supabase
               .from("orders")

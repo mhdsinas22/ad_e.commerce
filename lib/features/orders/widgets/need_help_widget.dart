@@ -1,6 +1,7 @@
 import 'package:ad_e_commerce/core/theme/app_colors.dart';
 import 'package:ad_e_commerce/core/widgets/app_text.dart';
 import 'package:ad_e_commerce/core/widgets/primary_button.dart';
+import 'package:ad_e_commerce/core/widgets/store_call_bottom_sheet.dart';
 import 'package:flutter/material.dart';
 
 class NeedHelpWidget extends StatelessWidget {
@@ -31,7 +32,9 @@ class NeedHelpWidget extends StatelessWidget {
             fontsize: 16,
             height: 48,
             text: "Contact Support",
-            onPressed: () {},
+            onPressed: () {
+              StoreCallBottomSheet.show(context);
+            },
             borderRadius: 12,
             backgroudColor: AppColors.primaryBlue,
           ),

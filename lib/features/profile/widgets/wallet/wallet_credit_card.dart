@@ -80,10 +80,14 @@ class WalletCreditCard extends StatelessWidget {
                         children: [
                           AppTexts.semiBold("NAME", color: AppColors.pureWhite),
                           const SizedBox(height: 4),
-                          AppTexts.semiBold(
-                            "Andres Nors",
-                            fontSize: 18,
-                            color: AppColors.pureWhite,
+                          BlocBuilder<WalletBloc, WalletState>(
+                            builder: (context, state) {
+                              return AppTexts.semiBold(
+                                state.username,
+                                fontSize: 18,
+                                color: AppColors.pureWhite,
+                              );
+                            },
                           ),
                         ],
                       ),

@@ -6,6 +6,7 @@ import 'package:ad_e_commerce/features/checkout/bloc/address/address_bloc.dart';
 import 'package:ad_e_commerce/features/checkout/bloc/address/address_event.dart';
 import 'package:ad_e_commerce/features/checkout/bloc/address/address_state.dart';
 import 'package:ad_e_commerce/features/checkout/data/models/address_model.dart';
+import 'package:ad_e_commerce/features/product/domain/entites/product.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -15,7 +16,14 @@ import '../widgets/checkout_button.dart';
 
 class CheckoutPage extends StatefulWidget {
   final bool isMyaddressScreen;
-  const CheckoutPage({super.key, this.isMyaddressScreen = false});
+  final bool isDirectBuy;
+  final Product? directProduct;
+  const CheckoutPage({
+    super.key,
+    this.isMyaddressScreen = false,
+    this.isDirectBuy = false,
+    this.directProduct,
+  });
 
   @override
   State<CheckoutPage> createState() => _CheckoutPageState();
@@ -277,6 +285,8 @@ class _CheckoutPageState extends State<CheckoutPage> {
     if (goToPayment) {
       Appnavigotor.pushnamed(context, RouteNames.paymentpage, {
         "selectedAddress": address,
+        "isDirectBuy": widget.isDirectBuy,
+        "directProduct": widget.directProduct,
       });
     } else {
       Appnavigotor.pop(context); // back to My Address list
@@ -290,6 +300,8 @@ class _CheckoutPageState extends State<CheckoutPage> {
     if (_selectedAddressIndex != addNewIndex) {
       Appnavigotor.pushnamed(context, RouteNames.paymentpage, {
         "selectedAddress": addresses[_selectedAddressIndex],
+        "isDirectBuy": widget.isDirectBuy,
+        "directProduct": widget.directProduct,
       });
       return;
     }

@@ -15,15 +15,17 @@ class WalletPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final supbase = Supabase.instance.client;
-    final walletrepo = WalletRepoImpl(WalletRemoteDatasourceImpl(supbase));
+    final supabaseClient = Supabase.instance.client;
+    final walletrepo = WalletRepoImpl(
+      WalletRemoteDatasourceImpl(supabaseClient),
+    );
     return MultiBlocProvider(
       providers: [
         BlocProvider(
           create:
               (context) =>
                   WalletBloc(walletrepo)
-                    ..add(FetchWallet(supbase.auth.currentUser!.id)),
+                    ..add(FetchWallet(supabaseClient.auth.currentUser!.id)),
         ),
       ],
       child: WalletPageUi(),

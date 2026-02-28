@@ -63,7 +63,11 @@ class CartSummaryWidget extends StatelessWidget {
                             Appnavigotor.pushnamed(
                               context,
                               RouteNames.checkout,
-                              {"isMyaddressScreen": false},
+                              {
+                                "isMyaddressScreen": false,
+                                "isDirectBuy": false,
+                                "directProduct": null,
+                              },
                             );
                           },
                   style: ElevatedButton.styleFrom(

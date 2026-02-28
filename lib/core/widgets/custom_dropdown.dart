@@ -1,3 +1,4 @@
+import 'package:ad_e_commerce/core/theme/app_colors.dart';
 import 'package:flutter/material.dart';
 
 class CustomDropdown extends StatelessWidget {
@@ -24,6 +25,7 @@ class CustomDropdown extends StatelessWidget {
       ),
       child: DropdownButtonHideUnderline(
         child: DropdownButton<String>(
+          dropdownColor: AppColors.pureWhite,
           hint: Text(hintText),
           value: value,
           icon: const Icon(Icons.keyboard_arrow_down),

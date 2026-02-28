@@ -1,5 +1,7 @@
 import 'package:ad_e_commerce/core/common/widgets/shimmer/app_shimmer.dart';
 import 'package:ad_e_commerce/core/constants/asset_constants.dart';
+import 'package:ad_e_commerce/core/enums/phone_condition.dart';
+import 'package:ad_e_commerce/core/enums/sub_category.dart';
 import 'package:ad_e_commerce/core/routes/route_names.dart';
 import 'package:ad_e_commerce/core/theme/app_colors.dart';
 import 'package:ad_e_commerce/core/utils/navigator.dart';
@@ -13,8 +15,8 @@ import 'package:ad_e_commerce/features/home/bloc/testmonialsbloc/testimonial_blo
 import 'package:ad_e_commerce/features/home/bloc/testmonialsbloc/testimonial_event.dart';
 import 'package:ad_e_commerce/features/home/bloc/testmonialsbloc/testimonial_state.dart';
 import 'package:ad_e_commerce/features/home/data/category_data.dart';
-import 'package:ad_e_commerce/features/home/pages/category_filtred_page.dart';
 import 'package:ad_e_commerce/features/home/widgets/BestSellerSection/best_seller_section.dart';
+import 'package:ad_e_commerce/features/home/widgets/CategoryListSection/widgets/airdrop_assurance.dart';
 import 'package:ad_e_commerce/features/home/widgets/category_card.dart';
 import 'package:ad_e_commerce/features/home/widgets/CategoryListSection/category_list_section.dart';
 import 'package:ad_e_commerce/features/home/widgets/FlashSaleSection/flash_sale_section.dart';
@@ -155,10 +157,11 @@ class HomePageUi extends StatelessWidget {
                 onRefresh: () async {
                   context.read<BannerBloc>().add(LoadBannerEvent());
                   context.read<ProductBloc>().add(LoadFlashSaleProductsEvent());
+                  context.read<ProductBloc>().add(LoadProductsEvent());
+                  context.read<TestimonialBloc>().add(LoadTestimonialEvent());
                   await Future.delayed(const Duration(milliseconds: 600));
                 },
               ),
-
               // 🔹 BODY CONTENT
               SliverToBoxAdapter(
                 child: Column(
@@ -207,9 +210,7 @@ class HomePageUi extends StatelessWidget {
                         ),
                       ),
                     ),
-
                     const SizedBox(height: 24),
-
                     // Banner
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 16.0),
@@ -296,53 +297,7 @@ class HomePageUi extends StatelessWidget {
                     const SizedBox(height: 24),
 
                     // AirDrop Assurance
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          AppTexts.medium("AIRDROP Assurance", fontSize: 18),
-                          const SizedBox(height: 16),
-                          Row(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Expanded(
-                                child: Image.asset(
-                                  AssetConstants.aIRDROPAssuranceimg1,
-                                  fit: BoxFit.fill,
-                                ),
-                              ),
-                              const SizedBox(width: 16),
-                              Expanded(
-                                child: Image.asset(
-                                  AssetConstants.aIRDROPAssuranceimg2,
-                                  fit: BoxFit.fill,
-                                ),
-                              ),
-                            ],
-                          ),
-                          const SizedBox(height: 16),
-                          Row(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Expanded(
-                                child: Image.asset(
-                                  AssetConstants.aIRDROPAssuranceimg3,
-                                  fit: BoxFit.fill,
-                                ),
-                              ),
-                              const SizedBox(width: 16),
-                              Expanded(
-                                child: Image.asset(
-                                  AssetConstants.aIRDROPAssuranceimg4,
-                                  fit: BoxFit.fill,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
-                    ),
+                    const AirdropAssurance(),
 
                     const SizedBox(height: 24),
 
@@ -466,9 +421,7 @@ class HomePageUi extends StatelessWidget {
                                                       ),
                                                     ),
                                                   ),
-
                                                   const SizedBox(height: 12),
-
                                                   Center(
                                                     child: AppTexts.medium(
                                                       "Customer",
@@ -495,7 +448,6 @@ class HomePageUi extends StatelessWidget {
                         ],
                       ),
                     ),
-
                     // Footer (Warranty & Why AirDrop)
                     const SizedBox(height: 24),
                     AspectRatio(
@@ -505,8 +457,7 @@ class HomePageUi extends StatelessWidget {
                         fit: BoxFit.contain,
                       ),
                     ),
-
-                    const SizedBox(height: 40), // Bottom padding
+                    // const SizedBox(height: 40), // Bottom padding
                   ],
                 ),
               ),

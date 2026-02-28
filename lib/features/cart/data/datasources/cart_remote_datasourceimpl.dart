@@ -59,6 +59,7 @@ class CartRemoteDatasourceimpl implements CartRemoteDataSource {
               .select("id")
               .eq("user_id", userId)
               .eq("is_active", true)
+              .limit(1)
               .maybeSingle();
 
       if (cart == null) return [];
@@ -100,6 +101,7 @@ class CartRemoteDatasourceimpl implements CartRemoteDataSource {
               .select('id')
               .eq('user_id', userId)
               .eq('is_active', true)
+              .limit(1)
               .maybeSingle();
 
       if (existing != null) {
@@ -114,6 +116,7 @@ class CartRemoteDatasourceimpl implements CartRemoteDataSource {
                 'is_active': true, // 🔥 VERY IMPORTANT
               })
               .select('id')
+              .limit(1)
               .maybeSingle();
 
       if (newCart == null) {
@@ -139,6 +142,7 @@ class CartRemoteDatasourceimpl implements CartRemoteDataSource {
             .select('id')
             .eq('user_id', userId)
             .eq('is_active', true)
+            .limit(1)
             .maybeSingle();
 
     if (cart == null) return;
@@ -150,5 +154,23 @@ class CartRemoteDatasourceimpl implements CartRemoteDataSource {
 
     // 3 deactivate cart
     await supabase.from('carts').update({'is_active': false}).eq('id', cartId);
+  }
+
+  @override
+  Future<int> getTotalStocks({required String productId}) async {
+    try {
+      final response = await supabase
+          .from("product_stocks")
+          .select("quantity")
+          .eq("product_id", productId);
+      int totalStock = 0;
+      for (var item in response) {
+        totalStock += (item["quantity"] as int);
+      }
+      return totalStock;
+    } catch (e) {
+      AppLogger.error("GetTotalStocks:-${e.toString()}");
+      rethrow;
+    }
   }
 }

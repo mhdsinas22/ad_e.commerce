@@ -30,6 +30,10 @@ class _ProductPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isSoldOut =
+        product.stocks.any((stock) => stock.quantity == 0) ||
+        product.isActive == false;
+    print("Sold Out: $isSoldOut");
     return Scaffold(
       body: SingleChildScrollView(
         child: Column(
@@ -38,6 +42,30 @@ class _ProductPage extends StatelessWidget {
             Stack(
               children: [
                 ProductImageCarousel(images: product.imageUrls),
+                if (isSoldOut)
+                  Positioned.fill(
+                    child: Container(
+                      color: Colors.black.withOpacity(0.7),
+                      child: Center(
+                        child: Container(
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 24,
+                            vertical: 12,
+                          ),
+                          decoration: BoxDecoration(
+                            color: Colors.red.shade600,
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                          child: AppTexts.bold(
+                            "SOLD OUT",
+                            fontSize: 22,
+                            color: AppColors.pureWhite,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+
                 Positioned(
                   top: 0,
                   left: 0,
@@ -327,8 +355,8 @@ class _ProductPage extends StatelessWidget {
                         }
                         if (isInCart) {
                           return OutlinedButton(
-                            onPressed: () {
-                              Appnavigotor.pushnamed(
+                            onPressed: () async {
+                              await Appnavigotor.pushnamed(
                                 context,
                                 RouteNames.cart,
                                 {},
@@ -352,28 +380,30 @@ class _ProductPage extends StatelessWidget {
                         }
                         // ➕ Default → ADD TO CART
                         return OutlinedButton(
-                          onPressed: () {
-                            context.read<CartBloc>().add(
-                              AddToCartEvent(
-                                productid: product.id!,
-                                storename: "",
-                                price: product.price,
-                              ),
-                            );
-                          },
+                          onPressed:
+                              isSoldOut
+                                  ? null
+                                  : () {
+                                    context.read<CartBloc>().add(
+                                      AddToCartEvent(
+                                        productid: product.id!,
+                                        storename: "",
+                                        price: product.price,
+                                      ),
+                                    );
+                                  },
                           style: OutlinedButton.styleFrom(
-                            side: const BorderSide(color: Colors.black),
+                            side: BorderSide(
+                              color: isSoldOut ? Colors.grey : Colors.black,
+                            ),
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(24),
                             ),
                           ),
-                          child: Text(
-                            "Add to cart",
-                            style: TextStyle(
-                              color: Colors.black,
-                              fontWeight: FontWeight.w600,
-                              fontSize: 16,
-                            ),
+                          child: AppTexts.semiBold(
+                            isSoldOut ? "Unavailable" : "Add to cart",
+                            color: Colors.black,
+                            fontSize: 16,
                           ),
                         );
                       },
@@ -386,22 +416,35 @@ class _ProductPage extends StatelessWidget {
                 child: SizedBox(
                   height: 48,
                   child: ElevatedButton(
-                    onPressed: () {},
+                    onPressed:
+                        isSoldOut
+                            ? null
+                            : () {
+                              Appnavigotor.pushnamed(
+                                context,
+                                RouteNames.checkout,
+                                {
+                                  "isMyaddressScreen": false,
+                                  "isDirectBuy": true,
+                                  "directProduct": product,
+                                },
+                              );
+                            },
                     style: ElevatedButton.styleFrom(
                       backgroundColor:
-                          AppColors.primaryBlue, // Approximate Blue from image
+                          isSoldOut
+                              ? AppColors.grayColor
+                              : AppColors
+                                  .primaryBlue, // Approximate Blue from image
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(24),
                       ),
                       elevation: 0,
                     ),
-                    child: const Text(
-                      "Buy Now",
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontWeight: FontWeight.w600,
-                        fontSize: 16,
-                      ),
+                    child: AppTexts.semiBold(
+                      isSoldOut ? "Sold Out" : "Buy Now",
+                      color: Colors.white,
+                      fontSize: 16,
                     ),
                   ),
                 ),

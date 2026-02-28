@@ -1,43 +1,21 @@
-import 'package:ad_e_commerce/core/common/widgets/shimmer/app_shimmer.dart';
-import 'package:ad_e_commerce/core/constants/app_constants.dart';
-import 'package:ad_e_commerce/core/utils/helpers.dart';
+import 'package:ad_e_commerce/core/enums/category.dart';
+import 'package:ad_e_commerce/core/enums/phone_condition.dart';
+import 'package:ad_e_commerce/core/enums/sub_category.dart';
+import 'package:ad_e_commerce/core/services/product_filter_service.dart';
 import 'package:ad_e_commerce/core/widgets/app_sliver_app_bar.dart';
 import 'package:ad_e_commerce/core/widgets/app_text.dart';
-import 'package:ad_e_commerce/core/widgets/custom_dropdown.dart';
+import 'package:ad_e_commerce/core/widgets/shimmer_product_grid.dart';
+import 'package:ad_e_commerce/features/home/widgets/CategoryListSection/widgets/filter_dropdown_section.dart';
+import 'package:ad_e_commerce/features/home/widgets/product_grid_section.dart';
 import 'package:ad_e_commerce/features/product/bloc/proudctbloc/product_bloc.dart';
 import 'package:ad_e_commerce/features/product/bloc/proudctbloc/product_event.dart';
 import 'package:ad_e_commerce/features/product/bloc/proudctbloc/product_state.dart';
 import 'package:ad_e_commerce/features/search/bloc/search_bloc.dart';
 import 'package:ad_e_commerce/features/search/bloc/search_state.dart';
 import 'package:ad_e_commerce/features/search/widgets/search_bar.dart';
-import 'package:ad_e_commerce/features/search/widgets/search_product_grid_item.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
-enum PhoneCondition { brandNew, preOwned, empty }
-
-enum Category { wearables, tablet, phones, laptop, earbuds, accessories, empty }
-
-enum SubCategory {
-  macbook,
-  windows,
-  appleipad,
-  tab,
-  applewatch,
-  smartwatch,
-  appleairpods,
-  earbuds,
-  casescover,
-  mobilechargers,
-  speaker,
-  audio,
-  powerbank,
-  bag,
-  empty,
-  fresh,
-  second,
-}
 
 class CategoryFiltredPage extends StatelessWidget {
   final PhoneCondition condition;
@@ -119,128 +97,33 @@ class CategoryFiltredPage extends StatelessWidget {
                             builder: (context, state) {
                               if (state.productStatus ==
                                   ProductStatus.loading) {
-                                return Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                    horizontal: 16,
-                                    vertical: 12,
-                                  ),
-                                  child: GridView.builder(
-                                    shrinkWrap: true,
-                                    physics:
-                                        const NeverScrollableScrollPhysics(),
-                                    gridDelegate:
-                                        SliverGridDelegateWithFixedCrossAxisCount(
-                                          crossAxisCount: crossAxisCount,
-                                          mainAxisSpacing: 16,
-                                          crossAxisSpacing: 16,
-                                          childAspectRatio: childAspectRatio,
-                                          mainAxisExtent:
-                                              screenWidth < 600 ? 320 : 360,
-                                        ),
-                                    itemCount: 8,
-                                    itemBuilder: (context, index) {
-                                      return AppShimmer.productCard();
-                                    },
-                                  ),
+                                return ShimmerProductGrid(
+                                  crossAxisCount: crossAxisCount,
+                                  childAspectRatio: childAspectRatio,
                                 );
                               }
                               if (state.productStatus ==
                                   ProductStatus.success) {
-                                final baseFilteredList =
-                                    state.products.where((product) {
-                                      final matchCondition =
-                                          condition == PhoneCondition.empty ||
-                                          product.condition ==
-                                              Helpers.conditionToString(
-                                                condition,
-                                              );
-                                      final matchCategory =
-                                          category == Category.empty ||
-                                          product.category ==
-                                              Helpers.categoryToString(
-                                                category,
-                                              );
-                                      final matchSubCategory =
-                                          !isSubCategory ||
-                                          product.subCategory ==
-                                              Helpers.subCategoryToString(
-                                                subCategory,
-                                              );
-                                      final matchFlashSale =
-                                          !isFlashSale ||
-                                          product.tag == "Flash Sale";
-                                      final matchBestSeller =
-                                          !isBestSeller ||
-                                          product.tag == "Best Seller";
-                                      final matchpricebestsellter =
-                                          priceAmount == null
-                                              ? true
-                                              : priceTYpe == "Under"
-                                              ? product.price <= priceAmount!
-                                              : product.price >= priceAmount!;
-                                      final matchPhoneCategory =
-                                          !onlyPhones ||
-                                          product.category == "Phones";
-                                      PhoneCondition? dropdownConditionEnum;
-
-                                      if (state.selectedCondition ==
-                                          "Brand New") {
-                                        dropdownConditionEnum =
-                                            PhoneCondition.brandNew;
-                                      } else if (state.selectedCondition ==
-                                          "Pre-Owned") {
-                                        dropdownConditionEnum =
-                                            PhoneCondition.preOwned;
-                                      } else {
-                                        dropdownConditionEnum =
-                                            null; // Select Condition
-                                      }
-                                      final matchDropdownCondition =
-                                          dropdownConditionEnum == null
-                                              ? true
-                                              : product.condition ==
-                                                  Helpers.conditionToString(
-                                                    dropdownConditionEnum,
-                                                  );
-                                      final matchWarranty =
-                                          state.selectedWarranty == null ||
-                                                  state.selectedWarranty ==
-                                                      "Choose Warranty"
-                                              ? true
-                                              : state.selectedWarranty ==
-                                                  "Apple Warranty"
-                                              ? product.warranties.any(
-                                                (w) =>
-                                                    w.warrantyTypeId
-                                                        .toString() ==
-                                                    WarrantyTypeIds.apple,
-                                              )
-                                              : state.selectedWarranty ==
-                                                  "Shop Warranty"
-                                              ? product.warranties.any(
-                                                (w) =>
-                                                    w.warrantyTypeId
-                                                        .toString() ==
-                                                    WarrantyTypeIds.shop,
-                                              )
-                                              : true;
-
-                                      return matchCondition &&
-                                          matchSubCategory &&
-                                          matchFlashSale &&
-                                          matchPhoneCategory &&
-                                          matchBestSeller &&
-                                          matchpricebestsellter &&
-                                          matchCategory &&
-                                          matchDropdownCondition &&
-                                          matchWarranty;
-                                    }).toList();
-
+                                final basefilteredlist =
+                                    ProductFilterService.applyFilters(
+                                      products: state.products,
+                                      condition: condition,
+                                      subCategory: subCategory,
+                                      category: category,
+                                      isSubCategory: isSubCategory,
+                                      isFlashSale: isFlashSale,
+                                      isBestSeller: isBestSeller,
+                                      priceAmount: priceAmount,
+                                      priceType: priceTYpe,
+                                      onlyPhones: onlyPhones,
+                                      state: state,
+                                      query: "",
+                                    );
                                 return BlocBuilder<SearchBloc, SearchState>(
                                   builder: (context, state) {
                                     final query = state.query.toLowerCase();
                                     final finallist =
-                                        baseFilteredList.where((product) {
+                                        basefilteredlist.where((product) {
                                           if (query.isEmpty) return true;
                                           return product.title
                                                   .toLowerCase()
@@ -259,128 +142,19 @@ class CategoryFiltredPage extends StatelessWidget {
                                           crossAxisAlignment:
                                               CrossAxisAlignment.start,
                                           children: [
-                                            if (showConditionDropdown)
-                                              Padding(
-                                                padding:
-                                                    const EdgeInsets.symmetric(
-                                                      horizontal: 16.0,
-                                                      vertical: 10,
-                                                    ),
-                                                child: BlocBuilder<
-                                                  ProductBloc,
-                                                  ProductState
-                                                >(
-                                                  builder: (context, state) {
-                                                    return CustomDropdown(
-                                                      hintText:
-                                                          "Select Condition",
-                                                      value:
-                                                          state.selectedCondition ==
-                                                                  "Select Condition"
-                                                              ? null
-                                                              : state
-                                                                  .selectedCondition,
-                                                      items: const [
-                                                        "Brand New",
-                                                        "Pre-Owned",
-                                                      ],
-                                                      onChanged: (value) {
-                                                        context
-                                                            .read<ProductBloc>()
-                                                            .add(
-                                                              UpdateConditionFilter(
-                                                                value!,
-                                                              ),
-                                                            );
-                                                      },
-                                                    );
-                                                  },
-                                                ),
-                                              ),
-                                            if (showWarrantyDropdown)
-                                              Padding(
-                                                padding:
-                                                    const EdgeInsets.symmetric(
-                                                      horizontal: 16.0,
-                                                      vertical: 10,
-                                                    ),
-                                                child: BlocBuilder<
-                                                  ProductBloc,
-                                                  ProductState
-                                                >(
-                                                  builder: (context, state) {
-                                                    return CustomDropdown(
-                                                      hintText:
-                                                          "Choose Warranty",
-                                                      value:
-                                                          state.selectedWarranty ==
-                                                                  "Choose Warranty"
-                                                              ? null
-                                                              : state
-                                                                  .selectedWarranty,
-                                                      items: const [
-                                                        "Apple Warranty",
-                                                        "Shop Warranty",
-                                                      ],
-                                                      onChanged: (value) {
-                                                        context
-                                                            .read<ProductBloc>()
-                                                            .add(
-                                                              UpdateWarrantyFilter(
-                                                                value!,
-                                                              ),
-                                                            );
-                                                      },
-                                                    );
-                                                  },
-                                                ),
-                                              ),
-
-                                            Padding(
-                                              padding:
-                                                  const EdgeInsets.symmetric(
-                                                    horizontal: 16.0,
-                                                    vertical: 10.0,
-                                                  ),
-                                              child: AppTexts.medium(
-                                                "Result: ${finallist.length} Items Found",
-                                                color: Colors.grey.shade700,
-                                                fontSize: 14,
-                                              ),
+                                            FilterDropdownSection(
+                                              showConditionDropdown:
+                                                  showConditionDropdown,
+                                              showWarrantyDropdown:
+                                                  showWarrantyDropdown,
+                                              finallistLength: finallist.length,
                                             ),
-                                            SizedBox(
-                                              child: GridView.builder(
-                                                padding:
-                                                    const EdgeInsets.symmetric(
-                                                      horizontal: 16,
-                                                      vertical: 12,
-                                                    ),
-                                                shrinkWrap: true,
-                                                physics:
-                                                    const NeverScrollableScrollPhysics(),
-                                                gridDelegate:
-                                                    SliverGridDelegateWithFixedCrossAxisCount(
-                                                      crossAxisCount:
-                                                          crossAxisCount,
-                                                      mainAxisSpacing: 16,
-                                                      crossAxisSpacing: 16,
-                                                      childAspectRatio:
-                                                          childAspectRatio,
-                                                      mainAxisExtent:
-                                                          screenWidth < 600
-                                                              ? 320
-                                                              : 360,
-                                                    ),
-                                                itemCount: finallist.length,
-                                                itemBuilder: (context, index) {
-                                                  final product =
-                                                      finallist[index];
-
-                                                  return SearchProductGridItem(
-                                                    product: product,
-                                                  );
-                                                },
-                                              ),
+                                            ProductGridSection(
+                                              products: finallist,
+                                              crossAxisCount: crossAxisCount,
+                                              childAspectRatio:
+                                                  childAspectRatio,
+                                              screenWidth: screenWidth,
                                             ),
                                           ],
                                         ),
@@ -417,14 +191,6 @@ class CategoryFiltredPage extends StatelessWidget {
                                           fontSize: 18,
                                         ),
                                       ),
-                                    ),
-                                  ),
-                                  Center(
-                                    child: Container(
-                                      constraints: const BoxConstraints(
-                                        maxWidth: 1200,
-                                      ),
-                                      child: Center(child: Text("sorryy")),
                                     ),
                                   ),
                                 ],

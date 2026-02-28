@@ -88,6 +88,7 @@ class AppTexts {
     bool isOffer = false,
     int? maxLines,
     TextOverflow? overflow,
+    TextAlign? textAlign,
   }) {
     return _text(
       text,

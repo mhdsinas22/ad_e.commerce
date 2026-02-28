@@ -19,7 +19,9 @@ class OrderRepoImpl implements OrderRepo {
     try {
       // 1️ Create order
       final ordermodel = OrderModel.fromEntity(order);
-      final orderId = await remote.createOrder(ordermodel);
+      final orderiitemModel =
+          orderitems.map((e) => OrderItemModel.fromEntity(e)).toList();
+      final orderId = await remote.createOrder(ordermodel, orderiitemModel);
 
       // 2 Create order items
       await remote.createOrderItems(

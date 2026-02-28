@@ -13,4 +13,5 @@ abstract class CartRepository {
   });
   Future<List<CartItem>> getCartItems();
   Future<void> clearCart();
+  Future<int> getTotalStocks({required String productId});
 }

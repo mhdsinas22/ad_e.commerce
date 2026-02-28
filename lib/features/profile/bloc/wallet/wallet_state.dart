@@ -4,6 +4,7 @@ enum WalletStatus { initial, loading, success, failure }
 
 class WalletState {
   final WalletStatus status;
+  final String username;
   final double balance;
   final String walletNumber;
   final String? error;
@@ -15,6 +16,7 @@ class WalletState {
     this.balance = 0,
     this.error,
     this.transactions = const [],
+    this.username = "",
   });
 
   WalletState copyWith({
@@ -23,6 +25,7 @@ class WalletState {
     String? error,
     List<WalletTransaction>? transactions,
     String? walletNumber,
+    String? username,
   }) {
     return WalletState(
       status: status ?? this.status,
@@ -30,6 +33,7 @@ class WalletState {
       error: error,
       transactions: transactions ?? this.transactions,
       walletNumber: walletNumber ?? this.walletNumber,
+      username: username ?? this.username,
     );
   }
 }

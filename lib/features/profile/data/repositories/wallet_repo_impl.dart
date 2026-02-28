@@ -39,4 +39,9 @@ class WalletRepoImpl implements WalletRepo {
   Future<List<WalletTransaction>> getTransactions(String walletid) async {
     return await remote.getTransactions(walletid);
   }
+
+  @override
+  Future<String> getUserName(String userId) {
+    return remote.getUserName(userId);
+  }
 }

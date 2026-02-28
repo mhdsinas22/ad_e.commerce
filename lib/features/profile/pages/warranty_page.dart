@@ -5,6 +5,9 @@ import 'package:ad_e_commerce/core/utils/helpers.dart';
 import 'package:ad_e_commerce/core/widgets/app_text.dart';
 import 'package:ad_e_commerce/core/widgets/circular_arrow_button.dart';
 import 'package:ad_e_commerce/core/widgets/primary_button.dart';
+import 'package:ad_e_commerce/core/widgets/store_call_bottom_sheet.dart';
+import 'package:ad_e_commerce/features/bottom_navigation/bloc/bottom_nav_bloc.dart';
+import 'package:ad_e_commerce/features/bottom_navigation/bloc/bottom_nav_event.dart';
 import 'package:ad_e_commerce/features/profile/bloc/warranty/warranty_bloc.dart';
 import 'package:ad_e_commerce/features/profile/bloc/warranty/warranty_event.dart';
 import 'package:ad_e_commerce/features/profile/bloc/warranty/warranty_state.dart';
@@ -26,10 +29,17 @@ class WarrantyPage extends StatelessWidget {
     final warrantyRepositoryimpl = WarrantyRepositoryimpl(
       WarrantyRemoteDatasourceimpl(supabse),
     );
-    return BlocProvider(
-      create:
-          (context) =>
-              WarrantyBloc(warrantyRepositoryimpl)..add(LoadWarrantiesEvent()),
+    return MultiBlocProvider(
+      providers: [
+        // BlocProvider(create: (context) => BottomNavBloc()),
+        BlocProvider(
+          create:
+              (context) =>
+                  WarrantyBloc(warrantyRepositoryimpl)
+                    ..add(LoadWarrantiesEvent()),
+        ),
+      ],
+
       child: Scaffold(
         backgroundColor: Colors.white,
         appBar: AppBar(
@@ -221,12 +231,16 @@ class WarrantyPage extends StatelessWidget {
                           borderRadius: 12,
                           width: double.infinity,
                           height: 54,
-                          text: "Request Repair / Claim",
+                          text: "Request Repair",
                           backgroudColor: const Color(
                             0xFF0055FF,
                           ), // Brighter blue
                           fontcolor: Colors.white,
-                          onPressed: () {},
+                          onPressed: () {
+                            final bottomNavBloc = context.read<BottomNavBloc>();
+                            bottomNavBloc.add(BottomNavChanged(index: 3));
+                            Navigator.pop(context);
+                          },
                         ),
                         const SizedBox(height: 12),
                         PrimaryButton(
@@ -238,7 +252,9 @@ class WarrantyPage extends StatelessWidget {
                           width: double.infinity,
                           height: 54,
                           text: "Renew Plans",
-                          onPressed: () {},
+                          onPressed: () {
+                            StoreCallBottomSheet.show(context);
+                          },
                         ),
 
                         // Bottom Padding for safe area

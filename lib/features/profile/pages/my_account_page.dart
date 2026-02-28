@@ -33,6 +33,8 @@ class MyAccountPage extends StatelessWidget {
                 onTap: () {
                   Appnavigotor.pushnamed(context, RouteNames.checkout, {
                     "isMyaddressScreen": true,
+                    "isDirectBuy": false,
+                    "directProduct": null,
                   });
                 },
               ),

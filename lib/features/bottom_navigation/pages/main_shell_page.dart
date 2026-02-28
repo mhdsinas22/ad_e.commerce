@@ -17,158 +17,153 @@ class MainShellPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => BottomNavBloc(),
-      child: BlocBuilder<BottomNavBloc, BottomNavState>(
-        builder: (context, state) {
-          return Scaffold(
-            bottomNavigationBar: BottomNavigationBar(
-              showUnselectedLabels: false,
-              showSelectedLabels: false,
-              type: BottomNavigationBarType.fixed,
-              backgroundColor: AppColors.pureWhite,
-              onTap: (index) {
-                context.read<BottomNavBloc>().add(
-                  BottomNavChanged(index: index),
-                );
-              },
-              currentIndex: state.selectedIndex,
-              items: [
-                BottomNavigationBarItem(
-                  activeIcon: Column(
-                    children: [
-                      SvgPicture.asset(AppIcons.shopIcon),
-                      SizedBox(height: 5),
-                      AnimatedContainer(
-                        duration: const Duration(milliseconds: 200),
-                        curve: Curves.easeInOut,
-                        width: 18,
-                        height: 3,
-                        decoration: BoxDecoration(
-                          color: Colors.black,
-                          borderRadius: BorderRadius.circular(2),
-                        ),
+    return BlocBuilder<BottomNavBloc, BottomNavState>(
+      builder: (context, state) {
+        return Scaffold(
+          bottomNavigationBar: BottomNavigationBar(
+            showUnselectedLabels: false,
+            showSelectedLabels: false,
+            type: BottomNavigationBarType.fixed,
+            backgroundColor: AppColors.pureWhite,
+            onTap: (index) {
+              context.read<BottomNavBloc>().add(BottomNavChanged(index: index));
+            },
+            currentIndex: state.selectedIndex,
+            items: [
+              BottomNavigationBarItem(
+                activeIcon: Column(
+                  children: [
+                    SvgPicture.asset(AppIcons.shopIcon),
+                    SizedBox(height: 5),
+                    AnimatedContainer(
+                      duration: const Duration(milliseconds: 200),
+                      curve: Curves.easeInOut,
+                      width: 18,
+                      height: 3,
+                      decoration: BoxDecoration(
+                        color: Colors.black,
+                        borderRadius: BorderRadius.circular(2),
                       ),
-                    ],
-                  ),
-                  icon: SvgPicture.asset(
-                    AppIcons.shopIcon,
-                    // ignore: deprecated_member_use
-                    color: AppColors.primaryBlue,
-                  ),
-                  label: 'Home',
+                    ),
+                  ],
                 ),
-                BottomNavigationBarItem(
-                  activeIcon: Column(
-                    children: [
-                      SvgPicture.asset(
-                        AppIcons.categoriesIcon,
-                        // ignore: deprecated_member_use
-                        color: AppColors.pureBlack,
-                      ),
-                      SizedBox(height: 5),
-                      AnimatedContainer(
-                        duration: const Duration(milliseconds: 200),
-                        curve: Curves.easeInOut,
-                        width: 18,
-                        height: 3,
-                        decoration: BoxDecoration(
-                          color: Colors.black,
-                          borderRadius: BorderRadius.circular(2),
-                        ),
-                      ),
-                    ],
-                  ),
-                  icon: SvgPicture.asset(AppIcons.categoriesIcon),
-                  label: 'Orders',
+                icon: SvgPicture.asset(
+                  AppIcons.shopIcon,
+                  // ignore: deprecated_member_use
+                  color: AppColors.primaryBlue,
                 ),
-                BottomNavigationBarItem(
-                  activeIcon: Column(
-                    children: [
-                      SvgPicture.asset(
-                        AppIcons.cartIcon,
-                        // ignore: deprecated_member_use
-                        color: AppColors.pureBlack,
+                label: 'Home',
+              ),
+              BottomNavigationBarItem(
+                activeIcon: Column(
+                  children: [
+                    SvgPicture.asset(
+                      AppIcons.categoriesIcon,
+                      // ignore: deprecated_member_use
+                      color: AppColors.pureBlack,
+                    ),
+                    SizedBox(height: 5),
+                    AnimatedContainer(
+                      duration: const Duration(milliseconds: 200),
+                      curve: Curves.easeInOut,
+                      width: 18,
+                      height: 3,
+                      decoration: BoxDecoration(
+                        color: Colors.black,
+                        borderRadius: BorderRadius.circular(2),
                       ),
-                      SizedBox(height: 5),
-                      AnimatedContainer(
-                        duration: const Duration(milliseconds: 200),
-                        curve: Curves.easeInOut,
-                        width: 18,
-                        height: 3,
-                        decoration: BoxDecoration(
-                          color: Colors.black,
-                          borderRadius: BorderRadius.circular(2),
-                        ),
-                      ),
-                    ],
-                  ),
-                  icon: SvgPicture.asset(AppIcons.cartIcon),
-                  label: 'Repair',
+                    ),
+                  ],
                 ),
-                BottomNavigationBarItem(
-                  activeIcon: Column(
-                    children: [
-                      SvgPicture.asset(
-                        AppIcons.supportIcon,
-                        // ignore: deprecated_member_use
-                        color: AppColors.pureBlack,
+                icon: SvgPicture.asset(AppIcons.categoriesIcon),
+                label: 'Orders',
+              ),
+              BottomNavigationBarItem(
+                activeIcon: Column(
+                  children: [
+                    SvgPicture.asset(
+                      AppIcons.cartIcon,
+                      // ignore: deprecated_member_use
+                      color: AppColors.pureBlack,
+                    ),
+                    SizedBox(height: 5),
+                    AnimatedContainer(
+                      duration: const Duration(milliseconds: 200),
+                      curve: Curves.easeInOut,
+                      width: 18,
+                      height: 3,
+                      decoration: BoxDecoration(
+                        color: Colors.black,
+                        borderRadius: BorderRadius.circular(2),
                       ),
-                      SizedBox(height: 5),
-                      AnimatedContainer(
-                        duration: const Duration(milliseconds: 200),
-                        curve: Curves.easeInOut,
-                        width: 18,
-                        height: 3,
-                        decoration: BoxDecoration(
-                          color: Colors.black,
-                          borderRadius: BorderRadius.circular(2),
-                        ),
-                      ),
-                    ],
-                  ),
-                  icon: SvgPicture.asset(AppIcons.supportIcon),
-                  label: 'Service',
+                    ),
+                  ],
                 ),
-                BottomNavigationBarItem(
-                  activeIcon: Column(
-                    children: [
-                      SvgPicture.asset(
-                        AppIcons.profileIcon,
-                        // ignore: deprecated_member_use
-                        color: AppColors.pureBlack,
+                icon: SvgPicture.asset(AppIcons.cartIcon),
+                label: 'Repair',
+              ),
+              BottomNavigationBarItem(
+                activeIcon: Column(
+                  children: [
+                    SvgPicture.asset(
+                      AppIcons.supportIcon,
+                      // ignore: deprecated_member_use
+                      color: AppColors.pureBlack,
+                    ),
+                    SizedBox(height: 5),
+                    AnimatedContainer(
+                      duration: const Duration(milliseconds: 200),
+                      curve: Curves.easeInOut,
+                      width: 18,
+                      height: 3,
+                      decoration: BoxDecoration(
+                        color: Colors.black,
+                        borderRadius: BorderRadius.circular(2),
                       ),
-                      SizedBox(height: 5),
-                      AnimatedContainer(
-                        duration: const Duration(milliseconds: 200),
-                        curve: Curves.easeInOut,
-                        width: 18,
-                        height: 3,
-                        decoration: BoxDecoration(
-                          color: Colors.black,
-                          borderRadius: BorderRadius.circular(2),
-                        ),
-                      ),
-                    ],
-                  ),
-                  icon: SvgPicture.asset(AppIcons.profileIcon),
-                  label: 'Profile',
+                    ),
+                  ],
                 ),
-              ],
-            ),
-            body: IndexedStack(
-              index: state.selectedIndex,
-              children: [
-                HomePage(),
-                CartPage(),
-                OrdersPage(),
-                RepairPage(),
-                ProfilePage(),
-              ],
-            ),
-          );
-        },
-      ),
+                icon: SvgPicture.asset(AppIcons.supportIcon),
+                label: 'Service',
+              ),
+              BottomNavigationBarItem(
+                activeIcon: Column(
+                  children: [
+                    SvgPicture.asset(
+                      AppIcons.profileIcon,
+                      // ignore: deprecated_member_use
+                      color: AppColors.pureBlack,
+                    ),
+                    SizedBox(height: 5),
+                    AnimatedContainer(
+                      duration: const Duration(milliseconds: 200),
+                      curve: Curves.easeInOut,
+                      width: 18,
+                      height: 3,
+                      decoration: BoxDecoration(
+                        color: Colors.black,
+                        borderRadius: BorderRadius.circular(2),
+                      ),
+                    ),
+                  ],
+                ),
+                icon: SvgPicture.asset(AppIcons.profileIcon),
+                label: 'Profile',
+              ),
+            ],
+          ),
+          body: IndexedStack(
+            index: state.selectedIndex,
+            children: [
+              HomePage(),
+              CartPage(),
+              OrdersPage(),
+              RepairPage(),
+              ProfilePage(),
+            ],
+          ),
+        );
+      },
     );
   }
 }

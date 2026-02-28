@@ -9,4 +9,5 @@ abstract class WalletRepo {
   Future<RewardPoints> getRewardPoints(String userId);
   Future<void> addRewardPoints(String userId, int points);
   Future<List<WalletTransaction>> getTransactions(String walletid);
+  Future<String> getUserName(String userId);
 }

@@ -77,10 +77,11 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
       }
       emit(state.copyWith(status: LoginStatus.success, phone: event.phone));
     } catch (e) {
+      print("LOgin phone error:-${e.toString()}");
       emit(
         state.copyWith(
           status: LoginStatus.failure,
-          errorMessage: 'something went wrong',
+          errorMessage: 'something went wrong:-${e.toString()}',
         ),
       );
     }

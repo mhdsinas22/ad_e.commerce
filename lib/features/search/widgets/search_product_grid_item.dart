@@ -13,6 +13,9 @@ class SearchProductGridItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isSoldOut =
+        product.stocks.any((stock) => stock.quantity == 0) ||
+        product.isActive == false;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -89,16 +92,16 @@ class SearchProductGridItem extends StatelessWidget {
         SizedBox(
           height: 38,
           child:
-              product.isActive
-                  ? SearchCartButtonLogic(product: product)
-                  : Padding(
+              isSoldOut
+                  ? Padding(
                     padding: const EdgeInsets.only(top: 4),
                     child: AppTexts.semiBold(
                       "Out of Stock",
                       color: AppColors.purered,
                       fontSize: 12,
                     ),
-                  ),
+                  )
+                  : SearchCartButtonLogic(product: product),
         ),
       ],
     );

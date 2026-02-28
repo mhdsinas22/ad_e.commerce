@@ -17,12 +17,14 @@ class WalletBloc extends Bloc<WalletEvent, WalletState> {
     try {
       final wallet = await walletRepo.getWallet(event.userId);
       final transactions = await walletRepo.getTransactions(wallet.id!);
+      final username = await walletRepo.getUserName(event.userId);
       emit(
         state.copyWith(
           status: WalletStatus.success,
           transactions: transactions,
           balance: wallet.balance,
           walletNumber: wallet.walletNumber,
+          username: username,
         ),
       );
     } catch (e) {

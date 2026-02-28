@@ -21,6 +21,7 @@ class CartBloc extends Bloc<CartEvent, CartState> {
     on<GetCartItemsEvent>(_getCartItem);
     on<ClearCartEvent>(_clearCart);
     on<ApplyWalletEvent>(_applyWallet);
+    on<ClearCartErrorEvent>(_clearCartError);
   }
 
   Future<void> _addTocart(AddToCartEvent event, Emitter<CartState> emit) async {
@@ -34,17 +35,41 @@ class CartBloc extends Bloc<CartEvent, CartState> {
       ),
     );
     try {
-      // 1️ Add product to cart
+      // 1 Get total stocks
+      final totalStocks = await cartRepository.getTotalStocks(
+        productId: event.productid,
+      );
+      // 2 Get Already in Cart quantity
+      final existingCartItem =
+          state.cartitems
+              .where((items) => items.productId == event.productid)
+              .toList();
+      int alreadyInCart = 0;
+      if (existingCartItem.isNotEmpty) {
+        alreadyInCart = existingCartItem.first.quantity;
+      }
+      // 3 validate quantity
+      if (alreadyInCart + 1 > totalStocks) {
+        emit(
+          state.copyWith(
+            status: CartStatus.error,
+            actionError: "Only $totalStocks items available in stock",
+          ),
+        );
+        return;
+      }
+
+      // 4 Add product to cart
       await addToCartUsecase.call(
         productid: event.productid,
         storename: event.storename,
         price: event.price,
       );
-      // 2️ Fetch updated cart items
+      // 5 Fetch updated cart items
       final items = await cartRepository.getCartItems();
-      // 3️ Calculate totals
+      // 6 Calculate totals
       final totals = _calculateTotals(items);
-      // 4️ Emit updated state
+      // 7 Emit updated state
       emit(
         state.copyWith(
           status: CartStatus.loaded,
@@ -127,7 +152,21 @@ class CartBloc extends Bloc<CartEvent, CartState> {
       if (index == -1) return;
 
       final currentItem = state.cartitems[index];
-      // Logic: Ensure quantity is at least 1
+      // 🔥 1️⃣ Get total stock
+      final totalStock = await cartRepository.getTotalStocks(
+        productId: currentItem.productId,
+      );
+      // 🔥 2️⃣ Validate quantity
+      if (event.currentQty > totalStock) {
+        emit(
+          state.copyWith(
+            status: CartStatus.error,
+            actionError: "Only $totalStock items available in stock",
+          ),
+        );
+        return;
+      }
+
       if (event.currentQty < 1) {
         // Optionally remove or just ignore.
         // User requirement: "Minimum quantity = 1 (do not allow 0)"
@@ -255,6 +294,7 @@ class CartBloc extends Bloc<CartEvent, CartState> {
   }
 
   Future<void> _clearCart(ClearCartEvent event, Emitter<CartState> emit) async {
+    print("Clear Cart");
     try {
       // 🔥 DB full clear
       await cartRepository.clearCart();
@@ -271,6 +311,7 @@ class CartBloc extends Bloc<CartEvent, CartState> {
         ),
       );
     } catch (e) {
+      print("Clear Cart Error:-${e.toString()}");
       emit(state.copyWith(status: CartStatus.error, error: e.toString()));
     }
   }
@@ -295,5 +336,12 @@ class CartBloc extends Bloc<CartEvent, CartState> {
         totalAmount: total < 0 ? 0 : total,
       ),
     );
+  }
+
+  Future<void> _clearCartError(
+    ClearCartErrorEvent event,
+    Emitter<CartState> emit,
+  ) async {
+    emit(state.copyWith(actionError: null));
   }
 }

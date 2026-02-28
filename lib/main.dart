@@ -1,5 +1,6 @@
 import 'package:ad_e_commerce/app.dart';
 import 'package:ad_e_commerce/core/routes/route_names.dart';
+import 'package:ad_e_commerce/features/bottom_navigation/bloc/bottom_nav_bloc.dart';
 import 'package:ad_e_commerce/features/cart/bloc/cart_bloc.dart';
 import 'package:ad_e_commerce/features/cart/bloc/cart_event.dart';
 import 'package:ad_e_commerce/features/cart/data/datasources/cart_remote_datasourceimpl.dart';
@@ -29,7 +30,7 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await dotenv.load(fileName: ".env");
   await Supabase.initialize(
-    url: dotenv.env["SUPABASE_URL"]!,
+    url: dotenv.env["JIOBASE_URL"]!,
     anonKey: dotenv.env["SUPABASE_ANON_KEY"]!,
   );
 
@@ -77,6 +78,7 @@ void main() async {
               (context) =>
                   AddressBloc(addressRepository)..add(FetchAddressEvent()),
         ),
+        BlocProvider(create: (context) => BottomNavBloc()),
       ],
       child: MyApp(),
     ),

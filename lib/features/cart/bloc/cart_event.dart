@@ -16,6 +16,8 @@ class RemoveCartItemEvent extends CartEvent {
   RemoveCartItemEvent({required this.cartitemid});
 }
 
+class ClearCartErrorEvent extends CartEvent {}
+
 class UpdateCartItemEvent extends CartEvent {
   final String cartItemid;
   final int currentQty;

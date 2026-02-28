@@ -1,5 +1,4 @@
 import 'dart:io';
-
 import 'package:ad_e_commerce/core/widgets/app_text.dart';
 import 'package:ad_e_commerce/core/widgets/circular_arrow_button.dart';
 import 'package:ad_e_commerce/domain/entities/user_entity.dart';

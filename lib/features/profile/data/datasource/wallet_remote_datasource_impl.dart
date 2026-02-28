@@ -142,4 +142,20 @@ class WalletRemoteDatasourceImpl implements WalletRemoteDataSource {
       AppLogger.error("DEBIT WALLET FOR ORDER ERROR: $e");
     }
   }
+
+  @override
+  Future<String> getUserName(String userId) async {
+    try {
+      final res =
+          await supbase
+              .from("profiles")
+              .select()
+              .eq("user_id", userId)
+              .single();
+      return res["username"];
+    } catch (e) {
+      AppLogger.error("GET USER NAME ERROR: ${e.toString()}");
+      rethrow;
+    }
+  }
 }

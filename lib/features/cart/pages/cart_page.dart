@@ -79,7 +79,14 @@ class _CartPageState extends State<_CartPage> {
   }
 
   Widget _buildMobileLayout() {
-    return BlocBuilder<CartBloc, CartState>(
+    return BlocConsumer<CartBloc, CartState>(
+      listener: (context, state) {
+        if (state.actionError != null) {
+          ScaffoldMessenger.of(
+            context,
+          ).showSnackBar(SnackBar(content: Text(state.actionError!)));
+        }
+      },
       builder: (context, state) {
         if (state.status == CartStatus.loading) {
           return Column(
@@ -106,9 +113,9 @@ class _CartPageState extends State<_CartPage> {
             ],
           );
         }
-        if (state.status == CartStatus.error) {
-          return Center(child: Text(state.error ?? "Something went wrong"));
-        }
+        // if (state.status == CartStatus.error) {
+        //   return Center(child: Text(state.error ?? "Something went wrong"));
+        // }
         if (state.cartitems.isEmpty) {
           return const Center(child: Text("Cart is empty"));
         }
@@ -135,7 +142,14 @@ class _CartPageState extends State<_CartPage> {
   Widget _buildDesktopLayout() {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 20),
-      child: BlocBuilder<CartBloc, CartState>(
+      child: BlocConsumer<CartBloc, CartState>(
+        listener: (context, state) {
+          if (state.status == CartStatus.error && state.actionError != null) {
+            ScaffoldMessenger.of(
+              context,
+            ).showSnackBar(SnackBar(content: Text(state.actionError!)));
+          }
+        },
         builder: (context, state) {
           if (state.status == CartStatus.loading) {
             return Row(

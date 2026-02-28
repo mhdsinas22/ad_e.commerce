@@ -18,6 +18,9 @@ import 'package:ad_e_commerce/features/orders/data/datasource/order_remote_datas
 import 'package:ad_e_commerce/features/orders/data/repo/order_repo_impl.dart';
 import 'package:ad_e_commerce/features/orders/domain/enities/order_item.dart';
 import 'package:ad_e_commerce/features/orders/domain/enities/orders.dart';
+import 'package:ad_e_commerce/features/product/bloc/proudctbloc/product_bloc.dart';
+import 'package:ad_e_commerce/features/product/bloc/proudctbloc/product_event.dart';
+import 'package:ad_e_commerce/features/product/domain/entites/product.dart';
 import 'package:ad_e_commerce/features/profile/data/datasource/wallet_remote_datasource_impl.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -27,7 +30,14 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 
 class PaymetPage extends StatelessWidget {
   final AddressModel selectedAddress;
-  const PaymetPage({super.key, required this.selectedAddress});
+  final bool isDirectBuy;
+  final Product? directProduct;
+  const PaymetPage({
+    super.key,
+    required this.selectedAddress,
+    this.isDirectBuy = false,
+    this.directProduct,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -43,6 +53,8 @@ class PaymetPage extends StatelessWidget {
       child: PaymentPageUi(
         supabase: supabase,
         selectedAddress: selectedAddress,
+        isDirectBuy: isDirectBuy,
+        directProduct: directProduct,
       ),
     );
   }
@@ -51,10 +63,14 @@ class PaymetPage extends StatelessWidget {
 class PaymentPageUi extends StatelessWidget {
   final AddressModel selectedAddress;
   final SupabaseClient supabase;
+  final bool isDirectBuy;
+  final Product? directProduct;
   const PaymentPageUi({
     super.key,
     required this.supabase,
     required this.selectedAddress,
+    required this.isDirectBuy,
+    required this.directProduct,
   });
 
   @override
@@ -96,8 +112,14 @@ class PaymentPageUi extends StatelessWidget {
           );
         }
         if (state.status == OrdersStatus.success) {
+          print("Cart Items:-${context.read<CartBloc>().state.cartitems}");
+          print("Is Direct Buy:-$isDirectBuy");
           // Clear Cart
-          context.read<CartBloc>().add(ClearCartEvent());
+          if (isDirectBuy == false) {
+            print("wokring");
+            context.read<CartBloc>().add(ClearCartEvent());
+          }
+          context.read<ProductBloc>().add(LoadProductsEvent());
           showModalBottomSheet(
             isScrollControlled: true,
             backgroundColor: Colors.white,
@@ -174,38 +196,70 @@ class PaymentPageUi extends StatelessWidget {
                     onTap: () {
                       final cartstate = context.read<CartBloc>().state;
 
-                      if (cartstate.cartitems.isEmpty) return;
-                      final orderitems =
-                          cartstate.cartitems.map((element) {
-                            return OrderItem(
-                              orderId: "",
-                              productId: element.productId,
-                              productName: element.title,
-                              productImage: element.imageUrl,
-                              sku: "sku1",
-                              price: element.price,
-                              quantity: element.quantity,
-                              productStorge: element.storeage,
-                              productColor: element.color,
-                              productModelNumber: element.modelNumber,
-                              productrating: element.rating,
-                              productNoOfRating: element.noOfRating,
-                            );
-                          }).toList();
-                      context.read<OrderBloc>().add(
-                        CreateOrderEvent(
-                          orders: Orders(
-                            userId: supabase.auth.currentUser!.id,
-                            totalAmount: cartstate.totalAmount,
-                            status: "placed",
-                            paymentMethod: "cod",
-                            shippingAddress: selectedAddress.toJson(),
-                            orderItems: [],
-                            walletUsed: cartstate.walletUsed,
+                      if (isDirectBuy && directProduct != null) {
+                        final orderItem = OrderItem(
+                          orderId: "",
+                          productId: directProduct!.id!,
+                          productName: directProduct!.title,
+                          productImage: directProduct!.imageUrls.first,
+                          sku: "sku1",
+                          price: directProduct!.price,
+                          quantity: 1,
+                          productStorge: directProduct!.storage,
+                          productColor: "", // if available
+                          productModelNumber: directProduct!.modelNumber,
+                          productrating: directProduct!.rating.toString(),
+                          productNoOfRating:
+                              directProduct!.noofreviews.toString(),
+                        );
+
+                        context.read<OrderBloc>().add(
+                          CreateOrderEvent(
+                            orders: Orders(
+                              userId: supabase.auth.currentUser!.id,
+                              totalAmount: directProduct!.price,
+                              status: "placed",
+                              paymentMethod: "cod",
+                              shippingAddress: selectedAddress.toJson(),
+                              orderItems: [],
+                              walletUsed: 0,
+                            ),
+                            orderitems: [orderItem],
                           ),
-                          orderitems: orderitems,
-                        ),
-                      );
+                        );
+                      } else {
+                        final orderitems =
+                            cartstate.cartitems.map((element) {
+                              return OrderItem(
+                                orderId: "",
+                                productId: element.productId,
+                                productName: element.title,
+                                productImage: element.imageUrl,
+                                sku: "sku1",
+                                price: element.price,
+                                quantity: element.quantity,
+                                productStorge: element.storeage,
+                                productColor: element.color,
+                                productModelNumber: element.modelNumber,
+                                productrating: element.rating,
+                                productNoOfRating: element.noOfRating,
+                              );
+                            }).toList();
+                        context.read<OrderBloc>().add(
+                          CreateOrderEvent(
+                            orders: Orders(
+                              userId: supabase.auth.currentUser!.id,
+                              totalAmount: cartstate.totalAmount,
+                              status: "placed",
+                              paymentMethod: "cod",
+                              shippingAddress: selectedAddress.toJson(),
+                              orderItems: [],
+                              walletUsed: cartstate.walletUsed,
+                            ),
+                            orderitems: orderitems,
+                          ),
+                        );
+                      }
                     },
                   ),
                   const SizedBox(height: 30),

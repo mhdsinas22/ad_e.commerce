@@ -1,3 +1,5 @@
+import 'package:ad_e_commerce/core/enums/phone_condition.dart';
+import 'package:ad_e_commerce/core/enums/sub_category.dart';
 import 'package:ad_e_commerce/features/auth/pages/forgot_password_page.dart';
 import 'package:ad_e_commerce/features/auth/pages/login_page.dart';
 import 'package:ad_e_commerce/features/auth/pages/otp_page.dart';
@@ -79,14 +81,21 @@ class RouteGenerator {
         final args = settings.arguments as Map<String, dynamic>;
         return MaterialPageRoute(
           builder:
-              (context) =>
-                  CheckoutPage(isMyaddressScreen: args["isMyaddressScreen"]),
+              (context) => CheckoutPage(
+                isMyaddressScreen: args["isMyaddressScreen"],
+                isDirectBuy: args["isDirectBuy"],
+                directProduct: args["directProduct"],
+              ),
         );
       case RouteNames.paymentpage:
         final args = settings.arguments as Map<String, dynamic>;
         return MaterialPageRoute(
           builder:
-              (context) => PaymetPage(selectedAddress: args["selectedAddress"]),
+              (context) => PaymetPage(
+                selectedAddress: args["selectedAddress"],
+                isDirectBuy: args["isDirectBuy"] ?? false,
+                directProduct: args["directProduct"],
+              ),
         );
       case RouteNames.warranty:
         return MaterialPageRoute(builder: (context) => WarrantyPage());

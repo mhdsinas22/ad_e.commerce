@@ -40,7 +40,6 @@ class OrderBloc extends Bloc<OrderEvent, OrderState> {
     emit(state.copyWith(status: OrdersStatus.loading));
     try {
       final orders = await orderRepo.getOrders(userId: event.userid);
-
       emit(
         state.copyWith(
           status: OrdersStatus.success,
