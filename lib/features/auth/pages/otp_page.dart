@@ -15,7 +15,15 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 class OtpPage extends StatelessWidget {
   final String phone;
   final String name;
-  const OtpPage({super.key, this.phone = "", this.name = ""});
+  final String? redirectRoute;
+  final Map<String, dynamic>? redirectArgs;
+  const OtpPage({
+    super.key,
+    this.phone = "",
+    this.name = "",
+    this.redirectRoute,
+    this.redirectArgs,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -29,7 +37,12 @@ class OtpPage extends StatelessWidget {
             phone: phone,
             walletRemoteDataSource: walletRemoteDataSource,
           ),
-      child: _OtpView(phone: phone, name: name),
+      child: _OtpView(
+        phone: phone,
+        name: name,
+        redirectRoute: redirectRoute,
+        redirectArgs: redirectArgs,
+      ),
     );
   }
 }
@@ -37,7 +50,14 @@ class OtpPage extends StatelessWidget {
 class _OtpView extends StatelessWidget {
   final String phone;
   final String name;
-  const _OtpView({required this.phone, required this.name});
+  final String? redirectRoute;
+  final Map<String, dynamic>? redirectArgs;
+  const _OtpView({
+    required this.phone,
+    required this.name,
+    this.redirectRoute,
+    this.redirectArgs,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -63,7 +83,18 @@ class _OtpView extends StatelessWidget {
                   backgroundColor: Colors.green,
                 ),
               );
-            Appnavigotor.pushNamedAndRemoveUntil(context, RouteNames.mainShell);
+            if (redirectRoute != null) {
+              Appnavigotor.pushNamedAndRemoveUntil(
+                context,
+                redirectRoute!,
+                arguments: redirectArgs,
+              );
+            } else {
+              Appnavigotor.pushNamedAndRemoveUntil(
+                context,
+                RouteNames.mainShell,
+              );
+            }
           }
         },
         child: SafeArea(

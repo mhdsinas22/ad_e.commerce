@@ -27,8 +27,17 @@ class Appnavigotor {
     );
   }
 
-  static void pushNamedAndRemoveUntil(BuildContext context, String named) {
-    Navigator.pushNamedAndRemoveUntil(context, named, (route) => false);
+  static void pushNamedAndRemoveUntil(
+    BuildContext context,
+    String named, {
+    Object? arguments,
+  }) {
+    Navigator.pushNamedAndRemoveUntil(
+      context,
+      named,
+      (route) => false,
+      arguments: arguments,
+    );
   }
 
   static pop(BuildContext context) {

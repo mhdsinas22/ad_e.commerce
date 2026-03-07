@@ -10,20 +10,27 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 class PhoneLoginPage extends StatelessWidget {
-  const PhoneLoginPage({super.key});
+  final String? redirectRoute;
+  final Map<String, dynamic>? redirectArgs;
+  const PhoneLoginPage({super.key, this.redirectRoute, this.redirectArgs});
 
   @override
   Widget build(BuildContext context) {
     final authrepository = AuthRepository(Supabase.instance.client);
     return BlocProvider(
       create: (context) => LoginBloc(authRepository: authrepository),
-      child: const _PhoneLoginForm(),
+      child: _PhoneLoginForm(
+        redirectRoute: redirectRoute,
+        redirectArgs: redirectArgs,
+      ),
     );
   }
 }
 
 class _PhoneLoginForm extends StatefulWidget {
-  const _PhoneLoginForm();
+  final String? redirectRoute;
+  final Map<String, dynamic>? redirectArgs;
+  const _PhoneLoginForm({this.redirectRoute, this.redirectArgs});
 
   @override
   State<_PhoneLoginForm> createState() => _PhoneLoginFormState();
@@ -70,12 +77,26 @@ class _PhoneLoginFormState extends State<_PhoneLoginForm> {
                   backgroundColor: Colors.green,
                 ),
               );
-            // Navigate to Home
-            Navigator.pushNamed(
-              context,
-              RouteNames.otp,
-              arguments: {"phone": state.phone, "name": ""},
-            );
+
+            if (widget.redirectRoute != null) {
+              Navigator.pushNamed(
+                context,
+                RouteNames.otp,
+                arguments: {
+                  "phone": state.phone,
+                  "name": "",
+                  "redirectRoute": widget.redirectRoute,
+                  "redirectArgs": widget.redirectArgs,
+                },
+              );
+            } else {
+              // Navigate to Home
+              Navigator.pushNamed(
+                context,
+                RouteNames.otp,
+                arguments: {"phone": state.phone, "name": ""},
+              );
+            }
           }
         },
         child: SafeArea(

@@ -132,7 +132,6 @@ class OrderItemWidget extends StatelessWidget {
             height: 1.4,
           ),
           const SizedBox(height: 4),
-
           // Model (using SKU as model number substitute based on initial code)
           AppTexts.regular(
             "Model: ${orderItem.productModelNumber}", // derived from previous code intent

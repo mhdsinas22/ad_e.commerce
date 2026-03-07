@@ -1,7 +1,6 @@
 import 'package:ad_e_commerce/core/constants/asset_constants.dart';
 import 'package:ad_e_commerce/core/utils/helpers.dart';
 import 'package:ad_e_commerce/features/bottom_navigation/pages/main_shell_page.dart';
-import 'package:ad_e_commerce/features/onboardingStartPage/onboarding_startpage.dart';
 import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
@@ -21,51 +20,18 @@ class _SplashScreenState extends State<SplashScreen> {
     startSplash();
   }
 
-  // Future<void> _handleDeepLinkOrSplash() async {
-  //   try {
-  //     final applinks = await getInitialUri();
-  //     if (uri != null) {
-  //       debugPrint("Deep link received: $uri");
-  //       if (uri.scheme == 'myapp' && uri.host == "reset-password") {
-  //         WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-  //           Appnavigotor.pushNamedAndRemoveUntil(
-  //             context,
-  //             RouteNames.restPassword,
-  //           );
-  //         });
-  //         return;
-  //       }
-  //     }
-  //   } catch (e) {
-  //     debugPrint("Deep link error: $e");
-  //   }
-  //   startSplash();
-  // }
-
   Future<void> startSplash() async {
     await Helpers.delay(2);
-    if (session != null && user != null) {
-      // Logged in + Email verified
-      Navigator.pushReplacement(
-        // ignore: use_build_context_synchronously
-        context,
-        MaterialPageRoute(
-          builder: (context) {
-            return MainShellPage();
-          },
-        ),
-      );
-    } else {
-      Navigator.pushReplacement(
-        // ignore: use_build_context_synchronously
-        context,
-        MaterialPageRoute(
-          builder: (context) {
-            return OnboardingStartpage();
-          },
-        ),
-      );
-    }
+    // Logged in + Email verified
+    Navigator.pushReplacement(
+      // ignore: use_build_context_synchronously
+      context,
+      MaterialPageRoute(
+        builder: (context) {
+          return MainShellPage();
+        },
+      ),
+    );
   }
 
   @override

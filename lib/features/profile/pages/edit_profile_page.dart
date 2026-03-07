@@ -29,7 +29,6 @@ class EditProfilePage extends StatelessWidget {
     final getProfileUseCase = GetProfileUseCase(repository);
     final updateProfileUseCase = UpdateProfileUseCase(repository);
     final uploadProfileImageUseCase = UploadProfileImageUseCase(repository);
-
     return BlocProvider(
       create:
           (context) => EditProfileBloc(

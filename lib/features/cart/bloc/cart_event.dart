@@ -4,10 +4,24 @@ class AddToCartEvent extends CartEvent {
   final String productid;
   final String storename;
   final double price;
+  final String imageUrl;
+  final String rating;
+  final String noOfRating;
+  final String modelNumber;
+  final String title;
+  final String color;
+  final String storage;
   AddToCartEvent({
     required this.productid,
     required this.storename,
     required this.price,
+    this.imageUrl = "",
+    this.rating = "",
+    this.noOfRating = "",
+    this.modelNumber = "",
+    this.title = "",
+    this.color = "",
+    this.storage = "",
   });
 }
 

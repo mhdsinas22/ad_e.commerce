@@ -39,12 +39,26 @@ class RouteGenerator {
       case RouteNames.login:
         return MaterialPageRoute(builder: (_) => const LoginPage());
       case RouteNames.phoneLogin:
-        return MaterialPageRoute(builder: (_) => const PhoneLoginPage());
+        final args = settings.arguments as Map<String, dynamic>?;
+        return MaterialPageRoute(
+          builder:
+              (_) => PhoneLoginPage(
+                redirectRoute: args?['redirectRoute'],
+                redirectArgs: args?['redirectArgs'],
+              ),
+        );
       case RouteNames.otp:
         final phone = settings.arguments as Map<String, dynamic>;
         final name = settings.arguments as Map<String, dynamic>;
+        final args = settings.arguments as Map<String, dynamic>?;
         return MaterialPageRoute(
-          builder: (_) => OtpPage(phone: phone["phone"], name: name["name"]),
+          builder:
+              (_) => OtpPage(
+                phone: phone["phone"],
+                name: name["name"],
+                redirectRoute: args?['redirectRoute'],
+                redirectArgs: args?['redirectArgs'],
+              ),
         );
 
       case RouteNames.signup:

@@ -2,7 +2,9 @@ import 'package:ad_e_commerce/core/enums/category.dart';
 import 'package:ad_e_commerce/core/enums/phone_condition.dart';
 import 'package:ad_e_commerce/core/enums/sub_category.dart';
 import 'package:ad_e_commerce/core/routes/route_names.dart';
+import 'package:ad_e_commerce/core/theme/app_colors.dart';
 import 'package:ad_e_commerce/core/utils/navigator.dart';
+import 'package:ad_e_commerce/core/widgets/primary_button.dart';
 import 'package:ad_e_commerce/features/home/models/category_model.dart';
 import 'package:ad_e_commerce/features/profile/domain/enitites/wallet/warranty.dart';
 import 'package:flutter/material.dart';
@@ -111,6 +113,95 @@ class Helpers {
     } else {
       debugPrint("Could not open WhatsApp");
     }
+  }
+
+  static void showAuthBottomSheet(
+    BuildContext context, {
+    String redirectRoute = "",
+    Map<String, dynamic>? redirectArgs,
+  }) {
+    showModalBottomSheet(
+      context: context,
+      backgroundColor: Colors.transparent,
+      isScrollControlled: true,
+      builder: (context) {
+        return Container(
+          padding: const EdgeInsets.all(20),
+          decoration: const BoxDecoration(
+            color: AppColors.pureWhite,
+            borderRadius: BorderRadius.vertical(top: Radius.circular(25)),
+          ),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              /// drag handle
+              Container(
+                width: 40,
+                height: 4,
+                margin: const EdgeInsets.only(bottom: 20),
+                decoration: BoxDecoration(
+                  color: Colors.grey.shade300,
+                  borderRadius: BorderRadius.circular(10),
+                ),
+              ),
+
+              /// title
+              const Text(
+                "Login Required",
+                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+              ),
+
+              const SizedBox(height: 8),
+
+              /// subtitle
+              const Text(
+                "Please login or create an account to continue shopping",
+                textAlign: TextAlign.center,
+                style: TextStyle(color: Colors.grey),
+              ),
+
+              const SizedBox(height: 25),
+
+              /// create account
+              SizedBox(
+                width: double.infinity,
+                child: PrimaryButton(
+                  borderRadius: 25,
+                  text: "Create Account",
+                  onPressed: () {
+                    Navigator.pop(context);
+                    Appnavigotor.pushnamed(context, RouteNames.signup, {});
+                  },
+                ),
+              ),
+
+              const SizedBox(height: 12),
+
+              /// login button
+              SizedBox(
+                width: double.infinity,
+                child: PrimaryButton(
+                  borderRadius: 25,
+                  fontcolor: AppColors.pureBlack,
+                  backgroudColor: AppColors.pureWhite,
+                  needBorder: true,
+                  text: "Login",
+                  onPressed: () {
+                    Navigator.pop(context);
+
+                    Appnavigotor.pushnamed(context, RouteNames.phoneLogin, {
+                      "redirectRoute": redirectRoute,
+                      "redirectArgs": redirectArgs,
+                    });
+                  },
+                ),
+              ),
+              const SizedBox(height: 10),
+            ],
+          ),
+        );
+      },
+    );
   }
 }
 

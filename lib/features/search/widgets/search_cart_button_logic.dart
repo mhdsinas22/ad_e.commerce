@@ -37,9 +37,16 @@ class SearchCartButtonLogic extends StatelessWidget {
               } else {
                 context.read<CartBloc>().add(
                   AddToCartEvent(
+                    imageUrl: product.imageUrls[0],
                     productid: product.id!,
                     storename: product.storage,
                     price: product.price,
+                    noOfRating: product.noofreviews.toString(),
+                    rating: product.rating.toString(),
+                    modelNumber: product.modelNumber.toString(),
+                    title: product.title.toString(),
+                    color: product.color,
+                    storage: product.storage,
                   ),
                 );
               }

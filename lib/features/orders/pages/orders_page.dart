@@ -5,6 +5,7 @@ import 'package:ad_e_commerce/features/orders/bloc/order_event.dart';
 import 'package:ad_e_commerce/features/orders/bloc/order_state.dart';
 import 'package:ad_e_commerce/features/orders/data/datasource/order_remote_datasouceimpl.dart';
 import 'package:ad_e_commerce/features/orders/data/repo/order_repo_impl.dart';
+import 'package:ad_e_commerce/features/orders/pages/guest_order_page.dart';
 import 'package:ad_e_commerce/features/orders/widgets/order_item_widget.dart';
 import 'package:ad_e_commerce/features/profile/data/datasource/wallet_remote_datasource_impl.dart';
 import 'package:flutter/material.dart';
@@ -18,6 +19,10 @@ class OrdersPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final supabase = Supabase.instance.client;
+    final user = supabase.auth.currentUser;
+    if (user == null) {
+      return GuestOrdersUI(isScaffold: isPushOnly);
+    }
     final orderdatasourceimpl = OrderRemoteDatasouceimpl(supabase: supabase);
     final walletRemotedatasourceimpl = WalletRemoteDatasourceImpl(supabase);
     final orderRepo = OrderRepoImpl(
@@ -28,8 +33,8 @@ class OrdersPage extends StatelessWidget {
       providers: [
         BlocProvider(
           create:
-              (context) => OrderBloc(orderRepo)
-                ..add(LoadOrdersEvent(userid: supabase.auth.currentUser!.id)),
+              (context) =>
+                  OrderBloc(orderRepo)..add(LoadOrdersEvent(userid: user.id)),
         ),
       ],
       child: OrderPageUi(isPushOnly: isPushOnly),

@@ -5,8 +5,8 @@ import 'package:ad_e_commerce/core/utils/navigator.dart';
 import 'package:ad_e_commerce/core/widgets/app_text.dart';
 import 'package:ad_e_commerce/features/profile/widgets/profile_menu_item.dart';
 import 'package:ad_e_commerce/features/profile/widgets/store_card.dart';
-
 import 'package:flutter/material.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
 class ProfilePage extends StatelessWidget {
   const ProfilePage({super.key});
@@ -56,11 +56,15 @@ class ProfilePage extends StatelessWidget {
                   ProfileMenuItem(
                     title: "My Account",
                     onTap: () {
-                      Appnavigotor.pushnamed(
-                        context,
-                        RouteNames.myaccountpage,
-                        [],
-                      );
+                      final supabaseClient = Supabase.instance.client;
+                      final user = supabaseClient.auth.currentUser;
+                      user == null
+                          ? Helpers.showAuthBottomSheet(context)
+                          : Appnavigotor.pushnamed(
+                            context,
+                            RouteNames.myaccountpage,
+                            [],
+                          );
                     },
                   ),
                   Padding(

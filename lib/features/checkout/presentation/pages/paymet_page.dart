@@ -116,7 +116,6 @@ class PaymentPageUi extends StatelessWidget {
           print("Is Direct Buy:-$isDirectBuy");
           // Clear Cart
           if (isDirectBuy == false) {
-            print("wokring");
             context.read<CartBloc>().add(ClearCartEvent());
           }
           context.read<ProductBloc>().add(LoadProductsEvent());

@@ -64,7 +64,14 @@ class CartBloc extends Bloc<CartEvent, CartState> {
         productid: event.productid,
         storename: event.storename,
         price: event.price,
+        imageUrl: event.imageUrl,
+        noOfRating: event.noOfRating,
+        rating: event.rating,
+        modelNumber: event.modelNumber,
+        title: event.title,
+        color: event.color,
       );
+
       // 5 Fetch updated cart items
       final items = await cartRepository.getCartItems();
       // 6 Calculate totals
@@ -244,6 +251,7 @@ class CartBloc extends Bloc<CartEvent, CartState> {
       final totals = _calculateTotals(items);
       final userid = Supabase.instance.client.auth.currentUser?.id;
       final walletBalance = await walletRepo.getWallet(userid!);
+      print("Bloc Items Length: ${items.length}");
       emit(
         state.copyWith(
           status: CartStatus.loaded,
@@ -294,7 +302,6 @@ class CartBloc extends Bloc<CartEvent, CartState> {
   }
 
   Future<void> _clearCart(ClearCartEvent event, Emitter<CartState> emit) async {
-    print("Clear Cart");
     try {
       // 🔥 DB full clear
       await cartRepository.clearCart();
@@ -311,7 +318,7 @@ class CartBloc extends Bloc<CartEvent, CartState> {
         ),
       );
     } catch (e) {
-      print("Clear Cart Error:-${e.toString()}");
+      AppLogger.error("Clear Cart Error:-${e.toString()}");
       emit(state.copyWith(status: CartStatus.error, error: e.toString()));
     }
   }

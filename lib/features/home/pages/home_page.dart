@@ -8,6 +8,7 @@ import 'package:ad_e_commerce/core/utils/navigator.dart';
 import 'package:ad_e_commerce/core/widgets/app_sliver_app_bar.dart';
 import 'package:ad_e_commerce/core/widgets/app_text.dart';
 import 'package:ad_e_commerce/features/cart/bloc/cart_bloc.dart';
+import 'package:ad_e_commerce/features/cart/data/datasources/cart_local_datasource.dart';
 import 'package:ad_e_commerce/features/cart/data/datasources/cart_remote_datasourceimpl.dart';
 import 'package:ad_e_commerce/features/cart/data/repositories/cart_repository_impl.dart';
 import 'package:ad_e_commerce/features/cart/domain/usecases/add_to_cart_usecase.dart';
@@ -69,6 +70,7 @@ class HomePage extends StatelessWidget {
     );
     final cartRepository = CartRepositoryImpl(
       CartRemoteDatasourceimpl(supabase),
+      CartLocalDatasource(),
     );
     final addtoCartUsecase = AddToCartUsecase(cartRepository);
     final walletrepo = WalletRepoImpl(WalletRemoteDatasourceImpl(supabase));

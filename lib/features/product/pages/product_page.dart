@@ -2,6 +2,7 @@ import 'package:ad_e_commerce/core/constants/app_icons.dart';
 import 'package:ad_e_commerce/core/constants/asset_constants.dart';
 import 'package:ad_e_commerce/core/routes/route_names.dart';
 import 'package:ad_e_commerce/core/theme/app_colors.dart';
+import 'package:ad_e_commerce/core/utils/helpers.dart';
 import 'package:ad_e_commerce/core/utils/navigator.dart';
 import 'package:ad_e_commerce/core/widgets/app_text.dart';
 import 'package:ad_e_commerce/core/widgets/circular_arrow_button.dart';
@@ -13,6 +14,7 @@ import 'package:ad_e_commerce/features/product/widgets/product_image_carousel.da
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
 class ProductPage extends StatelessWidget {
   final Product product;
@@ -33,7 +35,6 @@ class _ProductPage extends StatelessWidget {
     final isSoldOut =
         product.stocks.any((stock) => stock.quantity == 0) ||
         product.isActive == false;
-    print("Sold Out: $isSoldOut");
     return Scaffold(
       body: SingleChildScrollView(
         child: Column(
@@ -386,9 +387,18 @@ class _ProductPage extends StatelessWidget {
                                   : () {
                                     context.read<CartBloc>().add(
                                       AddToCartEvent(
+                                        imageUrl: product.imageUrls[0],
                                         productid: product.id!,
                                         storename: "",
                                         price: product.price,
+                                        noOfRating:
+                                            product.noofreviews.toString(),
+                                        rating: product.rating.toString(),
+                                        modelNumber:
+                                            product.modelNumber.toString(),
+                                        title: product.title.toString(),
+                                        color: product.color,
+                                        storage: product.storage,
                                       ),
                                     );
                                   },
@@ -420,15 +430,27 @@ class _ProductPage extends StatelessWidget {
                         isSoldOut
                             ? null
                             : () {
-                              Appnavigotor.pushnamed(
-                                context,
-                                RouteNames.checkout,
-                                {
-                                  "isMyaddressScreen": false,
-                                  "isDirectBuy": true,
-                                  "directProduct": product,
-                                },
-                              );
+                              final user =
+                                  Supabase.instance.client.auth.currentUser;
+                              user == null
+                                  ? Helpers.showAuthBottomSheet(
+                                    context,
+                                    redirectRoute: RouteNames.checkout,
+                                    redirectArgs: {
+                                      "isMyaddressScreen": false,
+                                      "isDirectBuy": true,
+                                      "directProduct": product,
+                                    },
+                                  )
+                                  : Appnavigotor.pushnamed(
+                                    context,
+                                    RouteNames.checkout,
+                                    {
+                                      "isMyaddressScreen": false,
+                                      "isDirectBuy": true,
+                                      "directProduct": product,
+                                    },
+                                  );
                             },
                     style: ElevatedButton.styleFrom(
                       backgroundColor:

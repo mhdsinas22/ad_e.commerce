@@ -113,9 +113,6 @@ class _CartPageState extends State<_CartPage> {
             ],
           );
         }
-        // if (state.status == CartStatus.error) {
-        //   return Center(child: Text(state.error ?? "Something went wrong"));
-        // }
         if (state.cartitems.isEmpty) {
           return const Center(child: Text("Cart is empty"));
         }

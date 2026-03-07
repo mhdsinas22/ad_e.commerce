@@ -1,3 +1,4 @@
+import 'package:ad_e_commerce/core/utils/app_logger.dart';
 import 'package:ad_e_commerce/data/repositories/auth_repository.dart';
 import 'package:ad_e_commerce/features/auth/bloc/login/login_event.dart';
 import 'package:ad_e_commerce/features/auth/bloc/login/login_state.dart';
@@ -77,7 +78,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
       }
       emit(state.copyWith(status: LoginStatus.success, phone: event.phone));
     } catch (e) {
-      print("LOgin phone error:-${e.toString()}");
+      AppLogger.error("Login phone error:-${e.toString()}");
       emit(
         state.copyWith(
           status: LoginStatus.failure,

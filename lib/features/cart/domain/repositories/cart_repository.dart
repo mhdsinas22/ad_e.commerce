@@ -5,6 +5,13 @@ abstract class CartRepository {
     required String productid,
     required String storename,
     required double price,
+    String imageUrl = "",
+    String color = "",
+    String rating = "",
+    String noOfRating = "",
+    String modelNumber = "",
+    String title = "",
+    String storage = "",
   });
   Future<void> removCartitem({required String cartitemid});
   Future<void> updateCartitem({
