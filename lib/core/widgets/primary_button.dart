@@ -22,7 +22,7 @@ class PrimaryButton extends StatelessWidget {
     this.isLoading = false,
     this.height = 56,
     this.borderRadius = 30,
-    this.backgroudColor = AppColors.primaryBlue,
+    this.backgroudColor = AppColors.primaryBlack,
     this.width = double.infinity,
     this.keyy = "",
     this.fontsize = 18,

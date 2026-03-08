@@ -30,7 +30,7 @@ class CameraContainer extends StatelessWidget {
                     )
                     : DottedBorder(
                       options: const CircularDottedBorderOptions(
-                        color: AppColors.primaryBlue,
+                        color: AppColors.primaryBlack,
                         strokeWidth: 2,
                         dashPattern: [6, 6],
                       ),
@@ -41,7 +41,7 @@ class CameraContainer extends StatelessWidget {
                           child: Icon(
                             Icons.camera_alt_outlined,
                             size: 32,
-                            color: AppColors.primaryBlue,
+                            color: AppColors.primaryBlack,
                           ),
                         ),
                       ),

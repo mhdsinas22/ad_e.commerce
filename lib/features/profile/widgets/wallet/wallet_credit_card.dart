@@ -123,7 +123,7 @@ class WalletCreditCard extends StatelessWidget {
             // Bottom Solid Section
             Container(
               padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
-              color: AppColors.primaryBlue,
+              color: AppColors.primaryBlack,
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [

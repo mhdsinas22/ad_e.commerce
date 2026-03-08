@@ -1,6 +1,9 @@
 import 'package:ad_e_commerce/core/routes/route_names.dart';
+import 'package:ad_e_commerce/core/theme/app_colors.dart';
 import 'package:ad_e_commerce/core/utils/app_logger.dart';
+import 'package:ad_e_commerce/core/utils/navigator.dart';
 import 'package:ad_e_commerce/core/widgets/app_text.dart';
+import 'package:ad_e_commerce/core/widgets/primary_button.dart';
 import 'package:ad_e_commerce/data/repositories/auth_repository.dart';
 import 'package:ad_e_commerce/features/auth/bloc/login/login_bloc.dart';
 import 'package:ad_e_commerce/features/auth/bloc/login/login_event.dart';
@@ -44,7 +47,30 @@ class _PhoneLoginFormState extends State<_PhoneLoginForm> {
     return Scaffold(
       appBar: PreferredSize(
         preferredSize: Size.fromHeight(180),
-        child: AppBar(),
+        child: AppBar(
+          actions: [
+            SizedBox(
+              height: 35,
+              width: 100,
+              child: PrimaryButton(
+                fontsize: 12,
+                borderColor: AppColors.grayColor,
+                borderRadius: 10,
+                fontcolor: AppColors.grayColor,
+                backgroudColor: AppColors.pureWhite,
+                text: "Skip",
+                onPressed: () {
+                  Appnavigotor.pushNamedAndRemoveUntil(
+                    context,
+                    RouteNames.mainShell,
+                  );
+                },
+                needBorder: true,
+              ),
+            ),
+            const SizedBox(width: 16),
+          ],
+        ),
       ),
       backgroundColor: Colors.white,
       body: BlocListener<LoginBloc, LoginState>(
@@ -234,7 +260,7 @@ class _LoginButtonState extends State<_LoginButton> {
                   }
                 },
                 style: FilledButton.styleFrom(
-                  backgroundColor: const Color(0xFF0052FF),
+                  backgroundColor: AppColors.primaryBlack,
                   padding: const EdgeInsets.symmetric(vertical: 16),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(10),

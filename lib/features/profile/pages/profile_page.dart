@@ -33,23 +33,57 @@ class ProfilePage extends StatelessWidget {
                   ProfileMenuItem(
                     title: "My Orders",
                     onTap: () {
-                      Appnavigotor.pushnamed(context, RouteNames.orderspage, {
-                        "isPushOnly": true,
-                      });
+                      final supabaseClient = Supabase.instance.client;
+                      final user = supabaseClient.auth.currentUser;
+                      user == null
+                          ? Helpers.showAuthBottomSheet(
+                            context,
+                            redirectRoute: RouteNames.mainShell,
+                            redirectArgs: {"index": 0},
+                          )
+                          : Appnavigotor.pushnamed(
+                            context,
+                            RouteNames.orderspage,
+                            {"isPushOnly": true},
+                          );
                     },
                   ),
                   SizedBox(height: 10),
                   ProfileMenuItem(
                     title: "My Wallet",
                     onTap: () {
-                      Appnavigotor.pushnamed(context, RouteNames.wallet, []);
+                      final supabaseClient = Supabase.instance.client;
+                      final user = supabaseClient.auth.currentUser;
+                      user == null
+                          ? Helpers.showAuthBottomSheet(
+                            context,
+                            redirectRoute: RouteNames.mainShell,
+                            redirectArgs: {"index": 0},
+                          )
+                          : Appnavigotor.pushnamed(
+                            context,
+                            RouteNames.wallet,
+                            [],
+                          );
                     },
                   ),
                   SizedBox(height: 10),
                   ProfileMenuItem(
                     title: "My Warranty",
                     onTap: () {
-                      Appnavigotor.pushnamed(context, RouteNames.warranty, []);
+                      final supabaseClient = Supabase.instance.client;
+                      final user = supabaseClient.auth.currentUser;
+                      user == null
+                          ? Helpers.showAuthBottomSheet(
+                            context,
+                            redirectRoute: RouteNames.mainShell,
+                            redirectArgs: {"index": 0},
+                          )
+                          : Appnavigotor.pushnamed(
+                            context,
+                            RouteNames.warranty,
+                            [],
+                          );
                     },
                   ),
                   SizedBox(height: 10),
@@ -59,7 +93,11 @@ class ProfilePage extends StatelessWidget {
                       final supabaseClient = Supabase.instance.client;
                       final user = supabaseClient.auth.currentUser;
                       user == null
-                          ? Helpers.showAuthBottomSheet(context)
+                          ? Helpers.showAuthBottomSheet(
+                            context,
+                            redirectRoute: RouteNames.mainShell,
+                            redirectArgs: {"index": 0},
+                          )
                           : Appnavigotor.pushnamed(
                             context,
                             RouteNames.myaccountpage,

@@ -36,7 +36,7 @@ class NeedHelpWidget extends StatelessWidget {
               StoreCallBottomSheet.show(context);
             },
             borderRadius: 12,
-            backgroudColor: AppColors.primaryBlue,
+            backgroudColor: AppColors.primaryBlack,
           ),
         ],
       ),

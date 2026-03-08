@@ -1,4 +1,5 @@
 import 'package:ad_e_commerce/core/constants/asset_constants.dart';
+import 'package:ad_e_commerce/core/theme/app_colors.dart';
 import 'package:ad_e_commerce/core/utils/helpers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -20,11 +21,11 @@ class DigitalWarrantyCard extends StatelessWidget {
       width: double.infinity,
       height: 220,
       decoration: BoxDecoration(
-        color: const Color(0xFF0055FF), // Bright blue from reference
+        color: AppColors.primaryBlack, // Bright blue from reference
         borderRadius: BorderRadius.circular(24),
         boxShadow: [
           BoxShadow(
-            color: const Color(0xFF0055FF).withOpacity(0.3),
+            color: AppColors.primaryBlack.withOpacity(0.3),
             blurRadius: 20,
             offset: const Offset(0, 10),
           ),
@@ -62,8 +63,8 @@ class DigitalWarrantyCard extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 // Logo area
-                Image.asset(
-                  AssetConstants.airdropletterlogobgremove,
+                SvgPicture.asset(
+                  AssetConstants.aerprimarylogo,
                   color: Colors.white,
                   width: 120,
                 ),

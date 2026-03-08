@@ -1,4 +1,6 @@
+import 'package:ad_e_commerce/core/routes/route_names.dart';
 import 'package:ad_e_commerce/core/theme/app_colors.dart';
+import 'package:ad_e_commerce/core/utils/helpers.dart';
 import 'package:ad_e_commerce/core/utils/validators.dart';
 import 'package:ad_e_commerce/core/widgets/app_sliver_app_bar.dart';
 import 'package:ad_e_commerce/core/widgets/app_text.dart';
@@ -356,22 +358,29 @@ class _RepairPageViewState extends State<RepairPageView> {
                                   );
                                   return;
                                 }
-
-                                context.read<RepairFormBloc>().add(
-                                  SubmitRepairRequest(
-                                    userid: currentUser.toString(),
-                                    brand: brandState.selectedBrand,
-                                    services: issuestate.selectedIssues,
-                                    deviceModel: _modelController.text,
-                                    complaintDescription:
-                                        _descriptionController.text,
-                                    images: imageState.images,
-                                    name: _nameController.text,
-                                    mobileNumber: _mobileController.text,
-                                    email: _emailController.text,
-                                    location: _selectedLocation ?? "",
-                                  ),
-                                );
+                                final user =
+                                    Supabase.instance.client.auth.currentUser;
+                                user == null
+                                    ? Helpers.showAuthBottomSheet(
+                                      context,
+                                      redirectRoute: RouteNames.mainShell,
+                                      redirectArgs: {"index": 3},
+                                    )
+                                    : context.read<RepairFormBloc>().add(
+                                      SubmitRepairRequest(
+                                        userid: currentUser.toString(),
+                                        brand: brandState.selectedBrand,
+                                        services: issuestate.selectedIssues,
+                                        deviceModel: _modelController.text,
+                                        complaintDescription:
+                                            _descriptionController.text,
+                                        images: imageState.images,
+                                        name: _nameController.text,
+                                        mobileNumber: _mobileController.text,
+                                        email: _emailController.text,
+                                        location: _selectedLocation ?? "",
+                                      ),
+                                    );
                               },
                             ),
                           ),

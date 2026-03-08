@@ -30,8 +30,8 @@ class CategoryGrid extends StatelessWidget {
                 itemCount: categories.length >= 2 ? 2 : categories.length,
                 gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: 2,
-                  mainAxisSpacing: 12,
-                  crossAxisSpacing: 12,
+                  mainAxisSpacing: 16,
+                  crossAxisSpacing: 16,
                   childAspectRatio: 1, // ⭐ SAME width & height
                 ),
                 itemBuilder: (context, index) {
@@ -45,7 +45,7 @@ class CategoryGrid extends StatelessWidget {
                   );
                 },
               ),
-              const SizedBox(height: 12), // ⭐ CONTROLLED SPACE
+              const SizedBox(height: 16), // ⭐ CONTROLLED SPACE
               /// 🔹 SMALL CARDS (Laptop, Tablet, Wearables, Earbuds)
               GridView.builder(
                 padding: EdgeInsets.zero,
@@ -54,9 +54,9 @@ class CategoryGrid extends StatelessWidget {
                 itemCount: categories.length > 2 ? categories.length - 2 : 0,
                 gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: 4,
-                  mainAxisSpacing: 8,
-                  crossAxisSpacing: 10,
-                  childAspectRatio: 1,
+                  mainAxisSpacing: 16,
+                  crossAxisSpacing: 16,
+                  childAspectRatio: 0.86,
                 ),
                 itemBuilder: (context, index) {
                   final item = categories[index + 2];

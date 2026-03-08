@@ -14,7 +14,7 @@ class ProfileMenuItem extends StatelessWidget {
     required this.title,
     required this.onTap,
     this.isneedChangedbuttoncolor = false,
-    this.buttoncolor = AppColors.brightBlue,
+    this.buttoncolor = AppColors.primaryBlack,
   });
 
   @override
@@ -36,7 +36,7 @@ class ProfileMenuItem extends StatelessWidget {
                   backgroundColor:
                       isneedChangedbuttoncolor
                           ? buttoncolor
-                          : AppColors.brightBlue,
+                          : AppColors.primaryBlack,
                 ),
               ],
             ),

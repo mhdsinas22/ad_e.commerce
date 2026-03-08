@@ -18,9 +18,8 @@ class AssetConstants {
       "assets/png/apple-watch__ywfuk5wnf1u2_og-removebg-preview 1.png";
   static const laptop =
       "assets/png/Screenshot_2025-12-22_at_7.56.22_PM-removebg-preview 1.png";
-  static const tablet =
-      "assets/png/apple-ipad-pro-6th-gen-2022-32-77-cm-12-9-inch-wi-fi-tablet-512-gb-silver-mnxv3hn-a-digital-o493178870-p594838636-0-202511251031.jpeg-removebg-preview 1.png";
-  static const String earbuds = "assets/png/shopping-removebg-preview-3_1.png";
+  static const tablet = "assets/png/Artboard 20.png";
+  static const String earbuds = "assets/png/Artboard 22.png";
   static const String under50ksvg = "assets/svg/Frame 1000005918.svg";
   static const String under30ksvg = "assets/svg/Frame 1000005917.svg";
   static const String under10svg = "assets/svg/Frame 1000005916.svg";
@@ -127,4 +126,10 @@ class AssetConstants {
   static const String logoutpngtemp = "assets/png/images-removebg-preview.png";
   static const String malappuramstorephonto = "assets/png/2026-02-05.webp";
   static const String kozhikodestorephonto = "assets/png/images (4).jpeg";
+  static const String aerprimarylogo = "assets/svg/Aer Primary Logo-02.svg";
+  static const String iphoneCatergorysvg = "assets/svg/AER CATEGORIES-02.svg";
+  static const String iphoneCategorypng = "assets/png/Artboard 17.png";
+  static const String laptopCategoryPng = "assets/png/Artboard 19.png";
+  static const String accessoriescatpng = "assets/png/Artboard 18.png";
+  static const String wearablescatergorypng = "assets/png/Artboard 21.png";
 }

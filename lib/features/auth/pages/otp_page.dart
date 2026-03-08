@@ -124,7 +124,7 @@ class _OtpView extends StatelessWidget {
                     if (state.status == OtpStatus.verifying) {
                       return const Center(
                         child: CircularProgressIndicator(
-                          color: AppColors.primaryBlue,
+                          color: AppColors.primaryBlack,
                         ),
                       );
                     }
@@ -221,7 +221,7 @@ class _TimerAndResend extends StatelessWidget {
                     fontSize: 12,
                     color:
                         state.timerSeconds == 0
-                            ? AppColors.primaryBlue
+                            ? AppColors.primaryBlack
                             : Colors.grey,
                   ),
                 ),

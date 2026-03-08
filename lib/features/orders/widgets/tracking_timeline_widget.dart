@@ -95,7 +95,7 @@ class TrackingTimelineWidget extends StatelessWidget {
                               isCompleted
                                   ? Colors.green
                                   : (isCurrent
-                                      ? AppColors.primaryBlue
+                                      ? AppColors.primaryBlack
                                       : const Color(0xFFE0E0E0)),
                           shape: BoxShape.circle,
                         ),

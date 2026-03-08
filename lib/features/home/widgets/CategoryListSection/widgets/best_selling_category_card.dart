@@ -47,7 +47,7 @@ class BestSellingCategoryCard extends StatelessWidget {
                   AppTexts.semiBold(subtitle, fontSize: 30),
                   const SizedBox(height: 10),
                   CircularArrowButton(
-                    backgroundColor: AppColors.brightBlue,
+                    backgroundColor: AppColors.primaryBlack,
                     size: 28,
                     iconSize: 16,
                     onTap: onTap,
@@ -55,7 +55,6 @@ class BestSellingCategoryCard extends StatelessWidget {
                 ],
               ),
             ),
-
             // RIGHT IMAGE
             Image.asset(image, height: 120, fit: BoxFit.contain),
           ],

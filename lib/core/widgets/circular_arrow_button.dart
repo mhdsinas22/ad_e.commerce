@@ -14,7 +14,7 @@ class CircularArrowButton extends StatelessWidget {
     super.key,
     required this.onTap,
     this.size = 30,
-    this.backgroundColor = AppColors.primaryBlue,
+    this.backgroundColor = AppColors.primaryBlack,
     this.iconColor = AppColors.pureWhite,
     this.icon = Icons.arrow_forward,
     this.iconSize = 16,

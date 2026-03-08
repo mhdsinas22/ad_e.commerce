@@ -242,7 +242,7 @@ class _ProductPage extends StatelessWidget {
                         child: const Text(
                           "View All",
                           style: TextStyle(
-                            color: AppColors.primaryBlue,
+                            color: AppColors.primaryBlack,
                             fontWeight: FontWeight.w600,
                           ),
                         ),
@@ -457,7 +457,7 @@ class _ProductPage extends StatelessWidget {
                           isSoldOut
                               ? AppColors.grayColor
                               : AppColors
-                                  .primaryBlue, // Approximate Blue from image
+                                  .primaryBlack, // Approximate Blue from image
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(24),
                       ),

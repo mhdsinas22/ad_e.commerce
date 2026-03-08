@@ -107,13 +107,13 @@ class TrackingProductCard extends StatelessWidget {
                           Icon(
                             Icons
                                 .local_shipping_outlined, // Better icon matching design
-                            color: AppColors.primaryBlue,
+                            color: AppColors.primaryBlack,
                             size: 20,
                           ),
                           const SizedBox(width: 4),
                           AppTexts.medium(
                             "shipped",
-                            color: AppColors.primaryBlue,
+                            color: AppColors.primaryBlack,
                             fontSize: 14,
                           ),
                         ],

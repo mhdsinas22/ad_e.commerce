@@ -293,7 +293,7 @@ class _AddressSectionState extends State<AddressSection> {
                   height: 20,
                   width: 50,
                   decoration: BoxDecoration(
-                    color: AppColors.primaryBlue,
+                    color: AppColors.primaryBlack,
                     borderRadius: BorderRadius.circular(8),
                   ),
                   child: Center(

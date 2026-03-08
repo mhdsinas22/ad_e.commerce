@@ -35,7 +35,7 @@ class WearablesCatergoryPageUi extends StatelessWidget {
       body: Center(
         child: CustomScrollView(
           slivers: [
-            AppSliverAppBar(),
+            AppSliverAppBar(removeLogo: true),
             SliverToBoxAdapter(
               child: Column(
                 children: [

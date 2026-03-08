@@ -1,3 +1,4 @@
+import 'package:ad_e_commerce/core/theme/app_colors.dart';
 import 'package:ad_e_commerce/core/widgets/app_text.dart';
 import 'package:flutter/material.dart';
 
@@ -21,7 +22,7 @@ class OptionCard extends StatelessWidget {
       onTap: onTap,
       child: Container(
         decoration: BoxDecoration(
-          color: const Color(0xFFE9ECFF),
+          color: AppColors.grey100,
           borderRadius: BorderRadius.circular(18),
         ),
         padding: const EdgeInsets.all(12),

@@ -1,3 +1,4 @@
+import 'package:ad_e_commerce/core/theme/app_colors.dart';
 import 'package:flutter/material.dart';
 
 enum CategoryCardLayout { horizontal, vertical }
@@ -23,34 +24,59 @@ class CategoryCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final isBig = size == CategoryCardSize.big;
+    final borderRadius = BorderRadius.circular(isBig ? 24 : 16);
 
     return InkWell(
-      borderRadius: BorderRadius.circular(16),
+      borderRadius: borderRadius,
       onTap: onTap,
       child: Container(
-        padding: EdgeInsets.all(isBig ? 16 : 10),
         decoration: BoxDecoration(
-          color: const Color(0xFFEFF3FF),
-          borderRadius: BorderRadius.circular(16),
+          color: AppColors.grey100,
+          borderRadius: borderRadius,
         ),
-        child:
-            layout == CategoryCardLayout.vertical
-                ? _vertical(isBig)
-                : _horizontal(isBig),
+        child: ClipRRect(
+          borderRadius: borderRadius,
+          child:
+              layout == CategoryCardLayout.vertical
+                  ? _vertical(isBig)
+                  : _horizontal(isBig),
+        ),
       ),
     );
   }
 
   Widget _vertical(bool isBig) {
-    return Column(
+    return Stack(
       children: [
-        Expanded(child: Image.asset(image, fit: BoxFit.contain)),
-        const SizedBox(height: 6),
-        Text(
-          title,
-          style: TextStyle(
-            fontSize: isBig ? 15 : 12,
-            fontWeight: FontWeight.w600,
+        /// TITLE
+        Align(
+          alignment: Alignment.topCenter,
+          child: Padding(
+            padding: EdgeInsets.only(top: isBig ? 24 : 12),
+            child: Text(
+              title,
+              style: TextStyle(
+                fontSize: isBig ? 20 : 13,
+                fontWeight: FontWeight.w600,
+                letterSpacing: -0.5,
+              ),
+            ),
+          ),
+        ),
+
+        /// IMAGE
+        Positioned(
+          bottom: 0,
+          left: 0,
+          right: 0,
+          top: isBig ? 55 : 34,
+          child: Align(
+            alignment: Alignment.bottomCenter,
+            child: Image.asset(
+              image,
+              fit: BoxFit.contain,
+              alignment: Alignment.bottomCenter,
+            ),
           ),
         ),
       ],
@@ -60,15 +86,23 @@ class CategoryCard extends StatelessWidget {
   Widget _horizontal(bool isBig) {
     return Row(
       children: [
+        const SizedBox(width: 10),
         Text(
           title,
           style: TextStyle(
             fontSize: isBig ? 15 : 12,
             fontWeight: FontWeight.w600,
+            letterSpacing: -0.5,
           ),
         ),
         const SizedBox(width: 6),
-        Expanded(child: Image.asset(image, fit: BoxFit.contain)),
+        Expanded(
+          child: Image.asset(
+            image,
+            fit: BoxFit.contain,
+            alignment: Alignment.centerRight,
+          ),
+        ),
       ],
     );
   }

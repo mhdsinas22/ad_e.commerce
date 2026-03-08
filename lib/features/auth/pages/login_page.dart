@@ -110,7 +110,7 @@ class _LoginFormState extends State<_LoginForm> {
                           },
                           child: AppTexts.medium(
                             "Forgot Password?",
-                            color: AppColors.primaryBlue,
+                            color: AppColors.primaryBlack,
                             fontSize: 14,
                           ),
                         ),

@@ -4,18 +4,18 @@ import 'package:ad_e_commerce/features/home/models/category_model.dart';
 class CategoryData {
   static List<CategoryModel> categories = [
     CategoryModel(
-      title: "Phones",
-      image: AssetConstants.phone,
+      title: "iPhone",
+      image: AssetConstants.iphoneCategorypng,
       type: "phoneCategory",
     ),
     CategoryModel(
       title: "Accessories",
-      image: AssetConstants.accesories,
+      image: AssetConstants.accessoriescatpng,
       type: "accessoriesCategory",
     ),
     CategoryModel(
       title: "Laptop",
-      image: AssetConstants.laptop,
+      image: AssetConstants.laptopCategoryPng,
       type: "laptopCategory",
     ),
     CategoryModel(
@@ -25,7 +25,7 @@ class CategoryData {
     ),
     CategoryModel(
       title: "Wearables",
-      image: AssetConstants.warables,
+      image: AssetConstants.wearablescatergorypng,
       type: "wearablesCategory",
     ),
     CategoryModel(

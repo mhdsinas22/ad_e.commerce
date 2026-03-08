@@ -129,7 +129,7 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
                             focusedBorder: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(12),
                               borderSide: const BorderSide(
-                                color: AppColors.primaryBlue,
+                                color: AppColors.primaryBlack,
                               ),
                             ),
                             errorBorder: OutlineInputBorder(
@@ -195,7 +195,7 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
                         focusedBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(12),
                           borderSide: const BorderSide(
-                            color: AppColors.primaryBlue,
+                            color: AppColors.primaryBlack,
                           ),
                         ),
                         errorBorder: OutlineInputBorder(
@@ -235,7 +235,7 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
                           child: ElevatedButton(
                             onPressed: _onSubmitted,
                             style: ElevatedButton.styleFrom(
-                              backgroundColor: AppColors.primaryBlue,
+                              backgroundColor: AppColors.primaryBlack,
                               foregroundColor: Colors.white,
                               elevation: 0,
                               shape: RoundedRectangleBorder(

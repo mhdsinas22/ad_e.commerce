@@ -170,7 +170,10 @@ class Helpers {
                   text: "Create Account",
                   onPressed: () {
                     Navigator.pop(context);
-                    Appnavigotor.pushnamed(context, RouteNames.signup, {});
+                    Appnavigotor.pushnamed(context, RouteNames.signup, {
+                      "redirectRoute": redirectRoute,
+                      "redirectArgs": redirectArgs,
+                    });
                   },
                 ),
               ),
@@ -188,7 +191,8 @@ class Helpers {
                   text: "Login",
                   onPressed: () {
                     Navigator.pop(context);
-
+                    print("redirectRoute: $redirectRoute");
+                    print("redirectArgs: $redirectArgs");
                     Appnavigotor.pushnamed(context, RouteNames.phoneLogin, {
                       "redirectRoute": redirectRoute,
                       "redirectArgs": redirectArgs,

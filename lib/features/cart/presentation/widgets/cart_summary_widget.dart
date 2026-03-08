@@ -65,7 +65,11 @@ class CartSummaryWidget extends StatelessWidget {
                             final user =
                                 Supabase.instance.client.auth.currentUser;
                             user == null
-                                ? Helpers.showAuthBottomSheet(context)
+                                ? Helpers.showAuthBottomSheet(
+                                  context,
+                                  redirectRoute: RouteNames.mainShell,
+                                  redirectArgs: {"index": 2},
+                                )
                                 : Appnavigotor.pushnamed(
                                   context,
                                   RouteNames.checkout,
@@ -77,8 +81,8 @@ class CartSummaryWidget extends StatelessWidget {
                                 );
                           },
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: AppColors.primaryBlue,
-                    disabledBackgroundColor: AppColors.primaryBlue.withOpacity(
+                    backgroundColor: AppColors.primaryBlack,
+                    disabledBackgroundColor: AppColors.primaryBlack.withOpacity(
                       0.5,
                     ),
                     shape: RoundedRectangleBorder(
@@ -223,8 +227,8 @@ void _showWalletBottomSheet(BuildContext context, CartState state) {
                               Navigator.pop(context);
                             },
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: AppColors.primaryBlue,
-                      disabledBackgroundColor: AppColors.primaryBlue
+                      backgroundColor: AppColors.primaryBlack,
+                      disabledBackgroundColor: AppColors.primaryBlack
                           .withOpacity(0.4),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(10),

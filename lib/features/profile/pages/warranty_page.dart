@@ -8,7 +8,6 @@ import 'package:ad_e_commerce/core/widgets/primary_button.dart';
 import 'package:ad_e_commerce/core/widgets/store_call_bottom_sheet.dart';
 import 'package:ad_e_commerce/features/bottom_navigation/bloc/bottom_nav_bloc.dart';
 import 'package:ad_e_commerce/features/bottom_navigation/bloc/bottom_nav_event.dart';
-import 'package:ad_e_commerce/features/orders/pages/guest_order_page.dart';
 import 'package:ad_e_commerce/features/profile/bloc/warranty/warranty_bloc.dart';
 import 'package:ad_e_commerce/features/profile/bloc/warranty/warranty_event.dart';
 import 'package:ad_e_commerce/features/profile/bloc/warranty/warranty_state.dart';
@@ -27,10 +26,6 @@ class WarrantyPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final supabse = Supabase.instance.client;
-    final user = supabse.auth.currentUser;
-    if (user == null) {
-      return GuestOrdersUI(isScaffold: true);
-    }
     final warrantyRepositoryimpl = WarrantyRepositoryimpl(
       WarrantyRemoteDatasourceimpl(supabse),
     );

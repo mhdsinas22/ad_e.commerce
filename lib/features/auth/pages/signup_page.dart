@@ -1,4 +1,6 @@
 import 'package:ad_e_commerce/core/routes/route_names.dart';
+import 'package:ad_e_commerce/core/theme/app_colors.dart';
+import 'package:ad_e_commerce/core/utils/navigator.dart';
 import 'package:ad_e_commerce/core/widgets/app_text.dart';
 import 'package:ad_e_commerce/core/widgets/app_text_form_field.dart';
 import 'package:ad_e_commerce/core/widgets/primary_button.dart';
@@ -10,19 +12,26 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
 
 class SignupPage extends StatelessWidget {
-  const SignupPage({super.key});
+  final String? redirectRoute;
+  final Map<String, dynamic>? redirectArgs;
+  const SignupPage({super.key, this.redirectRoute, this.redirectArgs});
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) => SignupBloc(),
-      child: const _SignupForm(),
+      child: _SignupForm(
+        redirectRoute: redirectRoute,
+        redirectArgs: redirectArgs,
+      ),
     );
   }
 }
 
 class _SignupForm extends StatefulWidget {
-  const _SignupForm();
+  final String? redirectRoute;
+  final Map<String, dynamic>? redirectArgs;
+  const _SignupForm({this.redirectRoute, this.redirectArgs});
 
   @override
   State<_SignupForm> createState() => _SignupFormState();
@@ -40,7 +49,12 @@ class _SignupFormState extends State<_SignupForm> {
             Navigator.pushNamed(
               context,
               RouteNames.otp,
-              arguments: {"phone": state.phone, "name": state.name},
+              arguments: {
+                "phone": state.phone,
+                "name": state.name,
+                "redirectRoute": widget.redirectRoute,
+                "redirectArgs": widget.redirectArgs,
+              },
             );
           }
           if (state is SignupError) {
@@ -60,6 +74,30 @@ class _SignupFormState extends State<_SignupForm> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          SizedBox(
+                            height: 35,
+                            width: 100,
+                            child: PrimaryButton(
+                              fontsize: 12,
+                              borderColor: AppColors.grayColor,
+                              borderRadius: 10,
+                              fontcolor: AppColors.grayColor,
+                              backgroudColor: AppColors.pureWhite,
+                              text: "Skip",
+                              onPressed: () {
+                                Appnavigotor.pushNamedAndRemoveUntil(
+                                  context,
+                                  RouteNames.mainShell,
+                                );
+                              },
+                              needBorder: true,
+                            ),
+                          ),
+                        ],
+                      ),
                       SizedBox(height: 10),
                       Padding(
                         padding: EdgeInsets.symmetric(

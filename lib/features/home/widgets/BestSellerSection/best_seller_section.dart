@@ -65,7 +65,7 @@ class BestSellersSection extends StatelessWidget {
               label: item["label"]!,
               price: item["price"].toString(),
               imagePath: item["imagePath"]!,
-              backgroundColor: AppColors.brightBlue,
+              backgroundColor: AppColors.primaryBlack,
               onTap: () {
                 Appnavigotor.push(
                   context,

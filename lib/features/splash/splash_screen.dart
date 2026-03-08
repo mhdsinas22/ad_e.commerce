@@ -2,6 +2,7 @@ import 'package:ad_e_commerce/core/constants/asset_constants.dart';
 import 'package:ad_e_commerce/core/utils/helpers.dart';
 import 'package:ad_e_commerce/features/bottom_navigation/pages/main_shell_page.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -41,12 +42,7 @@ class _SplashScreenState extends State<SplashScreen> {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Center(
-            child: Image.asset(
-              AssetConstants.airdropLetterLogo,
-              width: 400,
-
-              // ignore: deprecated_member_use
-            ),
+            child: SvgPicture.asset(AssetConstants.aerprimarylogo, width: 200),
           ),
           SizedBox(height: 10),
         ],

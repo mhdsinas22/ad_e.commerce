@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:ad_e_commerce/core/theme/app_colors.dart';
 import 'package:flutter/material.dart';
 
 class ProfileHeader extends StatelessWidget {
@@ -51,7 +52,7 @@ class ProfileHeader extends StatelessWidget {
                 width: 44, // Slightly larger for tap area
                 height: 44,
                 decoration: const BoxDecoration(
-                  color: Color(0xFF0055FF), // Bright blue from image
+                  color: AppColors.primaryBlack, // Bright blue from image
                   shape: BoxShape.circle,
                 ),
                 child: const Icon(Icons.edit, color: Colors.white, size: 24),

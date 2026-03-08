@@ -84,7 +84,7 @@ class CategoryFiltredPage extends StatelessWidget {
           return Scaffold(
             body: CustomScrollView(
               slivers: [
-                AppSliverAppBar(),
+                AppSliverAppBar(removeLogo: true),
 
                 SliverToBoxAdapter(
                   child: Center(

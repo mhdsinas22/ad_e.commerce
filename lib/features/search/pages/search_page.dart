@@ -52,7 +52,7 @@ class _SearchPage extends StatelessWidget {
 
           return CustomScrollView(
             slivers: [
-              AppSliverAppBar(showBack: true),
+              AppSliverAppBar(showBack: true, removeLogo: true),
               SliverToBoxAdapter(
                 child: Center(
                   child: Container(

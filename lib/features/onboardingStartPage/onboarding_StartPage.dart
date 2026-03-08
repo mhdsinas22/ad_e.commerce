@@ -83,7 +83,7 @@ class OnboardingStartpage extends StatelessWidget {
                               CircularArrowButton(
                                 size: 32,
                                 iconSize: 18,
-                                backgroundColor: AppColors.primaryBlue,
+                                backgroundColor: AppColors.primaryBlack,
                                 onTap: () {
                                   Navigator.pushReplacementNamed(
                                     context,

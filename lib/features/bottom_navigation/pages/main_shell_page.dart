@@ -13,7 +13,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class MainShellPage extends StatelessWidget {
-  const MainShellPage({super.key});
+  final int index;
+  const MainShellPage({super.key, this.index = 0});
 
   @override
   Widget build(BuildContext context) {
@@ -21,8 +22,10 @@ class MainShellPage extends StatelessWidget {
       builder: (context, state) {
         return Scaffold(
           bottomNavigationBar: BottomNavigationBar(
+            selectedItemColor: AppColors.grayColor,
+            selectedLabelStyle: TextStyle(fontSize: 10),
             showUnselectedLabels: false,
-            showSelectedLabels: false,
+            showSelectedLabels: true,
             type: BottomNavigationBarType.fixed,
             backgroundColor: AppColors.pureWhite,
             onTap: (index) {
@@ -33,24 +36,26 @@ class MainShellPage extends StatelessWidget {
               BottomNavigationBarItem(
                 activeIcon: Column(
                   children: [
-                    SvgPicture.asset(AppIcons.shopIcon),
-                    SizedBox(height: 5),
-                    AnimatedContainer(
-                      duration: const Duration(milliseconds: 200),
-                      curve: Curves.easeInOut,
-                      width: 18,
-                      height: 3,
-                      decoration: BoxDecoration(
-                        color: Colors.black,
-                        borderRadius: BorderRadius.circular(2),
-                      ),
+                    SvgPicture.asset(
+                      AppIcons.shopIcon,
+                      color: AppColors.grayColor,
                     ),
+                    // SizedBox(height: 5),
+                    // AnimatedContainer(
+                    //   duration: const Duration(milliseconds: 200),
+                    //   curve: Curves.easeInOut,
+                    //   width: 18,
+                    //   height: 3,
+                    //   decoration: BoxDecoration(
+                    //     color: AppColors.grayColor,
+                    //     borderRadius: BorderRadius.circular(2),
+                    //   ),
+                    // ),
                   ],
                 ),
                 icon: SvgPicture.asset(
                   AppIcons.shopIcon,
-                  // ignore: deprecated_member_use
-                  color: AppColors.primaryBlue,
+                  color: AppColors.primaryBlack,
                 ),
                 label: 'Home',
               ),
@@ -59,24 +64,26 @@ class MainShellPage extends StatelessWidget {
                   children: [
                     SvgPicture.asset(
                       AppIcons.categoriesIcon,
-                      // ignore: deprecated_member_use
-                      color: AppColors.pureBlack,
+                      color: AppColors.grayColor,
                     ),
-                    SizedBox(height: 5),
-                    AnimatedContainer(
-                      duration: const Duration(milliseconds: 200),
-                      curve: Curves.easeInOut,
-                      width: 18,
-                      height: 3,
-                      decoration: BoxDecoration(
-                        color: Colors.black,
-                        borderRadius: BorderRadius.circular(2),
-                      ),
-                    ),
+                    // SizedBox(height: 5),
+                    // AnimatedContainer(
+                    //   duration: const Duration(milliseconds: 200),
+                    //   curve: Curves.easeInOut,
+                    //   width: 18,
+                    //   height: 3,
+                    //   decoration: BoxDecoration(
+                    //     color: AppColors.grayColor,
+                    //     borderRadius: BorderRadius.circular(2),
+                    //   ),
+                    // ),
                   ],
                 ),
-                icon: SvgPicture.asset(AppIcons.categoriesIcon),
-                label: 'Orders',
+                icon: SvgPicture.asset(
+                  AppIcons.categoriesIcon,
+                  color: AppColors.pureBlack,
+                ),
+                label: 'Cart',
               ),
               BottomNavigationBarItem(
                 activeIcon: Column(
@@ -84,46 +91,51 @@ class MainShellPage extends StatelessWidget {
                     SvgPicture.asset(
                       AppIcons.cartIcon,
                       // ignore: deprecated_member_use
-                      color: AppColors.pureBlack,
+                      color: AppColors.grayColor,
                     ),
-                    SizedBox(height: 5),
-                    AnimatedContainer(
-                      duration: const Duration(milliseconds: 200),
-                      curve: Curves.easeInOut,
-                      width: 18,
-                      height: 3,
-                      decoration: BoxDecoration(
-                        color: Colors.black,
-                        borderRadius: BorderRadius.circular(2),
-                      ),
-                    ),
+                    // SizedBox(height: 5),
+                    // AnimatedContainer(
+                    //   duration: const Duration(milliseconds: 200),
+                    //   curve: Curves.easeInOut,
+                    //   width: 18,
+                    //   height: 3,
+                    //   decoration: BoxDecoration(
+                    //     color: AppColors.grayColor,
+                    //     borderRadius: BorderRadius.circular(2),
+                    //   ),
+                    // ),
                   ],
                 ),
-                icon: SvgPicture.asset(AppIcons.cartIcon),
-                label: 'Repair',
+                icon: SvgPicture.asset(
+                  AppIcons.cartIcon,
+                  color: AppColors.primaryBlack,
+                ),
+                label: 'Orders',
               ),
               BottomNavigationBarItem(
                 activeIcon: Column(
                   children: [
                     SvgPicture.asset(
                       AppIcons.supportIcon,
-                      // ignore: deprecated_member_use
-                      color: AppColors.pureBlack,
+                      color: AppColors.grayColor,
                     ),
-                    SizedBox(height: 5),
-                    AnimatedContainer(
-                      duration: const Duration(milliseconds: 200),
-                      curve: Curves.easeInOut,
-                      width: 18,
-                      height: 3,
-                      decoration: BoxDecoration(
-                        color: Colors.black,
-                        borderRadius: BorderRadius.circular(2),
-                      ),
-                    ),
+                    // SizedBox(height: 5),
+                    // AnimatedContainer(
+                    //   duration: const Duration(milliseconds: 200),
+                    //   curve: Curves.easeInOut,
+                    //   width: 18,
+                    //   height: 3,
+                    //   decoration: BoxDecoration(
+                    //     color: AppColors.grayColor,
+                    //     borderRadius: BorderRadius.circular(2),
+                    //   ),
+                    // ),
                   ],
                 ),
-                icon: SvgPicture.asset(AppIcons.supportIcon),
+                icon: SvgPicture.asset(
+                  AppIcons.supportIcon,
+                  color: AppColors.primaryBlack,
+                ),
                 label: 'Service',
               ),
               BottomNavigationBarItem(
@@ -132,22 +144,25 @@ class MainShellPage extends StatelessWidget {
                     SvgPicture.asset(
                       AppIcons.profileIcon,
                       // ignore: deprecated_member_use
-                      color: AppColors.pureBlack,
+                      color: AppColors.grayColor,
                     ),
                     SizedBox(height: 5),
-                    AnimatedContainer(
-                      duration: const Duration(milliseconds: 200),
-                      curve: Curves.easeInOut,
-                      width: 18,
-                      height: 3,
-                      decoration: BoxDecoration(
-                        color: Colors.black,
-                        borderRadius: BorderRadius.circular(2),
-                      ),
-                    ),
+                    // AnimatedContainer(
+                    //   duration: const Duration(milliseconds: 200),
+                    //   curve: Curves.easeInOut,
+                    //   width: 18,
+                    //   height: 3,
+                    //   decoration: BoxDecoration(
+                    //     color: AppColors.grayColor,
+                    //     borderRadius: BorderRadius.circular(2),
+                    //   ),
+                    // ),
                   ],
                 ),
-                icon: SvgPicture.asset(AppIcons.profileIcon),
+                icon: SvgPicture.asset(
+                  AppIcons.profileIcon,
+                  color: AppColors.primaryBlack,
+                ),
                 label: 'Profile',
               ),
             ],

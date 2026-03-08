@@ -62,7 +62,14 @@ class RouteGenerator {
         );
 
       case RouteNames.signup:
-        return MaterialPageRoute(builder: (_) => SignupPage());
+        final args = settings.arguments as Map<String, dynamic>?;
+        return MaterialPageRoute(
+          builder:
+              (_) => SignupPage(
+                redirectRoute: args?['redirectRoute'],
+                redirectArgs: args?['redirectArgs'],
+              ),
+        );
 
       case RouteNames.userDetails:
         return MaterialPageRoute(
@@ -81,7 +88,11 @@ class RouteGenerator {
       case RouteNames.onboardingstartpage:
         return MaterialPageRoute(builder: (context) => OnboardingStartpage());
       case RouteNames.mainShell:
-        return MaterialPageRoute(builder: (context) => MainShellPage());
+        final args = settings.arguments as Map<String, dynamic>?;
+        final index = args?["index"] ?? 0;
+        return MaterialPageRoute(
+          builder: (context) => MainShellPage(index: index),
+        );
       case RouteNames.search:
         return MaterialPageRoute(builder: (context) => SearchPage());
       case RouteNames.productpage:

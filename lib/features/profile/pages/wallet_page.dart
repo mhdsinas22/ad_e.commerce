@@ -1,5 +1,4 @@
 import 'package:ad_e_commerce/core/theme/app_colors.dart';
-import 'package:ad_e_commerce/features/orders/pages/guest_order_page.dart';
 import 'package:ad_e_commerce/features/profile/bloc/wallet/wallet_bloc.dart';
 import 'package:ad_e_commerce/features/profile/bloc/wallet/wallet_event.dart';
 import 'package:ad_e_commerce/features/profile/bloc/wallet/wallet_state.dart';
@@ -17,10 +16,7 @@ class WalletPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final supabaseClient = Supabase.instance.client;
-    final user = supabaseClient.auth.currentUser;
-    if (user == null) {
-      return GuestOrdersUI(isScaffold: true);
-    }
+
     final walletrepo = WalletRepoImpl(
       WalletRemoteDatasourceImpl(supabaseClient),
     );

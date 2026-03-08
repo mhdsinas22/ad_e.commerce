@@ -1,3 +1,4 @@
+import 'package:ad_e_commerce/core/routes/route_names.dart';
 import 'package:ad_e_commerce/core/theme/app_colors.dart';
 import 'package:ad_e_commerce/core/utils/navigator.dart';
 import 'package:ad_e_commerce/core/widgets/app_text.dart';
@@ -50,7 +51,10 @@ class GuestOrdersUI extends StatelessWidget {
                       fontcolor: AppColors.pureBlack,
                       backgroudColor: AppColors.pureWhite,
                       onPressed: () {
-                        Navigator.pushNamed(context, "/login");
+                        Appnavigotor.pushnamed(context, RouteNames.phoneLogin, {
+                          "redirectRoute": RouteNames.mainShell,
+                          "redirectArgs": null,
+                        });
                       },
                       text: "Login",
                     ),
@@ -65,7 +69,10 @@ class GuestOrdersUI extends StatelessWidget {
                       height: 50,
                       borderRadius: 12,
                       onPressed: () {
-                        Navigator.pushNamed(context, "/signup");
+                        Appnavigotor.pushnamed(context, RouteNames.signup, {
+                          "redirectRoute": RouteNames.mainShell,
+                          "redirectArgs": null,
+                        });
                       },
                       text: "Create Account",
                     ),
@@ -119,7 +126,10 @@ class GuestOrdersUI extends StatelessWidget {
                     fontcolor: AppColors.pureBlack,
                     backgroudColor: AppColors.pureWhite,
                     onPressed: () {
-                      Navigator.pushNamed(context, "/login");
+                      Appnavigotor.pushnamed(context, RouteNames.phoneLogin, {
+                        "redirectRoute": RouteNames.mainShell,
+                        "redirectArgs": null,
+                      });
                     },
                     text: "Login",
                   ),
@@ -134,7 +144,10 @@ class GuestOrdersUI extends StatelessWidget {
                     height: 50,
                     borderRadius: 12,
                     onPressed: () {
-                      Navigator.pushNamed(context, "/signup");
+                      Appnavigotor.pushnamed(context, RouteNames.signup, {
+                        "redirectRoute": RouteNames.mainShell,
+                        "redirectArgs": null,
+                      });
                     },
                     text: "Create Account",
                   ),

@@ -18,7 +18,7 @@ class _WarrantyInfoSectionState extends State<WarrantyInfoSection> {
       width: double.infinity,
       padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
-        color: AppColors.brightBlue, // same blue
+        color: AppColors.primaryBlack, // same blue
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,

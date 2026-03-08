@@ -121,7 +121,7 @@ class _ProductImageCarouselState extends State<ProductImageCarouselUi> {
                     decoration: BoxDecoration(
                       color:
                           state.currentIndex == index
-                              ? AppColors.primaryBlue
+                              ? AppColors.primaryBlack
                               : AppColors.grayColor,
 
                       shape: BoxShape.circle,
@@ -151,7 +151,7 @@ class _ProductImageCarouselState extends State<ProductImageCarouselUi> {
                           border: Border.all(
                             color:
                                 state.currentIndex == index
-                                    ? AppColors.primaryBlue
+                                    ? AppColors.primaryBlack
                                     : Colors.transparent,
                           ),
                           borderRadius: BorderRadius.circular(7),

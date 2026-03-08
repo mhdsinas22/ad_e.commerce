@@ -1,4 +1,5 @@
 import 'package:ad_e_commerce/core/routes/route_names.dart';
+import 'package:ad_e_commerce/core/theme/app_colors.dart';
 import 'package:ad_e_commerce/core/utils/navigator.dart';
 import 'package:ad_e_commerce/features/cart/bloc/cart_bloc.dart';
 import 'package:ad_e_commerce/features/cart/bloc/cart_event.dart';
@@ -23,7 +24,7 @@ class SearchCartButtonLogic extends StatelessWidget {
           width: 120,
           child: ElevatedButton(
             style: ElevatedButton.styleFrom(
-              backgroundColor: const Color(0xFF0055FF),
+              backgroundColor: AppColors.primaryBlack,
               foregroundColor: Colors.white,
               elevation: 0,
               shape: RoundedRectangleBorder(

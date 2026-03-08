@@ -1,3 +1,4 @@
+import 'package:ad_e_commerce/core/theme/app_colors.dart';
 import 'package:ad_e_commerce/core/widgets/app_text.dart';
 import 'package:flutter/material.dart';
 
@@ -40,7 +41,7 @@ class ProfileTextField extends StatelessWidget {
                     ? Icon(
                       Icons.edit,
                       size: 20,
-                      color: Color(0xFF0055FF), // Bright blue from image
+                      color: AppColors.primaryBlack, // Bright blue from image
                     )
                     : null,
             enabledBorder: UnderlineInputBorder(

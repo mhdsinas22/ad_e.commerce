@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:ad_e_commerce/core/theme/app_colors.dart';
 import 'package:ad_e_commerce/core/widgets/app_text.dart';
 import 'package:ad_e_commerce/core/widgets/circular_arrow_button.dart';
 import 'package:ad_e_commerce/domain/entities/user_entity.dart';
@@ -196,9 +197,7 @@ class _EditProfileViewState extends State<_EditProfileView> {
                       child: ElevatedButton(
                         onPressed: state.isSubmitting ? null : _saveChanges,
                         style: ElevatedButton.styleFrom(
-                          backgroundColor: const Color(
-                            0xFF0055FF,
-                          ), // Bright blue
+                          backgroundColor: AppColors.pureBlack,
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(16),
                           ),

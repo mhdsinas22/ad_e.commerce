@@ -1,5 +1,4 @@
 import 'package:ad_e_commerce/core/common/widgets/shimmer/app_shimmer.dart';
-import 'package:ad_e_commerce/core/constants/asset_constants.dart';
 import 'package:ad_e_commerce/core/enums/phone_condition.dart';
 import 'package:ad_e_commerce/core/enums/sub_category.dart';
 import 'package:ad_e_commerce/core/routes/route_names.dart';
@@ -7,6 +6,7 @@ import 'package:ad_e_commerce/core/theme/app_colors.dart';
 import 'package:ad_e_commerce/core/utils/navigator.dart';
 import 'package:ad_e_commerce/core/widgets/app_sliver_app_bar.dart';
 import 'package:ad_e_commerce/core/widgets/app_text.dart';
+import 'package:ad_e_commerce/core/widgets/warranty_info_section.dart';
 import 'package:ad_e_commerce/features/cart/bloc/cart_bloc.dart';
 import 'package:ad_e_commerce/features/cart/data/datasources/cart_local_datasource.dart';
 import 'package:ad_e_commerce/features/cart/data/datasources/cart_remote_datasourceimpl.dart';
@@ -44,8 +44,6 @@ import 'package:ad_e_commerce/features/profile/data/repositories/wallet_repo_imp
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_svg/svg.dart';
-
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 class HomePage extends StatelessWidget {
@@ -151,7 +149,7 @@ class HomePageUi extends StatelessWidget {
                       width: 30,
                       child: CircularProgressIndicator(
                         strokeWidth: 2.5,
-                        color: AppColors.primaryBlue, // 🔵 brand color
+                        color: AppColors.primaryBlack, // 🔵 brand color
                       ),
                     ),
                   );
@@ -274,7 +272,7 @@ class HomePageUi extends StatelessWidget {
                             child: AppTexts.medium(
                               "View All",
                               fontSize: 14, // Increased for better tap area
-                              color: AppColors.primaryBlue,
+                              color: AppColors.primaryBlack,
                             ),
                           ),
                         ],
@@ -392,7 +390,8 @@ class HomePageUi extends StatelessWidget {
                                                     height: 190,
                                                     decoration: BoxDecoration(
                                                       color:
-                                                          AppColors.brightBlue,
+                                                          AppColors
+                                                              .primaryBlack,
                                                       borderRadius:
                                                           BorderRadius.circular(
                                                             18,
@@ -452,13 +451,7 @@ class HomePageUi extends StatelessWidget {
                     ),
                     // Footer (Warranty & Why AirDrop)
                     const SizedBox(height: 24),
-                    AspectRatio(
-                      aspectRatio: 375 / 367, // use SVG design size
-                      child: SvgPicture.asset(
-                        AssetConstants.howtoClaimwarrntysvg,
-                        fit: BoxFit.contain,
-                      ),
-                    ),
+                    WarrantyInfoSection(),
                     // const SizedBox(height: 40), // Bottom padding
                   ],
                 ),

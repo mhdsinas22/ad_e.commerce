@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 
 class AppColors {
   static const Color pureWhite = Color(0xffffffff);
-  static const Color primaryBlue = Color(0xFF0A4DFF);
+  static const Color primaryBlack = Color(0xFF000000);
   static const Color offWhite = Color(0xFFF8F8F8);
   static const Color grayColor = Color(0xFF8F959E);
   static const Color pureBlack = Color(0xFF000000);
@@ -13,4 +13,5 @@ class AppColors {
   static const Color purered = Color(0xffFF0000);
   static const Color lightbluish = Color(0xFFE9ECFF);
   static const Color orange = Color(0xFFEB7B0C);
+  static const Color grey100 = Color(0xFFefefef);
 }

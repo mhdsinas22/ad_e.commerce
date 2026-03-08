@@ -12,6 +12,7 @@ class AppSliverAppBar extends StatelessWidget {
   final double expandedHeight;
   final bool showBack;
   final bool showSearchIcon;
+  final bool removeLogo;
 
   const AppSliverAppBar({
     super.key,
@@ -20,6 +21,7 @@ class AppSliverAppBar extends StatelessWidget {
     this.expandedHeight = 60,
     this.showBack = false,
     this.showSearchIcon = false,
+    this.removeLogo = false,
   });
 
   @override
@@ -37,17 +39,20 @@ class AppSliverAppBar extends StatelessWidget {
               : null,
       elevation: 0,
       pinned: true,
-      centerTitle: true,
+      centerTitle: false,
       expandedHeight: expandedHeight,
       backgroundColor: AppColors.pureWhite,
       surfaceTintColor: AppColors.pureWhite,
 
-      title: Image.asset(
-        AssetConstants.airdropLetterLogo,
-        width: 120,
-        height: 50,
-        fit: BoxFit.contain,
-      ),
+      title:
+          removeLogo
+              ? null
+              : SvgPicture.asset(
+                AssetConstants.aerprimarylogo,
+                width: 120,
+                height: 40,
+                fit: BoxFit.contain,
+              ),
 
       actions:
           showCart
