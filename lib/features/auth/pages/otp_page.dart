@@ -5,6 +5,9 @@ import 'package:ad_e_commerce/core/widgets/app_text.dart';
 import 'package:ad_e_commerce/features/auth/bloc/otp/otp_bloc.dart';
 import 'package:ad_e_commerce/features/auth/bloc/otp/otp_event.dart';
 import 'package:ad_e_commerce/features/auth/bloc/otp/otp_state.dart';
+import 'package:ad_e_commerce/features/cart/data/datasources/cart_local_datasource.dart';
+import 'package:ad_e_commerce/features/cart/data/datasources/cart_remote_datasourceimpl.dart';
+import 'package:ad_e_commerce/features/cart/data/repositories/cart_repository_impl.dart';
 import 'package:ad_e_commerce/features/profile/data/datasource/wallet_remote_datasource_impl.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -27,8 +30,11 @@ class OtpPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final walletRemoteDataSource = WalletRemoteDatasourceImpl(
-      Supabase.instance.client,
+    final supabase = Supabase.instance.client;
+    final walletRemoteDataSource = WalletRemoteDatasourceImpl(supabase);
+    final cartrepository = CartRepositoryImpl(
+      CartRemoteDatasourceimpl(supabase),
+      CartLocalDatasource(),
     );
     return BlocProvider(
       create:
@@ -36,6 +42,7 @@ class OtpPage extends StatelessWidget {
             name: name,
             phone: phone,
             walletRemoteDataSource: walletRemoteDataSource,
+            cartRepository: cartrepository,
           ),
       child: _OtpView(
         phone: phone,

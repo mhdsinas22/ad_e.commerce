@@ -1,3 +1,4 @@
+import 'package:ad_e_commerce/core/utils/app_logger.dart';
 import 'package:ad_e_commerce/features/cart/data/datasources/cart_local_datasource.dart';
 import 'package:ad_e_commerce/features/cart/data/datasources/cart_remote_datasource.dart';
 import 'package:ad_e_commerce/features/cart/data/models/local_cart_item_model.dart';
@@ -52,7 +53,11 @@ class CartRepositoryImpl implements CartRepository {
   Future<void> updateCartitem({
     required String cartitemid,
     required int quantity,
-  }) {
+  }) async {
+    final user = Supabase.instance.client.auth.currentUser;
+    if (user == null) {
+      return cartLocalDatasource.updateCart(cartitemid, quantity);
+    }
     return remote.updateQuantity(cartItemId: cartitemid, quantity: quantity);
   }
 
@@ -105,5 +110,24 @@ class CartRepositoryImpl implements CartRepository {
   @override
   Future<int> getTotalStocks({required String productId}) {
     return remote.getTotalStocks(productId: productId);
+  }
+
+  @override
+  Future<void> syncGuestCart() async {
+    try {
+      final user = Supabase.instance.client.auth.currentUser;
+      if (user == null) return;
+      final hiveitems = await cartLocalDatasource.getCartItems();
+      for (var item in hiveitems) {
+        await remote.addToCart(
+          productId: item.productId,
+          storeName: item.storename,
+          price: item.price,
+        );
+        await cartLocalDatasource.clearCart();
+      }
+    } catch (e) {
+      AppLogger.error("Sync GuestCart Error:-${e.toString()}");
+    }
   }
 }

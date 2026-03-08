@@ -250,8 +250,8 @@ class CartBloc extends Bloc<CartEvent, CartState> {
       final items = await cartRepository.getCartItems();
       final totals = _calculateTotals(items);
       final userid = Supabase.instance.client.auth.currentUser?.id;
-      final walletBalance = await walletRepo.getWallet(userid!);
-      print("Bloc Items Length: ${items.length}");
+      final walletBalance =
+          userid == null ? null : await walletRepo.getWallet(userid);
       emit(
         state.copyWith(
           status: CartStatus.loaded,
@@ -261,11 +261,11 @@ class CartBloc extends Bloc<CartEvent, CartState> {
           deliveryFee: totals['deliveryFee'],
           totalAmount: totals['totalAmount'],
           isAdding: false,
-          walletBalance: walletBalance.balance,
+          walletBalance: walletBalance?.balance,
         ),
       );
     } catch (e) {
-      AppLogger.error("GetCartItems:_${e.toString()}");
+      AppLogger.error("GetCartItems blocSide:_${e.toString()}");
       emit(state.copyWith(status: CartStatus.error, error: e.toString()));
     }
   }

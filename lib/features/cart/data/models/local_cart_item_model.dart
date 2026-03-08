@@ -20,7 +20,7 @@ class LocalCartItemModel extends CartItem {
     final product = json["products"];
     AppLogger.info("PRODUCT JSON 👉 $product");
     return LocalCartItemModel(
-      id: json["product_id"] ?? "",
+      id: json["id"] ?? "",
       productId: json["product_id"] ?? "",
       price: (json['price'] as num?)?.toDouble() ?? 0.0,
       quantity: (json["quantity"] as num?)?.toInt() ?? 0,

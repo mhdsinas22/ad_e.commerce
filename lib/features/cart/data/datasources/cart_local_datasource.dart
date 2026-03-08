@@ -41,9 +41,61 @@ class CartLocalDatasource {
 
   Future<void> removeCartItem(String cartItemid) async {
     try {
-      await box.delete(cartItemid);
+      final items =
+          box.values
+              .map(
+                (e) =>
+                    LocalCartItemModel.fromJson(Map<String, dynamic>.from(e)),
+              )
+              .toList();
+      final index = items.indexWhere((element) => element.id == cartItemid);
+      if (index != -1) {
+        await box.deleteAt(index);
+      }
     } catch (e) {
       AppLogger.error("Hive Delete Cart Error:-${e.toString()}");
+    }
+  }
+
+  Future<void> clearCart() async {
+    try {
+      await box.clear();
+    } catch (e) {
+      AppLogger.error("Hive Clear Cart Error:-${e.toString()}");
+    }
+  }
+
+  Future<void> updateCart(String cartItemid, int quantity) async {
+    try {
+      final items =
+          box.values
+              .map(
+                (e) =>
+                    LocalCartItemModel.fromJson(Map<String, dynamic>.from(e)),
+              )
+              .toList();
+
+      final index = items.indexWhere((e) => e.id == cartItemid);
+      if (index != -1) {
+        final oldItem = items[index];
+        final updatedItem = LocalCartItemModel(
+          id: oldItem.id,
+          productId: oldItem.productId,
+          price: oldItem.price,
+          quantity: quantity,
+          storename: oldItem.storename,
+          title: oldItem.title,
+          modelNumber: oldItem.modelNumber,
+          imageUrl: oldItem.imageUrl,
+          storeage: oldItem.storeage,
+          color: oldItem.color,
+          rating: oldItem.rating,
+          noOfRating: oldItem.noOfRating,
+        );
+        await box.putAt(index, updatedItem.toJson());
+      }
+    } catch (e) {
+      AppLogger.error("Hive Updated Cart Error:-${e.toString()}");
     }
   }
 }
