@@ -44,12 +44,10 @@ class _SearchPage extends StatelessWidget {
           } else if (screenWidth > 600) {
             crossAxisCount = 3;
           }
-
           // Responsive Aspect Ratio to prevent overflow
           double childAspectRatio = 0.68;
           if (screenWidth > 600) childAspectRatio = 0.75;
           if (screenWidth > 1200) childAspectRatio = 0.8;
-
           return CustomScrollView(
             slivers: [
               AppSliverAppBar(showBack: true, removeLogo: true),

@@ -17,6 +17,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:ad_e_commerce/core/widgets/shimmers/profile_shimmer.dart';
 
 class EditProfilePage extends StatelessWidget {
   const EditProfilePage({super.key});
@@ -140,7 +141,7 @@ class _EditProfileViewState extends State<_EditProfileView> {
         },
         builder: (context, state) {
           if (state.status == EditProfileStatus.loading && state.user == null) {
-            return const Center(child: CircularProgressIndicator());
+            return const Center(child: ProfileShimmer());
           }
 
           if (state.user != null) {

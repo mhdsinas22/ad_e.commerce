@@ -17,6 +17,7 @@ class AppTextFormField extends StatelessWidget {
   final double width;
   final double? height;
   final EdgeInsetsGeometry? padding;
+  final FocusNode? focusNode;
   const AppTextFormField({
     super.key,
     required this.hintText,
@@ -35,6 +36,7 @@ class AppTextFormField extends StatelessWidget {
     this.width = double.infinity,
     this.height,
     this.padding,
+    this.focusNode,
   });
 
   @override
@@ -44,6 +46,7 @@ class AppTextFormField extends StatelessWidget {
       width: width,
       height: height,
       child: TextFormField(
+        focusNode: focusNode,
         initialValue: initialValue,
         enabled: enabled,
         key: Key(keyvalue),

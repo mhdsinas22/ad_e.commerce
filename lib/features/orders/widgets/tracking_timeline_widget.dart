@@ -15,6 +15,10 @@ class TrackingTimelineWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final logistics =
+        orders.logistics != null && orders.logistics!.isNotEmpty
+            ? orders.logistics!.first
+            : null;
     final steps = [
       {
         'title': 'Order Placed',
@@ -30,7 +34,11 @@ class TrackingTimelineWidget extends StatelessWidget {
         'title': 'Shipped',
         'date': DateFormatter.formatOrderDateTime(orders.shippedAt),
         'description':
-            'Your item is on the way.\nCourier: BlueDart, Tracking ID: BD123456789,\nEstimated Delivery: 2025-11-02.',
+            (currentStatus.toLowerCase() == 'shipped' ||
+                    currentStatus.toLowerCase() == 'in transit' ||
+                    currentStatus.toLowerCase() == 'delivered')
+                ? 'In Transit\nYour item is on the way.\nCourier:${logistics?.courierPartner ?? "-"},Tracking ID: ${logistics?.trackingNumber ?? "-"},\nEstimated Delivery: ${DateFormatter.formatDate(logistics!.pickupDate.toString())}.'
+                : '',
       },
       {
         'title': 'Delivered',

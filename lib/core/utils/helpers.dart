@@ -273,6 +273,15 @@ String buildDropdownTitle(Warranty warranty) {
 
     return "$name ($repair)";
   }
+  if (type == "shop") {
+    final nameMatch = RegExp(r'device_name:\s*([^,}]+)').firstMatch(raw);
+    final orderMatch = RegExp(r'device_model:\s*([^,}]+)').firstMatch(raw);
+
+    final name = nameMatch?.group(1)?.trim() ?? "Unknown";
+    final order = orderMatch?.group(1)?.trim() ?? "";
+
+    return "$name ($order)";
+  }
 
   return raw;
 }

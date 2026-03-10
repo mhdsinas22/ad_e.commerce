@@ -1,3 +1,4 @@
+import 'package:ad_e_commerce/features/orders/data/models/order_logistics_model.dart';
 import 'package:ad_e_commerce/features/orders/domain/enities/order_item.dart';
 
 class Orders {
@@ -14,6 +15,7 @@ class Orders {
   final DateTime? packedAt;
   final DateTime? shippedAt;
   final DateTime? deliveredAt;
+  final List<OrderLogisticsModel>? logistics;
 
   Orders({
     this.id,
@@ -29,5 +31,6 @@ class Orders {
     this.packedAt,
     this.shippedAt,
     this.deliveredAt,
+    this.logistics,
   });
 }

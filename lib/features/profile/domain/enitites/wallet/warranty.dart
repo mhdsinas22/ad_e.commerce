@@ -12,6 +12,7 @@ class Warranty {
   final String? repairCode;
   final String? displayName;
   final String? type;
+  final String? coverageType;
   Warranty({
     this.id,
     required this.warrantyCardid,
@@ -26,6 +27,7 @@ class Warranty {
     this.repairCode,
     this.displayName,
     this.type,
+    this.coverageType,
   });
   Warranty copyWith({
     String? id,
@@ -41,6 +43,7 @@ class Warranty {
     String? repairCode,
     String? displayName,
     String? type,
+    String? coverageType,
   }) {
     return Warranty(
       id: id ?? this.id,
@@ -56,6 +59,7 @@ class Warranty {
       repairCode: repairCode ?? this.repairCode,
       displayName: displayName ?? this.displayName,
       type: type ?? this.type,
+      coverageType: coverageType ?? this.coverageType,
     );
   }
 }

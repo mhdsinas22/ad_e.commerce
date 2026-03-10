@@ -6,8 +6,28 @@ import 'package:ad_e_commerce/features/search/bloc/search_event.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class SearchBarw extends StatelessWidget {
+class SearchBarw extends StatefulWidget {
   const SearchBarw({super.key});
+
+  @override
+  State<SearchBarw> createState() => _SearchBarwState();
+}
+
+class _SearchBarwState extends State<SearchBarw> {
+  final FocusNode searchFocus = FocusNode();
+  @override
+  void initState() {
+    super.initState();
+    Future.delayed(Duration(milliseconds: 300), () {
+      searchFocus.requestFocus();
+    });
+  }
+
+  @override
+  void dispose() {
+    searchFocus.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -16,6 +36,7 @@ class SearchBarw extends StatelessWidget {
         constraints: const BoxConstraints(maxWidth: 800),
         padding: const EdgeInsets.symmetric(horizontal: 16.0),
         child: AppTextFormField(
+          focusNode: searchFocus,
           onChanged: (value) {
             context.read<SearchBloc>().add(SerachTextChanged(query: value));
           },

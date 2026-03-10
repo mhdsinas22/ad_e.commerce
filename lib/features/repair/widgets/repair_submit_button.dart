@@ -1,3 +1,4 @@
+import 'package:ad_e_commerce/core/theme/app_colors.dart';
 import 'package:ad_e_commerce/core/widgets/primary_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -13,7 +14,9 @@ class RepairSubmitButton extends StatelessWidget {
     return BlocBuilder<RepairFormBloc, RepairFormState>(
       builder: (context, state) {
         if (state.status == FormStatus.loading) {
-          return const Center(child: CircularProgressIndicator());
+          return const Center(
+            child: CircularProgressIndicator(color: AppColors.primaryBlack),
+          );
         }
         return SizedBox(
           width: 110,

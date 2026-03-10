@@ -1,3 +1,4 @@
+import 'package:ad_e_commerce/core/theme/app_colors.dart';
 import 'package:flutter/material.dart';
 
 class CheckoutButton extends StatelessWidget {
@@ -22,7 +23,7 @@ class CheckoutButton extends StatelessWidget {
         style: ElevatedButton.styleFrom(
           backgroundColor:
               isEnabled
-                  ? Color(0xFF005CE6)
+                  ? AppColors.primaryBlack
                   : Colors.grey, // Vibrant Blue if enabled, Grey if disabled
           foregroundColor: Colors.white,
           padding: EdgeInsets.symmetric(vertical: 16),

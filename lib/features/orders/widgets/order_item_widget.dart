@@ -148,7 +148,7 @@ class OrderItemWidget extends StatelessWidget {
           const SizedBox(height: 12),
           PrimaryButton(
             fontsize: 16,
-            height: 30,
+            height: 40,
             text: "View Details",
             onPressed: () {
               Navigator.push(

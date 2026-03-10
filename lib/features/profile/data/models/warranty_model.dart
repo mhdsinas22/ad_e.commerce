@@ -15,6 +15,7 @@ class WarrantyModel extends Warranty {
     super.repairCode,
     super.displayName,
     super.type,
+    super.coverageType,
   });
 
   @override
@@ -32,6 +33,7 @@ class WarrantyModel extends Warranty {
     String? repairCode,
     String? displayName,
     String? type,
+    String? coverageType,
   }) {
     return WarrantyModel(
       id: id ?? this.id,
@@ -47,6 +49,7 @@ class WarrantyModel extends Warranty {
       repairCode: repairCode ?? this.repairCode,
       displayName: displayName ?? this.displayName,
       type: type ?? this.type,
+      coverageType: coverageType ?? this.coverageType,
     );
   }
 
@@ -65,6 +68,7 @@ class WarrantyModel extends Warranty {
       repairCode: entity.repairCode,
       displayName: entity.displayName,
       type: entity.type,
+      coverageType: entity.coverageType,
     );
   }
 
@@ -83,6 +87,7 @@ class WarrantyModel extends Warranty {
       repairCode: json["repair_code"],
       displayName: json["display_name"],
       type: json["type"],
+      coverageType: json["warranty_coverage"],
     );
   }
 
@@ -96,6 +101,7 @@ class WarrantyModel extends Warranty {
       "selected_specific_plan": specificPlan,
       "product": product,
       "imei_serial": imeiSerial,
+      "warranty_coverage": coverageType,
     };
   }
 }

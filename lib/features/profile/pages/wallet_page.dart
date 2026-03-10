@@ -1,4 +1,6 @@
 import 'package:ad_e_commerce/core/theme/app_colors.dart';
+import 'package:ad_e_commerce/core/widgets/shimmers/shimmer_list.dart';
+import 'package:ad_e_commerce/core/widgets/shimmers/list_tile_shimmer.dart';
 import 'package:ad_e_commerce/features/profile/bloc/wallet/wallet_bloc.dart';
 import 'package:ad_e_commerce/features/profile/bloc/wallet/wallet_event.dart';
 import 'package:ad_e_commerce/features/profile/bloc/wallet/wallet_state.dart';
@@ -85,7 +87,13 @@ class WalletPageUi extends StatelessWidget {
               BlocBuilder<WalletBloc, WalletState>(
                 builder: (context, state) {
                   if (state.status == WalletStatus.loading) {
-                    return const Center(child: CircularProgressIndicator());
+                    return const ShimmerList(
+                      itemCount: 5,
+                      itemBuilder: ListTileShimmer(
+                        hasLeadingIcon: true,
+                        hasTrailing: true,
+                      ),
+                    );
                   }
                   if (state.transactions.isEmpty) {
                     return const Center(child: Text("No transactions"));

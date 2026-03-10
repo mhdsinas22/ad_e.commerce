@@ -157,7 +157,6 @@ class WarrantyPage extends StatelessWidget {
                         ),
 
                         const SizedBox(height: 16),
-
                         // Days Remaining
                         Align(
                           alignment: Alignment.centerRight,
@@ -172,7 +171,16 @@ class WarrantyPage extends StatelessWidget {
                         ),
 
                         const SizedBox(height: 16),
-
+                        Row(
+                          children: [
+                            AppTexts.regular("Coverage Type:", fontSize: 16),
+                            AppTexts.regular(
+                              warranty.coverageType ?? "",
+                              fontSize: 16,
+                            ),
+                          ],
+                        ),
+                        const SizedBox(height: 6),
                         // Dates
                         _buildDateRow(
                           "Purchase",
@@ -204,9 +212,12 @@ class WarrantyPage extends StatelessWidget {
                           isCovered: true,
                         ),
                         const CoverageItem(
-                          text: "Battery < 80%",
+                          text: "Battery Replacement",
                           isCovered: true,
-                        ), // Duplicate in design? Keeping as is logic-wise but code had duplicates
+                        ),
+                        const SizedBox(height: 12),
+                        AppTexts.bold("Not Covered", fontSize: 18),
+                        const SizedBox(height: 12),
                         const CoverageItem(
                           text: "Accidental Damage",
                           isCovered: false,
@@ -216,11 +227,7 @@ class WarrantyPage extends StatelessWidget {
                           isCovered: false,
                         ),
                         const CoverageItem(
-                          text: "Accidental Damage",
-                          isCovered: false,
-                        ),
-                        const CoverageItem(
-                          text: "Liquid Contact",
+                          text: "Theft/Loss",
                           isCovered: false,
                         ),
 
@@ -232,9 +239,7 @@ class WarrantyPage extends StatelessWidget {
                           width: double.infinity,
                           height: 54,
                           text: "Request Repair",
-                          backgroudColor: const Color(
-                            0xFF0055FF,
-                          ), // Brighter blue
+                          backgroudColor: AppColors.primaryBlack,
                           fontcolor: Colors.white,
                           onPressed: () {
                             final bottomNavBloc = context.read<BottomNavBloc>();
@@ -245,8 +250,8 @@ class WarrantyPage extends StatelessWidget {
                         const SizedBox(height: 12),
                         PrimaryButton(
                           needBorder: true,
-                          borderColor: const Color(0xFF0055FF),
-                          fontcolor: const Color(0xFF0055FF),
+                          borderColor: AppColors.primaryBlack,
+                          fontcolor: AppColors.primaryBlack,
                           backgroudColor: Colors.white,
                           borderRadius: 12,
                           width: double.infinity,

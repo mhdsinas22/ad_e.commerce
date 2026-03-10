@@ -1,4 +1,5 @@
 import 'package:ad_e_commerce/features/orders/data/models/order_item_model.dart';
+import 'package:ad_e_commerce/features/orders/data/models/order_logistics_model.dart';
 import 'package:ad_e_commerce/features/orders/domain/enities/orders.dart';
 
 class OrderModel extends Orders {
@@ -16,6 +17,7 @@ class OrderModel extends Orders {
     super.shippedAt,
     super.deliveredAt,
     super.createdAt,
+    super.logistics,
   });
   factory OrderModel.fromJson(Map<String, dynamic> json) {
     return OrderModel(
@@ -45,6 +47,12 @@ class OrderModel extends Orders {
           json['created_at'] != null
               ? DateTime.parse(json['created_at'])
               : null,
+      logistics:
+          json["order_logistics"] == null
+              ? []
+              : (json["order_logistics"] as List)
+                  .map((e) => OrderLogisticsModel.fromJson(e))
+                  .toList(),
     );
   }
   factory OrderModel.fromEntity(Orders order) {

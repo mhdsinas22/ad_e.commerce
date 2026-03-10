@@ -105,33 +105,33 @@ class _ProductImageCarouselState extends State<ProductImageCarouselUi> {
               ),
             ),
           ),
-          const SizedBox(height: 16),
-          BlocBuilder<ProductImageSilderBloc, ProductImageSilderState>(
-            builder: (context, state) {
-              final count = context.read<ProductImageSilderBloc>().imagecount;
-              return Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: List.generate(
-                  count,
-                  (index) => AnimatedContainer(
-                    duration: const Duration(milliseconds: 300),
-                    margin: const EdgeInsets.symmetric(horizontal: 4),
-                    height: 12,
-                    width: state.currentIndex == index ? 10 : 5,
-                    decoration: BoxDecoration(
-                      color:
-                          state.currentIndex == index
-                              ? AppColors.primaryBlack
-                              : AppColors.grayColor,
+          // const SizedBox(height: 16),
+          // BlocBuilder<ProductImageSilderBloc, ProductImageSilderState>(
+          //   builder: (context, state) {
+          //     final count = context.read<ProductImageSilderBloc>().imagecount;
+          //     return Row(
+          //       mainAxisAlignment: MainAxisAlignment.center,
+          //       children: List.generate(
+          //         count,
+          //         (index) => AnimatedContainer(
+          //           duration: const Duration(milliseconds: 300),
+          //           margin: const EdgeInsets.symmetric(horizontal: 4),
+          //           height: 12,
+          //           width: state.currentIndex == index ? 10 : 5,
+          //           decoration: BoxDecoration(
+          //             color:
+          //                 state.currentIndex == index
+          //                     ? AppColors.primaryBlack
+          //                     : AppColors.grayColor,
 
-                      shape: BoxShape.circle,
-                    ),
-                  ),
-                ),
-              );
-            },
-          ),
-          const SizedBox(height: 10),
+          //             shape: BoxShape.circle,
+          //           ),
+          //         ),
+          //       ),
+          //     );
+          //   },
+          // ),
+          // const SizedBox(height: 10),
           widget.isNeedBanner
               ? SizedBox()
               : BlocBuilder<ProductImageSilderBloc, ProductImageSilderState>(

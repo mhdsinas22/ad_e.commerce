@@ -82,7 +82,8 @@ class OrderRemoteDatasouceimpl implements OrderRemoteDatasource {
           .from("orders")
           .select('''
           *,
-          order_items (*)
+          order_items (*),
+          order_logistics(*)
         ''')
           .eq("user_id", userId)
           .order('created_at', ascending: false);
