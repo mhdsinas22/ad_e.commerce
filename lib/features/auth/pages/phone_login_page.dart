@@ -217,7 +217,7 @@ class _UsernameInput extends StatelessWidget {
             ),
             focusedBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(59.12),
-              borderSide: const BorderSide(color: Color(0xFF0052FF), width: 1),
+              borderSide: BorderSide(color: AppColors.primaryBlack, width: 1),
             ),
           ),
           validator: (value) {

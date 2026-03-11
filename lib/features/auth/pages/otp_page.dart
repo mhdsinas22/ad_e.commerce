@@ -140,8 +140,22 @@ class _OtpView extends StatelessWidget {
   }
 }
 
-class _OtpInput extends StatelessWidget {
+class _OtpInput extends StatefulWidget {
   const _OtpInput();
+
+  @override
+  State<_OtpInput> createState() => _OtpInputState();
+}
+
+class _OtpInputState extends State<_OtpInput> {
+  final FocusNode _focusNode = FocusNode();
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _focusNode.requestFocus();
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -152,8 +166,9 @@ class _OtpInput extends StatelessWidget {
               previous.status != current.status,
       builder: (context, state) {
         return Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 30),
+          padding: const EdgeInsets.symmetric(horizontal: 10),
           child: PinCodeTextField(
+            focusNode: _focusNode,
             enabled: state.status != OtpStatus.verifying,
             appContext: context,
             length: 6,
