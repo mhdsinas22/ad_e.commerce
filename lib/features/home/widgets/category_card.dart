@@ -1,4 +1,5 @@
 import 'package:ad_e_commerce/core/theme/app_colors.dart';
+import 'package:ad_e_commerce/core/widgets/app_text.dart';
 import 'package:flutter/material.dart';
 
 enum CategoryCardLayout { horizontal, vertical }
@@ -53,13 +54,10 @@ class CategoryCard extends StatelessWidget {
           alignment: Alignment.topCenter,
           child: Padding(
             padding: EdgeInsets.only(top: isBig ? 24 : 12),
-            child: Text(
+            child: AppTexts.semiBold(
               title,
-              style: TextStyle(
-                fontSize: isBig ? 20 : 13,
-                fontWeight: FontWeight.w600,
-                letterSpacing: -0.5,
-              ),
+              fontSize: isBig ? 20 : 13,
+              // letterSpacing: -0.5,
             ),
           ),
         ),
@@ -87,13 +85,10 @@ class CategoryCard extends StatelessWidget {
     return Row(
       children: [
         const SizedBox(width: 10),
-        Text(
+        AppTexts.semiBold(
           title,
-          style: TextStyle(
-            fontSize: isBig ? 15 : 12,
-            fontWeight: FontWeight.w600,
-            letterSpacing: -0.5,
-          ),
+          fontSize: isBig ? 15 : 12,
+          // letterSpacing: -0.5,
         ),
         const SizedBox(width: 6),
         Expanded(

@@ -15,6 +15,10 @@ class CartItemWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final storagetext =
+        item.storeage.isEmpty
+            ? item.color
+            : "${(item.storeage)} - ${(item.color)}";
     return Container(
       padding: const EdgeInsets.all(16),
       margin: const EdgeInsets.only(bottom: 16),
@@ -76,10 +80,7 @@ class CartItemWidget extends StatelessWidget {
           const SizedBox(height: 8),
 
           // Title
-          AppTexts.semiBold(
-            "${item.title}(${item.storeage})-${item.color}",
-            fontSize: 16,
-          ),
+          AppTexts.semiBold("${item.title} $storagetext", fontSize: 16),
           const SizedBox(height: 4),
 
           // Model

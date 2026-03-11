@@ -36,7 +36,7 @@ class FlashSaleSection extends StatelessWidget {
               );
             }
             if (state.flashSaleProducts.isEmpty) {
-              return const Center(child: Text("No flash sale products"));
+              return Center(child: AppTexts.regular("No flash sale products"));
             }
             return ListView.separated(
               scrollDirection: Axis.horizontal,

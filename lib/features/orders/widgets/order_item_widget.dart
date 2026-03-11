@@ -125,7 +125,7 @@ class OrderItemWidget extends StatelessWidget {
 
           // Title
           AppTexts.semiBold(
-            "${orderItem.productName}   ${orderItem.productStorge.isEmpty ? "-" : "(${orderItem.productStorge})-"}${orderItem.productColor}",
+            "${orderItem.productName}${orderItem.productStorge.isEmpty ? "-" : "(${orderItem.productStorge})-"}${orderItem.productColor}",
             fontSize: 16,
             maxLines: 2,
             overflow: TextOverflow.ellipsis,
