@@ -6,6 +6,10 @@ import 'package:ad_e_commerce/features/checkout/bloc/address/address_bloc.dart';
 import 'package:ad_e_commerce/features/checkout/bloc/address/address_event.dart';
 import 'package:ad_e_commerce/features/checkout/bloc/address/address_state.dart';
 import 'package:ad_e_commerce/features/checkout/data/models/address_model.dart';
+import 'package:ad_e_commerce/features/payment/data/datasource/razorpay_datasource_impl.dart';
+import 'package:ad_e_commerce/features/payment/data/repo/payment_repository_impl.dart';
+import 'package:ad_e_commerce/features/payment/domain/usecase/make_payment.dart';
+import 'package:ad_e_commerce/features/payment/presentation/bloc/payment_bloc.dart';
 import 'package:ad_e_commerce/features/product/domain/entites/product.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -14,7 +18,7 @@ import '../widgets/header_section.dart';
 import '../widgets/address_section.dart';
 import '../widgets/checkout_button.dart';
 
-class CheckoutPage extends StatefulWidget {
+class CheckoutPage extends StatelessWidget {
   final bool isMyaddressScreen;
   final bool isDirectBuy;
   final Product? directProduct;
@@ -26,10 +30,44 @@ class CheckoutPage extends StatefulWidget {
   });
 
   @override
-  State<CheckoutPage> createState() => _CheckoutPageState();
+  Widget build(BuildContext context) {
+    final RazorpayDatasourceImpl razorpayDatasourceImpl =
+        RazorpayDatasourceImpl();
+    final PaymentRepositoryImpl paymentRepositoryImpl = PaymentRepositoryImpl(
+      datasource: razorpayDatasourceImpl,
+    );
+    final MakePayment makePayment = MakePayment(paymentRepositoryImpl);
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(
+          create: (context) => PaymentBloc(makePayment: makePayment),
+        ),
+      ],
+      child: CheckoutPageUi(
+        isMyaddressScreen: isMyaddressScreen,
+        isDirectBuy: isDirectBuy,
+        directProduct: directProduct,
+      ),
+    );
+  }
 }
 
-class _CheckoutPageState extends State<CheckoutPage> {
+class CheckoutPageUi extends StatefulWidget {
+  final bool isMyaddressScreen;
+  final bool isDirectBuy;
+  final Product? directProduct;
+  const CheckoutPageUi({
+    super.key,
+    this.isMyaddressScreen = false,
+    this.isDirectBuy = false,
+    this.directProduct,
+  });
+
+  @override
+  State<CheckoutPageUi> createState() => _CheckoutPageState();
+}
+
+class _CheckoutPageState extends State<CheckoutPageUi> {
   final pincodeController = TextEditingController();
   final houseController = TextEditingController();
   final localityController = TextEditingController();
@@ -81,7 +119,6 @@ class _CheckoutPageState extends State<CheckoutPage> {
   void initState() {
     super.initState();
     context.read<AddressBloc>().add(FetchAddressEvent());
-
     // Add listeners for validation
     pincodeController.addListener(_onFormChanged);
     houseController.addListener(_onFormChanged);
@@ -322,12 +359,10 @@ class _CheckoutPageState extends State<CheckoutPage> {
             pincodeController.text.trim().isEmpty
                 ? entity.pincode
                 : pincodeController.text.trim(),
-
         house:
             houseController.text.trim().isEmpty
                 ? entity.house
                 : houseController.text.trim(),
-
         area:
             localityController.text.trim().isEmpty
                 ? entity.area

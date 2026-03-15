@@ -4,6 +4,7 @@ import 'package:ad_e_commerce/features/orders/bloc/order_state.dart';
 
 import 'package:ad_e_commerce/features/orders/domain/repo/order_repo.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
 class OrderBloc extends Bloc<OrderEvent, OrderState> {
   final OrderRepo orderRepo;
@@ -22,8 +23,13 @@ class OrderBloc extends Bloc<OrderEvent, OrderState> {
         orderitems: event.orderitems,
       );
       await Future.delayed(const Duration(seconds: 2));
+      await Supabase.instance.client.functions.invoke(
+        "send-notification",
+        body: {"type": "new_order"},
+      );
       emit(state.copyWith(status: OrdersStatus.success));
     } catch (e) {
+      AppLogger.error("Order Error:-${e.toString()}");
       emit(
         state.copyWith(
           status: OrdersStatus.failure,

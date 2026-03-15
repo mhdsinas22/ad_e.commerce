@@ -3,6 +3,8 @@ import 'package:ad_e_commerce/core/routes/route_names.dart';
 import 'package:ad_e_commerce/core/theme/app_colors.dart';
 import 'package:ad_e_commerce/core/utils/navigator.dart';
 import 'package:ad_e_commerce/core/widgets/app_text.dart';
+import 'package:ad_e_commerce/features/legal/data/policy_content.dart';
+import 'package:ad_e_commerce/features/legal/widgets/policy_viewer_sheet.dart';
 
 import 'package:ad_e_commerce/features/profile/widgets/profile_menu_item.dart';
 import 'package:ad_e_commerce/features/profile/widgets/profle_side_appbar.dart';
@@ -23,11 +25,45 @@ class SupportLegelPage extends StatelessWidget {
             children: [
               SizedBox(height: 20),
 
-              ProfileMenuItem(title: "Help & Support", onTap: () {}),
+              ProfileMenuItem(
+                title: "Privacy Policy",
+                onTap:
+                    () => showPolicySheet(context, PolicyContent.privacyPolicy),
+              ),
               SizedBox(height: 10),
               ProfileMenuItem(
-                title: "Terms & Conditions / Privacy Policy",
-                onTap: () {},
+                title: "Terms of Service",
+                onTap: () {
+                  showPolicySheet(context, PolicyContent.termsOfService);
+                },
+              ),
+              SizedBox(height: 10),
+              ProfileMenuItem(
+                title: "Refund & Return Policy",
+                onTap: () {
+                  showPolicySheet(context, PolicyContent.refundReturnPolicy);
+                },
+              ),
+              SizedBox(height: 10),
+              ProfileMenuItem(
+                title: "Shipping Policy",
+                onTap: () {
+                  showPolicySheet(context, PolicyContent.shippingPolicy);
+                },
+              ),
+              SizedBox(height: 10),
+              ProfileMenuItem(
+                title: "Warranty Policy",
+                onTap: () {
+                  showPolicySheet(context, PolicyContent.warrantyPolicy);
+                },
+              ),
+              SizedBox(height: 10),
+              ProfileMenuItem(
+                title: "Contact information",
+                onTap: () {
+                  showPolicySheet(context, PolicyContent.contactInformation);
+                },
               ),
               SizedBox(height: 10),
               ProfileMenuItem(

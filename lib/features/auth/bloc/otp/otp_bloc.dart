@@ -1,5 +1,6 @@
 // ignore_for_file: unused_element
 import 'dart:async';
+import 'package:ad_e_commerce/core/services/notification_service.dart';
 import 'package:ad_e_commerce/features/auth/bloc/otp/otp_event.dart';
 import 'package:ad_e_commerce/features/auth/bloc/otp/otp_state.dart';
 import 'package:ad_e_commerce/features/cart/domain/repositories/cart_repository.dart';
@@ -11,6 +12,7 @@ class OtpBloc extends Bloc<OtpEvent, OtpState> {
   final SupabaseClient supabase;
   final WalletRemoteDataSource walletRemoteDataSource;
   final CartRepository cartRepository;
+  final NotificationService notificationService;
   final String phone;
   final String name;
   Timer? _timer;
@@ -19,6 +21,7 @@ class OtpBloc extends Bloc<OtpEvent, OtpState> {
     required this.walletRemoteDataSource,
     required this.name,
     required this.cartRepository,
+    required this.notificationService,
   }) : supabase = Supabase.instance.client,
        super(const OtpState()) {
     // on<OtpTimerTicked>(_onTimerTicked);
@@ -59,6 +62,9 @@ class OtpBloc extends Bloc<OtpEvent, OtpState> {
           throw Exception("Refresh token is null from Edge Function");
         }
         await supabase.auth.setSession(refreshToken);
+        await notificationService.attachUser(
+          Supabase.instance.client.auth.currentUser!.id,
+        );
         await cartRepository.syncGuestCart();
 
         emit(state.copyWith(status: OtpStatus.verified));

@@ -1,4 +1,4 @@
-package com.adecommerce.app
+package com.aerstore.app
 
 import io.flutter.embedding.android.FlutterActivity
 

@@ -3,6 +3,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:ad_e_commerce/features/repair/domain/entities/repair_request_entity.dart';
 import 'package:ad_e_commerce/features/repair/domain/repositories/repair_repository.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
 // --- Events ---
 abstract class RepairFormEvent extends Equatable {
@@ -177,6 +178,10 @@ class RepairFormBloc extends Bloc<RepairFormEvent, RepairFormState> {
       await repository.submitRepairRequest(
         request: requestEntity,
         images: event.images,
+      );
+      Supabase.instance.client.functions.invoke(
+        "send-notification",
+        body: {"type": "new_repair"},
       );
 
       emit(state.copyWith(status: FormStatus.success));

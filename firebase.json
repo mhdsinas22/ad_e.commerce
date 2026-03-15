@@ -1,16 +1,1 @@
-{
-    "hosting": {
-        "public": "build/web",
-        "ignore": [
-            "firebase.json",
-            "**/.*",
-            "**/node_modules/**"
-        ],
-        "rewrites": [
-            {
-                "source": "**",
-                "destination": "/index.html"
-            }
-        ]
-    }
-}
+{"hosting":{"public":"build/web","ignore":["firebase.json","**/.*","**/node_modules/**"],"rewrites":[{"source":"**","destination":"/index.html"}]},"flutter":{"platforms":{"android":{"default":{"projectId":"adcommerce-notification","appId":"1:973193697170:android:3658ef6ef9ef34f313d34b","fileOutput":"android/app/google-services.json"}},"ios":{"default":{"projectId":"adcommerce-notification","appId":"1:973193697170:ios:112e77cab0dbe8ab13d34b","uploadDebugSymbols":false,"fileOutput":"ios/Runner/GoogleService-Info.plist"}},"macos":{"default":{"projectId":"adcommerce-notification","appId":"1:973193697170:ios:af3244ec65becf7e13d34b","uploadDebugSymbols":false,"fileOutput":"macos/Runner/GoogleService-Info.plist"}},"dart":{"lib/firebase_options.dart":{"projectId":"adcommerce-notification","configurations":{"android":"1:973193697170:android:3658ef6ef9ef34f313d34b","ios":"1:973193697170:ios:112e77cab0dbe8ab13d34b","macos":"1:973193697170:ios:af3244ec65becf7e13d34b","web":"1:973193697170:web:30691b6b9622b75513d34b","windows":"1:973193697170:web:3dcab00d04cf808313d34b"}}}}}}

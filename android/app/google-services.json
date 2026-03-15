@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "973193697170",
+    "project_id": "adcommerce-notification",
+    "storage_bucket": "adcommerce-notification.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:973193697170:android:3658ef6ef9ef34f313d34b",
+        "android_client_info": {
+          "package_name": "com.aerstore.app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDJD24KhIYz2wEw_JHgGCdnsb1OE6XXQCc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,4 +1,5 @@
 import 'package:ad_e_commerce/core/routes/route_names.dart';
+import 'package:ad_e_commerce/core/services/notification_service.dart';
 import 'package:ad_e_commerce/core/theme/app_colors.dart';
 import 'package:ad_e_commerce/core/utils/navigator.dart';
 import 'package:ad_e_commerce/core/widgets/app_text.dart';
@@ -8,6 +9,8 @@ import 'package:ad_e_commerce/features/auth/bloc/otp/otp_state.dart';
 import 'package:ad_e_commerce/features/cart/data/datasources/cart_local_datasource.dart';
 import 'package:ad_e_commerce/features/cart/data/datasources/cart_remote_datasourceimpl.dart';
 import 'package:ad_e_commerce/features/cart/data/repositories/cart_repository_impl.dart';
+import 'package:ad_e_commerce/features/notification/data/datasource/notification_remote_datasourceimpl.dart';
+import 'package:ad_e_commerce/features/notification/data/repositories/notification_repo_impl.dart';
 import 'package:ad_e_commerce/features/profile/data/datasource/wallet_remote_datasource_impl.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -36,6 +39,9 @@ class OtpPage extends StatelessWidget {
       CartRemoteDatasourceimpl(supabase),
       CartLocalDatasource(),
     );
+    final notificationService = NotificationService(
+      NotificationRepoImpl(NotificationRemoteDatasourceimpl()),
+    );
     return BlocProvider(
       create:
           (context) => OtpBloc(
@@ -43,6 +49,7 @@ class OtpPage extends StatelessWidget {
             phone: phone,
             walletRemoteDataSource: walletRemoteDataSource,
             cartRepository: cartrepository,
+            notificationService: notificationService,
           ),
       child: _OtpView(
         phone: phone,

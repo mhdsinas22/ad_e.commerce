@@ -18,6 +18,8 @@ import 'package:ad_e_commerce/features/product/domain/usecases/get_flashsale_pro
 import 'package:ad_e_commerce/features/product/domain/usecases/get_product_usecase.dart';
 import 'package:ad_e_commerce/features/profile/data/datasource/wallet_remote_datasource_impl.dart';
 import 'package:ad_e_commerce/features/profile/data/repositories/wallet_repo_impl.dart';
+import 'package:ad_e_commerce/firebase_options.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
@@ -29,6 +31,7 @@ const supabaseAnonKey = String.fromEnvironment('SUPABASE_ANON_KEY');
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   // Dotenv init
   await dotenv.load(fileName: ".env");
   // Supabase init
