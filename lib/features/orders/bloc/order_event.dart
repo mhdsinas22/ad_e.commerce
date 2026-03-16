@@ -13,3 +13,15 @@ class LoadOrdersEvent extends OrderEvent {
   final String userid;
   LoadOrdersEvent({required this.userid});
 }
+
+class CancelOrderEvent extends OrderEvent {
+  final String orderId;
+  final String reason;
+  final String userId;
+
+  CancelOrderEvent({
+    required this.orderId,
+    required this.reason,
+    required this.userId,
+  });
+}

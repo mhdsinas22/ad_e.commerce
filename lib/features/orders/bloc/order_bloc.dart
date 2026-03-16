@@ -11,6 +11,7 @@ class OrderBloc extends Bloc<OrderEvent, OrderState> {
   OrderBloc(this.orderRepo) : super(OrderState()) {
     on<CreateOrderEvent>(_createOrder);
     on<LoadOrdersEvent>(_loadOrders);
+    on<CancelOrderEvent>(_cancelOrder);
   }
   Future<void> _createOrder(
     CreateOrderEvent event,
@@ -55,6 +56,38 @@ class OrderBloc extends Bloc<OrderEvent, OrderState> {
       );
     } catch (e) {
       AppLogger.error("Order Error:-${e.toString()}");
+      emit(
+        state.copyWith(
+          status: OrdersStatus.failure,
+          errormessege: e.toString(),
+        ),
+      );
+    }
+  }
+
+  Future<void> _cancelOrder(
+    CancelOrderEvent event,
+    Emitter<OrderState> emit,
+  ) async {
+    emit(state.copyWith(status: OrdersStatus.loading));
+    try {
+      await orderRepo.updateOrderStatus(
+        orderId: event.orderId,
+        status: 'cancelled',
+      );
+      // Optional: Store cancel reason if backend supports it. Currently just changing status.
+
+      // Re-fetch orders to reflect the change
+      final orders = await orderRepo.getOrders(userId: event.userId);
+      emit(state.copyWith(status: OrdersStatus.success, orders: orders));
+    } catch (e) {
+      AppLogger.error("Order Cancel Error:-${e.toString()}");
+      emit(
+        state.copyWith(
+          status: OrdersStatus.failure,
+          errormessege: e.toString(),
+        ),
+      );
     }
   }
 }
