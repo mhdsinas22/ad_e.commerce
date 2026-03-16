@@ -9,6 +9,7 @@ import 'package:ad_e_commerce/features/auth/bloc/login/login_bloc.dart';
 import 'package:ad_e_commerce/features/auth/bloc/login/login_event.dart';
 import 'package:ad_e_commerce/features/auth/bloc/login/login_state.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
@@ -189,6 +190,10 @@ class _UsernameInput extends StatelessWidget {
       buildWhen: (previous, current) => previous.phone != current.phone,
       builder: (context, state) {
         return TextFormField(
+          inputFormatters: [
+            FilteringTextInputFormatter.digitsOnly,
+            LengthLimitingTextInputFormatter(10),
+          ],
           keyboardType: TextInputType.number,
           autovalidateMode:
               submitted
@@ -222,7 +227,10 @@ class _UsernameInput extends StatelessWidget {
           ),
           validator: (value) {
             if (value == null || value.isEmpty) {
-              return 'Please enter your username';
+              return 'Please enter your Number';
+            }
+            if (!RegExp(r'^[0-9]{10}$').hasMatch(value)) {
+              return '10 digit phone number enter cheyyuka';
             }
             return null;
           },
@@ -247,7 +255,9 @@ class _LoginButtonState extends State<_LoginButton> {
     return BlocBuilder<LoginBloc, LoginState>(
       builder: (context, state) {
         return state.status == LoginStatus.loading
-            ? const Center(child: CircularProgressIndicator())
+            ? const Center(
+              child: CircularProgressIndicator(color: AppColors.primaryBlack),
+            )
             : SizedBox(
               width: double.infinity,
               child: FilledButton(

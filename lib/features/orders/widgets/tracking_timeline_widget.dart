@@ -37,7 +37,7 @@ class TrackingTimelineWidget extends StatelessWidget {
             (currentStatus.toLowerCase() == 'shipped' ||
                     currentStatus.toLowerCase() == 'in transit' ||
                     currentStatus.toLowerCase() == 'delivered')
-                ? 'In Transit\nYour item is on the way.\nCourier:${logistics?.courierPartner ?? "-"},Tracking ID: ${logistics?.trackingNumber ?? "-"},\nEstimated Delivery: ${DateFormatter.formatDate(logistics!.pickupDate.toString())}.'
+                ? 'In Transit\nYour item is on the way.\nCourier:${logistics?.courierPartner ?? "-"},Tracking ID: ${logistics?.trackingNumber ?? "-"},\nEstimated Delivery: ${logistics?.pickupDate != null ? DateFormatter.formatDate(logistics!.pickupDate.toString()) : "-"}.'
                 : '',
       },
       {
