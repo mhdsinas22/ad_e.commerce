@@ -36,19 +36,19 @@ class OrderItemModel extends OrderItem {
   }
   factory OrderItemModel.fromJson(Map<String, dynamic> json) {
     return OrderItemModel(
-      id: json["id"],
-      orderId: json["order_id"],
-      productId: json["product_id"],
-      productName: json["product_name"],
-      productImage: json["product_image"],
-      sku: json["sku"],
-      price: json["price"],
-      quantity: json["quantity"],
-      productStorge: json["product_stroage"],
-      productColor: json["product_color"],
-      productModelNumber: json["product_modelnumber"],
-      productNoOfRating: json["product_no_of_rating"],
-      productrating: json["product_rating"],
+      id: json["id"] ?? "",
+      orderId: json["order_id"] ?? "",
+      productId: json["product_id"] ?? "",
+      productName: json["product_name"] ?? "",
+      productImage: json["product_image"] ?? "",
+      sku: json["sku"] ?? "",
+      price: (json["price"] as num?)?.toDouble() ?? 0.0,
+      quantity: (json["quantity"] as num?)?.toInt() ?? 0,
+      productStorge: json["product_stroage"] ?? "",
+      productColor: json["product_color"] ?? "",
+      productModelNumber: json["product_modelnumber"] ?? "",
+      productNoOfRating: json["product_no_of_rating"] ?? "",
+      productrating: json["product_rating"] ?? "",
     );
   }
   Map<String, dynamic> toJson({required String orderID}) {

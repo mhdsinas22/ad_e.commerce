@@ -60,17 +60,22 @@ class DigitalWarrantyCard extends StatelessWidget {
             padding: const EdgeInsets.all(24),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 // Logo area
-                SvgPicture.asset(
-                  AssetConstants.aerprimarylogo,
-                  color: Colors.white,
-                  width: 120,
+                Align(
+                  alignment: Alignment.topLeft,
+                  child: SizedBox(
+                    height: 32,
+                    child: SvgPicture.asset(
+                      AssetConstants.aeradjustsvg,
+                      color: Colors.white,
+                      fit: BoxFit.contain,
+                      alignment: Alignment.centerLeft,
+                    ),
+                  ),
                 ),
-
-                const Spacer(),
-
+                const SizedBox(height: 32), // 👈 important spacing
                 // Code
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -99,8 +104,7 @@ class DigitalWarrantyCard extends StatelessWidget {
                   ],
                 ),
 
-                const SizedBox(height: 20),
-
+                const Spacer(), // 👈 move spacer here
                 // Status
                 Text(
                   status.toUpperCase(),

@@ -3,7 +3,7 @@ import '../models/policy_model.dart';
 class PolicyContent {
   static PolicyModel privacyPolicy = PolicyModel(
     title: "Privacy Policy",
-    subtitle: "AER App & Website",
+    subtitle: "",
     effectiveDate: "Effective Date: March 12, 2026",
     content: """
 # Privacy Policy
@@ -17,10 +17,10 @@ By using our services, you agree to the collection and use of information in acc
 # 1. Company Information
 
 **Company Name:** AER LLP\n
-**Address**:\n
-28/204/B, Near Yan Engineering,\n
-Melmuri, Malappuram (P.O)\n
-Kerala – 676517\n
+**Address**:
+28/204/B, Near Yan Engineering,
+Melmuri, Malappuram (P.O)
+Kerala – 676517
 India\n
 **Email**: aerstorellp@gmail.com\n
 **Phone**: [+91 7511166623](tel:+917511166623)\n
@@ -112,14 +112,14 @@ These services may process limited information required to perform their functio
 
 ---
 
-8. Location Information
+# 8. Location Information
 The AER App does not collect continuous location data.
 Location or address information is only collected when you manually enter a delivery
 address during checkout.
 
 ---
 
-9. Data Security
+# 9. Data Security
 We take reasonable measures to protect your information using:\n
 ● Secure servers\n
 ● Authentication systems\n
@@ -129,7 +129,7 @@ We take reasonable measures to protect your information using:\n
 
 However, no system can guarantee absolute security.
 ---
-10. Account Deletion
+# 10. Account Deletion
 Users may request account deletion by contacting our support team.
 To request account deletion, contact:
 Email: aerstorellp@gmail.com
@@ -148,17 +148,18 @@ Warranty coverage varies depending on the product type.\n
 ● **New Products**: Covered under the manufacturer’s warranty.\n
 ● **Used Products**: Covered under AER warranty, as specified on the product page.\n
 Warranty terms may differ depending on the product.\n
+---
  # 13. Changes to This Privacy Policy
 AER LLP may update this Privacy Policy from time to time.\n
 Updates will be posted on our website and within the application.\n
-
+---
 # 14. Contact Us
 If you have any questions regarding this Privacy Policy, you may contact us:
 AER LLP
 28/204/B, Near Yan Engineering
 Melmuri, Malappuram – 676517
 Kerala, India
-Email: aerstorellp@gmail.com
+Email: aerstorellp@gmail.com\n
 **Phone**: [+91 7511166623](tel:+917511166623)\n
 Website: www.aerstore.in
 """,
@@ -173,16 +174,18 @@ Website: www.aerstore.in
 Effective Date: March 12, 2026
 These Terms of Service ("Terms") govern your access to and use of the AER App and
 website www.aerstore.in, operated by AER LLP.
-By accessing or using our services, you agree to comply with these Terms.
+By accessing or using our services, you agree to comply with these Terms. 
 
+---
 # 1. Company Information
-Company: AER LLP\n
-Address:\n
-28/204/B, Near Yan Engineering\n
-Melmuri, Malappuram (P.O) – 676517\n
+**Company:** AER LLP\n
+**Address:**
+28/204/B, Near Yan Engineering
+Melmuri, Malappuram (P.O) – 676517
 Kerala, India\n
-Email: aerstorellp@gmail.com\n
-**Phone**: [+91 7511166623](tel:+917511166623)\n
+**Email:** [aerstorellp@gmail.com](mailto:aerstorellp@gmail.com)\n
+**Phone:** [+91 7511166623](tel:+917511166623)\n
+---
 # 2. Services Provided
 AER provides the following services through the app and website:\n
 ● Sale of electronic devices and accessories\n
@@ -190,6 +193,7 @@ AER provides the following services through the app and website:\n
 ● Device repair services\n
 ● Warranty registration and management\n
 ● Product purchase and delivery services\n
+---
 # 3. User Accounts
 Users must create an account to access certain services.
 Users agree to:\n
@@ -197,6 +201,7 @@ Users agree to:\n
 ● Keep login credentials secure\n
 ● Not misuse the platform\n
 AER reserves the right to suspend accounts if fraudulent activity or misuse is detected.\n
+---
 # 4. Payments
 All payments made on the AER App or website are securely processed through Razorpay.
 Accepted payment methods include:\n
@@ -205,17 +210,21 @@ Accepted payment methods include:\n
 ● Net Banking\n
 ● Digital Wallets\n
 **AER does not store payment card information.**
-Cash on Delivery (COD) is not available.
+Cash on Delivery (COD) is not available. 
+
+---
 # 5. Product Information
 AER strives to ensure accurate product descriptions, pricing, and availability.\n
 However:\n
 ● Minor variations in product images or specifications may occur.\n
 ● Availability may change without notice.\n
+---
 # 6. Warranty
 Warranty coverage depends on the product type:\n
-**New Products** :Covered under manufacturer warranty.\n
-**Used Products** :Covered under AER warranty as specified on the product page.\n
+**New Products:**Covered under manufacturer warranty.\n
+**Used Products:**Covered under AER warranty as specified on the product page.\n
 Warranty terms may vary by product.\n
+---
 # 7 . Repair Services
 AER provides device repair services directly.\n
 Users must provide accurate device information when booking repair services.
@@ -225,6 +234,8 @@ AER is not responsible for:\n
 
 
 Users are advised to back up their data before submitting devices for repair.
+
+---
 # 8. Prohibited Activities
 Users must not:\n
 ● Use the platform for illegal activities\n
@@ -234,11 +245,14 @@ Users must not:\n
 
 
 Violation may result in account suspension.
+
+---
 # 9. Limitation of Liability
-AER LLP shall not be liable for:
+AER LLP shall not be liable for:\n
 ● Indirect or incidental damages\n
 ● Delays caused by courier services\n
 ● Manufacturer defects beyond warranty coverage\n
+---
 # 10. Governing Law
 These Terms are governed by the laws of India.\n
 Any disputes shall fall under the jurisdiction of the courts in Malappuram, Kerala, India.
@@ -250,7 +264,9 @@ Any disputes shall fall under the jurisdiction of the courts in Malappuram, Kera
     effectiveDate: " March 12, 2026",
     content: '''Refund & Return Policy
 Effective Date: March 12, 2026
-AER aims to ensure customer satisfaction with every purchase.
+AER aims to ensure customer satisfaction with every purchase. 
+
+---
 # 1. Damaged Products
 If a product arrives damaged, customers must provide complete video proof.
 The video must:\n
@@ -259,16 +275,21 @@ The video must:\n
 ● Have no edits or filters\n
 ● Show the entire unboxing process\n
 Without this proof, AER will not be able to process the refund or exchange.
+
+---
 # 2. Wrong Product
 If the wrong product is delivered due to an error from our side, AER will:\n
 ● Verify the issue with evidence\n
 ● Arrange replacement or refund\n
+---
 # 3. Order Cancellation
 Orders can be cancelled by contacting customer support.
 Contact:\n
-**Phone**: [+91 7511166623](tel:+917511166623)\n
-Email: aerstorellp@gmail.com\n
+**Phone:** [+91 7511166623](tel:+917511166623)\n
+**Email:** aerstorellp@gmail.com\n
 Cancellation eligibility depends on the order processing stage.\n
+
+---
 # 4. Refund Processing Time
 Approved refunds will be processed within:\n
 5–7 business days\n
@@ -281,8 +302,12 @@ Refunds will be issued through the original payment method. ''',
     content: """Shipping & Delivery Policy
 Effective Date: March 12, 2026
 AER LLP delivers products across India.
+
+---
 # 1. Delivery Areas
-We ship to all serviceable locations in India through available postal and courier services.
+We ship to all serviceable locations in India through available postal and courier services. 
+
+---
 # 2. Shipping Partners
 Orders may be delivered through:\n
 ● DTDC\n
@@ -290,6 +315,8 @@ Orders may be delivered through:\n
 ● India Post\n
 ● Other available courier partners\n
 Courier partner selection depends on location availability.
+
+---
 # 3. Delivery Time
 Estimated delivery time:
 3–7 business days
@@ -298,6 +325,7 @@ Delivery time may vary depending on:\n
 ● Courier service\n
 ● Public holidays\n
 ● Unexpected delays\n
+---
 # 4. Shipping Confirmation
 Customers will receive notifications regarding:\n
 ● Order confirmation\n
@@ -312,20 +340,28 @@ Customers will receive notifications regarding:\n
     content: ''' Warranty Policy
 Effective Date: March 12, 2026
 AER provides warranty services depending on the product category.
+
+
+
+---
 # 1. New Products
 New products sold through AER are covered under the manufacturer's warranty.
-Customers must follow the manufacturer’s warranty process for claims.
+Customers must follow the manufacturer’s warranty process for claims. 
+
+---
 # 2. Used Products
 Used products may include AER warranty, as clearly mentioned on the product page.
 Warranty coverage may include:\n
 ● Limited service warranty\n
 ● Functional assurance for a specified period\n
-### 3. Warranty Registration
+---
+# 3. Warranty Registration
 Warranty may be registered through the AER App or via backend activation by AER.
 Users may need to provide:\n
 ● Order details\n
 ● Device information\n
 ● Purchase proof\n
+---
 # 4. Warranty Exclusions
 Warranty does not cover:\n
 ● Physical damage\n
@@ -333,6 +369,7 @@ Warranty does not cover:\n
 ● Unauthorized repair\n
 ● Improper usage\n
 # 5. Warranty Claim Process\n
+---
 Users can request warranty support through:\n
 ● AER App\n
 ● Customer support contact\n
@@ -342,11 +379,11 @@ After verification, AER will provide further instructions.''',
     title: "Contact Information",
     subtitle: "AER App & Website",
     effectiveDate: "",
-    content: '''Contact Information
-Trade name: AER LLP\n
-**Phone**: [+91 7511166623](tel:+917511166623)\n
-**Email**: [aerstorellp@gmail.com](mailto:aerstorellp@gmail.com)\n
-**Physical address**: 28/204/B, Near Yan Engineering, Melmuri, Malappuram – 676517\n
+    content: '''
+**Trade name:** AER LLP\n
+**Phone:** [+91 7511166623](tel:+917511166623)\n
+**Email:** [aerstorellp@gmail.com](mailto:aerstorellp@gmail.com)\n
+**Physical address:** 28/204/B, Near Yan Engineering, Melmuri, Malappuram – 676517
 Kerala, India''',
   );
 }

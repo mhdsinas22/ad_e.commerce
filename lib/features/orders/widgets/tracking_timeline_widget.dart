@@ -19,36 +19,53 @@ class TrackingTimelineWidget extends StatelessWidget {
         orders.logistics != null && orders.logistics!.isNotEmpty
             ? orders.logistics!.first
             : null;
-    final steps = [
-      {
-        'title': 'Order Placed',
-        'date': DateFormatter.formatOrderDateTime(orders.createdAt),
-        'description': 'Your order has been placed.',
-      },
-      {
-        'title': 'Packed',
-        'date': DateFormatter.formatOrderDateTime(orders.packedAt),
-        'description': 'Seller has packed your order.',
-      },
-      {
-        'title': 'Shipped',
-        'date': DateFormatter.formatOrderDateTime(orders.shippedAt),
-        'description':
-            (currentStatus.toLowerCase() == 'shipped' ||
-                    currentStatus.toLowerCase() == 'in transit' ||
-                    currentStatus.toLowerCase() == 'delivered')
-                ? 'In Transit\nYour item is on the way.\nCourier:${logistics?.courierPartner ?? "-"},Tracking ID: ${logistics?.trackingNumber ?? "-"},\nEstimated Delivery: ${logistics?.pickupDate != null ? DateFormatter.formatDate(logistics!.pickupDate.toString()) : "-"}.'
-                : '',
-      },
-      {
-        'title': 'Delivered',
-        'date': DateFormatter.formatOrderDateTime(orders.deliveredAt),
-        'description': '',
-      },
-    ];
+    final isCancelled = currentStatus.toLowerCase() == 'cancelled';
+
+    final steps = isCancelled 
+        ? [
+            {
+              'title': 'Order Placed',
+              'date': DateFormatter.formatOrderDateTime(orders.createdAt),
+              'description': 'Your order has been placed.',
+            },
+            {
+              'title': 'Cancelled',
+              'date': '16 Mar 2026', // Based on prompt requirement
+              'description': 'Your order has been cancelled.',
+            },
+          ]
+        : [
+            {
+              'title': 'Order Placed',
+              'date': DateFormatter.formatOrderDateTime(orders.createdAt),
+              'description': 'Your order has been placed.',
+            },
+            {
+              'title': 'Packed',
+              'date': DateFormatter.formatOrderDateTime(orders.packedAt),
+              'description': 'Seller has packed your order.',
+            },
+            {
+              'title': 'Shipped',
+              'date': DateFormatter.formatOrderDateTime(orders.shippedAt),
+              'description':
+                  (currentStatus.toLowerCase() == 'shipped' ||
+                          currentStatus.toLowerCase() == 'in transit' ||
+                          currentStatus.toLowerCase() == 'delivered')
+                      ? 'In Transit\nYour item is on the way.\nCourier:${logistics?.courierPartner ?? "-"}\nTracking ID: ${logistics?.trackingNumber ?? "-"}\nEstimated Delivery: ${logistics?.pickupDate != null ? DateFormatter.formatDate(logistics!.pickupDate.toString()) : "-"}'
+                      : '',
+            },
+            {
+              'title': 'Delivered',
+              'date': DateFormatter.formatOrderDateTime(orders.deliveredAt),
+              'description': '',
+            },
+          ];
 
     int currentStepIndex = 0;
-    if (currentStatus.toLowerCase() == 'placed') {
+    if (isCancelled) {
+      currentStepIndex = 1;
+    } else if (currentStatus.toLowerCase() == 'placed') {
       currentStepIndex = 0;
     } else if (currentStatus.toLowerCase() == 'packed') {
       currentStepIndex = 1;
@@ -89,6 +106,7 @@ class TrackingTimelineWidget extends StatelessWidget {
               final isCompleted = index <= currentStepIndex;
               final isCurrent = index == currentStepIndex;
               final isLast = index == steps.length - 1;
+              final isCancelledStep = isCancelled && index == 1;
 
               return Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -99,22 +117,24 @@ class TrackingTimelineWidget extends StatelessWidget {
                         width: 40,
                         height: 40,
                         decoration: BoxDecoration(
-                          color:
-                              isCompleted
+                          color: isCancelledStep 
+                              ? Colors.red 
+                              : (isCompleted
                                   ? Colors.green
                                   : (isCurrent
                                       ? AppColors.primaryBlack
-                                      : const Color(0xFFE0E0E0)),
+                                      : const Color(0xFFE0E0E0))),
                           shape: BoxShape.circle,
                         ),
                         child: Center(
                           child: Icon(
-                            isCompleted
-                                ? Icons.check
-                                : (index == 2
-                                    ? Icons.local_shipping_outlined
-                                    : Icons
-                                        .circle), // Status specific icons if needed
+                            isCancelledStep
+                                ? Icons.close
+                                : (isCompleted
+                                    ? Icons.check
+                                    : (index == 2
+                                        ? Icons.local_shipping_outlined
+                                        : Icons.circle)), 
                             color: Colors.white,
                             size: 20,
                           ),
@@ -124,10 +144,11 @@ class TrackingTimelineWidget extends StatelessWidget {
                         Container(
                           width: 2,
                           height: 60, // Fixed height connector
-                          color:
-                              isCompleted
+                          color: isCancelledStep
+                              ? Colors.transparent // No connector after cancelled, or if there is, but it's the last step anyway
+                              : (isCompleted
                                   ? Colors.green
-                                  : const Color(0xFFE0E0E0),
+                                  : const Color(0xFFE0E0E0)),
                         ),
                     ],
                   ),
@@ -139,20 +160,20 @@ class TrackingTimelineWidget extends StatelessWidget {
                         AppTexts.semiBold(
                           step['title']!,
                           fontSize: 16,
-                          color: Colors.black, // Always black title
+                          color: isCancelledStep ? Colors.red : Colors.black,
                         ),
                         const SizedBox(height: 4),
                         AppTexts.regular(
                           step['date']!,
                           fontSize: 13,
-                          color: AppColors.grayColor,
+                          color: isCancelledStep ? Colors.red.shade300 : AppColors.grayColor,
                         ),
                         if (step['description']!.isNotEmpty) ...[
                           const SizedBox(height: 4),
                           AppTexts.regular(
                             step['description']!,
                             fontSize: 14,
-                            color: Colors.black87,
+                            color: isCancelledStep ? Colors.red.shade900 : Colors.black87,
                             maxLines: 5,
                             height: 1.4,
                           ),

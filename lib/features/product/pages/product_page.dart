@@ -26,15 +26,23 @@ class ProductPage extends StatelessWidget {
   }
 }
 
-class _ProductPage extends StatelessWidget {
+class _ProductPage extends StatefulWidget {
   final Product product;
   const _ProductPage({required this.product});
 
   @override
+  State<_ProductPage> createState() => _ProductPageState();
+}
+
+class _ProductPageState extends State<_ProductPage>
+    with TickerProviderStateMixin {
+  bool isExpanded = false;
+  @override
   Widget build(BuildContext context) {
+    final isLongText = widget.product.description!.length > 100;
     final isSoldOut =
-        product.stocks.any((stock) => stock.quantity == 0) ||
-        product.isActive == false;
+        widget.product.stocks.any((stock) => stock.quantity == 0) ||
+        widget.product.isActive == false;
     return Scaffold(
       body: SingleChildScrollView(
         child: Column(
@@ -42,7 +50,7 @@ class _ProductPage extends StatelessWidget {
           children: [
             Stack(
               children: [
-                ProductImageCarousel(images: product.imageUrls),
+                ProductImageCarousel(images: widget.product.imageUrls),
                 if (isSoldOut)
                   Positioned.fill(
                     child: Container(
@@ -149,7 +157,7 @@ class _ProductPage extends StatelessWidget {
                       const Icon(Icons.star, color: Colors.amber, size: 20),
                       const SizedBox(width: 4),
                       Text(
-                        "${product.rating}",
+                        "${widget.product.rating}",
                         style: TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.bold,
@@ -157,16 +165,16 @@ class _ProductPage extends StatelessWidget {
                       ),
                       const SizedBox(width: 4),
                       Text(
-                        "(${product.noofreviews}) Reviews",
+                        "(${widget.product.noofreviews}) Reviews",
                         style: TextStyle(fontSize: 16, color: Colors.grey[600]),
                       ),
                     ],
                   ),
                   const SizedBox(height: 12),
                   // Title
-                  product.storage.isEmpty || product.ram.isEmpty
+                  widget.product.storage.isEmpty || widget.product.ram.isEmpty
                       ? Text(
-                        product.title,
+                        widget.product.title,
                         style: const TextStyle(
                           fontSize: 22,
                           fontWeight: FontWeight.w500,
@@ -174,7 +182,7 @@ class _ProductPage extends StatelessWidget {
                         ),
                       )
                       : Text(
-                        "${product.title}  (${product.storage})-${product.ram}",
+                        "${widget.product.title}  (${widget.product.storage})-${widget.product.ram}",
                         style: const TextStyle(
                           fontSize: 22,
                           fontWeight: FontWeight.w500,
@@ -185,7 +193,7 @@ class _ProductPage extends StatelessWidget {
                   const SizedBox(height: 4),
                   // Model
                   Text(
-                    "Model: ${product.modelNumber}",
+                    "Model: ${widget.product.modelNumber}",
                     style: const TextStyle(fontSize: 14, color: Colors.black54),
                   ),
                   const SizedBox(height: 16),
@@ -193,7 +201,7 @@ class _ProductPage extends StatelessWidget {
                   Row(
                     children: [
                       Text(
-                        "₹ ${product.price.toStringAsFixed(0)}", // Assuming typical formatting
+                        "₹ ${widget.product.price.toStringAsFixed(0)}", // Assuming typical formatting
                         style: const TextStyle(
                           fontSize: 20,
                           fontWeight: FontWeight.bold,
@@ -202,7 +210,7 @@ class _ProductPage extends StatelessWidget {
                       ),
                       const SizedBox(width: 10),
                       AppTexts.bold(
-                        "₹ ${product.originalPrice?.toStringAsFixed(0)}", // Assuming typical formatting
+                        "₹ ${widget.product.originalPrice?.toStringAsFixed(0)}", // Assuming typical formatting
                         fontSize: 20,
                         color: AppColors.purered,
                         isOffer: true,
@@ -223,32 +231,46 @@ class _ProductPage extends StatelessWidget {
                         ),
                       ),
                       const SizedBox(height: 8),
-                      Align(
-                        alignment: Alignment.centerLeft,
-                        child: AppTexts.medium(
-                          "${product.description}",
-                          fontSize: 16,
-                          height: 1.6,
-                        ),
-                      ),
-                    ],
-                  ),
-                  // Key Features Header
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      TextButton(
-                        onPressed: () {},
-                        child: const Text(
-                          "View All",
-                          style: TextStyle(
-                            color: AppColors.primaryBlack,
-                            fontWeight: FontWeight.w600,
+                      AnimatedSize(
+                        curve: Curves.easeInOut,
+                        duration: const Duration(milliseconds: 300),
+                        child: Align(
+                          alignment: Alignment.centerLeft,
+                          child: AppTexts.medium(
+                            "${widget.product.description}",
+                            fontSize: 16,
+                            maxLines: isExpanded ? null : 2,
+                            overflow:
+                                isExpanded
+                                    ? TextOverflow.visible
+                                    : TextOverflow.ellipsis,
+                            height: 1.6,
                           ),
                         ),
                       ),
                     ],
                   ),
+                  // Key Features Header
+                  if (isLongText)
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        TextButton(
+                          onPressed: () {
+                            setState(() {
+                              isExpanded = !isExpanded;
+                            });
+                          },
+                          child: Text(
+                            isExpanded ? "Show Less" : "View All",
+                            style: TextStyle(
+                              color: AppColors.primaryBlack,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
 
                   // Placeholder for features list
                 ],
@@ -346,7 +368,7 @@ class _ProductPage extends StatelessWidget {
                     child: BlocBuilder<CartBloc, CartState>(
                       builder: (context, state) {
                         final isInCart = state.cartitems.any(
-                          (element) => element.productId == product.id,
+                          (element) => element.productId == widget.product.id,
                         );
                         // ⏳ Loading
                         if (state.status == CartStatus.loading) {
@@ -387,18 +409,21 @@ class _ProductPage extends StatelessWidget {
                                   : () {
                                     context.read<CartBloc>().add(
                                       AddToCartEvent(
-                                        imageUrl: product.imageUrls[0],
-                                        productid: product.id!,
+                                        imageUrl: widget.product.imageUrls[0],
+                                        productid: widget.product.id!,
                                         storename: "",
-                                        price: product.price,
+                                        price: widget.product.price,
                                         noOfRating:
-                                            product.noofreviews.toString(),
-                                        rating: product.rating.toString(),
+                                            widget.product.noofreviews
+                                                .toString(),
+                                        rating:
+                                            widget.product.rating.toString(),
                                         modelNumber:
-                                            product.modelNumber.toString(),
-                                        title: product.title.toString(),
-                                        color: product.color,
-                                        storage: product.storage,
+                                            widget.product.modelNumber
+                                                .toString(),
+                                        title: widget.product.title.toString(),
+                                        color: widget.product.color,
+                                        storage: widget.product.storage,
                                       ),
                                     );
                                   },
@@ -439,7 +464,7 @@ class _ProductPage extends StatelessWidget {
                                     redirectArgs: {
                                       "isMyaddressScreen": false,
                                       "isDirectBuy": true,
-                                      "directProduct": product,
+                                      "directProduct": widget.product,
                                     },
                                   )
                                   : Appnavigotor.pushnamed(
@@ -448,7 +473,7 @@ class _ProductPage extends StatelessWidget {
                                     {
                                       "isMyaddressScreen": false,
                                       "isDirectBuy": true,
-                                      "directProduct": product,
+                                      "directProduct": widget.product,
                                     },
                                   );
                             },

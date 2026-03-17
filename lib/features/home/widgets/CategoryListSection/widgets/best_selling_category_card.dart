@@ -29,7 +29,7 @@ class BestSellingCategoryCard extends StatelessWidget {
           borderRadius: BorderRadius.circular(14),
           boxShadow: [
             BoxShadow(
-              color: Colors.black.withOpacity(0.05),
+              color: Colors.black.withOpacity(0.10),
               blurRadius: 6,
               offset: const Offset(0, 3),
             ),

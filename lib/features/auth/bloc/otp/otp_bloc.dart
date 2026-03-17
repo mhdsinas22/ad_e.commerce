@@ -62,9 +62,9 @@ class OtpBloc extends Bloc<OtpEvent, OtpState> {
           throw Exception("Refresh token is null from Edge Function");
         }
         await supabase.auth.setSession(refreshToken);
-        await notificationService.attachUser(
-          Supabase.instance.client.auth.currentUser!.id,
-        );
+        final userId = supabase.auth.currentUser!.id;
+        await walletRemoteDataSource.createWallet(userId);
+        await notificationService.attachUser(userId);
         await cartRepository.syncGuestCart();
 
         emit(state.copyWith(status: OtpStatus.verified));

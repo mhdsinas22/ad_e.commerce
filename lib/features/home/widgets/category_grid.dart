@@ -40,7 +40,7 @@ class CategoryGrid extends StatelessWidget {
                     onTap: () => handleNavigation(context, item),
                     title: item.title,
                     image: item.image,
-                    size: CategoryCardSize.big,
+                    size: CategoryCardSize.small,
                     layout: CategoryCardLayout.vertical,
                   );
                 },
@@ -61,6 +61,8 @@ class CategoryGrid extends StatelessWidget {
                 itemBuilder: (context, index) {
                   final item = categories[index + 2];
                   return CategoryCard(
+                    borderRaduis: 9.88,
+                    customborder: true,
                     onTap: () => handleNavigation(context, item),
                     title: item.title,
                     image: item.image,

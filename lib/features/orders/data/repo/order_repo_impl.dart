@@ -92,6 +92,36 @@ class OrderRepoImpl implements OrderRepo {
   }
 
   @override
+  Future<void> cancelOrder({
+    required Orders order,
+    required String reason,
+  }) async {
+    try {
+      if (order.id == null) return;
+      
+      // Update order status and set reason/time
+      await remote.updateOrderStatus(
+        orderId: order.id!,
+        status: 'cancelled',
+        cancelReason: reason,
+        cancelledAt: DateTime.now(),
+      );
+
+      // Refund wallet amount if wallet was used
+      if (order.walletUsed > 0) {
+        await walletRemoteDataSource.refundWallet(
+          order.userId,
+          order.walletUsed,
+          'Refund for cancelled order #${order.id?.substring(0, 8).toUpperCase()}',
+        );
+      }
+    } catch (e) {
+      AppLogger.error("Cancel Order Repo Error:-${e.toString()}");
+      throw Exception("Cancel order Repo failed: $e");
+    }
+  }
+
+  @override
   Future<void> deleteOrder({required String orderId}) async {
     try {
       return remote.deleteOrder(orderId: orderId);

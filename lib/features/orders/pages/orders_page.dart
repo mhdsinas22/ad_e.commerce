@@ -80,7 +80,33 @@ class OrderPageUi extends StatelessWidget {
       body: Center(
         child: ConstrainedBox(
           constraints: const BoxConstraints(maxWidth: 1200),
-          child: BlocBuilder<OrderBloc, OrderState>(
+          child: BlocConsumer<OrderBloc, OrderState>(
+            listener: (context, state) {
+              if (state.status == OrdersStatus.success &&
+                  state.isCancelSuccess) {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                    content: AppTexts.medium(
+                      "Order cancelled successfully",
+                      color: Colors.white,
+                      fontSize: 14,
+                    ),
+                    backgroundColor: Colors.green,
+                  ),
+                );
+              } else if (state.status == OrdersStatus.failure) {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                    content: AppTexts.medium(
+                      state.errormessege,
+                      color: Colors.white,
+                      fontSize: 14,
+                    ),
+                    backgroundColor: Colors.red,
+                  ),
+                );
+              }
+            },
             builder: (context, state) {
               if (state.status == OrdersStatus.loading) {
                 return const Center(child: CircularProgressIndicator());

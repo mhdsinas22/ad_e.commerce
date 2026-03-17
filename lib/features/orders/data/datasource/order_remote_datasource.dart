@@ -9,6 +9,8 @@ abstract class OrderRemoteDatasource {
   Future<void> updateOrderStatus({
     required String orderId,
     required String status,
+    String? cancelReason,
+    DateTime? cancelledAt,
   });
   Future<void> deleteOrder({required String orderId});
 }

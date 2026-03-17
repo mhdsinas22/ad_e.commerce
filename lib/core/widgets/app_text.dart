@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 class AppTexts {
   AppTexts._();
 
-  static const String _fontFamily = "Onest";
+  static const String _fontFamily = "Inter";
 
   // ---------- EXTRA LIGHT (w200) ----------
   static Text extraLight(

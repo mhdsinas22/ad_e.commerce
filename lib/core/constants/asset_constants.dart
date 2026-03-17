@@ -35,7 +35,7 @@ class AssetConstants {
   static const String bestSellingTablet = "assets/png/Frame 1000005935.png";
   static const String bestSellingAccesories = "assets/png/Frame 1000005936.png";
   static const String aIRDROPAssuranceimg1 = "assets/png/Frame 1000005926.png";
-  static const String aIRDROPAssuranceimg2 = "assets/png/Frame 1000005927.png";
+  static const String aIRDROPAssuranceimg2 = "assets/png/6motn2x.png";
   static const String aIRDROPAssuranceimg3 = "assets/png/Frame 1000005928.png";
   static const String aIRDROPAssuranceimg4 = "assets/png/Frame 1000005929.png";
   static const String howtoClaimwarrntypng = "assets/png/Frame 1000005937.png";
@@ -117,11 +117,11 @@ class AssetConstants {
   static const String powerbank = "assets/png/powebank.png";
   static const String smartwatch = "assets/png/smartwatch.png";
   static const String appleipadpng = "assets/png/appleipad.png";
-  static const String bestsellingmobilepng = "assets/png/bestsellingphones.png";
+  static const String bestsellingmobilepng = "assets/png/2ximage.png";
   static const String bestsellinglaptoppng = "assets/png/bestsellinglaptop.png";
   static const String bestsellingCasespng = "assets/png/bestsellingcases.png";
   static const String samsungtablsellerpng =
-      "assets/png/samsungtabvestseller.png";
+      "assets/png/Screenshot_2025-12-22_at_7.41.04_PM-removebg-preview 1 (1).png";
   static const String smartbestsellingpng = "assets/png/smartbestselling.png";
   static const String logoutpngtemp = "assets/png/images-removebg-preview.png";
   static const String malappuramstorephonto = "assets/png/2026-02-05.webp";
@@ -132,4 +132,5 @@ class AssetConstants {
   static const String laptopCategoryPng = "assets/png/Artboard 19.png";
   static const String accessoriescatpng = "assets/png/Artboard 18.png";
   static const String wearablescatergorypng = "assets/png/Artboard 21.png";
+  static const String aeradjustsvg = "assets/svg/adjustaer.svg";
 }

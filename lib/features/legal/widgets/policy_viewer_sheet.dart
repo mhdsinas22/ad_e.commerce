@@ -37,10 +37,6 @@ class PolicyViewer extends StatelessWidget {
 
           const SizedBox(height: 4),
 
-          AppTexts.regular(policy.subtitle, fontSize: 16),
-
-          const SizedBox(height: 4),
-
           AppTexts.regular(policy.effectiveDate, fontSize: 13),
 
           const Divider(),
@@ -49,6 +45,38 @@ class PolicyViewer extends StatelessWidget {
             child: SingleChildScrollView(
               padding: const EdgeInsets.all(20),
               child: MarkdownBody(
+                styleSheet: MarkdownStyleSheet(
+                  horizontalRuleDecoration: BoxDecoration(
+                    border: Border(
+                      top: BorderSide(
+                        color: const Color.fromARGB(
+                          255,
+                          71,
+                          70,
+                          70,
+                        ).withOpacity(0.2),
+                        width: 1,
+                      ),
+                    ),
+                  ),
+                  p: TextStyle(fontSize: 14, color: Colors.black, height: 1.5),
+
+                  h1: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+
+                  h2: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+
+                  h3: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
+
+                  strong: TextStyle(fontWeight: FontWeight.bold),
+                  blockSpacing: 25, // 🔥 important (section gap)
+                  listIndent: 20,
+                  a: TextStyle(
+                    color: Colors.blue,
+                    decoration: TextDecoration.underline,
+                  ),
+
+                  listBullet: TextStyle(fontSize: 14),
+                ),
                 data: policy.content,
                 selectable: true,
                 onTapLink: (text, href, title) async {

@@ -1,9 +1,11 @@
+import 'package:ad_e_commerce/core/constants/asset_constants.dart';
 import 'package:ad_e_commerce/core/theme/app_colors.dart';
 import 'package:ad_e_commerce/core/widgets/app_text.dart';
 import 'package:ad_e_commerce/features/profile/bloc/wallet/wallet_bloc.dart';
 import 'package:ad_e_commerce/features/profile/bloc/wallet/wallet_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_svg/svg.dart';
 
 class WalletCreditCard extends StatelessWidget {
   const WalletCreditCard({super.key});
@@ -17,7 +19,7 @@ class WalletCreditCard extends StatelessWidget {
         borderRadius: BorderRadius.circular(24),
         boxShadow: [
           BoxShadow(
-            color: Colors.blue.withOpacity(0.2),
+            color: AppColors.primaryBlack.withOpacity(0.2),
             blurRadius: 20,
             offset: const Offset(0, 10),
           ),
@@ -36,11 +38,10 @@ class WalletCreditCard extends StatelessWidget {
                   begin: Alignment.topLeft,
                   end: Alignment.bottomRight,
                   colors: [
-                    Color.fromARGB(255, 38, 74, 114), // Lighter blue/cyan
-                    Color(0xFF2E7BFF), // Mid blue
-                    Color(0xFF8DA4FF), // Light purple hint
+                    Color(0xFF1F1F1F), // Mid blue
+                    Color(0xFF3A3A3A), // Light purple hint
                   ],
-                  stops: [0.0, 0.5, 1.0],
+                  stops: [0.0, 1.0],
                 ),
               ),
               child: Column(
@@ -50,18 +51,18 @@ class WalletCreditCard extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       // Custom Icon (Top Left)
-                      Container(
-                        padding: const EdgeInsets.all(8),
-                        decoration: BoxDecoration(
-                          color: Colors.white.withOpacity(0.2),
-                          borderRadius: BorderRadius.circular(12),
-                        ),
-                        child: const Icon(
-                          Icons.dashboard_customize_outlined,
-                          color: Colors.white,
-                          size: 28,
-                        ),
-                      ),
+                      // Container(
+                      //   padding: const EdgeInsets.all(8),
+                      //   decoration: BoxDecoration(
+                      //     color: Colors.white.withOpacity(0.2),
+                      //     borderRadius: BorderRadius.circular(12),
+                      //   ),
+                      //   child: const Icon(
+                      //     Icons.dashboard_customize_outlined,
+                      //     color: Colors.white,
+                      //     size: 28,
+                      //   ),
+                      // ),
                       // Contactless Icon
                       const Icon(
                         Icons.contactless_rounded,
@@ -78,7 +79,11 @@ class WalletCreditCard extends StatelessWidget {
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          AppTexts.semiBold("NAME", color: AppColors.pureWhite),
+                          AppTexts.semiBold(
+                            "NAME",
+                            color: Colors.white.withOpacity(0.7),
+                            fontSize: 12,
+                          ),
                           const SizedBox(height: 4),
                           BlocBuilder<WalletBloc, WalletState>(
                             builder: (context, state) {
@@ -130,6 +135,13 @@ class WalletCreditCard extends StatelessWidget {
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
+                      Text(
+                        "Balance",
+                        style: TextStyle(
+                          color: Colors.white.withOpacity(0.8),
+                          fontSize: 14,
+                        ),
+                      ),
                       BlocBuilder<WalletBloc, WalletState>(
                         builder: (context, state) {
                           return Text(
@@ -142,14 +154,6 @@ class WalletCreditCard extends StatelessWidget {
                           );
                         },
                       ),
-                      const SizedBox(height: 4),
-                      Text(
-                        "Balance",
-                        style: TextStyle(
-                          color: Colors.white.withOpacity(0.8),
-                          fontSize: 14,
-                        ),
-                      ),
                     ],
                   ),
                   // AirDrop Logo Placeholder
@@ -159,16 +163,12 @@ class WalletCreditCard extends StatelessWidget {
                       // Since we don't have the specific logo asset, we recreate the text style
                       // "Air" normal, "Drop" with a specific look, or just the text
                       // The image has a logo. I'll simulate it with text and icon.
-                      const Icon(Icons.air, color: Colors.white, size: 20),
-                      const SizedBox(width: 4),
-                      const Text(
-                        "AirDrop",
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold,
-                          fontStyle: FontStyle.italic,
-                        ),
+                      // const Icon(Icons.air, color: Colors.white, size: 20),
+                      SvgPicture.asset(
+                        color: AppColors.pureWhite,
+                        AssetConstants.aerprimarylogo,
+                        width: 100,
+                        height: 30,
                       ),
                     ],
                   ),

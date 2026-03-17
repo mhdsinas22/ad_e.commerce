@@ -52,6 +52,7 @@ class OrderBloc extends Bloc<OrderEvent, OrderState> {
           status: OrdersStatus.success,
           orders: orders,
           orderitems: [],
+          isCancelSuccess: false,
         ),
       );
     } catch (e) {
@@ -71,15 +72,19 @@ class OrderBloc extends Bloc<OrderEvent, OrderState> {
   ) async {
     emit(state.copyWith(status: OrdersStatus.loading));
     try {
-      await orderRepo.updateOrderStatus(
-        orderId: event.orderId,
-        status: 'cancelled',
-      );
-      // Optional: Store cancel reason if backend supports it. Currently just changing status.
+      await orderRepo.cancelOrder(order: event.order, reason: event.reason);
+
+      if (event.order.paymentMethod == 'online') {}
 
       // Re-fetch orders to reflect the change
-      final orders = await orderRepo.getOrders(userId: event.userId);
-      emit(state.copyWith(status: OrdersStatus.success, orders: orders));
+      final orders = await orderRepo.getOrders(userId: event.order.userId);
+      emit(
+        state.copyWith(
+          status: OrdersStatus.success,
+          orders: orders,
+          isCancelSuccess: true,
+        ),
+      );
     } catch (e) {
       AppLogger.error("Order Cancel Error:-${e.toString()}");
       emit(

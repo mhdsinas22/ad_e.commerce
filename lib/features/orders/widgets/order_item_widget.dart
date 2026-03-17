@@ -27,7 +27,7 @@ class OrderItemWidget extends StatelessWidget {
       'Found a better price',
       'Delivery taking too long',
       'Ordered by mistake',
-      'Other'
+      'Other',
     ];
     final orderBloc = context.read<OrderBloc>();
 
@@ -125,9 +125,8 @@ class OrderItemWidget extends StatelessWidget {
                               if (user != null && orders.id != null) {
                                 orderBloc.add(
                                   CancelOrderEvent(
-                                    orderId: orders.id!,
+                                    order: orders,
                                     reason: selectedReason,
-                                    userId: user.id,
                                   ),
                                 );
                               }
@@ -329,7 +328,7 @@ class OrderItemWidget extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               AppTexts.medium(
-                "Order #${orders.id?.substring(0, 8).toUpperCase() ?? ''}",
+                "Order #${orders.orderNumber.toString()}",
                 fontSize: 14,
                 color: AppColors.grayColor,
               ),

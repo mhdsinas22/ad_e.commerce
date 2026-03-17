@@ -12,7 +12,7 @@ class AirdropAssurance extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          AppTexts.medium("AIRDROP Assurance", fontSize: 18),
+          AppTexts.medium("AER Assurance", fontSize: 18),
           const SizedBox(height: 16),
           Row(
             crossAxisAlignment: CrossAxisAlignment.start,

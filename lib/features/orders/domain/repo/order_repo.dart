@@ -12,5 +12,9 @@ abstract class OrderRepo {
     required String orderId,
     required String status,
   });
+  Future<void> cancelOrder({
+    required Orders order,
+    required String reason,
+  });
   Future<void> deleteOrder({required String orderId});
 }

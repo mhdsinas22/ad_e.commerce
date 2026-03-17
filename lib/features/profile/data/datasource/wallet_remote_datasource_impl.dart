@@ -18,7 +18,19 @@ class WalletRemoteDatasourceImpl implements WalletRemoteDataSource {
               .eq("user_id", userId)
               .maybeSingle();
       if (res == null) {
-        throw Exception("Wallet not found");
+        await createWallet(userId);
+        // small delay (important sometimes)
+        await Future.delayed(const Duration(milliseconds: 200));
+        final newWallet =
+            await supbase
+                .from("wallets")
+                .select()
+                .eq("user_id", userId)
+                .maybeSingle();
+        if (newWallet == null) {
+          throw Exception("Wallet creation failed");
+        }
+        return WalletModel.fromJson(newWallet);
       }
       return WalletModel.fromJson(res);
     } catch (e) {
@@ -30,13 +42,12 @@ class WalletRemoteDatasourceImpl implements WalletRemoteDataSource {
   @override
   Future<void> createWallet(String userId) async {
     try {
-      final user = supbase.auth.currentUser!.id;
       await supbase.from("wallets").upsert({
-        "user_id": user,
+        "user_id": userId,
         "balance": 0,
       }, onConflict: "user_id");
       await supbase.from("reward_points").upsert({
-        "user_id": user,
+        "user_id": userId,
         "points": 0,
       }, onConflict: "user_id");
     } catch (e) {
@@ -155,6 +166,19 @@ class WalletRemoteDatasourceImpl implements WalletRemoteDataSource {
       return res["username"];
     } catch (e) {
       AppLogger.error("GET USER NAME ERROR: ${e.toString()}");
+      rethrow;
+    }
+  }
+
+  @override
+  Future<void> refundWallet(String userId, double amount, String reason) async {
+    try {
+      await supbase.rpc(
+        "refund_wallet",
+        params: {"p_user_id": userId, "p_amount": amount, "p_reason": reason},
+      );
+    } catch (e) {
+      AppLogger.error("REFUND WALLET ERROR: $e");
       rethrow;
     }
   }

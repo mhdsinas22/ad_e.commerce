@@ -12,20 +12,30 @@ class CategoryCard extends StatelessWidget {
   final CategoryCardLayout layout;
   final CategoryCardSize size;
   final VoidCallback? onTap;
+  final bool customborder;
+  final double borderRaduis;
 
   const CategoryCard({
     super.key,
     required this.title,
     required this.image,
     required this.layout,
+    this.customborder = false,
     this.size = CategoryCardSize.small,
     this.onTap,
+    this.borderRaduis = 1.0,
   });
 
   @override
   Widget build(BuildContext context) {
     final isBig = size == CategoryCardSize.big;
-    final borderRadius = BorderRadius.circular(isBig ? 24 : 16);
+    final borderRadius = BorderRadius.circular(
+      customborder
+          ? borderRaduis
+          : isBig
+          ? 24
+          : 16,
+    );
 
     return InkWell(
       borderRadius: borderRadius,
@@ -54,9 +64,14 @@ class CategoryCard extends StatelessWidget {
           alignment: Alignment.topCenter,
           child: Padding(
             padding: EdgeInsets.only(top: isBig ? 24 : 12),
-            child: AppTexts.semiBold(
+            child: AppTexts.medium(
               title,
-              fontSize: isBig ? 20 : 13,
+              fontSize:
+                  customborder
+                      ? 11
+                      : isBig
+                      ? 20
+                      : 13,
               // letterSpacing: -0.5,
             ),
           ),
@@ -67,7 +82,7 @@ class CategoryCard extends StatelessWidget {
           bottom: 0,
           left: 0,
           right: 0,
-          top: isBig ? 55 : 34,
+          top: isBig ? 55 : 1,
           child: Align(
             alignment: Alignment.bottomCenter,
             child: Image.asset(

@@ -113,11 +113,19 @@ class OrderRemoteDatasouceimpl implements OrderRemoteDatasource {
   Future<void> updateOrderStatus({
     required String orderId,
     required String status,
+    String? cancelReason,
+    DateTime? cancelledAt,
   }) async {
     try {
+      final updateData = <String, dynamic>{"status": status};
+      if (cancelReason != null) updateData["cancel_reason"] = cancelReason;
+      if (cancelledAt != null) {
+        updateData["cancelled_at"] = cancelledAt.toIso8601String();
+      }
+
       await supabase
           .from("orders")
-          .update({"status": status})
+          .update(updateData)
           .eq("id", orderId);
     } catch (e) {
       AppLogger.error("UPDATE ORDER ERROR: ${e.toString()}");

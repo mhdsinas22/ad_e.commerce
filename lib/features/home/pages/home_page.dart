@@ -245,7 +245,6 @@ class HomePageUi extends StatelessWidget {
                       categories: CategoryData.categories,
                       layout: CategoryCardLayout.vertical,
                     ),
-
                     // Categories row 2 - Removed as per original, keeping spacing consistent
                     const SizedBox(height: 24),
 
@@ -307,7 +306,7 @@ class HomePageUi extends StatelessWidget {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          AppTexts.medium("AIRDROP Benefits", fontSize: 18),
+                          AppTexts.medium("AER Benefits", fontSize: 18),
                           const SizedBox(height: 16),
                           ClipRRect(
                             borderRadius: BorderRadius.circular(20),

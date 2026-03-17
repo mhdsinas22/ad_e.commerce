@@ -20,4 +20,5 @@ abstract class WalletRemoteDataSource {
     required double amount,
   });
   Future<String> getUserName(String userId);
+  Future<void> refundWallet(String userId, double amount, String reason);
 }

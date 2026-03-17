@@ -76,14 +76,18 @@ class SupportLegelPage extends StatelessWidget {
                     context: context,
                     builder: (context) {
                       return SizedBox(
-                        height: 400,
+                        height: 250,
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
+                            Spacer(),
                             Center(
-                              child: Image.asset(AssetConstants.logoutpngtemp),
+                              child: Image.asset(
+                                AssetConstants.logoutpngtemp,
+                                height: 80,
+                              ),
                             ),
-                            SizedBox(height: 50),
+                            Spacer(),
                             Padding(
                               padding: const EdgeInsets.all(8.0),
                               child: Row(
@@ -93,7 +97,12 @@ class SupportLegelPage extends StatelessWidget {
                                   Expanded(
                                     child: ElevatedButton(
                                       style: ElevatedButton.styleFrom(
-                                        backgroundColor: AppColors.pureWhite,
+                                        backgroundColor: const Color.fromARGB(
+                                          255,
+                                          221,
+                                          219,
+                                          219,
+                                        ),
                                         shape: RoundedRectangleBorder(
                                           borderRadius: BorderRadius.circular(
                                             10,
