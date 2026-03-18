@@ -63,7 +63,7 @@ class OtpBloc extends Bloc<OtpEvent, OtpState> {
         }
         await supabase.auth.setSession(refreshToken);
         final userId = supabase.auth.currentUser!.id;
-        await walletRemoteDataSource.createWallet(userId);
+        await walletRemoteDataSource.ensureWalletExists(userId);
         await notificationService.attachUser(userId);
         await cartRepository.syncGuestCart();
 

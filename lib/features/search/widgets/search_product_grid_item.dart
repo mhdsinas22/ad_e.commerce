@@ -14,7 +14,8 @@ class SearchProductGridItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final isSoldOut =
-        product.stocks.any((stock) => stock.quantity == 0) ||
+        product.stocks.isEmpty ||
+        product.stocks.every((stock) => stock.quantity == 0) ||
         product.isActive == false;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -59,7 +60,7 @@ class SearchProductGridItem extends StatelessWidget {
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
                 style: const TextStyle(
-                  fontFamily: "Manrope",
+                  fontFamily: "Inter",
                   fontWeight: FontWeight.w500,
                   fontSize: 14,
                   color: AppColors.grayColor,

@@ -41,7 +41,8 @@ class _ProductPageState extends State<_ProductPage>
   Widget build(BuildContext context) {
     final isLongText = widget.product.description!.length > 100;
     final isSoldOut =
-        widget.product.stocks.any((stock) => stock.quantity == 0) ||
+        widget.product.stocks.isEmpty ||
+        widget.product.stocks.every((stock) => stock.quantity == 0) ||
         widget.product.isActive == false;
     return Scaffold(
       body: SingleChildScrollView(

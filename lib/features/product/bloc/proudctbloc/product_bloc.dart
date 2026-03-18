@@ -10,7 +10,7 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
   ProductBloc(this.getProductUsecase, this.getFlashsaleProductUsecase)
     : super(ProductState.initial()) {
     on<LoadProductsEvent>(_loadProducts);
-    on<LoadFlashSaleProductsEvent>(_loadFlashSaleProducts);
+    // on<LoadFlashSaleProductsEvent>(_loadFlashSaleProducts);
     on<UpdateConditionFilter>(_updateConditionFilter);
     on<UpdateWarrantyFilter>(_updateWarrantyFilter);
     on<ResetProductFilters>((event, emit) {
@@ -29,9 +29,12 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
     emit(state.copyWith(productStatus: ProductStatus.loading));
     try {
       final products = await getProductUsecase.call();
+      final flashSaleProducts =
+          products.where((p) => p.tag == "Flash Sale").toList();
       emit(
         state.copyWith(
           products: products,
+          flashSaleProducts: flashSaleProducts,
           productStatus: ProductStatus.success,
         ),
       );
@@ -45,26 +48,28 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
     }
   }
 
-  Future<void> _loadFlashSaleProducts(
-    LoadFlashSaleProductsEvent event,
-    Emitter<ProductState> emit,
-  ) async {
-    emit(state.copyWith(productStatus: ProductStatus.loading));
-    try {
-      final flashProducts = await getFlashsaleProductUsecase.call();
-      emit(
-        state.copyWith(
-          productStatus: ProductStatus.success,
-          flashSaleProducts: flashProducts,
-        ),
-      );
-    } catch (e) {
-      state.copyWith(
-        productStatus: ProductStatus.failure,
-        errorMessage: "Unable to Load flashSale Products",
-      );
-    }
-  }
+  // Future<void> _loadFlashSaleProducts(
+  //   LoadFlashSaleProductsEvent event,
+  //   Emitter<ProductState> emit,
+  // ) async {
+  //   emit(state.copyWith(productStatus: ProductStatus.loading));
+  //   try {
+  //     final products = await getProductUsecase.call();
+  //     final flashSaleProducts =
+  //         products.where((p) => p.tag == "Flash Sale").toList();
+  //     emit(
+  //       state.copyWith(
+  //         productStatus: ProductStatus.success,
+  //         flashSaleProducts: flashSaleProducts,
+  //       ),
+  //     );
+  //   } catch (e) {
+  //     state.copyWith(
+  //       productStatus: ProductStatus.failure,
+  //       errorMessage: "Unable to Load flashSale Products",
+  //     );
+  //   }
+  // }
 
   Future<void> _updateConditionFilter(
     UpdateConditionFilter event,

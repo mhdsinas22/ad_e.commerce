@@ -12,6 +12,10 @@ class FlashSaleCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isSoldOut =
+        product.stocks.isEmpty ||
+        product.stocks.every((stock) => stock.quantity == 0) ||
+        product.isActive == false;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -63,7 +67,11 @@ class FlashSaleCard extends StatelessWidget {
         ),
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 0.1),
-          child: AppTexts.semiBold("₹ ${product.price}", fontSize: 16),
+          child: AppTexts.semiBold(
+            isSoldOut ? "Out of Stock " : "₹ ${product.price}",
+            fontSize: isSoldOut ? 12 : 16,
+            color: isSoldOut ? Colors.grey : AppColors.pureBlack,
+          ),
         ),
       ],
     );

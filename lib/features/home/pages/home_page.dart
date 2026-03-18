@@ -84,17 +84,12 @@ class HomePage extends StatelessWidget {
         ),
         BlocProvider(
           create:
-              (context) =>
-                  ProductBloc(
-                      getproductUsecase,
-                      GetFlashsaleProductUsecase(
-                        ProductRepositoryImpl(
-                          ProductRemoteDatasourceImpl(supabase),
-                        ),
-                      ),
-                    )
-                    ..add(LoadProductsEvent())
-                    ..add(LoadFlashSaleProductsEvent()),
+              (context) => ProductBloc(
+                getproductUsecase,
+                GetFlashsaleProductUsecase(
+                  ProductRepositoryImpl(ProductRemoteDatasourceImpl(supabase)),
+                ),
+              )..add(LoadProductsEvent()),
         ),
         BlocProvider(
           create:
@@ -156,7 +151,7 @@ class HomePageUi extends StatelessWidget {
                 },
                 onRefresh: () async {
                   context.read<BannerBloc>().add(LoadBannerEvent());
-                  context.read<ProductBloc>().add(LoadFlashSaleProductsEvent());
+
                   context.read<ProductBloc>().add(LoadProductsEvent());
                   context.read<TestimonialBloc>().add(LoadTestimonialEvent());
                   await Future.delayed(const Duration(milliseconds: 600));

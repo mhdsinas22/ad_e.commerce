@@ -1,18 +1,35 @@
+import 'package:ad_e_commerce/core/constants/app_animations.dart';
 import 'package:ad_e_commerce/core/routes/route_names.dart';
 import 'package:ad_e_commerce/core/theme/app_colors.dart';
 import 'package:ad_e_commerce/core/utils/navigator.dart';
+import 'package:ad_e_commerce/core/widgets/app_text.dart';
 import 'package:ad_e_commerce/core/widgets/primary_button.dart';
+import 'package:ad_e_commerce/features/cart/bloc/cart_bloc.dart';
+import 'package:ad_e_commerce/features/cart/bloc/cart_event.dart';
 import 'package:ad_e_commerce/features/checkout/bloc/address/address_bloc.dart';
 import 'package:ad_e_commerce/features/checkout/bloc/address/address_event.dart';
 import 'package:ad_e_commerce/features/checkout/bloc/address/address_state.dart';
 import 'package:ad_e_commerce/features/checkout/data/models/address_model.dart';
+import 'package:ad_e_commerce/features/orders/bloc/order_bloc.dart';
+import 'package:ad_e_commerce/features/orders/bloc/order_event.dart';
+import 'package:ad_e_commerce/features/orders/bloc/order_state.dart';
+import 'package:ad_e_commerce/features/orders/data/datasource/order_remote_datasouceimpl.dart';
+import 'package:ad_e_commerce/features/orders/data/repo/order_repo_impl.dart';
+import 'package:ad_e_commerce/features/orders/domain/enities/order_item.dart';
+import 'package:ad_e_commerce/features/orders/domain/enities/orders.dart';
 import 'package:ad_e_commerce/features/payment/data/datasource/razorpay_datasource_impl.dart';
 import 'package:ad_e_commerce/features/payment/data/repo/payment_repository_impl.dart';
 import 'package:ad_e_commerce/features/payment/domain/usecase/make_payment.dart';
 import 'package:ad_e_commerce/features/payment/presentation/bloc/payment_bloc.dart';
+import 'package:ad_e_commerce/features/payment/presentation/bloc/payment_event.dart';
+import 'package:ad_e_commerce/features/payment/presentation/bloc/payment_state.dart';
+import 'package:ad_e_commerce/features/product/bloc/proudctbloc/product_bloc.dart';
+import 'package:ad_e_commerce/features/product/bloc/proudctbloc/product_event.dart';
 import 'package:ad_e_commerce/features/product/domain/entites/product.dart';
+import 'package:ad_e_commerce/features/profile/data/datasource/wallet_remote_datasource_impl.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:lottie/lottie.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import '../widgets/header_section.dart';
 import '../widgets/address_section.dart';
@@ -36,9 +53,17 @@ class CheckoutPage extends StatelessWidget {
     final PaymentRepositoryImpl paymentRepositoryImpl = PaymentRepositoryImpl(
       datasource: razorpayDatasourceImpl,
     );
+    final supabase = Supabase.instance.client;
+    final orderdatasourceimpl = OrderRemoteDatasouceimpl(supabase: supabase);
     final MakePayment makePayment = MakePayment(paymentRepositoryImpl);
+    final walletRemotedatasourceimpl = WalletRemoteDatasourceImpl(supabase);
+    final orderRepo = OrderRepoImpl(
+      remote: orderdatasourceimpl,
+      walletRemoteDataSource: walletRemotedatasourceimpl,
+    );
     return MultiBlocProvider(
       providers: [
+        BlocProvider(create: (context) => OrderBloc(orderRepo)),
         BlocProvider(
           create: (context) => PaymentBloc(makePayment: makePayment),
         ),
@@ -47,12 +72,14 @@ class CheckoutPage extends StatelessWidget {
         isMyaddressScreen: isMyaddressScreen,
         isDirectBuy: isDirectBuy,
         directProduct: directProduct,
+        supabase: supabase,
       ),
     );
   }
 }
 
 class CheckoutPageUi extends StatefulWidget {
+  final SupabaseClient supabase;
   final bool isMyaddressScreen;
   final bool isDirectBuy;
   final Product? directProduct;
@@ -61,6 +88,7 @@ class CheckoutPageUi extends StatefulWidget {
     this.isMyaddressScreen = false,
     this.isDirectBuy = false,
     this.directProduct,
+    required this.supabase,
   });
 
   @override
@@ -68,6 +96,7 @@ class CheckoutPageUi extends StatefulWidget {
 }
 
 class _CheckoutPageState extends State<CheckoutPageUi> {
+  bool _shouldTriggerPayment = false;
   final pincodeController = TextEditingController();
   final houseController = TextEditingController();
   final localityController = TextEditingController();
@@ -115,6 +144,18 @@ class _CheckoutPageState extends State<CheckoutPageUi> {
     setState(() {});
   }
 
+  int _getPaymentAmountInPaise() {
+    double amount = 0;
+
+    if (widget.isDirectBuy && widget.directProduct != null) {
+      amount = widget.directProduct!.price;
+    } else {
+      amount = context.read<CartBloc>().state.totalAmount;
+    }
+
+    return (amount * 100).toInt(); // ₹ → paise
+  }
+
   @override
   void initState() {
     super.initState();
@@ -145,155 +186,347 @@ class _CheckoutPageState extends State<CheckoutPageUi> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.white,
-      body: SafeArea(
-        child: Column(
-          children: [
-            const HeaderSection(),
-            Expanded(
-              child: BlocBuilder<AddressBloc, AddressState>(
-                builder: (context, state) {
-                  return AddressSection(
-                    isEdit: widget.isMyaddressScreen,
-                    addresses: state.addresses,
-                    pincodeController: pincodeController,
-                    emailController: emailController,
-                    houseController: houseController,
-                    alternateNumberController: alternateNumberController,
-                    landmarkController: landmarkController,
-                    localityController: localityController,
-                    nameController: nameController,
-                    mobileController: mobileController,
-                    selectedSaveAs: _selectedSaveAs,
-                    selectedState: _selectedState,
-                    selectedDistrict: _selectedDistrict,
-                    isEditingAddress: _isEditingAddress,
-                    onSaveAsChanged: (value) {
-                      setState(() {
-                        _selectedSaveAs = value;
-                      });
-                    },
-                    onStateChanged: (value) {
-                      setState(() {
-                        _selectedState = value;
-                        _selectedDistrict = null; // Reset district
-                      });
-                    },
-                    onDistrictChanged: (value) {
-                      setState(() {
-                        _selectedDistrict = value;
-                      });
-                    },
-                    selectedAddressIndex: _selectedAddressIndex,
-                    onAddressSelected: (index) {
-                      final addresses = state.addresses;
-                      final addNewIndex = addresses.length;
+    return MultiBlocListener(
+      listeners: [
+        BlocListener<PaymentBloc, PaymentState>(
+          listener: (context, state) {
+            final addresses = context.read<AddressBloc>().state.addresses;
+            final addNewIndex = addresses.length;
 
-                      setState(() {
-                        _selectedAddressIndex = index;
+            AddressModel? selectedAddress;
+            if (_selectedAddressIndex != addNewIndex) {
+              selectedAddress = AddressModel.fromEntity(
+                addresses[_selectedAddressIndex],
+              );
+            }
+            if (state.status == PaymentStatus.success) {
+              final cartstate = context.read<CartBloc>().state;
+              if (selectedAddress == null) {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(content: Text("Please select address")),
+                );
+                return;
+              }
+              if (widget.isDirectBuy && widget.directProduct != null) {
+                final orderItem = OrderItem(
+                  orderId: "",
+                  productId: widget.directProduct!.id!,
+                  productName: widget.directProduct!.title,
+                  productImage: widget.directProduct!.imageUrls.first,
+                  sku: "sku1",
+                  price: widget.directProduct!.price,
+                  quantity: 1,
+                  productStorge: widget.directProduct!.storage,
+                  productColor: "", // if available
+                  productModelNumber: widget.directProduct!.modelNumber,
+                  productrating: widget.directProduct!.rating.toString(),
+                  productNoOfRating:
+                      widget.directProduct!.noofreviews.toString(),
+                );
 
-                        if (index == addNewIndex) {
-                          // Add New
-                          _isEditingAddress = true;
-
-                          pincodeController.clear();
-                          houseController.clear();
-                          localityController.clear();
-                          landmarkController.clear();
-                          emailController.clear();
-                          alternateNumberController.clear();
-                          nameController.clear();
-                          mobileController.clear();
-                          _selectedState = null;
-                          _selectedDistrict = null;
-                          _selectedSaveAs = "home";
-                        } else {
-                          // Existing address
-                          _isEditingAddress = false;
-                        }
-                      });
-                    },
-                    onEditAddress: (address, index) {
-                      setState(() {
-                        pincodeController.text = address.pincode;
-                        houseController.text = address.house;
-                        localityController.text = address.area;
-                        landmarkController.text = address.landmark ?? '';
-                        emailController.text = address.email;
-                        alternateNumberController.text =
-                            address.alternatePhone ?? '';
-                        nameController.text = address.name;
-                        mobileController.text = address.mobileNumber;
-                        _selectedState = address.state;
-                        _selectedDistrict = address.district;
-                        _selectedSaveAs = address.saveAs;
-                        _selectedAddressIndex = index;
-                        _isEditingAddress = true;
-                      });
-                    },
-                  );
-                },
-              ),
-            ),
-          ],
+                context.read<OrderBloc>().add(
+                  CreateOrderEvent(
+                    orders: Orders(
+                      userId: widget.supabase.auth.currentUser!.id,
+                      totalAmount: widget.directProduct!.price,
+                      status: "placed",
+                      paymentMethod: "cod",
+                      shippingAddress: selectedAddress.toJson(),
+                      orderItems: [],
+                      walletUsed: 0,
+                    ),
+                    orderitems: [orderItem],
+                  ),
+                );
+              } else {
+                final orderitems =
+                    cartstate.cartitems.map((element) {
+                      return OrderItem(
+                        orderId: "",
+                        productId: element.productId,
+                        productName: element.title,
+                        productImage: element.imageUrl,
+                        sku: "sku1",
+                        price: element.price,
+                        quantity: element.quantity,
+                        productStorge: element.storeage,
+                        productColor: element.color,
+                        productModelNumber: element.modelNumber,
+                        productrating: element.rating,
+                        productNoOfRating: element.noOfRating,
+                      );
+                    }).toList();
+                context.read<OrderBloc>().add(
+                  CreateOrderEvent(
+                    orders: Orders(
+                      userId: widget.supabase.auth.currentUser!.id,
+                      totalAmount: cartstate.totalAmount,
+                      status: "placed",
+                      paymentMethod: "cod",
+                      shippingAddress: selectedAddress.toJson(),
+                      orderItems: [],
+                      walletUsed: cartstate.walletUsed,
+                    ),
+                    orderitems: orderitems,
+                  ),
+                );
+              }
+            }
+            // ❌ FAILURE
+            if (state.status == PaymentStatus.failed) {
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(content: Text(state.errorMessage ?? "Payment Failed")),
+              );
+            }
+          },
         ),
-      ),
-      bottomNavigationBar: BlocListener<AddressBloc, AddressState>(
-        listenWhen:
-            (previous, current) => previous.addresses != current.addresses,
-        listener: (context, state) {
-          if (state.addresses.isNotEmpty) {
-            setState(() {
-              _selectedAddressIndex = 0;
-            });
-          } else {
-            setState(() {
-              _selectedAddressIndex = 0;
-            });
-          }
-        },
-        child: BlocBuilder<AddressBloc, AddressState>(
-          builder: (context, state) {
-            return SafeArea(
-              child:
-                  widget.isMyaddressScreen
-                      ? Padding(
-                        padding: const EdgeInsets.all(16),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        BlocListener<OrderBloc, OrderState>(
+          listener: (context, state) {
+            if (state.status == OrdersStatus.loading) {
+              showModalBottomSheet(
+                backgroundColor: Colors.white,
+                context: context,
+                builder: (context) {
+                  return SizedBox(
+                    width: double.infinity,
+                    height: 327,
+                    child: Center(
+                      child: Container(
+                        constraints: const BoxConstraints(maxWidth: 600),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            const Spacer(),
-                            PrimaryButton(
-                              borderRadius: 10,
-                              width: 112,
-                              height: 45,
-                              backgroudColor: AppColors.purered,
-                              onPressed: () => _deleteAddress(state),
-                              text: "Delete",
+                            Center(
+                              child: Lottie.asset(
+                                AppAnimations.deliverytruckloading,
+                                width: 200,
+                                height: 200,
+                              ),
                             ),
-                            const SizedBox(width: 12),
-                            PrimaryButton(
-                              borderRadius: 10,
-                              width: 112,
-                              height: 45,
-                              text: "Save",
-                              onPressed:
-                                  _isFormValid
-                                      ? () => _saveAddress(state)
-                                      : null,
+                            const SizedBox(height: 5),
+                            AppTexts.medium(
+                              "Redirecting to payment page",
+                              fontSize: 14,
                             ),
-                            const Spacer(),
                           ],
                         ),
-                      )
-                      : CheckoutButton(
-                        text: 'Next',
-                        isEnabled: _isFormValid,
-                        onTap: () => _onNextPressed(state),
                       ),
-            );
+                    ),
+                  );
+                },
+              );
+            }
+            if (state.status == OrdersStatus.success) {
+              // Clear Cart
+              context.read<CartBloc>().add(ClearCartEvent());
+              context.read<ProductBloc>().add(LoadProductsEvent());
+              showModalBottomSheet(
+                isScrollControlled: true,
+                backgroundColor: Colors.white,
+                context: context,
+                builder: (context) {
+                  return SizedBox(
+                    width: double.infinity,
+                    height: double.infinity,
+                    child: Center(
+                      child: Container(
+                        constraints: const BoxConstraints(maxWidth: 600),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Lottie.asset(
+                              repeat: false,
+                              AppAnimations.successAnimation,
+                              width: 200,
+                              height: 200,
+                            ),
+                            const SizedBox(height: 5),
+                            AppTexts.medium(
+                              "ThankYou for shopping with Aer",
+                              fontSize: 14,
+                            ),
+                            const SizedBox(height: 10),
+                            PrimaryButton(
+                              fontsize: 16,
+                              width: 100,
+                              height: 30,
+                              text: "Done",
+                              onPressed: () {
+                                Appnavigotor.pushNamedAndRemoveUntil(
+                                  context,
+                                  RouteNames.mainShell,
+                                );
+                              },
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  );
+                },
+              );
+            }
           },
+        ),
+      ],
+      child: Scaffold(
+        backgroundColor: Colors.white,
+        body: SafeArea(
+          child: Column(
+            children: [
+              const HeaderSection(),
+              Expanded(
+                child: BlocBuilder<AddressBloc, AddressState>(
+                  builder: (context, state) {
+                    return AddressSection(
+                      isEdit: widget.isMyaddressScreen,
+                      addresses: state.addresses,
+                      pincodeController: pincodeController,
+                      emailController: emailController,
+                      houseController: houseController,
+                      alternateNumberController: alternateNumberController,
+                      landmarkController: landmarkController,
+                      localityController: localityController,
+                      nameController: nameController,
+                      mobileController: mobileController,
+                      selectedSaveAs: _selectedSaveAs,
+                      selectedState: _selectedState,
+                      selectedDistrict: _selectedDistrict,
+                      isEditingAddress: _isEditingAddress,
+                      onSaveAsChanged: (value) {
+                        setState(() {
+                          _selectedSaveAs = value;
+                        });
+                      },
+                      onStateChanged: (value) {
+                        setState(() {
+                          _selectedState = value;
+                          _selectedDistrict = null; // Reset district
+                        });
+                      },
+                      onDistrictChanged: (value) {
+                        setState(() {
+                          _selectedDistrict = value;
+                        });
+                      },
+                      selectedAddressIndex: _selectedAddressIndex,
+                      onAddressSelected: (index) {
+                        final addresses = state.addresses;
+                        final addNewIndex = addresses.length;
+
+                        setState(() {
+                          _selectedAddressIndex = index;
+
+                          if (index == addNewIndex) {
+                            // Add New
+                            _isEditingAddress = true;
+
+                            pincodeController.clear();
+                            houseController.clear();
+                            localityController.clear();
+                            landmarkController.clear();
+                            emailController.clear();
+                            alternateNumberController.clear();
+                            nameController.clear();
+                            mobileController.clear();
+                            _selectedState = null;
+                            _selectedDistrict = null;
+                            _selectedSaveAs = "home";
+                          } else {
+                            // Existing address
+                            _isEditingAddress = false;
+                          }
+                        });
+                      },
+                      onEditAddress: (address, index) {
+                        setState(() {
+                          pincodeController.text = address.pincode;
+                          houseController.text = address.house;
+                          localityController.text = address.area;
+                          landmarkController.text = address.landmark ?? '';
+                          emailController.text = address.email;
+                          alternateNumberController.text =
+                              address.alternatePhone ?? '';
+                          nameController.text = address.name;
+                          mobileController.text = address.mobileNumber;
+                          _selectedState = address.state;
+                          _selectedDistrict = address.district;
+                          _selectedSaveAs = address.saveAs;
+                          _selectedAddressIndex = index;
+                          _isEditingAddress = true;
+                        });
+                      },
+                    );
+                  },
+                ),
+              ),
+            ],
+          ),
+        ),
+        bottomNavigationBar: BlocListener<AddressBloc, AddressState>(
+          listenWhen:
+              (previous, current) => previous.addresses != current.addresses,
+          listener: (context, state) {
+            if (state.status == AddressStatus.success &&
+                _shouldTriggerPayment) {
+              _shouldTriggerPayment = false;
+              final amountInPaise = _getPaymentAmountInPaise();
+              context.read<PaymentBloc>().add(
+                StartPayment(amount: amountInPaise),
+              );
+            }
+            if (state.addresses.isNotEmpty) {
+              setState(() {
+                _selectedAddressIndex = 0;
+              });
+            } else {
+              setState(() {
+                _selectedAddressIndex = 0;
+              });
+            }
+          },
+          child: BlocBuilder<AddressBloc, AddressState>(
+            builder: (context, state) {
+              return SafeArea(
+                child:
+                    widget.isMyaddressScreen
+                        ? Padding(
+                          padding: const EdgeInsets.all(16),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              const Spacer(),
+                              PrimaryButton(
+                                borderRadius: 10,
+                                width: 112,
+                                height: 45,
+                                backgroudColor: AppColors.purered,
+                                onPressed: () => _deleteAddress(state),
+                                text: "Delete",
+                              ),
+                              const SizedBox(width: 12),
+                              PrimaryButton(
+                                borderRadius: 10,
+                                width: 112,
+                                height: 45,
+                                text: "Save",
+                                onPressed:
+                                    _isFormValid
+                                        ? () => _saveAddress(state)
+                                        : null,
+                              ),
+                              const Spacer(),
+                            ],
+                          ),
+                        )
+                        : CheckoutButton(
+                          text: 'Next',
+                          isEnabled: _isFormValid,
+                          onTap: () => _onNextPressed(state),
+                        ),
+              );
+            },
+          ),
         ),
       ),
     );
@@ -319,13 +552,7 @@ class _CheckoutPageState extends State<CheckoutPageUi> {
 
     context.read<AddressBloc>().add(SubmitAddressEvent(address));
 
-    if (goToPayment) {
-      Appnavigotor.pushnamed(context, RouteNames.paymentpage, {
-        "selectedAddress": address,
-        "isDirectBuy": widget.isDirectBuy,
-        "directProduct": widget.directProduct,
-      });
-    } else {
+    if (!goToPayment) {
       Appnavigotor.pop(context); // back to My Address list
     }
   }
@@ -333,16 +560,14 @@ class _CheckoutPageState extends State<CheckoutPageUi> {
   void _onNextPressed(AddressState state) {
     final addresses = state.addresses;
     final addNewIndex = addresses.length;
-
+    final amountInPaise = _getPaymentAmountInPaise(); // ✅
     if (_selectedAddressIndex != addNewIndex) {
-      Appnavigotor.pushnamed(context, RouteNames.paymentpage, {
-        "selectedAddress": addresses[_selectedAddressIndex],
-        "isDirectBuy": widget.isDirectBuy,
-        "directProduct": widget.directProduct,
-      });
+      // ✅ Existing address → direct payment
+      context.read<PaymentBloc>().add(StartPayment(amount: amountInPaise));
       return;
     }
-
+    _shouldTriggerPayment = true;
+    // ✅ New address → save first
     _submitNewAddress(state, goToPayment: true);
   }
 

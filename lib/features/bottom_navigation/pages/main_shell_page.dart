@@ -22,8 +22,11 @@ class MainShellPage extends StatelessWidget {
       builder: (context, state) {
         return Scaffold(
           bottomNavigationBar: BottomNavigationBar(
-            selectedItemColor: AppColors.grayColor,
-            selectedLabelStyle: TextStyle(fontSize: 10),
+            selectedItemColor: AppColors.primaryBlack,
+            selectedLabelStyle: TextStyle(
+              fontSize: 10,
+              fontWeight: FontWeight.w600,
+            ),
             showUnselectedLabels: false,
             showSelectedLabels: true,
             type: BottomNavigationBarType.fixed,
@@ -38,7 +41,7 @@ class MainShellPage extends StatelessWidget {
                   children: [
                     SvgPicture.asset(
                       AppIcons.shopIcon,
-                      color: AppColors.grayColor,
+                      color: AppColors.primaryBlack,
                     ),
                     // SizedBox(height: 5),
                     // AnimatedContainer(
@@ -55,7 +58,7 @@ class MainShellPage extends StatelessWidget {
                 ),
                 icon: SvgPicture.asset(
                   AppIcons.shopIcon,
-                  color: AppColors.primaryBlack,
+                  color: AppColors.grayColor,
                 ),
                 label: 'Home',
               ),
@@ -64,7 +67,7 @@ class MainShellPage extends StatelessWidget {
                   children: [
                     SvgPicture.asset(
                       AppIcons.categoriesIcon,
-                      color: AppColors.grayColor,
+                      color: AppColors.primaryBlack,
                     ),
                     // SizedBox(height: 5),
                     // AnimatedContainer(
@@ -81,7 +84,7 @@ class MainShellPage extends StatelessWidget {
                 ),
                 icon: SvgPicture.asset(
                   AppIcons.categoriesIcon,
-                  color: AppColors.pureBlack,
+                  color: AppColors.grayColor,
                 ),
                 label: 'Cart',
               ),
@@ -91,7 +94,7 @@ class MainShellPage extends StatelessWidget {
                     SvgPicture.asset(
                       AppIcons.cartIcon,
                       // ignore: deprecated_member_use
-                      color: AppColors.grayColor,
+                      color: AppColors.primaryBlack,
                     ),
                     // SizedBox(height: 5),
                     // AnimatedContainer(
@@ -108,7 +111,7 @@ class MainShellPage extends StatelessWidget {
                 ),
                 icon: SvgPicture.asset(
                   AppIcons.cartIcon,
-                  color: AppColors.primaryBlack,
+                  color: AppColors.grayColor,
                 ),
                 label: 'Orders',
               ),
@@ -117,7 +120,7 @@ class MainShellPage extends StatelessWidget {
                   children: [
                     SvgPicture.asset(
                       AppIcons.supportIcon,
-                      color: AppColors.grayColor,
+                      color: AppColors.primaryBlack,
                     ),
                     // SizedBox(height: 5),
                     // AnimatedContainer(
@@ -134,7 +137,7 @@ class MainShellPage extends StatelessWidget {
                 ),
                 icon: SvgPicture.asset(
                   AppIcons.supportIcon,
-                  color: AppColors.primaryBlack,
+                  color: AppColors.grayColor,
                 ),
                 label: 'Service',
               ),
@@ -144,7 +147,7 @@ class MainShellPage extends StatelessWidget {
                     SvgPicture.asset(
                       AppIcons.profileIcon,
                       // ignore: deprecated_member_use
-                      color: AppColors.grayColor,
+                      color: AppColors.primaryBlack,
                     ),
                     SizedBox(height: 5),
                     // AnimatedContainer(
@@ -161,7 +164,7 @@ class MainShellPage extends StatelessWidget {
                 ),
                 icon: SvgPicture.asset(
                   AppIcons.profileIcon,
-                  color: AppColors.primaryBlack,
+                  color: AppColors.grayColor,
                 ),
                 label: 'Profile',
               ),

@@ -182,4 +182,18 @@ class WalletRemoteDatasourceImpl implements WalletRemoteDataSource {
       rethrow;
     }
   }
+
+  @override
+  Future<void> ensureWalletExists(String userId) async {
+    try {
+      await supbase.from("wallets").upsert({
+        "user_id": userId,
+      }, onConflict: "user_id");
+      await supbase.from("reward_points").upsert({
+        "user_id": userId,
+      }, onConflict: "user_id");
+    } catch (e) {
+      AppLogger.error("ENSURE WALLET EXISTS ERROR: ${e.toString()}");
+    }
+  }
 }

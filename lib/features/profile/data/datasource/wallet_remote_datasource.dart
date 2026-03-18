@@ -12,6 +12,7 @@ abstract class WalletRemoteDataSource {
     required double amount,
     required String reason,
   });
+
   Future<void> createWalletForUser(String userId);
   Future<void> addRewardAsWallet(String userid, int points);
   Future<List<WalletTransactionModel>> getTransactions(String userid);
@@ -21,4 +22,5 @@ abstract class WalletRemoteDataSource {
   });
   Future<String> getUserName(String userId);
   Future<void> refundWallet(String userId, double amount, String reason);
+  Future<void> ensureWalletExists(String userId);
 }
