@@ -91,8 +91,7 @@ class AssetConstants {
   static const String digitalWarrantyCardVector = "assets/png/Vector 295.png";
   static const String digitalWarrantyCardVectorSvg =
       "assets/svg/Vector 295.svg";
-  static const String singlephonepng =
-      "assets/png/shopping-4-removebg-preview 2.png";
+  static const String singlephonepng = "assets/png/3xper-owend.png";
   static const String iphonesepng =
       "assets/png/Gear-Top-Apple_new-iphone-se-white_04152020-removebg-preview 1.png";
   static const String iphonesesvg =
@@ -103,29 +102,30 @@ class AssetConstants {
   static const String iphone17prosvg = "assets/svg/iphone17pro.svg";
   static const String laptopsvg = "assets/svg/applewatch.svg";
   static const String macbookpng = "assets/png/macbokk.png";
-  static const String windowspng = "assets/png/windows.png";
-  static const String tabletpng = "assets/png/tab.png";
+  static const String windowspng = "assets/png/3xwindowimage.png";
+  static const String tabletpng = "assets/png/3xCATETAB.png";
   static const String appleipad = "assets/png/appleipad.png";
-  static const String appleairpod = "assets/png/appleairpof.png";
-  static const String applewatchpng = "assets/png/applewatch.png";
-  static const String bagpng = "assets/png/bag.png";
-  static const String boatspeakerpng = "assets/png/boatspeaker.png";
+  static const String appleairpod = "assets/png/3XAIRPO.png";
+  static const String applewatchpng = "assets/png/3XWAR.png";
+  static const String bagpng = "assets/png/3xbag.png";
+  static const String boatspeakerpng = "assets/png/3xspekr.png";
   static const String casepng = "assets/png/casecover.png";
-  static const String earbudspng = "assets/png/earbuds.png";
-  static const String headset = "assets/png/headset.png";
-  static const String mobilecharger = "assets/png/mobilecharger.png";
-  static const String powerbank = "assets/png/powebank.png";
-  static const String smartwatch = "assets/png/smartwatch.png";
-  static const String appleipadpng = "assets/png/appleipad.png";
+  static const String earbudspng = "assets/png/3XAIRBUDSCA.png";
+  static const String headset = "assets/png/3xheadset.png";
+  static const String mobilecharger = "assets/png/3xeheadset.png";
+  static const String powerbank = "assets/png/3xpowerbank.png";
+  static const String smartwatch = "assets/png/3XSMARTWATCH.png";
+  static const String appleipadpng = "assets/png/3XIPADCA.png";
   static const String bestsellingmobilepng = "assets/png/2ximage.png";
-  static const String bestsellinglaptoppng = "assets/png/bestsellinglaptop.png";
-  static const String bestsellingCasespng = "assets/png/bestsellingcases.png";
-  static const String samsungtablsellerpng =
-      "assets/png/Screenshot_2025-12-22_at_7.41.04_PM-removebg-preview 1 (1).png";
-  static const String smartbestsellingpng = "assets/png/smartbestselling.png";
+  static const String bestsellinglaptoppng = "assets/png/2xfigmalaptop.png";
+  static const String bestsellingCasespng = "assets/png/2xaccfigma.png";
+  static const String samsungtablsellerpng = "assets/png/2xtabfigma.png";
+  static const String smartbestsellingpng = "assets/png/2xfigmawaerabe.png";
   static const String logoutpngtemp = "assets/png/images-removebg-preview.png";
-  static const String malappuramstorephonto = "assets/png/2026-02-05.webp";
-  static const String kozhikodestorephonto = "assets/png/images (4).jpeg";
+  static const String malappuramstorephonto =
+      "assets/png/WhatsApp Image 2026-03-22 at 4.52.26 AM.jpeg";
+  static const String kozhikodestorephonto =
+      "assets/png/WhatsApp Image 2026-03-22 at 4.47.57 AM.jpeg";
   static const String aerprimarylogo = "assets/svg/Aer Primary Logo-02.svg";
   static const String iphoneCatergorysvg = "assets/svg/AER CATEGORIES-02.svg";
   static const String iphoneCategorypng = "assets/png/Artboard 17.png";

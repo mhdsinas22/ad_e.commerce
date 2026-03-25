@@ -27,7 +27,7 @@ class StoreCallBottomSheet {
                   borderRadius: 12,
                   text: "Malappuram",
                   onPressed: () {
-                    Helpers.makePhoneCall("+919048551457");
+                    Helpers.makePhoneCall("+917510506060");
                   },
                 ),
 
@@ -39,7 +39,7 @@ class StoreCallBottomSheet {
                   borderRadius: 12,
                   text: "Calicut",
                   onPressed: () {
-                    Helpers.makePhoneCall("+917034266250");
+                    Helpers.makePhoneCall("+917511166623");
                   },
                 ),
               ],

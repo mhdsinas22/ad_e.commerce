@@ -124,17 +124,17 @@ class ProfilePage extends StatelessWidget {
                           StoreCard(
                             image: AssetConstants.malappuramstorephonto,
                             title: "Malappuram Airdrop Store",
-                            phone: "+919048551457",
+                            phone: "+917510506060",
                             onLocationTap: () {
                               Helpers.openStoreLocation(
-                                "https://www.google.com/maps/dir//AIRDROP+APPLE+STORE+MALAPPURAM,+Kottappady,+Malappuram,+Kerala+676519/@11.051098,76.0739995,15z/data=!4m8!4m7!1m0!1m5!1m1!1s0x3ba64b005b6bd737:0x25505417b6c7b639!2m2!1d76.0749375!2d11.0466875?entry=ttu&g_ep=EgoyMDI2MDIxMS4wIKXMDSoASAFQAw%3D%3D",
+                                "https://maps.app.goo.gl/R6YSRrtZd3qWMcse6?g_st=ic",
                               );
                             },
                             onWhatsappTap: () {
-                              Helpers.openWhatsapp("+919048551457");
+                              Helpers.openWhatsapp("+917510506060");
                             },
                             onCallTap: () {
-                              Helpers.makePhoneCall("+919048551457");
+                              Helpers.makePhoneCall("+917510506060");
                             },
                           ),
 
@@ -142,18 +142,23 @@ class ProfilePage extends StatelessWidget {
 
                           StoreCard(
                             image: AssetConstants.kozhikodestorephonto,
-                            title: "Kozhikode Airdrop Store",
-                            phone: "+917034266250",
-                            onLocationTap: () {
-                              Helpers.openStoreLocation(
-                                "https://www.google.com/maps/dir/11.040885,76.068161/HiLITE+Business+Park,+State+Highway+28,+Palazhi,+Kozhikode,+Pantheeramkavu,+Kerala+673014/@11.1364003,75.7935015,11z/data=!3m1!4b1!4m9!4m8!1m1!4e1!1m5!1m1!1s0x3ba6597c304c1f3b:0xbb7abc23c1ea8a!2m2!1d75.8339138!2d11.2478476?entry=ttu&g_ep=EgoyMDI2MDIxNi4wIKXMDSoASAFQAw%3D%3D",
-                              );
+                            title: "Kozhikode AER Store",
+                            phone: "+917511166623",
+                            onLocationTap: () async {
+                              final place =
+                                  await Supabase.instance.client
+                                      .from("places")
+                                      .select();
+
+                              final mapLink = place[0]['map_link'];
+
+                              Helpers.openStoreLocation(mapLink.toString());
                             },
                             onWhatsappTap: () {
-                              Helpers.openWhatsapp("+917034266250");
+                              Helpers.openWhatsapp("+917511166623");
                             },
                             onCallTap: () {
-                              Helpers.makePhoneCall("+917034266250");
+                              Helpers.makePhoneCall("+917511166623");
                             },
                           ),
                         ],

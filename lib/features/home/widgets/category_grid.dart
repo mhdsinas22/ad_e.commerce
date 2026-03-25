@@ -15,6 +15,15 @@ class CategoryGrid extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final List<List<Color>> categoryGradients = [
+      [Color(0xFF77fcc6), Color(0xFFb4fbd5)], // green
+      [Color(0xFFfefdb2), Color(0xFFfcef85)], // yellow
+      [Color(0xffd4f8ff), Color(0xFFd4f8ff)], // blue
+      [Color(0xFF77fcc6), Color(0xFFb4fbd5)], // green
+      [Color(0xFFfefdb2), Color(0xFFfcef85)], // yellow
+      [Color(0xffd4f8ff), Color(0xFFd4f8ff)], // blue
+      // [Color(0xfffed8ff), Color(0xFFfff0ff)], // purple
+    ];
     final isVertical = layout == CategoryCardLayout.vertical;
 
     return isVertical
@@ -42,6 +51,8 @@ class CategoryGrid extends StatelessWidget {
                     image: item.image,
                     size: CategoryCardSize.small,
                     layout: CategoryCardLayout.vertical,
+                    gradientColors:
+                        categoryGradients[index % categoryGradients.length],
                   );
                 },
               ),
@@ -56,11 +67,14 @@ class CategoryGrid extends StatelessWidget {
                   crossAxisCount: 4,
                   mainAxisSpacing: 16,
                   crossAxisSpacing: 16,
-                  childAspectRatio: 0.86,
+                  childAspectRatio: 1,
                 ),
                 itemBuilder: (context, index) {
                   final item = categories[index + 2];
                   return CategoryCard(
+                    gradientColors:
+                        categoryGradients[(index + 2) %
+                            categoryGradients.length],
                     borderRaduis: 9.88,
                     customborder: true,
                     onTap: () => handleNavigation(context, item),
@@ -97,6 +111,8 @@ class CategoryGrid extends StatelessWidget {
               itemBuilder: (context, index) {
                 final item = categories[index];
                 return CategoryCard(
+                  gradientColors:
+                      categoryGradients[index % categoryGradients.length],
                   onTap: () => handleNavigation(context, item),
                   title: item.title,
                   image: item.image,

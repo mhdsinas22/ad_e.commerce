@@ -9,6 +9,7 @@ import 'package:ad_e_commerce/core/widgets/circular_arrow_button.dart';
 import 'package:ad_e_commerce/features/cart/bloc/cart_bloc.dart';
 import 'package:ad_e_commerce/features/cart/bloc/cart_event.dart';
 import 'package:ad_e_commerce/features/cart/bloc/cart_state.dart';
+import 'package:ad_e_commerce/features/home/widgets/CategoryListSection/widgets/airdrop_assurcance/airdrop_assurance.dart';
 import 'package:ad_e_commerce/features/product/domain/entites/product.dart';
 import 'package:ad_e_commerce/features/product/widgets/product_image_carousel.dart';
 import 'package:flutter/material.dart';
@@ -281,45 +282,7 @@ class _ProductPageState extends State<_ProductPage>
               padding: const EdgeInsets.symmetric(horizontal: 16.0),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  AppTexts.medium("AIRDROP Assurance", fontSize: 18),
-                  const SizedBox(height: 10),
-                  Row(
-                    children: [
-                      Expanded(
-                        child: Image.asset(
-                          AssetConstants.aIRDROPAssuranceimg1,
-                          fit: BoxFit.fill,
-                        ),
-                      ),
-                      const SizedBox(width: 10),
-                      Expanded(
-                        child: Image.asset(
-                          AssetConstants.aIRDROPAssuranceimg2,
-                          fit: BoxFit.fill,
-                        ),
-                      ),
-                    ],
-                  ),
-                  const SizedBox(height: 10),
-                  Row(
-                    children: [
-                      Expanded(
-                        child: Image.asset(
-                          AssetConstants.aIRDROPAssuranceimg3,
-                          fit: BoxFit.fill,
-                        ),
-                      ),
-                      const SizedBox(width: 10),
-                      Expanded(
-                        child: Image.asset(
-                          AssetConstants.aIRDROPAssuranceimg4,
-                          fit: BoxFit.fill,
-                        ),
-                      ),
-                    ],
-                  ),
-                ],
+                children: [AirdropAssurance(isProductPage: true)],
               ),
             ),
           ],

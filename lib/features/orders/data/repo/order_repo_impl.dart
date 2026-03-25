@@ -98,7 +98,7 @@ class OrderRepoImpl implements OrderRepo {
   }) async {
     try {
       if (order.id == null) return;
-      
+
       // Update order status and set reason/time
       await remote.updateOrderStatus(
         orderId: order.id!,
@@ -108,13 +108,13 @@ class OrderRepoImpl implements OrderRepo {
       );
 
       // Refund wallet amount if wallet was used
-      if (order.walletUsed > 0) {
-        await walletRemoteDataSource.refundWallet(
-          order.userId,
-          order.walletUsed,
-          'Refund for cancelled order #${order.id?.substring(0, 8).toUpperCase()}',
-        );
-      }
+      // if (order.walletUsed > 0) {
+      //   await walletRemoteDataSource.refundWallet(
+      //     order.userId,
+      //     order.walletUsed,
+      //     'Refund for cancelled order #${order.id?.substring(0, 8).toUpperCase()}',
+      //   );
+      // }
     } catch (e) {
       AppLogger.error("Cancel Order Repo Error:-${e.toString()}");
       throw Exception("Cancel order Repo failed: $e");

@@ -76,7 +76,7 @@ class PhoneCategoriesPageUi extends StatelessWidget {
                           );
                         },
                         title: "Brand new",
-                        imagePath: AssetConstants.phone,
+                        imagePath: AssetConstants.bestsellingmobilepng,
                       ),
                       OptionCard(
                         onTap: () {

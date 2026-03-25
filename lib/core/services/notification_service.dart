@@ -10,7 +10,27 @@ class NotificationService {
   // 1 Initialize notification system
   Future<void> initialize() async {
     await requestPermission();
+    // 🔥 IMPORTANT: Trigger APNS registration
+
+    // 🔥 Trigger APNS
+    await _messaging.getToken();
+
+    String? apns;
+
+    // 🔁 retry (important for iOS delay)
+    for (int i = 0; i < 5; i++) {
+      await Future.delayed(Duration(seconds: 1));
+      apns = await _messaging.getAPNSToken();
+      if (apns != null) break;
+    }
+
+    print("APNS TOKEN: $apns");
+
     await getToken();
+
+    if (apns == null) {
+      print("APNS still null ❌ (rare case)");
+    }
     listenTokenRefresh();
     listenForeground();
   }

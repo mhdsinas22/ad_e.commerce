@@ -76,7 +76,7 @@ class AccesoriesCategoriesPageUi extends StatelessWidget {
                           );
                         },
                         title: "Cases&\n Cover",
-                        imagePath: AssetConstants.casepng,
+                        imagePath: AssetConstants.bestsellingCasespng,
                       ),
                       OptionCard(
                         isVertical: true,

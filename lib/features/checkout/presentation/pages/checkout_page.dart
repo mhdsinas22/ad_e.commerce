@@ -230,7 +230,7 @@ class _CheckoutPageState extends State<CheckoutPageUi> {
                       userId: widget.supabase.auth.currentUser!.id,
                       totalAmount: widget.directProduct!.price,
                       status: "placed",
-                      paymentMethod: "cod",
+                      paymentMethod: "online",
                       shippingAddress: selectedAddress.toJson(),
                       orderItems: [],
                       walletUsed: 0,

@@ -14,6 +14,8 @@ class CategoryCard extends StatelessWidget {
   final VoidCallback? onTap;
   final bool customborder;
   final double borderRaduis;
+  final Color bgColor;
+  final List<Color>? gradientColors;
 
   const CategoryCard({
     super.key,
@@ -24,6 +26,8 @@ class CategoryCard extends StatelessWidget {
     this.size = CategoryCardSize.small,
     this.onTap,
     this.borderRaduis = 1.0,
+    this.bgColor = AppColors.grey100,
+    this.gradientColors,
   });
 
   @override
@@ -42,8 +46,16 @@ class CategoryCard extends StatelessWidget {
       onTap: onTap,
       child: Container(
         decoration: BoxDecoration(
-          color: AppColors.grey100,
+          color: bgColor,
           borderRadius: borderRadius,
+          gradient:
+              gradientColors != null
+                  ? LinearGradient(
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomRight,
+                    colors: gradientColors!,
+                  )
+                  : null,
         ),
         child: ClipRRect(
           borderRadius: borderRadius,
@@ -82,7 +94,12 @@ class CategoryCard extends StatelessWidget {
           bottom: 0,
           left: 0,
           right: 0,
-          top: isBig ? 55 : 1,
+          top:
+              customborder
+                  ? 10
+                  : isBig
+                  ? 55
+                  : 1,
           child: Align(
             alignment: Alignment.bottomCenter,
             child: Image.asset(

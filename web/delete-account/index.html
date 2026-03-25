@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Delete Account</title>
+</head>
+
+<body style="font-family: Arial; padding: 20px;">
+    <h2>Request Account Deletion</h2>
+
+    <p>Enter your phone number to request account deletion.</p>
+
+    <form onsubmit="handleSubmit(event)">
+        <input type="text" id="phone" placeholder="Enter phone number" required /><br><br>
+        <button type="submit">Submit</button>
+    </form>
+
+    <p id="msg"></p>
+
+    <script>
+        function handleSubmit(e) {
+            e.preventDefault();
+            document.getElementById("msg").innerText =
+                "Request submitted. We will delete your account within 24-48 hours.";
+        }
+    </script>
+</body>
+
+</html>

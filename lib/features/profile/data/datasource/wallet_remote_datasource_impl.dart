@@ -171,19 +171,6 @@ class WalletRemoteDatasourceImpl implements WalletRemoteDataSource {
   }
 
   @override
-  Future<void> refundWallet(String userId, double amount, String reason) async {
-    try {
-      await supbase.rpc(
-        "refund_wallet",
-        params: {"p_user_id": userId, "p_amount": amount, "p_reason": reason},
-      );
-    } catch (e) {
-      AppLogger.error("REFUND WALLET ERROR: $e");
-      rethrow;
-    }
-  }
-
-  @override
   Future<void> ensureWalletExists(String userId) async {
     try {
       await supbase.from("wallets").upsert({

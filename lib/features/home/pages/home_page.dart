@@ -17,7 +17,7 @@ import 'package:ad_e_commerce/features/home/bloc/testmonialsbloc/testimonial_eve
 import 'package:ad_e_commerce/features/home/bloc/testmonialsbloc/testimonial_state.dart';
 import 'package:ad_e_commerce/features/home/data/category_data.dart';
 import 'package:ad_e_commerce/features/home/widgets/BestSellerSection/best_seller_section.dart';
-import 'package:ad_e_commerce/features/home/widgets/CategoryListSection/widgets/airdrop_assurance.dart';
+import 'package:ad_e_commerce/features/home/widgets/CategoryListSection/widgets/airdrop_assurcance/airdrop_assurance.dart';
 import 'package:ad_e_commerce/features/home/widgets/category_card.dart';
 import 'package:ad_e_commerce/features/home/widgets/CategoryListSection/category_list_section.dart';
 import 'package:ad_e_commerce/features/home/widgets/FlashSaleSection/flash_sale_section.dart';

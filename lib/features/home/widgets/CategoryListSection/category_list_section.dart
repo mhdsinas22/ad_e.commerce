@@ -2,6 +2,7 @@ import 'package:ad_e_commerce/core/constants/asset_constants.dart';
 import 'package:ad_e_commerce/core/enums/category.dart';
 import 'package:ad_e_commerce/core/enums/phone_condition.dart';
 import 'package:ad_e_commerce/core/enums/sub_category.dart';
+import 'package:ad_e_commerce/core/utils/app_logger.dart';
 import 'package:ad_e_commerce/core/utils/navigator.dart';
 import 'package:ad_e_commerce/features/home/pages/category_filtred_page.dart';
 import 'package:ad_e_commerce/features/home/widgets/CategoryListSection/widgets/best_selling_category_card.dart';
@@ -18,6 +19,7 @@ class CategoryListSection extends StatelessWidget {
         "subtitle": "Mobiles",
         "image": AssetConstants.bestsellingmobilepng,
         "onTap": () {
+          AppLogger.info("Best Selling click ");
           Appnavigotor.push(
             context,
             CategoryFiltredPage(
@@ -34,6 +36,7 @@ class CategoryListSection extends StatelessWidget {
         "subtitle": "Laptop",
         "image": AssetConstants.bestsellinglaptoppng,
         "onTap": () {
+          AppLogger.debug("LOOK it BEst Selling");
           Appnavigotor.push(
             context,
             CategoryFiltredPage(

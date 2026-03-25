@@ -75,7 +75,7 @@ class LaptopCatergoriesPageUi extends StatelessWidget {
                           );
                         },
                         title: "Apple Macbook",
-                        imagePath: AssetConstants.macbookpng,
+                        imagePath: AssetConstants.bestsellinglaptoppng,
                       ),
                       OptionCard(
                         onTap: () {

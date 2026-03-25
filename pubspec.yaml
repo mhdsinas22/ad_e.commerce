@@ -66,10 +66,10 @@ dependencies:
   firebase_core: ^4.5.0
   flutter_markdown_plus: ^1.0.7
   razorpay_flutter: ^1.4.1
+  flutter_native_splash: ^2.4.7
 
 
   
-
 
 
 dev_dependencies:
@@ -81,19 +81,13 @@ dev_dependencies:
 flutter_launcher_icons:
   android: true
   ios: true
-  image_path: "assets/icons/Aer Favicon-02 1.png"
+  image_path: "assets/icons/AER LOGO FAVICON.png"
 
-  # flutter_native_splash: ^2.4.6
-
-# For information on the generic Dart part of this file, see the
-# following page: https://dart.dev/tools/pub/pubspec
-# flutter_native_splash:
-#   color: "#FFFFFF"
-#   color_dark: "#000000"
-#   image: assets/png/AirDrop_logo.svg.png
-#   android: true
-#   ios: true
-
+flutter_native_splash:
+  color: "#ffffff"
+  image: assets/icons/AER LOGO FAVICON.png
+  android: false
+  ios: true
 
 # The following section is specific to Flutter packages.
 flutter:
