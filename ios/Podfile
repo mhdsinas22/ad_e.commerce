@@ -39,5 +39,24 @@ end
 post_install do |installer|
   installer.pods_project.targets.each do |target|
     flutter_additional_ios_build_settings(target)
+
+    # Pre-compiled Razorpay frameworks ship without dSYM files.
+    # Setting DEBUG_INFORMATION_FORMAT to 'dwarf' (not 'dwarf-with-dsym')
+    # suppresses the "Upload Symbols Failed" error on App Store submission
+    # for all three offending frameworks across every build configuration.
+    razorpay_targets = ['razorpay_flutter', 'objective_c', 'Razorpay']
+    is_razorpay = razorpay_targets.any? { |t| target.name == t || target.name.include?(t) }
+
+    target.build_configurations.each do |config|
+      if is_razorpay
+        # No dSYM for pre-compiled Razorpay XCFrameworks (avoids upload symbol errors)
+        config.build_settings['DEBUG_INFORMATION_FORMAT'] = 'dwarf'
+        config.build_settings['STRIP_INSTALLED_PRODUCT'] = 'NO'
+        config.build_settings['COPY_PHASE_STRIP'] = 'NO'
+      else
+        config.build_settings['DEBUG_INFORMATION_FORMAT'] = config.name == 'Debug' ? 'dwarf' : 'dwarf-with-dsym'
+      end
+      config.build_settings['ENABLE_BITCODE'] = 'NO'
+    end
   end
 end
