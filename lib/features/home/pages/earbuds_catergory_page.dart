@@ -21,7 +21,7 @@ class EarbudsCatergoryPage extends StatelessWidget {
       providers: [
         BlocProvider(create: (context) => SearchBloc(productBloc: productBloc)),
       ],
-      child: EarbudsCatergoryPageUi(),
+      child: const EarbudsCatergoryPageUi(),
     );
   }
 }
@@ -31,18 +31,53 @@ class EarbudsCatergoryPageUi extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Center(
-        child: CustomScrollView(
-          slivers: [
-            AppSliverAppBar(removeLogo: true),
-            SliverToBoxAdapter(
-              child: Column(
-                children: [
-                  Align(
-                    alignment: Alignment.bottomLeft,
+    final List<Widget> cards = [
+      OptionCard(
+        onTap: () {
+          Appnavigotor.pushnamed(
+            context,
+            RouteNames.categoryfiltredpage,
+            {
+              "condition": PhoneCondition.empty,
+              "SubCategory": SubCategory.appleairpods,
+              "isSubCategory": true,
+              "isFlashSale": false,
+            },
+          );
+        },
+        title: "Apple Airpods",
+        imagePath: AssetConstants.appleairpod,
+      ),
+      OptionCard(
+        onTap: () {
+          Appnavigotor.pushnamed(
+            context,
+            RouteNames.categoryfiltredpage,
+            {
+              "condition": PhoneCondition.empty,
+              "SubCategory": SubCategory.earbuds,
+              "isSubCategory": true,
+              "isFlashSale": false,
+            },
+          );
+        },
+        title: "Earbuds",
+        imagePath: AssetConstants.earbudspng,
+      ),
+    ];
 
-                    child: Padding(
+    return Scaffold(
+      body: CustomScrollView(
+        slivers: [
+          AppSliverAppBar(removeLogo: true),
+          SliverToBoxAdapter(
+            child: Center(
+              child: ConstrainedBox(
+                constraints: const BoxConstraints(maxWidth: 900),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Padding(
                       padding: const EdgeInsets.symmetric(
                         horizontal: 18.0,
                         vertical: 20,
@@ -52,54 +87,29 @@ class EarbudsCatergoryPageUi extends StatelessWidget {
                         fontSize: 18,
                       ),
                     ),
-                  ),
-                  GridView.count(
-                    padding: EdgeInsets.symmetric(horizontal: 12),
-                    shrinkWrap: true,
-                    crossAxisCount: 2,
-                    mainAxisSpacing: 12,
-                    crossAxisSpacing: 12,
-                    childAspectRatio: 1,
-                    children: [
-                      OptionCard(
-                        onTap: () {
-                          Appnavigotor.pushnamed(
-                            context,
-                            RouteNames.categoryfiltredpage,
-                            {
-                              "condition": PhoneCondition.empty,
-                              "SubCategory": SubCategory.appleairpods,
-                              "isSubCategory": true,
-                              "isFlashSale": false,
-                            },
-                          );
-                        },
-                        title: "Apple Airpods",
-                        imagePath: AssetConstants.appleairpod,
-                      ),
-                      OptionCard(
-                        onTap: () {
-                          Appnavigotor.pushnamed(
-                            context,
-                            RouteNames.categoryfiltredpage,
-                            {
-                              "condition": PhoneCondition.empty,
-                              "SubCategory": SubCategory.earbuds,
-                              "isSubCategory": true,
-                              "isFlashSale": false,
-                            },
-                          );
-                        },
-                        title: "Earbuds",
-                        imagePath: AssetConstants.earbudspng,
-                      ),
-                    ],
-                  ),
-                ],
+                    LayoutBuilder(
+                      builder: (context, constraints) {
+                        int crossAxisCount = 2;
+                        if (constraints.maxWidth > 600) crossAxisCount = 3;
+                        if (constraints.maxWidth > 800) crossAxisCount = 4;
+                        return GridView.count(
+                          padding: const EdgeInsets.symmetric(horizontal: 12),
+                          shrinkWrap: true,
+                          physics: const NeverScrollableScrollPhysics(),
+                          crossAxisCount: crossAxisCount,
+                          mainAxisSpacing: 12,
+                          crossAxisSpacing: 12,
+                          childAspectRatio: 1,
+                          children: cards,
+                        );
+                      },
+                    ),
+                  ],
+                ),
               ),
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }

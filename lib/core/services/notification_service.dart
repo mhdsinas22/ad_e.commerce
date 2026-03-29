@@ -24,12 +24,12 @@ class NotificationService {
       if (apns != null) break;
     }
 
-    print("APNS TOKEN: $apns");
+    AppLogger.info("APNS TOKEN: $apns");
 
     await getToken();
 
     if (apns == null) {
-      print("APNS still null ❌ (rare case)");
+      AppLogger.error("APNS still null ❌ (rare case)");
     }
     listenTokenRefresh();
     listenForeground();
@@ -42,19 +42,19 @@ class NotificationService {
       badge: true,
       sound: true,
     );
-    print("Notification Permission: ${settings.authorizationStatus}");
+    AppLogger.info("Notification Permission: ${settings.authorizationStatus}");
   }
 
   // 3  Get FCM token
   Future<void> getToken() async {
     try {
       currentToken = await _messaging.getToken();
-      print("FCM TOKEN: $currentToken");
+      AppLogger.info("FCM TOKEN: $currentToken");
       if (currentToken != null) {
         await repository.saveToken(currentToken!);
       }
     } catch (e) {
-      print("FCM TOKEN: $e");
+      AppLogger.error("FCM TOKEN: $e");
     }
   }
 
@@ -70,9 +70,7 @@ class NotificationService {
   Future<void> attachUser(String userId) async {
     try {
       AppLogger.info("User ID For Attach User: $userId");
-      if (currentToken == null) {
-        currentToken = await _messaging.getToken();
-      }
+      currentToken ??= await _messaging.getToken();
       if (currentToken == null) {
         AppLogger.error("Current token is Null");
         return;
@@ -85,7 +83,7 @@ class NotificationService {
 
   void listenForeground() {
     FirebaseMessaging.onMessage.listen((RemoteMessage message) {
-      print("Foreground Notification: ${message.notification?.title}");
+      AppLogger.info("Foreground Notification: ${message.notification?.title}");
     });
   }
 }

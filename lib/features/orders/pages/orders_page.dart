@@ -120,6 +120,36 @@ class OrderPageUi extends StatelessWidget {
                     child: AppTexts.regular("No orders found", fontSize: 16),
                   );
                 }
+
+                final screenWidth = MediaQuery.of(context).size.width;
+
+                if (screenWidth >= 600) {
+                  // Desktop and Tablet: Grid layout
+                  final List<Map<String, dynamic>> flatOrderItems = [];
+                  for (var order in state.orders) {
+                    for (var item in order.orderItems) {
+                      flatOrderItems.add({'order': order, 'item': item});
+                    }
+                  }
+
+                  return GridView.builder(
+                    padding: const EdgeInsets.all(16),
+                    gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
+                      maxCrossAxisExtent: 550, // Automatically adjusts columns
+                      mainAxisExtent: 290, // Safe height without overflow
+                      crossAxisSpacing: 16,
+                      mainAxisSpacing: 16,
+                    ),
+                    itemCount: flatOrderItems.length,
+                    itemBuilder: (context, index) {
+                      final order = flatOrderItems[index]['order'];
+                      final item = flatOrderItems[index]['item'];
+                      return OrderItemWidget(orders: order, orderItem: item);
+                    },
+                  );
+                }
+
+                // Mobile: untouched (original behavior)
                 return ListView.separated(
                   padding: const EdgeInsets.all(16),
                   itemCount: state.orders.length,

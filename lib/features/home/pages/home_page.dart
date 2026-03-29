@@ -119,7 +119,7 @@ class HomePageUi extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
-    bool isDesktop = width > 900;
+    bool isDesktop = width > 1024;
     return Scaffold(
       backgroundColor: AppColors.pureWhite,
       // 🔹 RESPONSIVE: Center layout and constrain width for large screens (Web/Tablet)

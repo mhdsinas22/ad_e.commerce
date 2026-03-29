@@ -32,6 +32,7 @@ class AppSliverAppBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final double appBarHeight = isDesktop ? 80 : 56;
     return SliverAppBar(
       leading:
           showBack
@@ -46,7 +47,8 @@ class AppSliverAppBar extends StatelessWidget {
       elevation: 0,
       pinned: true,
       centerTitle: isDesktop ? false : false,
-      expandedHeight: expandedHeight,
+      toolbarHeight: appBarHeight,
+      expandedHeight: appBarHeight + 10,
       backgroundColor: AppColors.pureWhite,
       surfaceTintColor: AppColors.pureWhite,
 

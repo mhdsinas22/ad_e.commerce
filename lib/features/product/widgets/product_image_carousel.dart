@@ -59,7 +59,18 @@ class _ProductImageCarouselState extends State<ProductImageCarouselUi> {
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
-    bool isDesktop = width > 900;
+    
+    double getResponsiveAspectRatio() {
+      if (widget.isNeedBanner) {
+        if (width >= 1024) return 16 / 4.0; // Modern desktop banner (Amazon/Flipkart style)
+        if (width >= 600) return 16 / 6.0;  // Tablet banner
+        return 16 / 9.0;                    // Mobile banner untouched (perfect working)
+      } else {
+        // Keep existing behavior for Product details images intact
+        return width > 900 ? 16 / 6.0 : 16 / 9.0;
+      }
+    }
+
     return BlocListener<ProductImageSilderBloc, ProductImageSilderState>(
       listener: (context, state) {
         if (_pageController.hasClients) {
@@ -67,7 +78,7 @@ class _ProductImageCarouselState extends State<ProductImageCarouselUi> {
           if (currentpage != state.currentIndex) {
             _pageController.animateToPage(
               state.currentIndex,
-              duration: Duration(milliseconds: 400),
+              duration: const Duration(milliseconds: 400),
               curve: Curves.easeInOut,
             );
           }
@@ -92,7 +103,7 @@ class _ProductImageCarouselState extends State<ProductImageCarouselUi> {
                   bottomRight: Radius.circular(20),
                 ),
                 child: AspectRatio(
-                  aspectRatio: isDesktop ? 16 / 6 : 16 / 9,
+                  aspectRatio: getResponsiveAspectRatio(),
                   child: PageView.builder(
                     controller: _pageController,
                     itemCount: widget.images.length,

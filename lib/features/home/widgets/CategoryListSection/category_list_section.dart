@@ -145,7 +145,7 @@ class CategoryListSection extends StatelessWidget {
             },
           );
         } else {
-          // Mobile -> List
+          // Mobile -> List (unchanged)
           return Column(
             children:
                 bestSellingCategories.map((item) {

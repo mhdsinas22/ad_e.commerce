@@ -65,7 +65,6 @@ class CartRepositoryImpl implements CartRepository {
   Future<List<CartItem>> getCartItems() async {
     final user = Supabase.instance.client.auth.currentUser;
     if (user == null) {
-      print("Guest Cart");
       final items = await cartLocalDatasource.getCartItems();
       return items
           .map(
@@ -86,7 +85,6 @@ class CartRepositoryImpl implements CartRepository {
           )
           .toList();
     } else {
-      print("User Cart");
       return remote.getCartItems();
     }
   }

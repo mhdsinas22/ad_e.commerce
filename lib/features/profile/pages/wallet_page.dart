@@ -74,39 +74,41 @@ class WalletPageUi extends StatelessWidget {
         elevation: 0,
         backgroundColor: Colors.transparent,
       ),
-      body: Container(
-        constraints: const BoxConstraints(maxWidth: 1200),
-        child: SingleChildScrollView(
-          padding: const EdgeInsets.all(24),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const SizedBox(height: 16),
-              const WalletCreditCard(),
-              const SizedBox(height: 32),
-              BlocBuilder<WalletBloc, WalletState>(
-                builder: (context, state) {
-                  if (state.status == WalletStatus.loading) {
-                    return const ShimmerList(
-                      itemCount: 5,
-                      itemBuilder: ListTileShimmer(
-                        hasLeadingIcon: true,
-                        hasTrailing: true,
-                      ),
+      body: Center(
+        child: Container(
+          constraints: const BoxConstraints(maxWidth: 1200),
+          child: SingleChildScrollView(
+            padding: const EdgeInsets.all(24),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const SizedBox(height: 16),
+                const WalletCreditCard(),
+                const SizedBox(height: 32),
+                BlocBuilder<WalletBloc, WalletState>(
+                  builder: (context, state) {
+                    if (state.status == WalletStatus.loading) {
+                      return const ShimmerList(
+                        itemCount: 5,
+                        itemBuilder: ListTileShimmer(
+                          hasLeadingIcon: true,
+                          hasTrailing: true,
+                        ),
+                      );
+                    }
+                    if (state.transactions.isEmpty) {
+                      return const Center(child: Text("No transactions"));
+                    }
+                    if (state.error != null) {
+                      return Center(child: Text(state.error.toString()));
+                    }
+                    return TransactionHistoryList(
+                      transaction: state.transactions,
                     );
-                  }
-                  if (state.transactions.isEmpty) {
-                    return const Center(child: Text("No transactions"));
-                  }
-                  if (state.error != null) {
-                    return Center(child: Text(state.error.toString()));
-                  }
-                  return TransactionHistoryList(
-                    transaction: state.transactions,
-                  );
-                },
-              ),
-            ],
+                  },
+                ),
+              ],
+            ),
           ),
         ),
       ),

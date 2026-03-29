@@ -2,6 +2,7 @@ import 'package:ad_e_commerce/features/payment/data/datasource/razorpay_datasour
 import 'package:ad_e_commerce/features/payment/helper/razorpay_helper.dart';
 import 'package:flutter/foundation.dart';
 import 'package:razorpay_flutter/razorpay_flutter.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
 class RazorpayDatasourceImpl implements RazorpayDatasource {
   final Razorpay _razorpay = Razorpay();
@@ -11,7 +12,7 @@ class RazorpayDatasourceImpl implements RazorpayDatasource {
     required int amount,
     required Function(PaymentSuccessResponse) onSuccess,
     required Function(PaymentFailureResponse) onError,
-  }) {
+  }) async {
     _razorpay.clear(); // 🔥 IMPORTANT
 
     _razorpay.on(Razorpay.EVENT_PAYMENT_SUCCESS, (response) {
@@ -27,13 +28,26 @@ class RazorpayDatasourceImpl implements RazorpayDatasource {
     _razorpay.on(Razorpay.EVENT_EXTERNAL_WALLET, (response) {
       print("WALLET SELECTED");
     });
-
+    final user = Supabase.instance.client;
+    final currentUser = user.auth.currentUser;
+    if (currentUser == null) {
+      throw Exception("User not logged in");
+    }
+    final userProfile =
+        await user
+            .from('profiles')
+            .select()
+            .eq('user_id', currentUser.id)
+            .single();
     var options = {
-      'key': 'rzp_test_SSO7BmEXoUr4WM',
+      'key': 'rzp_live_SX2RgssiDfnKDR',
       'amount': amount, // must be in paisa
-      'name': 'AD E-Commerce',
+      'name': 'Aer Store',
       'description': 'Order Payment',
-      'prefill': {'contact': '9999999999', 'email': 'test@email.com'},
+      'prefill': {
+        'contact': '${userProfile['phone']}',
+        'email': '${userProfile['email']}',
+      },
       'theme': {'color': '#3399cc'},
     };
 

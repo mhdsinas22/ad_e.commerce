@@ -21,7 +21,7 @@ class AccesoriesCategoriesPage extends StatelessWidget {
       providers: [
         BlocProvider(create: (context) => SearchBloc(productBloc: productBloc)),
       ],
-      child: AccesoriesCategoriesPageUi(),
+      child: const AccesoriesCategoriesPageUi(),
     );
   }
 }
@@ -31,150 +31,155 @@ class AccesoriesCategoriesPageUi extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Center(
-        child: CustomScrollView(
-          slivers: [
-            AppSliverAppBar(removeLogo: true),
-            SliverToBoxAdapter(
-              child: Center(
-                child: ConstrainedBox(
-                  constraints: BoxConstraints(maxWidth: 900),
-                  child: Column(
-                    children: [
-                      Align(
-                        alignment: Alignment.bottomLeft,
+    final List<Widget> cards = [
+      OptionCard(
+        isVertical: true,
+        onTap: () {
+          Appnavigotor.pushnamed(
+            context,
+            RouteNames.categoryfiltredpage,
+            {
+              "condition": PhoneCondition.empty,
+              "SubCategory": SubCategory.casescover,
+              "isSubCategory": true,
+              "isFlashSale": false,
+            },
+          );
+        },
+        title: "Cases&\n Cover",
+        imagePath: AssetConstants.bestsellingCasespng,
+      ),
+      OptionCard(
+        isVertical: true,
+        onTap: () {
+          Appnavigotor.pushnamed(
+            context,
+            RouteNames.categoryfiltredpage,
+            {
+              "condition": PhoneCondition.empty,
+              "SubCategory": SubCategory.mobilechargers,
+              "isSubCategory": true,
+              "isFlashSale": false,
+            },
+          );
+        },
+        title: "Mobile\nChargers",
+        imagePath: AssetConstants.mobilecharger,
+      ),
+      OptionCard(
+        isVertical: true,
+        onTap: () {
+          Appnavigotor.pushnamed(
+            context,
+            RouteNames.categoryfiltredpage,
+            {
+              "condition": PhoneCondition.empty,
+              "SubCategory": SubCategory.speaker,
+              "isSubCategory": true,
+              "isFlashSale": false,
+            },
+          );
+        },
+        title: "Speaker",
+        imagePath: AssetConstants.boatspeakerpng,
+      ),
+      OptionCard(
+        isVertical: true,
+        onTap: () {
+          Appnavigotor.pushnamed(
+            context,
+            RouteNames.categoryfiltredpage,
+            {
+              "condition": PhoneCondition.empty,
+              "SubCategory": SubCategory.audio,
+              "isSubCategory": true,
+              "isFlashSale": false,
+            },
+          );
+        },
+        title: "Audio",
+        imagePath: AssetConstants.headset,
+      ),
+      OptionCard(
+        isVertical: true,
+        onTap: () {
+          Appnavigotor.pushnamed(
+            context,
+            RouteNames.categoryfiltredpage,
+            {
+              "condition": PhoneCondition.empty,
+              "SubCategory": SubCategory.powerbank,
+              "isSubCategory": true,
+              "isFlashSale": false,
+            },
+          );
+        },
+        title: "Power Bank",
+        imagePath: AssetConstants.powerbank,
+      ),
+      OptionCard(
+        isVertical: true,
+        onTap: () {
+          Appnavigotor.pushnamed(
+            context,
+            RouteNames.categoryfiltredpage,
+            {
+              "condition": PhoneCondition.empty,
+              "SubCategory": SubCategory.bag,
+              "isSubCategory": true,
+              "isFlashSale": false,
+            },
+          );
+        },
+        title: "Bag",
+        imagePath: AssetConstants.bagpng,
+      ),
+    ];
 
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(
-                            horizontal: 18.0,
-                            vertical: 20,
-                          ),
-                          child: AppTexts.medium(
-                            "Select your Preferences",
-                            fontSize: 18,
-                          ),
-                        ),
+    return Scaffold(
+      body: CustomScrollView(
+        slivers: [
+          AppSliverAppBar(removeLogo: true),
+          SliverToBoxAdapter(
+            child: Center(
+              child: ConstrainedBox(
+                constraints: const BoxConstraints(maxWidth: 900),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 18.0,
+                        vertical: 20,
                       ),
-                      GridView.count(
-                        padding: EdgeInsets.symmetric(horizontal: 12),
-                        shrinkWrap: true,
-                        crossAxisCount: 2,
-                        mainAxisSpacing: 10,
-                        crossAxisSpacing: 12,
-                        childAspectRatio: 1.25,
-                        children: [
-                          OptionCard(
-                            isVertical: true,
-                            onTap: () {
-                              Appnavigotor.pushnamed(
-                                context,
-                                RouteNames.categoryfiltredpage,
-                                {
-                                  "condition": PhoneCondition.empty,
-                                  "SubCategory": SubCategory.casescover,
-                                  "isSubCategory": true,
-                                  "isFlashSale": false,
-                                },
-                              );
-                            },
-                            title: "Cases&\n Cover",
-                            imagePath: AssetConstants.bestsellingCasespng,
-                          ),
-                          OptionCard(
-                            isVertical: true,
-                            onTap: () {
-                              Appnavigotor.pushnamed(
-                                context,
-                                RouteNames.categoryfiltredpage,
-                                {
-                                  "condition": PhoneCondition.empty,
-                                  "SubCategory": SubCategory.mobilechargers,
-                                  "isSubCategory": true,
-                                  "isFlashSale": false,
-                                },
-                              );
-                            },
-                            title: "Mobile\nChargers",
-                            imagePath: AssetConstants.mobilecharger,
-                          ),
-                          OptionCard(
-                            isVertical: true,
-                            onTap: () {
-                              Appnavigotor.pushnamed(
-                                context,
-                                RouteNames.categoryfiltredpage,
-                                {
-                                  "condition": PhoneCondition.empty,
-                                  "SubCategory": SubCategory.speaker,
-                                  "isSubCategory": true,
-                                  "isFlashSale": false,
-                                },
-                              );
-                            },
-                            title: "Speaker",
-                            imagePath: AssetConstants.boatspeakerpng,
-                          ),
-                          OptionCard(
-                            isVertical: true,
-                            onTap: () {
-                              Appnavigotor.pushnamed(
-                                context,
-                                RouteNames.categoryfiltredpage,
-                                {
-                                  "condition": PhoneCondition.empty,
-                                  "SubCategory": SubCategory.audio,
-                                  "isSubCategory": true,
-                                  "isFlashSale": false,
-                                },
-                              );
-                            },
-                            title: "Audio",
-                            imagePath: AssetConstants.headset,
-                          ),
-                          OptionCard(
-                            isVertical: true,
-                            onTap: () {
-                              Appnavigotor.pushnamed(
-                                context,
-                                RouteNames.categoryfiltredpage,
-                                {
-                                  "condition": PhoneCondition.empty,
-                                  "SubCategory": SubCategory.powerbank,
-                                  "isSubCategory": true,
-                                  "isFlashSale": false,
-                                },
-                              );
-                            },
-                            title: "Power Bank",
-                            imagePath: AssetConstants.powerbank,
-                          ),
-                          OptionCard(
-                            isVertical: true,
-                            onTap: () {
-                              Appnavigotor.pushnamed(
-                                context,
-                                RouteNames.categoryfiltredpage,
-                                {
-                                  "condition": PhoneCondition.empty,
-                                  "SubCategory": SubCategory.bag,
-                                  "isSubCategory": true,
-                                  "isFlashSale": false,
-                                },
-                              );
-                            },
-                            title: "Bag",
-                            imagePath: AssetConstants.bagpng,
-                          ),
-                        ],
+                      child: AppTexts.medium(
+                        "Select your Preferences",
+                        fontSize: 18,
                       ),
-                    ],
-                  ),
+                    ),
+                    LayoutBuilder(
+                      builder: (context, constraints) {
+                        int crossAxisCount = 2;
+                        if (constraints.maxWidth > 600) crossAxisCount = 3;
+                        if (constraints.maxWidth > 800) crossAxisCount = 4;
+                        return GridView.count(
+                          padding: const EdgeInsets.symmetric(horizontal: 12),
+                          shrinkWrap: true,
+                          physics: const NeverScrollableScrollPhysics(),
+                          crossAxisCount: crossAxisCount,
+                          mainAxisSpacing: 10,
+                          crossAxisSpacing: 12,
+                          childAspectRatio: 1.25,
+                          children: cards,
+                        );
+                      },
+                    ),
+                  ],
                 ),
               ),
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }

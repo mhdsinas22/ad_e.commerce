@@ -191,8 +191,7 @@ class Helpers {
                   text: "Login",
                   onPressed: () {
                     Navigator.pop(context);
-                    print("redirectRoute: $redirectRoute");
-                    print("redirectArgs: $redirectArgs");
+
                     Appnavigotor.pushnamed(context, RouteNames.phoneLogin, {
                       "redirectRoute": redirectRoute,
                       "redirectArgs": redirectArgs,

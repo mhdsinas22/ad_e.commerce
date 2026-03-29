@@ -1,18 +1,34 @@
 // ignore: avoid_web_libraries_in_flutter
 import 'dart:js' as js;
 
+import 'package:supabase_flutter/supabase_flutter.dart';
+
 class RazorpayWeb {
   static void openPayment(
     int amount, {
     required Function() onSuccess,
     required Function(String) onError,
-  }) {
+  }) async {
+    final user = Supabase.instance.client;
+    final currentUser = user.auth.currentUser;
+    if (currentUser == null) {
+      throw Exception("User not logged in");
+    }
+    final userProfile =
+        await user
+            .from('profiles')
+            .select()
+            .eq('user_id', currentUser.id)
+            .single();
     final options = js.JsObject.jsify({
-      'key': 'rzp_test_SSO7BmEXoUr4WM',
+      'key': 'rzp_live_SX2RgssiDfnKDR',
       'amount': amount,
-      'name': 'AD E-Commerce',
+      'name': 'Aer Store',
       'description': 'Order Payment',
-      'prefill': {'contact': '9999999999', 'email': 'test@email.com'},
+      'prefill': {
+        'contact': '${userProfile['phone'] ?? ""}',
+        'email': '${userProfile['email'] ?? ""}',
+      },
     });
 
     // ✅ SUCCESS handler
