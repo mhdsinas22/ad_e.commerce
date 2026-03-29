@@ -118,6 +118,8 @@ class HomePageUi extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    double width = MediaQuery.of(context).size.width;
+    bool isDesktop = width > 900;
     return Scaffold(
       backgroundColor: AppColors.pureWhite,
       // 🔹 RESPONSIVE: Center layout and constrain width for large screens (Web/Tablet)
@@ -129,7 +131,7 @@ class HomePageUi extends StatelessWidget {
           child: CustomScrollView(
             slivers: [
               // 🔹 APP BAR
-              AppSliverAppBar(),
+              AppSliverAppBar(isDesktop: isDesktop),
               CupertinoSliverRefreshControl(
                 builder: (
                   context,
@@ -164,47 +166,49 @@ class HomePageUi extends StatelessWidget {
                   children: [
                     const SizedBox(height: 24), // Standardized spacing
                     // Search
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                      child: Center(
-                        child: GestureDetector(
-                          onTap: () {
-                            Appnavigotor.pushnamed(
-                              context,
-                              RouteNames.search,
-                              {},
-                            );
-                          },
-                          child: Container(
-                            constraints: const BoxConstraints(
-                              maxWidth: 500,
-                            ), // Responsive max width
-                            height: 50,
-                            decoration: BoxDecoration(
-                              color: Colors.grey.shade100,
-                              borderRadius: BorderRadius.circular(12),
-                            ),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                              children: [
-                                const SizedBox(width: 16),
-                                Expanded(
-                                  child: AppTexts.regular(
-                                    "Search...",
+                    if (!isDesktop)
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                        child: Center(
+                          child: GestureDetector(
+                            onTap: () {
+                              Appnavigotor.pushnamed(
+                                context,
+                                RouteNames.search,
+                                {},
+                              );
+                            },
+                            child: Container(
+                              constraints: const BoxConstraints(
+                                maxWidth: 500,
+                              ), // Responsive max width
+                              height: 50,
+                              decoration: BoxDecoration(
+                                color: Colors.grey.shade100,
+                                borderRadius: BorderRadius.circular(12),
+                              ),
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceEvenly,
+                                children: [
+                                  const SizedBox(width: 16),
+                                  Expanded(
+                                    child: AppTexts.regular(
+                                      "Search...",
+                                      color: AppColors.grayColor,
+                                    ),
+                                  ),
+                                  const Icon(
+                                    Icons.search,
                                     color: AppColors.grayColor,
                                   ),
-                                ),
-                                const Icon(
-                                  Icons.search,
-                                  color: AppColors.grayColor,
-                                ),
-                                const SizedBox(width: 16),
-                              ],
+                                  const SizedBox(width: 16),
+                                ],
+                              ),
                             ),
                           ),
                         ),
                       ),
-                    ),
                     const SizedBox(height: 24),
                     // Banner
                     Padding(

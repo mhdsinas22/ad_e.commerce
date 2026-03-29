@@ -38,65 +38,81 @@ class PhoneCategoriesPageUi extends StatelessWidget {
           slivers: [
             AppSliverAppBar(removeLogo: true),
             SliverToBoxAdapter(
-              child: Column(
-                children: [
-                  Align(
-                    alignment: Alignment.bottomLeft,
-
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 18.0,
-                        vertical: 20,
-                      ),
-                      child: AppTexts.medium(
-                        "Select your Preferences",
-                        fontSize: 18,
-                      ),
-                    ),
-                  ),
-                  GridView.count(
-                    padding: EdgeInsets.symmetric(horizontal: 12),
-                    shrinkWrap: true,
-                    crossAxisCount: 2,
-                    mainAxisSpacing: 12,
-                    crossAxisSpacing: 12,
-                    childAspectRatio: 1,
+              child: Center(
+                child: ConstrainedBox(
+                  constraints: const BoxConstraints(maxWidth: 900),
+                  child: Column(
                     children: [
-                      OptionCard(
-                        onTap: () {
-                          Appnavigotor.pushnamed(
-                            context,
-                            RouteNames.categoryfiltredpage,
-                            {
-                              "condition": PhoneCondition.empty,
-                              "SubCategory": SubCategory.fresh,
-                              "isSubCategory": true,
-                              "isFlashSale": false,
-                            },
-                          );
-                        },
-                        title: "Brand new",
-                        imagePath: AssetConstants.bestsellingmobilepng,
+                      Align(
+                        alignment: Alignment.bottomLeft,
+
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 18.0,
+                            vertical: 20,
+                          ),
+                          child: AppTexts.medium(
+                            "Select your Preferences",
+                            fontSize: 18,
+                          ),
+                        ),
                       ),
-                      OptionCard(
-                        onTap: () {
-                          Appnavigotor.pushnamed(
-                            context,
-                            RouteNames.categoryfiltredpage,
-                            {
-                              "condition": PhoneCondition.empty,
-                              "SubCategory": SubCategory.second,
-                              "isSubCategory": true,
-                              "isFlashSale": false,
-                            },
+                      LayoutBuilder(
+                        builder: (context, constraints) {
+                          int crossAxisCount = 2;
+                          if (constraints.maxWidth > 600) {
+                            crossAxisCount = 3;
+                          }
+                          if (constraints.maxWidth > 900) {
+                            crossAxisCount = 4;
+                          }
+                          return GridView.count(
+                            padding: EdgeInsets.symmetric(horizontal: 12),
+                            shrinkWrap: true,
+                            crossAxisCount: crossAxisCount,
+                            mainAxisSpacing: 12,
+                            crossAxisSpacing: 12,
+                            childAspectRatio: 1,
+                            children: [
+                              OptionCard(
+                                onTap: () {
+                                  Appnavigotor.pushnamed(
+                                    context,
+                                    RouteNames.categoryfiltredpage,
+                                    {
+                                      "condition": PhoneCondition.empty,
+                                      "SubCategory": SubCategory.fresh,
+                                      "isSubCategory": true,
+                                      "isFlashSale": false,
+                                    },
+                                  );
+                                },
+                                title: "Brand new",
+                                imagePath: AssetConstants.bestsellingmobilepng,
+                              ),
+                              OptionCard(
+                                onTap: () {
+                                  Appnavigotor.pushnamed(
+                                    context,
+                                    RouteNames.categoryfiltredpage,
+                                    {
+                                      "condition": PhoneCondition.empty,
+                                      "SubCategory": SubCategory.second,
+                                      "isSubCategory": true,
+                                      "isFlashSale": false,
+                                    },
+                                  );
+                                },
+                                title: "Pre-Owned",
+                                imagePath: AssetConstants.singlephonepng,
+                              ),
+                            ],
                           );
                         },
-                        title: "Pre-Owned",
-                        imagePath: AssetConstants.singlephonepng,
                       ),
                     ],
                   ),
-                ],
+                ),
               ),
             ),
           ],

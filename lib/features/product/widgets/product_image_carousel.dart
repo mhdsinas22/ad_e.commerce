@@ -58,6 +58,8 @@ class _ProductImageCarouselState extends State<ProductImageCarouselUi> {
 
   @override
   Widget build(BuildContext context) {
+    double width = MediaQuery.of(context).size.width;
+    bool isDesktop = width > 900;
     return BlocListener<ProductImageSilderBloc, ProductImageSilderState>(
       listener: (context, state) {
         if (_pageController.hasClients) {
@@ -83,24 +85,29 @@ class _ProductImageCarouselState extends State<ProductImageCarouselUi> {
                   );
             },
             child: SizedBox(
-              height: widget.isNeedBanner ? 200 : 420,
               width: double.infinity,
               child: ClipRRect(
                 borderRadius: const BorderRadius.only(
                   bottomLeft: Radius.circular(20),
                   bottomRight: Radius.circular(20),
                 ),
-                child: PageView.builder(
-                  controller: _pageController,
-                  itemCount: widget.images.length,
-                  onPageChanged: (index) {
-                    context.read<ProductImageSilderBloc>().add(
-                      SliderChangedEvent(index: index),
-                    );
-                  },
-                  itemBuilder: (context, index) {
-                    return AppCachedImage(imageUrl: widget.images[index]);
-                  },
+                child: AspectRatio(
+                  aspectRatio: isDesktop ? 16 / 6 : 16 / 9,
+                  child: PageView.builder(
+                    controller: _pageController,
+                    itemCount: widget.images.length,
+                    onPageChanged: (index) {
+                      context.read<ProductImageSilderBloc>().add(
+                        SliderChangedEvent(index: index),
+                      );
+                    },
+                    itemBuilder: (context, index) {
+                      return AppCachedImage(
+                        imageUrl: widget.images[index],
+                        fit: BoxFit.cover,
+                      );
+                    },
+                  ),
                 ),
               ),
             ),

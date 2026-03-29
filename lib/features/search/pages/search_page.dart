@@ -48,9 +48,15 @@ class _SearchPage extends StatelessWidget {
           double childAspectRatio = 0.68;
           if (screenWidth > 600) childAspectRatio = 0.75;
           if (screenWidth > 1200) childAspectRatio = 0.8;
+          final isDesktop = screenWidth > 900;
           return CustomScrollView(
             slivers: [
-              AppSliverAppBar(showBack: true, removeLogo: true),
+              AppSliverAppBar(
+                showBack: true,
+                removeLogo: true,
+                isDesktop: isDesktop,
+                isNeedSearchWidget: true,
+              ),
               SliverToBoxAdapter(
                 child: Center(
                   child: Container(
@@ -59,7 +65,7 @@ class _SearchPage extends StatelessWidget {
                       children: [
                         const SizedBox(height: 10),
                         // Search Bar
-                        SearchBarw(),
+                        if (!isDesktop) SearchBarw(),
                         const SizedBox(height: 10),
                         BlocBuilder<SearchBloc, SearchState>(
                           builder: (context, state) {

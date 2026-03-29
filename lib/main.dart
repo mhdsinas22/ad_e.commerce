@@ -35,10 +35,7 @@ void main() async {
   // Dotenv init
   await dotenv.load(fileName: ".env");
   // Supabase init
-  await Supabase.initialize(
-    url: dotenv.env['SUPABASE_URL']!,
-    anonKey: dotenv.env['SUPABASE_ANON_KEY']!,
-  );
+  await Supabase.initialize(url: supabaseUrl, anonKey: supabaseAnonKey);
   // Hive init(Guest Cart)
   await Hive.initFlutter();
   await Hive.openBox("guest_cart");
