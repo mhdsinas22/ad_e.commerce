@@ -152,6 +152,182 @@ class SupportLegelPage extends StatelessWidget {
                   );
                 },
               ),
+              SizedBox(height: 10),
+              ProfileMenuItem(
+                isneedChangedbuttoncolor: true,
+                buttoncolor: AppColors.purered,
+                title: "Delete Account",
+                onTap: () {
+                  showModalBottomSheet(
+                    backgroundColor: AppColors.pureWhite,
+                    context: context,
+                    builder: (context) {
+                      bool isLoading = false;
+                      return StatefulBuilder(
+                        builder: (context, setState) {
+                          return SizedBox(
+                            height: 250,
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Spacer(),
+                                Center(
+                                  child: AppTexts.bold(
+                                    "Delete Account",
+                                    fontSize: 20,
+                                    color: AppColors.purered,
+                                  ),
+                                ),
+                                SizedBox(height: 10),
+                                Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                    horizontal: 20,
+                                  ),
+                                  child: Text(
+                                    "Are you sure you want to permanently delete your account?",
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(
+                                      fontSize: 16,
+                                      color: Colors.grey[700],
+                                    ),
+                                  ),
+                                ),
+                                Spacer(),
+                                Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child:
+                                      isLoading
+                                          ? Center(
+                                            child: CircularProgressIndicator(
+                                              color: AppColors.purered,
+                                            ),
+                                          )
+                                          : Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceBetween,
+                                            children: [
+                                              Expanded(
+                                                child: ElevatedButton(
+                                                  style: ElevatedButton.styleFrom(
+                                                    backgroundColor:
+                                                        const Color.fromARGB(
+                                                          255,
+                                                          221,
+                                                          219,
+                                                          219,
+                                                        ),
+                                                    shape: RoundedRectangleBorder(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                            10,
+                                                          ),
+                                                    ),
+                                                  ),
+                                                  onPressed: () {
+                                                    Appnavigotor.pop(context);
+                                                  },
+                                                  child: AppTexts.semiBold(
+                                                    "Cancel",
+                                                  ),
+                                                ),
+                                              ),
+                                              SizedBox(width: 10),
+                                              Expanded(
+                                                child: ElevatedButton(
+                                                  style: ElevatedButton.styleFrom(
+                                                    backgroundColor:
+                                                        AppColors.purered,
+                                                    shape: RoundedRectangleBorder(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                            10,
+                                                          ),
+                                                    ),
+                                                  ),
+                                                  onPressed: () async {
+                                                    setState(() {
+                                                      isLoading = true;
+                                                    });
+                                                    try {
+                                                      final supabase =
+                                                          Supabase
+                                                              .instance
+                                                              .client;
+                                                      final userId =
+                                                          supabase
+                                                              .auth
+                                                              .currentUser
+                                                              ?.id;
+
+                                                      if (userId != null) {
+                                                        final supabase =
+                                                            Supabase
+                                                                .instance
+                                                                .client;
+
+                                                        // Call RPC with param
+                                                        await supabase.rpc(
+                                                          'delete_user',
+                                                          params: {
+                                                            'uid': userId,
+                                                          },
+                                                        );
+
+                                                        // Logout
+                                                        await supabase.auth
+                                                            .signOut();
+                                                      }
+
+                                                      if (context.mounted) {
+                                                        Appnavigotor.pushNamedAndRemoveUntil(
+                                                          context,
+                                                          RouteNames.phoneLogin,
+                                                        );
+                                                      }
+                                                    } catch (e) {
+                                                      if (context.mounted) {
+                                                        Appnavigotor.pop(
+                                                          context,
+                                                        );
+                                                        ScaffoldMessenger.of(
+                                                          context,
+                                                        ).showSnackBar(
+                                                          SnackBar(
+                                                            content: Text(
+                                                              'Failed to delete account. Please try again.:${e.toString()}',
+                                                            ),
+                                                            backgroundColor:
+                                                                AppColors
+                                                                    .purered,
+                                                          ),
+                                                        );
+                                                      }
+                                                    } finally {
+                                                      if (context.mounted) {
+                                                        setState(() {
+                                                          isLoading = false;
+                                                        });
+                                                      }
+                                                    }
+                                                  },
+                                                  child: AppTexts.semiBold(
+                                                    "Delete",
+                                                    color: AppColors.pureWhite,
+                                                  ),
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                ),
+                              ],
+                            ),
+                          );
+                        },
+                      );
+                    },
+                  );
+                },
+              ),
             ],
           ),
         ),

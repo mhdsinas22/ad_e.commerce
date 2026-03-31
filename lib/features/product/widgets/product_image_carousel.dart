@@ -59,12 +59,13 @@ class _ProductImageCarouselState extends State<ProductImageCarouselUi> {
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
-    
+
     double getResponsiveAspectRatio() {
       if (widget.isNeedBanner) {
-        if (width >= 1024) return 16 / 4.0; // Modern desktop banner (Amazon/Flipkart style)
-        if (width >= 600) return 16 / 6.0;  // Tablet banner
-        return 16 / 9.0;                    // Mobile banner untouched (perfect working)
+        if (width >= 1024)
+          return 16 / 4.0; // Modern desktop banner (Amazon/Flipkart style)
+        if (width >= 600) return 16 / 6.0; // Tablet banner
+        return 16 / 9.0; // Mobile banner untouched (perfect working)
       } else {
         // Keep existing behavior for Product details images intact
         return width > 900 ? 16 / 6.0 : 16 / 9.0;
