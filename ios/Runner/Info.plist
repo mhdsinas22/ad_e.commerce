@@ -90,5 +90,9 @@
 		<string>Light</string>
 		<key>NSPhotoLibraryUsageDescription</key>
 		<string>This app requires access to your photo library to allow you to upload images for your profile and product reviews.</string>
+		<key>NSCameraUsageDescription</key>
+<string>This app needs camera access to take photos</string>
+<key>NSPhotoLibraryAddUsageDescription</key>
+<string>This app needs permission to save photos</string>
 	</dict>
 </plist>

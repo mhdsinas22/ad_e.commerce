@@ -21,46 +21,69 @@ class TrackingTimelineWidget extends StatelessWidget {
             : null;
     final isCancelled = currentStatus.toLowerCase() == 'cancelled';
 
-    final steps = isCancelled 
-        ? [
-            {
-              'title': 'Order Placed',
-              'date': DateFormatter.formatOrderDateTime(orders.createdAt),
-              'description': 'Your order has been placed.',
-            },
-            {
-              'title': 'Cancelled',
-              'date': '16 Mar 2026', // Based on prompt requirement
-              'description': 'Your order has been cancelled.',
-            },
-          ]
-        : [
-            {
-              'title': 'Order Placed',
-              'date': DateFormatter.formatOrderDateTime(orders.createdAt),
-              'description': 'Your order has been placed.',
-            },
-            {
-              'title': 'Packed',
-              'date': DateFormatter.formatOrderDateTime(orders.packedAt),
-              'description': 'Seller has packed your order.',
-            },
-            {
-              'title': 'Shipped',
-              'date': DateFormatter.formatOrderDateTime(orders.shippedAt),
-              'description':
-                  (currentStatus.toLowerCase() == 'shipped' ||
-                          currentStatus.toLowerCase() == 'in transit' ||
-                          currentStatus.toLowerCase() == 'delivered')
-                      ? 'In Transit\nYour item is on the way.\nCourier:${logistics?.courierPartner ?? "-"}\nTracking ID: ${logistics?.trackingNumber ?? "-"}\nEstimated Delivery: ${logistics?.pickupDate != null ? DateFormatter.formatDate(logistics!.pickupDate.toString()) : "-"}'
-                      : '',
-            },
-            {
-              'title': 'Delivered',
-              'date': DateFormatter.formatOrderDateTime(orders.deliveredAt),
-              'description': '',
-            },
-          ];
+    final List<Map<String, dynamic>> steps =
+        isCancelled
+            ? [
+              {
+                'title': 'Order Placed',
+                'date': DateFormatter.formatOrderDateTime(orders.createdAt),
+                'description': 'Your order has been placed.',
+              },
+              {
+                'title': 'Cancelled',
+                'date': '16 Mar 2026', // Based on prompt requirement
+                'description': 'Your order has been cancelled.',
+              },
+            ]
+            : [
+              {
+                'title': 'Order Placed',
+                'date': DateFormatter.formatOrderDateTime(orders.createdAt),
+                'description': 'Your order has been placed.',
+              },
+              {
+                'title': 'Packed',
+                'date': DateFormatter.formatOrderDateTime(orders.packedAt),
+                'description': 'Seller has packed your order.',
+              },
+              {
+                'title': 'Shipped',
+                'date': DateFormatter.formatOrderDateTime(orders.shippedAt),
+                'descriptionWidget': (BuildContext context) {
+                  return Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      AppTexts.regular("In Transit"),
+                      AppTexts.regular("Your item is on the way."),
+                      const SizedBox(height: 4),
+                      AppTexts.regular(
+                        "Courier: ${logistics?.courierPartner ?? "-"}",
+                      ),
+                      AppTexts.regular(
+                        "Tracking ID: ${logistics?.trackingNumber ?? "-"}",
+                      ),
+                      AppTexts.regular(
+                        overflow: TextOverflow.visible,
+                        softWrap: true,
+                        maxLines: null,
+                        "Location: ${logistics?.pickupLocation ?? "-"}",
+                      ),
+                      AppTexts.regular(
+                        maxLines: null,
+                        overflow: TextOverflow.visible,
+                        softWrap: true,
+                        "Estimated Delivery: ${logistics?.pickupDate != null ? DateFormatter.formatDate(logistics!.pickupDate.toString()) : "-"}",
+                      ),
+                    ],
+                  );
+                },
+              },
+              {
+                'title': 'Delivered',
+                'date': DateFormatter.formatOrderDateTime(orders.deliveredAt),
+                'description': '',
+              },
+            ];
 
     int currentStepIndex = 0;
     if (isCancelled) {
@@ -117,13 +140,14 @@ class TrackingTimelineWidget extends StatelessWidget {
                         width: 40,
                         height: 40,
                         decoration: BoxDecoration(
-                          color: isCancelledStep 
-                              ? Colors.red 
-                              : (isCompleted
-                                  ? Colors.green
-                                  : (isCurrent
-                                      ? AppColors.primaryBlack
-                                      : const Color(0xFFE0E0E0))),
+                          color:
+                              isCancelledStep
+                                  ? Colors.red
+                                  : (isCompleted
+                                      ? Colors.green
+                                      : (isCurrent
+                                          ? AppColors.primaryBlack
+                                          : const Color(0xFFE0E0E0))),
                           shape: BoxShape.circle,
                         ),
                         child: Center(
@@ -134,7 +158,7 @@ class TrackingTimelineWidget extends StatelessWidget {
                                     ? Icons.check
                                     : (index == 2
                                         ? Icons.local_shipping_outlined
-                                        : Icons.circle)), 
+                                        : Icons.circle)),
                             color: Colors.white,
                             size: 20,
                           ),
@@ -144,11 +168,13 @@ class TrackingTimelineWidget extends StatelessWidget {
                         Container(
                           width: 2,
                           height: 60, // Fixed height connector
-                          color: isCancelledStep
-                              ? Colors.transparent // No connector after cancelled, or if there is, but it's the last step anyway
-                              : (isCompleted
-                                  ? Colors.green
-                                  : const Color(0xFFE0E0E0)),
+                          color:
+                              isCancelledStep
+                                  ? Colors
+                                      .transparent // No connector after cancelled, or if there is, but it's the last step anyway
+                                  : (isCompleted
+                                      ? Colors.green
+                                      : const Color(0xFFE0E0E0)),
                         ),
                     ],
                   ),
@@ -158,25 +184,33 @@ class TrackingTimelineWidget extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         AppTexts.semiBold(
-                          step['title']!,
+                          step['title'],
                           fontSize: 16,
                           color: isCancelledStep ? Colors.red : Colors.black,
                         ),
                         const SizedBox(height: 4),
                         AppTexts.regular(
-                          step['date']!,
+                          step['date'],
                           fontSize: 13,
-                          color: isCancelledStep ? Colors.red.shade300 : AppColors.grayColor,
+                          color:
+                              isCancelledStep
+                                  ? Colors.red.shade300
+                                  : AppColors.grayColor,
                         ),
-                        if (step['description']!.isNotEmpty) ...[
+                        if (step['descriptionWidget'] != null) ...[
                           const SizedBox(height: 4),
-                          AppTexts.regular(
-                            step['description']!,
-                            fontSize: 14,
-                            color: isCancelledStep ? Colors.red.shade900 : Colors.black87,
-                            maxLines: 5,
-                            height: 1.4,
-                          ),
+                          step["descriptionWidget"](context),
+                          // AppTexts.regular(
+                          //   step['description'],
+                          //   fontSize: 14,
+                          //   color:
+                          //       isCancelledStep
+                          //           ? Colors.red.shade900
+                          //           : Colors.black87,
+                          //   softWrap: true,
+                          //   overflow: TextOverflow.visible,
+                          //   height: 1.4,
+                          // ),
                         ],
                         SizedBox(
                           height: !isLast ? 32 : 0,

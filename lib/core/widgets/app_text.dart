@@ -16,6 +16,7 @@ class AppTexts {
     bool isOffer = false,
     int? maxLines,
     TextOverflow? overflow,
+    bool softWrap = false,
   }) {
     return _text(
       text,
@@ -27,6 +28,7 @@ class AppTexts {
       isOffer ? TextDecoration.lineThrough : null,
       maxLines: maxLines,
       overflow: overflow,
+      softWrap: softWrap,
     );
   }
 
@@ -40,6 +42,7 @@ class AppTexts {
     bool isOffer = false,
     int? maxLines,
     TextOverflow? overflow,
+    bool softWrap = false,
   }) {
     return _text(
       text,
@@ -51,6 +54,7 @@ class AppTexts {
       isOffer ? TextDecoration.lineThrough : null,
       maxLines: maxLines,
       overflow: overflow,
+      softWrap: softWrap,
     );
   }
 
@@ -64,6 +68,7 @@ class AppTexts {
     bool isOffer = false,
     int? maxLines,
     TextOverflow? overflow,
+    bool softWrap = false,
   }) {
     return _text(
       text,
@@ -75,6 +80,7 @@ class AppTexts {
       isOffer ? TextDecoration.lineThrough : null,
       maxLines: maxLines,
       overflow: overflow,
+      softWrap: softWrap,
     );
   }
 
@@ -89,6 +95,7 @@ class AppTexts {
     int? maxLines,
     TextOverflow? overflow,
     TextAlign? textAlign,
+    bool softWrap = false,
   }) {
     return _text(
       text,
@@ -100,6 +107,7 @@ class AppTexts {
       isOffer ? TextDecoration.lineThrough : null,
       maxLines: maxLines,
       overflow: overflow,
+      softWrap: softWrap,
     );
   }
 
@@ -113,6 +121,7 @@ class AppTexts {
     bool isOffer = false,
     int? maxLines,
     TextOverflow? overflow,
+    bool softWrap = false,
   }) {
     return _text(
       text,
@@ -124,6 +133,7 @@ class AppTexts {
       isOffer ? TextDecoration.lineThrough : null,
       maxLines: maxLines,
       overflow: overflow,
+      softWrap: softWrap,
     );
   }
 
@@ -137,6 +147,7 @@ class AppTexts {
     bool isOffer = false,
     int? maxLines,
     TextOverflow? overflow,
+    bool softWrap = false,
   }) {
     return _text(
       text,
@@ -148,6 +159,7 @@ class AppTexts {
       isOffer ? TextDecoration.lineThrough : null,
       maxLines: maxLines,
       overflow: overflow,
+      softWrap: softWrap,
     );
   }
 
@@ -161,6 +173,7 @@ class AppTexts {
     bool isOffer = false,
     int? maxLines,
     TextOverflow? overflow,
+    bool softWrap = false,
   }) {
     return _text(
       text,
@@ -172,6 +185,7 @@ class AppTexts {
       isOffer ? TextDecoration.lineThrough : null,
       maxLines: maxLines,
       overflow: overflow,
+      softWrap: softWrap,
     );
   }
 
@@ -186,12 +200,14 @@ class AppTexts {
     TextDecoration? decoration, {
     int? maxLines,
     TextOverflow? overflow,
+    bool softWrap = false,
   }) {
     return Text(
       text,
       textAlign: align,
       maxLines: maxLines,
       overflow: overflow ?? TextOverflow.ellipsis, // 🔥 safe default
+      softWrap: softWrap,
       style: TextStyle(
         fontFamily: _fontFamily,
         fontSize: fontSize,

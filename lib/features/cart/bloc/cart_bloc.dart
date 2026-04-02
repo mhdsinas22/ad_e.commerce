@@ -281,7 +281,7 @@ class CartBloc extends Bloc<CartEvent, CartState> {
     }
 
     // Delivery Fee Logic: Apply only if cart is not empty
-    double delivery = subTotal > 0 ? kDeliveryFee : 0;
+    double delivery = subTotal > 0 ? 0 : 0;
 
     double walletUsed = state.walletUsed;
     if (walletUsed > state.walletBalance) {

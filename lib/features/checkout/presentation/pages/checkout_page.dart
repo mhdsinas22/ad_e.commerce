@@ -262,7 +262,7 @@ class _CheckoutPageState extends State<CheckoutPageUi> {
                       userId: widget.supabase.auth.currentUser!.id,
                       totalAmount: cartstate.totalAmount,
                       status: "placed",
-                      paymentMethod: "cod",
+                      paymentMethod: "online",
                       shippingAddress: selectedAddress.toJson(),
                       orderItems: [],
                       walletUsed: cartstate.walletUsed,
@@ -561,6 +561,12 @@ class _CheckoutPageState extends State<CheckoutPageUi> {
     final addresses = state.addresses;
     final addNewIndex = addresses.length;
     final amountInPaise = _getPaymentAmountInPaise(); // ✅
+    final cartstate = context.read<CartBloc>().state;
+    if (cartstate.totalAmount == 0) {
+      _createOrderDirect();
+      return;
+    }
+
     if (_selectedAddressIndex != addNewIndex) {
       // ✅ Existing address → direct payment
       context.read<PaymentBloc>().add(StartPayment(amount: amountInPaise));
@@ -569,6 +575,57 @@ class _CheckoutPageState extends State<CheckoutPageUi> {
     _shouldTriggerPayment = true;
     // ✅ New address → save first
     _submitNewAddress(state, goToPayment: true);
+  }
+
+  void _createOrderDirect() {
+    final cartstate = context.read<CartBloc>().state;
+    final addresses = context.read<AddressBloc>().state.addresses;
+    final addNewIndex = addresses.length;
+
+    AddressModel? selectedAddress;
+
+    if (_selectedAddressIndex != addNewIndex) {
+      selectedAddress = AddressModel.fromEntity(
+        addresses[_selectedAddressIndex],
+      );
+    }
+
+    if (selectedAddress == null) return;
+
+    final orderitems =
+        cartstate.cartitems
+            .map(
+              (e) => OrderItem(
+                orderId: "",
+                productId: e.productId,
+                productName: e.title,
+                productImage: e.imageUrl,
+                sku: "sku1",
+                price: e.price,
+                quantity: e.quantity,
+                productStorge: e.storeage,
+                productColor: e.color,
+                productModelNumber: e.modelNumber,
+                productrating: e.rating,
+                productNoOfRating: e.noOfRating,
+              ),
+            )
+            .toList();
+
+    context.read<OrderBloc>().add(
+      CreateOrderEvent(
+        orders: Orders(
+          userId: Supabase.instance.client.auth.currentUser!.id,
+          totalAmount: 0,
+          status: "placed",
+          paymentMethod: "wallet",
+          shippingAddress: selectedAddress.toJson(),
+          orderItems: [],
+          walletUsed: cartstate.walletUsed,
+        ),
+        orderitems: orderitems,
+      ),
+    );
   }
 
   void _saveAddress(AddressState state) {

@@ -68,7 +68,7 @@ class _ProductImageCarouselState extends State<ProductImageCarouselUi> {
         return 16 / 9.0; // Mobile banner untouched (perfect working)
       } else {
         // Keep existing behavior for Product details images intact
-        return width > 900 ? 16 / 6.0 : 16 / 9.0;
+        return 1; // simple square
       }
     }
 

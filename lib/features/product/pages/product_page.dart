@@ -66,61 +66,63 @@ class _ProductPageState extends State<_ProductPage>
   // MOBILE LAYOUT (unchanged)
   // ──────────────────────────────────────────────
   Widget _buildMobileLayout(bool isSoldOut, bool isLongText) {
-    return SingleChildScrollView(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Stack(
-            children: [
-              ProductImageCarousel(images: widget.product.imageUrls),
-              if (isSoldOut)
-                Positioned.fill(
-                  child: Container(
-                    color: Colors.black.withOpacity(0.7),
-                    child: Center(
-                      child: Container(
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 24,
-                          vertical: 12,
-                        ),
-                        decoration: BoxDecoration(
-                          color: Colors.red.shade600,
-                          borderRadius: BorderRadius.circular(8),
-                        ),
-                        child: AppTexts.bold(
-                          "SOLD OUT",
-                          fontSize: 22,
-                          color: AppColors.pureWhite,
+    return SafeArea(
+      child: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Stack(
+              children: [
+                ProductImageCarousel(images: widget.product.imageUrls),
+                if (isSoldOut)
+                  Positioned.fill(
+                    child: Container(
+                      color: Colors.black.withOpacity(0.7),
+                      child: Center(
+                        child: Container(
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 24,
+                            vertical: 12,
+                          ),
+                          decoration: BoxDecoration(
+                            color: Colors.red.shade600,
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                          child: AppTexts.bold(
+                            "SOLD OUT",
+                            fontSize: 22,
+                            color: AppColors.pureWhite,
+                          ),
                         ),
                       ),
                     ),
                   ),
-                ),
-              Positioned(
-                top: 0,
-                left: 0,
-                right: 0,
-                child: SafeArea(
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 16),
-                    child: _topNavRow(context),
+                Positioned(
+                  top: 0,
+                  left: 0,
+                  right: 0,
+                  child: SafeArea(
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 16),
+                      child: _topNavRow(context),
+                    ),
                   ),
                 ),
-              ),
-            ],
-          ),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 20),
-            child: _productInfoColumn(isSoldOut, isLongText),
-          ),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [AirdropAssurance(isProductPage: true)],
+              ],
             ),
-          ),
-        ],
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 20),
+              child: _productInfoColumn(isSoldOut, isLongText),
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [AirdropAssurance(isProductPage: true)],
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -316,13 +318,12 @@ class _ProductPageState extends State<_ProductPage>
                   color: Colors.white,
                 ),
                 padding: const EdgeInsets.all(12),
-                child: SvgPicture.asset(AppIcons.serachucon),
+                child: SvgPicture.asset(AppIcons.searchicononly),
               ),
             ),
             const SizedBox(width: 10),
             GestureDetector(
-              onTap:
-                  () => Appnavigotor.pushnamed(context, RouteNames.cart, {}),
+              onTap: () => Appnavigotor.pushnamed(context, RouteNames.cart, {}),
               child: Container(
                 width: 50,
                 height: 50,
@@ -331,7 +332,7 @@ class _ProductPageState extends State<_ProductPage>
                   color: Colors.white,
                 ),
                 padding: const EdgeInsets.all(12),
-                child: SvgPicture.asset(AssetConstants.carticonpng),
+                child: SvgPicture.asset(AppIcons.bagIcon),
               ),
             ),
           ],
@@ -351,10 +352,7 @@ class _ProductPageState extends State<_ProductPage>
             const SizedBox(width: 4),
             Text(
               "${widget.product.rating}",
-              style: const TextStyle(
-                fontSize: 16,
-                fontWeight: FontWeight.bold,
-              ),
+              style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
             ),
             const SizedBox(width: 4),
             Text(
@@ -431,9 +429,7 @@ class _ProductPageState extends State<_ProductPage>
                   fontSize: 16,
                   maxLines: isExpanded ? null : 2,
                   overflow:
-                      isExpanded
-                          ? TextOverflow.visible
-                          : TextOverflow.ellipsis,
+                      isExpanded ? TextOverflow.visible : TextOverflow.ellipsis,
                   height: 1.6,
                 ),
               ),
@@ -573,9 +569,7 @@ class _ProductPageState extends State<_ProductPage>
                       );
                     },
             style: OutlinedButton.styleFrom(
-              side: BorderSide(
-                color: isSoldOut ? Colors.grey : Colors.black,
-              ),
+              side: BorderSide(color: isSoldOut ? Colors.grey : Colors.black),
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(24),
               ),
@@ -608,15 +602,11 @@ class _ProductPageState extends State<_ProductPage>
                         "directProduct": widget.product,
                       },
                     )
-                    : Appnavigotor.pushnamed(
-                      context,
-                      RouteNames.checkout,
-                      {
-                        "isMyaddressScreen": false,
-                        "isDirectBuy": true,
-                        "directProduct": widget.product,
-                      },
-                    );
+                    : Appnavigotor.pushnamed(context, RouteNames.checkout, {
+                      "isMyaddressScreen": false,
+                      "isDirectBuy": true,
+                      "directProduct": widget.product,
+                    });
               },
       style: ElevatedButton.styleFrom(
         backgroundColor:
