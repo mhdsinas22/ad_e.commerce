@@ -1,5 +1,6 @@
 import 'package:ad_e_commerce/core/constants/app_animations.dart';
 import 'package:ad_e_commerce/core/routes/route_names.dart';
+import 'package:ad_e_commerce/core/utils/app_logger.dart';
 import 'package:ad_e_commerce/core/utils/navigator.dart';
 import 'package:ad_e_commerce/core/widgets/app_text.dart';
 import 'package:ad_e_commerce/core/widgets/primary_button.dart';
@@ -112,8 +113,10 @@ class PaymentPageUi extends StatelessWidget {
           );
         }
         if (state.status == OrdersStatus.success) {
-          print("Cart Items:-${context.read<CartBloc>().state.cartitems}");
-          print("Is Direct Buy:-$isDirectBuy");
+          AppLogger.info(
+            "Cart Items:-${context.read<CartBloc>().state.cartitems}",
+          );
+          AppLogger.info("Is Direct Buy:-$isDirectBuy");
           // Clear Cart
           if (isDirectBuy == false) {
             context.read<CartBloc>().add(ClearCartEvent());

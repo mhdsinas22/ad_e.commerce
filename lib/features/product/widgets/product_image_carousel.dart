@@ -62,8 +62,9 @@ class _ProductImageCarouselState extends State<ProductImageCarouselUi> {
 
     double getResponsiveAspectRatio() {
       if (widget.isNeedBanner) {
-        if (width >= 1024)
+        if (width >= 1024) {
           return 16 / 4.0; // Modern desktop banner (Amazon/Flipkart style)
+        }
         if (width >= 600) return 16 / 6.0; // Tablet banner
         return 16 / 9.0; // Mobile banner untouched (perfect working)
       } else {

@@ -1,3 +1,4 @@
+import 'package:ad_e_commerce/core/utils/app_logger.dart';
 import 'package:ad_e_commerce/features/payment/domain/usecase/make_payment.dart';
 import 'package:ad_e_commerce/features/payment/presentation/bloc/payment_event.dart';
 import 'package:ad_e_commerce/features/payment/presentation/bloc/payment_state.dart';
@@ -16,7 +17,7 @@ class PaymentBloc extends Bloc<PaymentEvent, PaymentState> {
   ) async {
     emit(state.copyWith(status: PaymentStatus.loading));
     try {
-      print("Start paymetn:- ${event.amount}");
+      AppLogger.info("Start Payment:- ${event.amount}");
       await makePayment(
         event.amount,
         () {
@@ -27,7 +28,7 @@ class PaymentBloc extends Bloc<PaymentEvent, PaymentState> {
         },
       );
     } catch (e) {
-      print("Start paymetn error:- ${e.toString()}");
+      AppLogger.error("Start paymetn error:- ${e.toString()}");
       emit(
         state.copyWith(
           status: PaymentStatus.failed,

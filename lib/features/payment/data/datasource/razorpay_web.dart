@@ -1,6 +1,7 @@
 // ignore: avoid_web_libraries_in_flutter
 import 'dart:js' as js;
 
+import 'package:ad_e_commerce/core/utils/app_logger.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 class RazorpayWeb {
@@ -33,14 +34,14 @@ class RazorpayWeb {
 
     // ✅ SUCCESS handler
     options['handler'] = (response) {
-      print("WEB PAYMENT SUCCESS");
+      AppLogger.info("WEB PAYMENT SUCCESS");
       onSuccess(); // 🔥 THIS WAS MISSING
     };
 
     // ❌ FAILURE / CLOSE handler
     options['modal'] = js.JsObject.jsify({
       'ondismiss': () {
-        print("WEB PAYMENT FAILED / CLOSED");
+        AppLogger.error("WEB PAYMENT FAILED / CLOSED");
         onError("Payment Cancelled"); // 🔥 THIS WAS MISSING
       },
     });

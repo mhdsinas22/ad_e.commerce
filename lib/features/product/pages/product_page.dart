@@ -402,7 +402,7 @@ class _ProductPageState extends State<_ProductPage>
             AppTexts.bold(
               "₹ ${widget.product.originalPrice?.toStringAsFixed(0)}",
               fontSize: 20,
-              color: AppColors.purered,
+              color: AppColors.grayColor,
               isOffer: true,
             ),
           ],
@@ -420,18 +420,18 @@ class _ProductPageState extends State<_ProductPage>
             ),
             const SizedBox(height: 8),
             AnimatedSize(
-              curve: Curves.easeInOut,
               duration: const Duration(milliseconds: 300),
-              child: Align(
-                alignment: Alignment.centerLeft,
-                child: AppTexts.medium(
-                  "${widget.product.description}",
-                  fontSize: 16,
-                  maxLines: isExpanded ? null : 2,
-                  overflow:
-                      isExpanded ? TextOverflow.visible : TextOverflow.ellipsis,
-                  height: 1.6,
-                ),
+              curve: Curves.easeInOut,
+              child: AppTexts.medium(
+                widget.product.description ?? "",
+                maxLines: isExpanded ? null : 3,
+                overflow:
+                    isExpanded ? TextOverflow.visible : TextOverflow.ellipsis,
+                softWrap: true,
+                fontSize: 15,
+                height: 1.7,
+                color: Colors.black87,
+                letterSpacing: 0.2,
               ),
             ),
           ],

@@ -1,3 +1,4 @@
+import 'package:ad_e_commerce/core/utils/app_logger.dart';
 import 'package:ad_e_commerce/features/payment/domain/repository/payment_repository.dart';
 
 class MakePayment {
@@ -9,10 +10,10 @@ class MakePayment {
     Function(String) onError,
   ) {
     try {
-      print("USE payment CASE working");
+      AppLogger.info("USE payment CASE working");
       return repository.pay(amount, onSuccess, onError);
     } catch (e) {
-      print("PAynet ise case error:-${e.toString()}");
+      AppLogger.error("PAynet ise case error:-${e.toString()}");
       return Future.error(e);
     }
   }

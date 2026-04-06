@@ -78,7 +78,10 @@ class CategoryGrid extends StatelessWidget {
               physics: const NeverScrollableScrollPhysics(),
               itemCount: categories.length,
               gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: categories.length > 0 ? categories.length : 6, // Typically 6 items
+                crossAxisCount:
+                    categories.isNotEmpty
+                        ? categories.length
+                        : 6, // Typically 6 items
                 mainAxisSpacing: 16,
                 crossAxisSpacing: 16,
                 childAspectRatio: 1, // Keep them square
@@ -150,8 +153,7 @@ class CategoryGrid extends StatelessWidget {
               final item = categories[index + 2];
               return CategoryCard(
                 gradientColors:
-                    categoryGradients[(index + 2) %
-                        categoryGradients.length],
+                    categoryGradients[(index + 2) % categoryGradients.length],
                 borderRaduis: 9.88,
                 customborder: true,
                 onTap: () => handleNavigation(context, item),

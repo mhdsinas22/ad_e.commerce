@@ -1,3 +1,4 @@
+import 'package:ad_e_commerce/core/utils/app_logger.dart';
 import 'package:ad_e_commerce/features/payment/data/datasource/razorpay_datasource.dart';
 import 'package:ad_e_commerce/features/payment/helper/razorpay_helper.dart';
 import 'package:flutter/foundation.dart';
@@ -16,17 +17,17 @@ class RazorpayDatasourceImpl implements RazorpayDatasource {
     _razorpay.clear(); // 🔥 IMPORTANT
 
     _razorpay.on(Razorpay.EVENT_PAYMENT_SUCCESS, (response) {
-      print("SUCCESS CALLBACK");
+      AppLogger.info("SUCCESS CALLBACK");
       onSuccess(response);
     });
 
     _razorpay.on(Razorpay.EVENT_PAYMENT_ERROR, (response) {
-      print("ERROR CALLBACK");
+      AppLogger.error("ERROR CALLBACK");
       onError(response);
     });
 
     _razorpay.on(Razorpay.EVENT_EXTERNAL_WALLET, (response) {
-      print("WALLET SELECTED");
+      AppLogger.info("WALLET SELECTED");
     });
     final user = Supabase.instance.client;
     final currentUser = user.auth.currentUser;
@@ -52,7 +53,7 @@ class RazorpayDatasourceImpl implements RazorpayDatasource {
     };
 
     try {
-      print("OPENING RAZORPAY");
+      AppLogger.info("OPENING RAZORPAY");
       if (kIsWeb) {
         RazorpayWeb.openPayment(
           amount,
@@ -74,7 +75,7 @@ class RazorpayDatasourceImpl implements RazorpayDatasource {
         _razorpay.open(options);
       }
     } catch (e) {
-      print("RAZORPAY OPEN ERROR: $e");
+      AppLogger.error("RAZORPAY OPEN ERROR: $e");
     }
   }
 }

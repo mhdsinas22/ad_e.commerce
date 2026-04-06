@@ -17,6 +17,7 @@ class AppTexts {
     int? maxLines,
     TextOverflow? overflow,
     bool softWrap = false,
+    double? letterSpacing,
   }) {
     return _text(
       text,
@@ -29,6 +30,7 @@ class AppTexts {
       maxLines: maxLines,
       overflow: overflow,
       softWrap: softWrap,
+      letterSpacing: letterSpacing,
     );
   }
 
@@ -43,6 +45,7 @@ class AppTexts {
     int? maxLines,
     TextOverflow? overflow,
     bool softWrap = false,
+    double? letterSpacing,
   }) {
     return _text(
       text,
@@ -55,6 +58,7 @@ class AppTexts {
       maxLines: maxLines,
       overflow: overflow,
       softWrap: softWrap,
+      letterSpacing: letterSpacing,
     );
   }
 
@@ -69,6 +73,7 @@ class AppTexts {
     int? maxLines,
     TextOverflow? overflow,
     bool softWrap = false,
+    double? letterSpacing,
   }) {
     return _text(
       text,
@@ -81,6 +86,7 @@ class AppTexts {
       maxLines: maxLines,
       overflow: overflow,
       softWrap: softWrap,
+      letterSpacing: letterSpacing,
     );
   }
 
@@ -96,6 +102,7 @@ class AppTexts {
     TextOverflow? overflow,
     TextAlign? textAlign,
     bool softWrap = false,
+    double? letterSpacing,
   }) {
     return _text(
       text,
@@ -108,6 +115,7 @@ class AppTexts {
       maxLines: maxLines,
       overflow: overflow,
       softWrap: softWrap,
+      letterSpacing: letterSpacing,
     );
   }
 
@@ -122,6 +130,7 @@ class AppTexts {
     int? maxLines,
     TextOverflow? overflow,
     bool softWrap = false,
+    double? letterSpacing,
   }) {
     return _text(
       text,
@@ -134,6 +143,7 @@ class AppTexts {
       maxLines: maxLines,
       overflow: overflow,
       softWrap: softWrap,
+      letterSpacing: letterSpacing,
     );
   }
 
@@ -148,6 +158,7 @@ class AppTexts {
     int? maxLines,
     TextOverflow? overflow,
     bool softWrap = false,
+    double? letterSpacing,
   }) {
     return _text(
       text,
@@ -160,6 +171,7 @@ class AppTexts {
       maxLines: maxLines,
       overflow: overflow,
       softWrap: softWrap,
+      letterSpacing: letterSpacing,
     );
   }
 
@@ -174,6 +186,7 @@ class AppTexts {
     int? maxLines,
     TextOverflow? overflow,
     bool softWrap = false,
+    double? letterSpacing,
   }) {
     return _text(
       text,
@@ -186,6 +199,7 @@ class AppTexts {
       maxLines: maxLines,
       overflow: overflow,
       softWrap: softWrap,
+      letterSpacing: letterSpacing,
     );
   }
 
@@ -201,6 +215,7 @@ class AppTexts {
     int? maxLines,
     TextOverflow? overflow,
     bool softWrap = false,
+    double? letterSpacing,
   }) {
     return Text(
       text,
@@ -215,8 +230,9 @@ class AppTexts {
         color: color,
         height: height,
         decoration: decoration,
-        decorationColor: AppColors.purered,
-        decorationThickness: 3,
+        decorationColor: AppColors.grayColor,
+        decorationThickness: 1.4,
+        letterSpacing: letterSpacing,
       ),
     );
   }

@@ -130,7 +130,10 @@ class AssetConstants {
   static const String iphoneCatergorysvg = "assets/svg/AER CATEGORIES-02.svg";
   static const String iphoneCategorypng = "assets/png/Artboard 17.png";
   static const String laptopCategoryPng = "assets/png/Artboard 19.png";
-  static const String accessoriescatpng = "assets/png/Artboard 18.png";
+  static const String accessoriescatpng =
+      "assets/png/Accessoriess aerllp 1 (1).png";
   static const String wearablescatergorypng = "assets/png/Artboard 21.png";
   static const String aeradjustsvg = "assets/svg/adjustaer.svg";
+  static const String accessoriesnewcatpng =
+      "assets/png/Accessoriess aerllp.webp";
 }
