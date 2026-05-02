@@ -199,36 +199,162 @@ class WarrantyPage extends StatelessWidget {
                         const SizedBox(height: 24),
 
                         // Coverage Details Header
-                        AppTexts.bold("Coverage Details", fontSize: 18),
-                        const SizedBox(height: 12),
+                        AppTexts.extraBold(
+                          "AER Service Coverage & Benefits",
+                          fontSize: 18,
+                        ),
+                        const SizedBox(height: 16),
 
-                        // Coverage Items
+                        // Device Hardware Coverage
+                        AppTexts.bold("Device Hardware Coverage", fontSize: 16),
+                        const SizedBox(height: 8),
                         const CoverageItem(
-                          text: "Hardware Defects",
+                          text: "Ear Speaker, Loudspeaker & Microphone",
+                          isCovered: true,
+                        ),
+                        const CoverageItem(text: "Charging Port", isCovered: true),
+                        const CoverageItem(text: "Vibration Motor", isCovered: true),
+                        const CoverageItem(
+                          text: "All Device Buttons (Power, Volume, etc.)",
                           isCovered: true,
                         ),
                         const CoverageItem(
-                          text: "Battery < 80%",
+                          text: "Back Camera Glass",
                           isCovered: true,
                         ),
                         const CoverageItem(
-                          text: "Battery Replacement",
+                          text: "Proximity Sensors",
                           isCovered: true,
                         ),
-                        const SizedBox(height: 12),
-                        AppTexts.bold("Not Covered", fontSize: 18),
-                        const SizedBox(height: 12),
+                        const CoverageItem(text: "SIM Tray", isCovered: true),
                         const CoverageItem(
-                          text: "Accidental Damage",
-                          isCovered: false,
+                          text: "Internal Antennas (Wi-Fi & Bluetooth)",
+                          isCovered: true,
                         ),
                         const CoverageItem(
-                          text: "Liquid Contact",
-                          isCovered: false,
+                          text: "Internal Screws and Brackets",
+                          isCovered: true,
+                        ),
+
+                        const SizedBox(height: 16),
+                        // Biometric & Security Features
+                        AppTexts.bold("Biometric & Security Features", fontSize: 16),
+                        const SizedBox(height: 8),
+                        const CoverageItem(
+                          text:
+                              "Face ID / Touch ID (Applicable only for non-physical damage issues)",
+                          isCovered: true,
+                        ),
+
+                        const SizedBox(height: 16),
+                        // Battery Support
+                        AppTexts.bold("Battery Support", fontSize: 16),
+                        const SizedBox(height: 8),
+                        const CoverageItem(
+                          text: "Battery warranty valid for 6 months from purchase",
+                          isCovered: true,
                         ),
                         const CoverageItem(
-                          text: "Theft/Loss",
-                          isCovered: false,
+                          text:
+                              "Eligible for replacement if battery health drops below 80% within warranty period",
+                          isCovered: true,
+                        ),
+                        const CoverageItem(
+                          text:
+                              "Post-warranty offer: 30% discount on battery replacement after 6 months",
+                          isCovered: true,
+                        ),
+
+                        const SizedBox(height: 16),
+                        // Software & Performance
+                        AppTexts.bold("Software & Performance", fontSize: 16),
+                        const SizedBox(height: 8),
+                        const CoverageItem(
+                          text: "Software warranty coverage for 6 months from purchase",
+                          isCovered: true,
+                        ),
+
+                        const SizedBox(height: 16),
+                        // Service Quality Assurance
+                        AppTexts.bold("Service Quality Assurance", fontSize: 16),
+                        const SizedBox(height: 8),
+                        const CoverageItem(
+                          text:
+                              "Air-tight packing after every service to ensure device safety",
+                          isCovered: true,
+                        ),
+                        const CoverageItem(
+                          text:
+                              "Free Health Check & Cleaning Service 2 time within 6 months",
+                          isCovered: true,
+                        ),
+
+                        const SizedBox(height: 16),
+                        // Customer Protection Benefits
+                        AppTexts.bold("Customer Protection Benefits", fontSize: 16),
+                        const SizedBox(height: 8),
+                        const CoverageItem(
+                          text: "2-Month Replacement Warranty for defective devices",
+                          isCovered: true,
+                        ),
+                        const CoverageItem(
+                          text:
+                              "Accidental Damage Protection: No service charge (customer pays only for spare parts)",
+                          isCovered: true,
+                        ),
+
+                        const SizedBox(height: 16),
+                        // Buy-Back Guarantee
+                        AppTexts.bold("Buy-Back Guarantee", fontSize: 16),
+                        const SizedBox(height: 8),
+                        const CoverageItem(
+                          text: "Valid for 6 months from purchase",
+                          isCovered: true,
+                        ),
+                        const CoverageItem(
+                          text: "Assured 70% buy-back value",
+                          isCovered: true,
+                        ),
+
+                        const SizedBox(height: 16),
+                        // Additional Support
+                        AppTexts.bold("Additional Support", fontSize: 16),
+                        const SizedBox(height: 8),
+                        const CoverageItem(
+                          text:
+                              "Complimentary spare phone provided during service period for your convenience",
+                          isCovered: true,
+                        ),
+
+                        const SizedBox(height: 24),
+                        // Service Exclusions Header
+                        AppTexts.extraBold(
+                          "Service Exclusions & Limitations",
+                          fontSize: 18,
+                        ),
+                        const SizedBox(height: 16),
+
+                        AppTexts.bold("Accidental Damage:", fontSize: 15),
+                        const CoverageItem(
+                          text:
+                              "Warranty does not cover damages caused by accidental drops, liquid exposure, or external impact. (Applicable under Customer Protection Benefits)",
+                          isCovered: true,
+                        ),
+
+                        const SizedBox(height: 8),
+                        AppTexts.bold("Tampering / Seal Violation:", fontSize: 15),
+                        const CoverageItem(
+                          text:
+                              "Warranty will be void if the device seal is broken or the official AER monogram sticker is removed or tampered with.",
+                          isCovered: true,
+                        ),
+
+                        const SizedBox(height: 8),
+                        AppTexts.bold("Manufacturer Warranty Claims:", fontSize: 15),
+                        const CoverageItem(
+                          text:
+                              "Any claims under the brand's authorized warranty will be handled exclusively by the respective authorized service center. AER holds no responsibility or involvement in such cases.",
+                          isCovered: true,
                         ),
 
                         const SizedBox(height: 32),
@@ -238,7 +364,7 @@ class WarrantyPage extends StatelessWidget {
                           borderRadius: 12,
                           width: double.infinity,
                           height: 54,
-                          text: "Request Repair",
+                          text: "Request Repair / Claim",
                           backgroudColor: AppColors.primaryBlack,
                           fontcolor: Colors.white,
                           onPressed: () {

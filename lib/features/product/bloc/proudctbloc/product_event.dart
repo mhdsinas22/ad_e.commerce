@@ -18,3 +18,8 @@ class UpdateWarrantyFilter extends ProductEvent {
 }
 
 class ResetProductFilters extends ProductEvent {}
+
+class GetProductByIdEvent extends ProductEvent {
+  final String productid;
+  GetProductByIdEvent({required this.productid});
+}

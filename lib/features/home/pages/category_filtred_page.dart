@@ -85,14 +85,13 @@ class CategoryFiltredPage extends StatelessWidget {
             body: CustomScrollView(
               slivers: [
                 AppSliverAppBar(removeLogo: true),
-
                 SliverToBoxAdapter(
                   child: Center(
                     child: Container(
                       constraints: const BoxConstraints(maxWidth: 1200),
                       child: Column(
                         children: [
-                          SearchBarw(),
+                          SearchBarw(isNeedSearchFocus: false),
                           BlocBuilder<ProductBloc, ProductState>(
                             builder: (context, state) {
                               if (state.productStatus ==

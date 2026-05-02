@@ -43,16 +43,19 @@ class ProductImageCarouselUi extends StatefulWidget {
 
 class _ProductImageCarouselState extends State<ProductImageCarouselUi> {
   late PageController _pageController;
+  late ScrollController _thumbnailScrollController;
   @override
   void initState() {
     super.initState();
     _pageController = PageController();
+    _thumbnailScrollController = ScrollController();
     context.read<ProductImageSilderBloc>().add(StartAutoSlide());
   }
 
   @override
   void dispose() {
     _pageController.dispose();
+    _thumbnailScrollController.dispose();
     super.dispose();
   }
 
@@ -84,6 +87,22 @@ class _ProductImageCarouselState extends State<ProductImageCarouselUi> {
               curve: Curves.easeInOut,
             );
           }
+        }
+        if (_thumbnailScrollController.hasClients) {
+          final double itemWidth = 88.0; // width (80) + horizontal margins (4+4)
+          final double screenWidth = MediaQuery.of(context).size.width;
+          final double targetOffset =
+              (state.currentIndex * itemWidth) + (itemWidth / 2) -
+              (screenWidth / 2);
+
+          _thumbnailScrollController.animateTo(
+            targetOffset.clamp(
+              0.0,
+              _thumbnailScrollController.position.maxScrollExtent,
+            ),
+            duration: const Duration(milliseconds: 300),
+            curve: Curves.easeInOut,
+          );
         }
       },
       child: Column(
@@ -158,42 +177,46 @@ class _ProductImageCarouselState extends State<ProductImageCarouselUi> {
                 builder: (context, state) {
                   final count =
                       context.read<ProductImageSilderBloc>().imagecount;
-                  return Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: List.generate(
-                      count,
-                      (index) => AnimatedContainer(
-                        duration: const Duration(milliseconds: 300),
-                        margin: const EdgeInsets.symmetric(horizontal: 4),
-                        height: 80,
-                        width: 80,
-                        decoration: BoxDecoration(
-                          border: Border.all(
-                            color:
-                                state.currentIndex == index
-                                    ? AppColors.primaryBlack
-                                    : Colors.transparent,
+                  return SingleChildScrollView(
+                    controller: _thumbnailScrollController,
+                    scrollDirection: Axis.horizontal,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: List.generate(
+                        count,
+                        (index) => AnimatedContainer(
+                          duration: const Duration(milliseconds: 300),
+                          margin: const EdgeInsets.symmetric(horizontal: 4),
+                          height: 80,
+                          width: 80,
+                          decoration: BoxDecoration(
+                            border: Border.all(
+                              color:
+                                  state.currentIndex == index
+                                      ? AppColors.primaryBlack
+                                      : Colors.transparent,
+                            ),
+                            borderRadius: BorderRadius.circular(7),
                           ),
-                          borderRadius: BorderRadius.circular(7),
-                        ),
-                        child: GestureDetector(
-                          onTap: () {
-                            context.read<ProductImageSilderBloc>().add(
-                              SliderChangedEvent(index: index),
-                            );
-                          },
-                          child: CachedNetworkImage(
-                            imageUrl: widget.images[index],
-                            fit: BoxFit.cover,
-                            placeholder:
-                                (context, url) => Shimmer.fromColors(
-                                  baseColor: Colors.grey.shade300,
-                                  highlightColor: Colors.grey.shade100,
-                                  child: Container(color: Colors.white),
-                                ),
-                            errorWidget:
-                                (context, url, error) =>
-                                    Icon(Icons.broken_image),
+                          child: GestureDetector(
+                            onTap: () {
+                              context.read<ProductImageSilderBloc>().add(
+                                SliderChangedEvent(index: index),
+                              );
+                            },
+                            child: CachedNetworkImage(
+                              imageUrl: widget.images[index],
+                              fit: BoxFit.cover,
+                              placeholder:
+                                  (context, url) => Shimmer.fromColors(
+                                    baseColor: Colors.grey.shade300,
+                                    highlightColor: Colors.grey.shade100,
+                                    child: Container(color: Colors.white),
+                                  ),
+                              errorWidget:
+                                  (context, url, error) =>
+                                      Icon(Icons.broken_image),
+                            ),
                           ),
                         ),
                       ),

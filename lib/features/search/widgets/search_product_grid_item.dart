@@ -30,8 +30,16 @@ class SearchProductGridItem extends StatelessWidget {
             width: double.infinity,
             padding: const EdgeInsets.all(16),
             decoration: BoxDecoration(
-              color: const Color(0xFFF3F4F6),
+              color: AppColors.pureWhite,
               borderRadius: BorderRadius.circular(20),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black.withOpacity(0.08),
+                  blurRadius: 12,
+                  spreadRadius: 1,
+                  offset: Offset(0, 4),
+                ),
+              ],
             ),
             child: AspectRatio(
               aspectRatio: 1,
@@ -47,9 +55,7 @@ class SearchProductGridItem extends StatelessWidget {
             ),
           ),
         ),
-
         const SizedBox(height: 8),
-
         // Title & Rating
         Row(
           crossAxisAlignment: CrossAxisAlignment.start,

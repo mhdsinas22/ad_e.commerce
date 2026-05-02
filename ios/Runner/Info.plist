@@ -94,5 +94,7 @@
 <string>This app needs camera access to take photos</string>
 <key>NSPhotoLibraryAddUsageDescription</key>
 <string>This app needs permission to save photos</string>
+<key>FlutterDeepLinkingEnabled</key>
+    <true/>
 	</dict>
 </plist>

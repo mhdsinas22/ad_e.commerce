@@ -12,14 +12,23 @@ class CoverageItem extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 6),
       child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Icon(
-            isCovered ? Icons.check_circle_outline : Icons.cancel_outlined,
+          const Icon(
+            Icons.check_circle_outline,
             size: 22,
-            color: const Color(0xFF1D1B20), // Dark grey/black for icons
+            color: Color(0xFF1D1B20), // Dark grey/black for icons
           ),
           const SizedBox(width: 12),
-          AppTexts.medium(text, fontSize: 15, color: const Color(0xFF1D1B20)),
+          Expanded(
+            child: AppTexts.medium(
+              text,
+              fontSize: 15,
+              color: const Color(0xFF1D1B20),
+              softWrap: true,
+              overflow: TextOverflow.visible,
+            ),
+          ),
         ],
       ),
     );

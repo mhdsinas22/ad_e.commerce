@@ -29,13 +29,17 @@ import 'package:ad_e_commerce/features/profile/pages/support_legel_page.dart';
 import 'package:ad_e_commerce/features/profile/pages/wallet_page.dart';
 import 'package:ad_e_commerce/features/profile/pages/warranty_page.dart';
 import 'package:ad_e_commerce/features/search/pages/search_page.dart';
+import 'package:ad_e_commerce/features/splash/splash_screen.dart';
 
 import 'package:flutter/material.dart';
 import 'route_names.dart';
 
 class RouteGenerator {
   static Route<dynamic> generate(RouteSettings settings) {
-    switch (settings.name) {
+    final uri = Uri.parse(settings.name ?? "");
+    final incomingRoute =
+        uri.pathSegments.isNotEmpty ? uri.pathSegments.first : "";
+    switch (incomingRoute) {
       case RouteNames.login:
         return MaterialPageRoute(builder: (_) => const LoginPage());
       case RouteNames.phoneLogin:
@@ -96,10 +100,33 @@ class RouteGenerator {
       case RouteNames.search:
         return MaterialPageRoute(builder: (context) => SearchPage());
       case RouteNames.productpage:
-        final args = settings.arguments as Map<String, dynamic>;
-        return MaterialPageRoute(
-          builder: (context) => ProductPage(product: args["product"]),
-        );
+        final args = settings.arguments;
+
+        // 1. Deep Link vazhi varumpol (Verum String ID mathrame undavoo)
+        if (args is String) {
+          return MaterialPageRoute(
+            builder:
+                (context) => ProductPage(
+                  productId: args,
+                  product:
+                      null, // Deep link aayathukondu full data ippo nammude kaiyil illa
+                ),
+          );
+        }
+
+        // 2. App-inte ullil ninnu (e.g. Home Page) varumpol (Full Map undavum)
+        if (args is Map<String, dynamic>) {
+          return MaterialPageRoute(
+            builder:
+                (context) => ProductPage(
+                  product: args["product"],
+                  productId: args["productId"] ?? "",
+                ),
+          );
+        }
+
+        // Ethum allenkil default error
+        return MaterialPageRoute(builder: (context) => const SplashScreen());
       case RouteNames.cart:
         return MaterialPageRoute(builder: (context) => CartPage());
       case RouteNames.checkout:

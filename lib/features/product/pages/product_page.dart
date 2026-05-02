@@ -10,26 +10,61 @@ import 'package:ad_e_commerce/features/cart/bloc/cart_bloc.dart';
 import 'package:ad_e_commerce/features/cart/bloc/cart_event.dart';
 import 'package:ad_e_commerce/features/cart/bloc/cart_state.dart';
 import 'package:ad_e_commerce/features/home/widgets/CategoryListSection/widgets/airdrop_assurcance/airdrop_assurance.dart';
+import 'package:ad_e_commerce/features/product/bloc/proudctbloc/product_bloc.dart';
+import 'package:ad_e_commerce/features/product/bloc/proudctbloc/product_event.dart';
+import 'package:ad_e_commerce/features/product/bloc/proudctbloc/product_state.dart';
 import 'package:ad_e_commerce/features/product/domain/entites/product.dart';
 import 'package:ad_e_commerce/features/product/widgets/product_image_carousel.dart';
+import 'package:ad_e_commerce/features/product/widgets/product_shimmer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:share_plus/share_plus.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 class ProductPage extends StatelessWidget {
-  final Product product;
-  const ProductPage({super.key, required this.product});
+  final Product? product;
+  final String? productId;
+  const ProductPage({super.key, required this.product, this.productId});
 
   @override
   Widget build(BuildContext context) {
-    return _ProductPage(product: product);
+    return _ProductPage(
+      product:
+          product ??
+          Product(
+            id: productId ?? "",
+            title: "",
+            category: "",
+            condition: "",
+            color: "",
+            price: 0,
+            conditionType: "",
+            isActive: true,
+            modelNumber: "",
+            storageid: "",
+            ramid: "",
+            ram: "",
+            tag: "",
+            imageUrls: [],
+            stocks: [],
+            storage: "",
+            colorid: "",
+            categoryid: "",
+            conditiontypeid: "",
+            rating: 0,
+            noofreviews: 0,
+            subCategory: "",
+          ),
+      productId: productId,
+    );
   }
 }
 
 class _ProductPage extends StatefulWidget {
   final Product product;
-  const _ProductPage({required this.product});
+  final String? productId;
+  const _ProductPage({required this.product, required this.productId});
 
   @override
   State<_ProductPage> createState() => _ProductPageState();
@@ -38,25 +73,109 @@ class _ProductPage extends StatefulWidget {
 class _ProductPageState extends State<_ProductPage>
     with TickerProviderStateMixin {
   bool isExpanded = false;
+  @override
+  void initState() {
+    super.initState();
+    // productId undennum, pakshe product data empty aanennum urappu varuthunnu
+    if (widget.productId != null && widget.productId!.isNotEmpty) {
+      if (widget.product.id == null || widget.product.id!.isEmpty) {
+        context.read<ProductBloc>().add(
+          GetProductByIdEvent(productid: widget.productId!),
+        );
+      }
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
-    final isLongText = widget.product.description!.length > 100;
-    final isSoldOut =
-        widget.product.stocks.isEmpty ||
-        widget.product.stocks.every((stock) => stock.quantity == 0) ||
-        widget.product.isActive == false;
-
-    return LayoutBuilder(
-      builder: (context, constraints) {
-        final isDesktop = constraints.maxWidth > 1024;
-        return Scaffold(
-          body:
-              isDesktop
-                  ? _buildDesktopLayout(isSoldOut, isLongText)
-                  : _buildMobileLayout(isSoldOut, isLongText),
-          bottomNavigationBar:
-              isDesktop ? null : _buildBottomBar(isSoldOut, context),
+    return BlocBuilder<ProductBloc, ProductState>(
+      builder: (context, state) {
+        if (state.productStatus == ProductStatus.loading) {
+          return const ProductShimmer();
+        }
+        Product? foundProduct;
+        if (state.products.isNotEmpty) {
+          // Safe way to find product
+          final results = state.products.where((p) => p.id == widget.productId);
+          if (results.isNotEmpty) {
+            foundProduct = results.first;
+          }
+        }
+        final bool hasInitialData = widget.product.title.isNotEmpty;
+        // 2. Error handle cheyyunnu (Ithanu ippo sambhavikkunnath ennu thonnunnu)
+        if (!hasInitialData &&
+            foundProduct == null &&
+            widget.productId != null &&
+            state.productStatus != ProductStatus.failure) {
+          return const ProductShimmer();
+        }
+        // 4. Failure status aayalum foundProduct null aayalum maathram error kaanikkanam
+        if (state.productStatus == ProductStatus.failure &&
+            foundProduct == null) {
+          return Scaffold(
+            body: Center(
+              child: Text(state.errorMessage ?? "Error loading product"),
+            ),
+          );
+        }
+        final currentProduct = foundProduct ?? widget.product;
+        if (currentProduct.id == null ||
+            currentProduct.id!.isEmpty ||
+            currentProduct.title.isEmpty) {
+          return Scaffold(
+            body: Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const Icon(Icons.error_outline, size: 40, color: Colors.grey),
+                  const SizedBox(height: 10),
+                  Text("Product details fetch aayilla."),
+                  Text("ID: ${widget.productId}"), // Debugging-nu sahayikkum
+                  ElevatedButton(
+                    onPressed: () {
+                      context.read<ProductBloc>().add(
+                        GetProductByIdEvent(productid: widget.productId!),
+                      );
+                    },
+                    child: const Text("Retry"),
+                  ),
+                ],
+              ),
+            ),
+          );
+        }
+        final isLongText = currentProduct.description!.length > 100;
+        final isSoldOut =
+            currentProduct.stocks.isEmpty ||
+            currentProduct.stocks.every((stock) => stock.quantity == 0) ||
+            currentProduct.isActive == false;
+        return LayoutBuilder(
+          builder: (context, constraints) {
+            final isDesktop = constraints.maxWidth > 1024;
+            return PopScope(
+              canPop: false,
+              onPopInvokedWithResult: (didPop, result) {
+                if (didPop) return;
+                _handleBackAction();
+              },
+              child: Scaffold(
+                body:
+                    isDesktop
+                        ? _buildDesktopLayout(
+                          isSoldOut,
+                          isLongText,
+                          currentProduct,
+                        )
+                        : _buildMobileLayout(
+                          isSoldOut,
+                          isLongText,
+                          currentProduct,
+                        ),
+                bottomNavigationBar:
+                    isDesktop ? null : _buildBottomBar(isSoldOut, context),
+              ),
+            );
+          },
         );
       },
     );
@@ -65,7 +184,7 @@ class _ProductPageState extends State<_ProductPage>
   // ──────────────────────────────────────────────
   // MOBILE LAYOUT (unchanged)
   // ──────────────────────────────────────────────
-  Widget _buildMobileLayout(bool isSoldOut, bool isLongText) {
+  Widget _buildMobileLayout(bool isSoldOut, bool isLongText, Product product) {
     return SafeArea(
       child: SingleChildScrollView(
         child: Column(
@@ -73,7 +192,7 @@ class _ProductPageState extends State<_ProductPage>
           children: [
             Stack(
               children: [
-                ProductImageCarousel(images: widget.product.imageUrls),
+                ProductImageCarousel(images: product.imageUrls),
                 if (isSoldOut)
                   Positioned.fill(
                     child: Container(
@@ -112,7 +231,7 @@ class _ProductPageState extends State<_ProductPage>
             ),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 20),
-              child: _productInfoColumn(isSoldOut, isLongText),
+              child: _productInfoColumn(isSoldOut, isLongText, product),
             ),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16.0),
@@ -130,7 +249,7 @@ class _ProductPageState extends State<_ProductPage>
   // ──────────────────────────────────────────────
   // DESKTOP LAYOUT — two-column: image left, info right
   // ──────────────────────────────────────────────
-  Widget _buildDesktopLayout(bool isSoldOut, bool isLongText) {
+  Widget _buildDesktopLayout(bool isSoldOut, bool isLongText, Product product) {
     return SingleChildScrollView(
       child: Center(
         child: ConstrainedBox(
@@ -153,10 +272,26 @@ class _ProductPageState extends State<_ProductPage>
                       iconColor: AppColors.pureBlack,
                       icon: Icons.arrow_back,
                       backgroundColor: Colors.grey.shade100,
-                      onTap: () => Navigator.pop(context),
+                      onTap: _handleBackAction,
                     ),
                     Row(
                       children: [
+                        CircularArrowButton(
+                          iconSize: 20,
+                          iconColor: AppColors.pureBlack,
+                          backgroundColor: AppColors.pureWhite,
+                          onTap: () {
+                            final String shareLink =
+                                "https://www.aerstore.in/productpage/${widget.product.id}";
+                            Share.share(
+                              "Check out this ${widget.product.title} for ₹${widget.product.price.toStringAsFixed(0)}!\n$shareLink",
+                              subject: widget.product.title,
+                            );
+                          },
+                          icon: Icons.share_outlined,
+                          size: 50,
+                        ),
+                        const SizedBox(width: 10),
                         GestureDetector(
                           onTap:
                               () => Appnavigotor.pushnamed(
@@ -215,9 +350,7 @@ class _ProductPageState extends State<_ProductPage>
                         borderRadius: BorderRadius.circular(20),
                         child: Stack(
                           children: [
-                            ProductImageCarousel(
-                              images: widget.product.imageUrls,
-                            ),
+                            ProductImageCarousel(images: product.imageUrls),
                             if (isSoldOut)
                               Positioned.fill(
                                 child: Container(
@@ -252,7 +385,7 @@ class _ProductPageState extends State<_ProductPage>
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          _productInfoColumn(isSoldOut, isLongText),
+                          _productInfoColumn(isSoldOut, isLongText, product),
                           const SizedBox(height: 24),
                           // Inline action buttons (desktop only)
                           Row(
@@ -303,10 +436,26 @@ class _ProductPageState extends State<_ProductPage>
           iconColor: AppColors.pureBlack,
           icon: Icons.arrow_back,
           backgroundColor: Colors.white,
-          onTap: () => Navigator.pop(context),
+          onTap: _handleBackAction,
         ),
         Row(
           children: [
+            CircularArrowButton(
+              iconSize: 20,
+              iconColor: AppColors.pureBlack,
+              backgroundColor: AppColors.pureWhite,
+              onTap: () {
+                final String shareLink =
+                    "https://www.aerstore.in/productpage/${widget.product.id}";
+                Share.share(
+                  "Check out this ${widget.product.title} for ₹${widget.product.price.toStringAsFixed(0)}!\n$shareLink",
+                  subject: widget.product.title,
+                );
+              },
+              icon: Icons.share_outlined,
+              size: 50,
+            ),
+            const SizedBox(width: 10),
             GestureDetector(
               onTap:
                   () => Appnavigotor.pushnamed(context, RouteNames.search, {}),
@@ -341,7 +490,7 @@ class _ProductPageState extends State<_ProductPage>
     );
   }
 
-  Widget _productInfoColumn(bool isSoldOut, bool isLongText) {
+  Widget _productInfoColumn(bool isSoldOut, bool isLongText, Product product) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -351,21 +500,21 @@ class _ProductPageState extends State<_ProductPage>
             const Icon(Icons.star, color: Colors.amber, size: 20),
             const SizedBox(width: 4),
             Text(
-              "${widget.product.rating}",
+              "${product.rating}",
               style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
             ),
             const SizedBox(width: 4),
             Text(
-              "(${widget.product.noofreviews}) Reviews",
+              "(${product.noofreviews}) Reviews",
               style: TextStyle(fontSize: 16, color: Colors.grey[600]),
             ),
           ],
         ),
         const SizedBox(height: 12),
         // Title
-        widget.product.storage.isEmpty || widget.product.ram.isEmpty
+        product.storage.isEmpty || product.ram.isEmpty
             ? Text(
-              widget.product.title,
+              product.title,
               style: const TextStyle(
                 fontSize: 22,
                 fontWeight: FontWeight.w500,
@@ -373,7 +522,7 @@ class _ProductPageState extends State<_ProductPage>
               ),
             )
             : Text(
-              "${widget.product.title}  (${widget.product.storage})-${widget.product.ram}",
+              "${product.title}  (${product.storage})-${product.ram}",
               style: const TextStyle(
                 fontSize: 22,
                 fontWeight: FontWeight.w500,
@@ -383,7 +532,7 @@ class _ProductPageState extends State<_ProductPage>
         const SizedBox(height: 4),
         // Model
         Text(
-          "Model: ${widget.product.modelNumber}",
+          "Model: ${product.modelNumber}",
           style: const TextStyle(fontSize: 14, color: Colors.black54),
         ),
         const SizedBox(height: 16),
@@ -391,7 +540,7 @@ class _ProductPageState extends State<_ProductPage>
         Row(
           children: [
             Text(
-              "₹ ${widget.product.price.toStringAsFixed(0)}",
+              "₹ ${product.price.toStringAsFixed(0)}",
               style: const TextStyle(
                 fontSize: 20,
                 fontWeight: FontWeight.bold,
@@ -400,7 +549,7 @@ class _ProductPageState extends State<_ProductPage>
             ),
             const SizedBox(width: 10),
             AppTexts.bold(
-              "₹ ${widget.product.originalPrice?.toStringAsFixed(0)}",
+              "₹ ${product.originalPrice?.toStringAsFixed(0)}",
               fontSize: 20,
               color: AppColors.grayColor,
               isOffer: true,
@@ -423,7 +572,7 @@ class _ProductPageState extends State<_ProductPage>
               duration: const Duration(milliseconds: 300),
               curve: Curves.easeInOut,
               child: AppTexts.medium(
-                widget.product.description ?? "",
+                product.description ?? "",
                 maxLines: isExpanded ? null : 3,
                 overflow:
                     isExpanded ? TextOverflow.visible : TextOverflow.ellipsis,
@@ -620,5 +769,23 @@ class _ProductPageState extends State<_ProductPage>
         fontSize: 16,
       ),
     );
+  }
+
+  void _handleBackAction() {
+    // Navigator.canPop() check cheyyunnathil oru kuzhappamundu.
+    // Direct Product Page-ilaanu app thurakkunnath-enkil stack empty aayirikkum.
+    // So, direct MainShell-ilekk push cheyyunnathaanu nallathu.
+
+    if (Navigator.of(context).canPop()) {
+      Navigator.of(context).pop();
+    } else {
+      // Stack empty aanel (Direct Deep Link)
+      // pushAndRemoveUntil upayogikkunnathu Home root aayi maarikan sahayikkum
+      Navigator.pushNamedAndRemoveUntil(
+        context,
+        RouteNames.mainShell,
+        (route) => false,
+      );
+    }
   }
 }

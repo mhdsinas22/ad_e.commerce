@@ -7,7 +7,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class SearchBarw extends StatefulWidget {
-  const SearchBarw({super.key});
+  final bool isNeedSearchFocus;
+  const SearchBarw({super.key, this.isNeedSearchFocus = true});
 
   @override
   State<SearchBarw> createState() => _SearchBarwState();
@@ -36,7 +37,7 @@ class _SearchBarwState extends State<SearchBarw> {
         constraints: const BoxConstraints(maxWidth: 800),
         padding: const EdgeInsets.symmetric(horizontal: 16.0),
         child: AppTextFormField(
-          focusNode: searchFocus,
+          focusNode: widget.isNeedSearchFocus ? searchFocus : null,
           onChanged: (value) {
             context.read<SearchBloc>().add(SerachTextChanged(query: value));
           },

@@ -24,7 +24,15 @@ class FlashSaleCard extends StatelessWidget {
           height: 170,
           padding: const EdgeInsets.all(12),
           decoration: BoxDecoration(
-            color: AppColors.lightGrey,
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black.withOpacity(0.08),
+                blurRadius: 12,
+                spreadRadius: 1,
+                offset: Offset(0, 4),
+              ),
+            ],
+            color: AppColors.pureWhite,
             borderRadius: BorderRadius.circular(16),
           ),
           child: Padding(

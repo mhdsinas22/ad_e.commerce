@@ -1,4 +1,5 @@
 import 'package:ad_e_commerce/app.dart';
+import 'package:ad_e_commerce/core/services/app_links_service.dart';
 import 'package:ad_e_commerce/features/bottom_navigation/bloc/bottom_nav_bloc.dart';
 import 'package:ad_e_commerce/features/cart/bloc/cart_bloc.dart';
 import 'package:ad_e_commerce/features/cart/bloc/cart_event.dart';
@@ -25,19 +26,23 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:flutter_native_splash/flutter_native_splash.dart';
 
 const supabaseUrl = String.fromEnvironment('SUPABASE_URL');
 const supabaseAnonKey = String.fromEnvironment('SUPABASE_ANON_KEY');
 
 void main() async {
-  WidgetsFlutterBinding.ensureInitialized();
+  WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
+  FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
+
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   // Dotenv init
   await dotenv.load(fileName: ".env");
   // Supabase init
   await Supabase.initialize(
-    url: dotenv.env['SUPABASE_URL']!,
-    anonKey: dotenv.env['SUPABASE_ANON_KEY']!,
+    url: "https://api.aerstore.in",
+    anonKey:
+        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InV1bXFoaXh2eXRka2lpaXV5aG5hIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjU3NzAxNTgsImV4cCI6MjA4MTM0NjE1OH0.lElvwN7psm2gaWpt2QFuAK6p2QR6-9RY1qWp_t9Y1Gw",
   );
   // Hive init(Guest Cart)
   await Hive.initFlutter();
@@ -59,6 +64,10 @@ void main() async {
   final getflashsaleproductusecase = GetFlashsaleProductUsecase(
     productRepository,
   );
+
+  // Init App Links Service
+  await AppLinksService.init();
+
   runApp(
     MultiBlocProvider(
       providers: [
