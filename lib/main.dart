@@ -64,10 +64,7 @@ void main() async {
   final getflashsaleproductusecase = GetFlashsaleProductUsecase(
     productRepository,
   );
-
-  // Init App Links Service
   await AppLinksService.init();
-
   runApp(
     MultiBlocProvider(
       providers: [

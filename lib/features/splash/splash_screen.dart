@@ -5,7 +5,6 @@ import 'package:ad_e_commerce/core/services/notification_service.dart';
 import 'package:ad_e_commerce/features/notification/data/datasource/notification_remote_datasourceimpl.dart';
 import 'package:ad_e_commerce/features/notification/data/repositories/notification_repo_impl.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
@@ -33,41 +32,24 @@ class _SplashScreenState extends State<SplashScreen> {
   }
 
   Future<void> startSplash() async {
-    // iOS gets link little slower sometimes, wait briefly for stream to provide it
-    if (!kIsWeb && defaultTargetPlatform == TargetPlatform.iOS) {
-      await Future.delayed(Duration(milliseconds: 500));
+    // iOS cold start-il link varaan max 2 seconds wait cheyyu,
+    // athinu mumpu link ethiyaal udane response kittum.
+    String? productId;
+
+    try {
+      productId = await AppLinksService.linkCompleter.future.timeout(
+        const Duration(milliseconds: 2500),
+      );
+    } catch (e) {
+      productId = AppLinksService.initialProductId;
     }
 
     if (!mounted) return;
-
-    // Mark splash as finished so AppLinksService handles future links directly
     AppLinksService.isSplashFinished = true;
 
-    String? productId = AppLinksService.initialProductId;
+    // Final check: product ID undo ennu nokkuka
+    productId ??= AppLinksService.initialProductId;
 
-    // PRIORITY 1.5: Flutter Native Initial Route Check (Reliable for iOS Cold Starts fallback)
-    if (productId == null) {
-      final nativeInitialRoute = PlatformDispatcher.instance.defaultRouteName;
-      if (nativeInitialRoute.contains("productpage")) {
-        final uri = Uri.parse(nativeInitialRoute);
-        if (uri.pathSegments.isNotEmpty) {
-          productId = uri.pathSegments.last;
-        }
-      }
-    }
-
-    // PRIORITY 2: Web-ilo iOS direct URL-ilo link undo ennu nokkunnu fallback
-    if (productId == null) {
-      final currentPath = Uri.base.path;
-      if (currentPath.contains("productpage")) {
-        final uri = Uri.base;
-        if (uri.pathSegments.isNotEmpty) {
-          productId = uri.pathSegments.last;
-        }
-      }
-    }
-
-    // --- NAVIGATION LOGIC ---
     if (productId != null && productId.isNotEmpty) {
       Navigator.pushNamedAndRemoveUntil(
         context,
@@ -82,8 +64,6 @@ class _SplashScreenState extends State<SplashScreen> {
         (route) => false,
       );
     }
-
-    // Remove the native splash screen since we are navigating to the final screen
     FlutterNativeSplash.remove();
   }
 

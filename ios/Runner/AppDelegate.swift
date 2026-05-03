@@ -21,12 +21,22 @@ import UserNotifications
     return super.application(application, didFinishLaunchingWithOptions: launchOptions)
   }
 
-  // 🔥 THIS IS THE MISSING PART
+  // Push Notification ടോക്കൺ ശരിയായി കിട്ടാൻ
   override func application(
     _ application: UIApplication,
     didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data
   ) {
     Messaging.messaging().apnsToken = deviceToken
+    super.application(application, didRegisterForRemoteNotificationsWithDeviceToken: deviceToken)
+  }
+
+  // 🔥 DEEP LINK (Universal Link) ഡയറക്ട് വർക്ക് ചെയ്യാൻ ഇത് സഹായിക്കും
+  override func application(
+    _ application: UIApplication,
+    continue userActivity: NSUserActivity,
+    restorationHandler: @escaping ([UIUserActivityRestoring]?) -> Void
+  ) -> Bool {
+    return super.application(application, continue: userActivity, restorationHandler: restorationHandler)
   }
 
   func didInitializeImplicitFlutterEngine(_ engineBridge: FlutterImplicitEngineBridge) {

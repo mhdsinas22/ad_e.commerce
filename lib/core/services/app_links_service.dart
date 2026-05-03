@@ -3,22 +3,23 @@ import 'dart:async';
 import 'package:ad_e_commerce/app.dart';
 import 'package:ad_e_commerce/core/routes/route_names.dart';
 import 'package:app_links/app_links.dart';
-import 'package:flutter/foundation.dart';
 
 class AppLinksService {
   static final _applinks = AppLinks();
   static StreamSubscription<Uri>? _streamSubscription;
-  // static Completer<void> _completer = Completer<void>();
   static String? initialProductId;
   static bool isSplashFinished = false;
-
+  // Link vannu ennu Splash-ine ariyikkaan vendi
+  static Completer<String?> linkCompleter = Completer<String?>();
   static Future<void> init() async {
     // 1. Initial Link (Cold Start)
     try {
       final initialUri = await _applinks.getInitialLink();
-      _processUri(initialUri);
+      if (initialUri != null) {
+        _processUri(initialUri);
+      }
     } catch (e) {
-      debugPrint("Failed to get initial link: $e");
+      if (!linkCompleter.isCompleted) linkCompleter.complete(null);
     }
     // 2. Stream (App Background or delayed Cold Start on iOS)
     _streamSubscription = _applinks.uriLinkStream.listen((uri) {
@@ -27,15 +28,13 @@ class AppLinksService {
   }
 
   static void _processUri(Uri? uri) {
-    if (uri == null || kIsWeb) return;
+    if (uri == null) return;
 
     if (uri.path.contains("productpage")) {
       final productId = uri.pathSegments.last;
       if (productId.isNotEmpty) {
         initialProductId = productId;
-
-        // If splash is finished, navigate immediately.
-        // Otherwise, SplashScreen will pick up initialProductId and navigate.
+        if (!linkCompleter.isCompleted) linkCompleter.complete(productId);
         if (isSplashFinished) {
           _navigateToProduct(productId);
         }
