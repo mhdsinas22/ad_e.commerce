@@ -1,0 +1,14 @@
+[
+  {
+    "relation": [
+      "delegate_permission/common.handle_all_urls"
+    ],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "com.aerstore.app",
+      "sha256_cert_fingerprints": [
+        "8C:45:4B:8A:08:FA:BE:A6:99:6A:06:B6:DD:DA:FD:A5:1C:C9:3C:DC:30:D0:75:F1:AD:74:24:30:F5:69:53:E6"
+      ]
+    }
+  }
+]

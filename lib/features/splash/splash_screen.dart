@@ -38,7 +38,7 @@ class _SplashScreenState extends State<SplashScreen> {
 
     try {
       productId = await AppLinksService.linkCompleter.future.timeout(
-        const Duration(milliseconds: 2500),
+        const Duration(seconds: 5),
       );
     } catch (e) {
       productId = AppLinksService.initialProductId;

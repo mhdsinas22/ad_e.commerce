@@ -1,0 +1,12 @@
+{
+  "applinks": {
+    "apps": [],
+    "details": [
+      {
+        "appID": "8X62925YPH.com.jadheer.aerstore",
+        "paths": ["/productpage/*"]
+      }
+    ]
+  }
+}
+

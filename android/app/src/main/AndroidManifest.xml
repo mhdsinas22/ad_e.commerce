@@ -30,8 +30,8 @@
     <action android:name="android.intent.action.VIEW"/>
     <category android:name="android.intent.category.DEFAULT"/>
     <category android:name="android.intent.category.BROWSABLE"/>
- <data android:scheme="https" android:host="aerstore.in"/>
-<data android:scheme="https" android:host="www.aerstore.in"/>
+ <data android:scheme="https" android:host="aerstore.in" android:pathPrefix="/productpage"/>
+<data android:scheme="https" android:host="www.aerstore.in" android:pathPrefix="/productpage"/>
 </intent-filter>
             <intent-filter>
     <action android:name="android.intent.action.VIEW" />

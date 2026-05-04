@@ -96,5 +96,9 @@
 <string>This app needs permission to save photos</string>
 <key>FlutterDeepLinkingEnabled</key>
     <true/>
+<key>com.apple.developer.associated-domains</key>
+<array>
+    <string>applinks:aerstore.in</string>
+</array>
 	</dict>
 </plist>
