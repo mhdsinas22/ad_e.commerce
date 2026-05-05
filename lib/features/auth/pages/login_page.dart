@@ -6,6 +6,7 @@ import 'package:ad_e_commerce/features/auth/bloc/login/login_bloc.dart';
 import 'package:ad_e_commerce/features/auth/bloc/login/login_event.dart';
 import 'package:ad_e_commerce/features/auth/bloc/login/login_state.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
@@ -71,11 +72,7 @@ class _LoginFormState extends State<_LoginForm> {
                 ),
               );
             // Navigate to Home
-            Navigator.pushNamedAndRemoveUntil(context, RouteNames.mainShell, (
-              route,
-            ) {
-              return false;
-            });
+            context.goNamed(RouteNames.mainShell);
           }
         },
         child: SafeArea(
@@ -103,10 +100,7 @@ class _LoginFormState extends State<_LoginForm> {
                         alignment: Alignment.centerRight,
                         child: TextButton(
                           onPressed: () {
-                            Navigator.pushNamed(
-                              context,
-                              RouteNames.forgotPassword,
-                            );
+                              context.pushNamed(RouteNames.forgotPassword);
                           },
                           child: AppTexts.medium(
                             "Forgot Password?",
@@ -128,10 +122,7 @@ class _LoginFormState extends State<_LoginForm> {
                       Center(
                         child: TextButton(
                           onPressed: () {
-                            Navigator.pushReplacementNamed(
-                              context,
-                              RouteNames.onboardingstartpage,
-                            );
+                              context.pushReplacementNamed(RouteNames.onboardingstartpage);
                           },
                           child: AppTexts.medium("Cancel", color: Colors.grey),
                         ),

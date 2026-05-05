@@ -1,12 +1,11 @@
 import 'package:ad_e_commerce/core/routes/route_names.dart';
 import 'package:ad_e_commerce/core/theme/app_colors.dart';
-import 'package:ad_e_commerce/core/utils/navigator.dart';
 import 'package:ad_e_commerce/core/widgets/app_text.dart';
 import 'package:ad_e_commerce/core/widgets/primary_button.dart';
 import 'package:ad_e_commerce/features/bottom_navigation/bloc/bottom_nav_bloc.dart';
 import 'package:ad_e_commerce/features/bottom_navigation/bloc/bottom_nav_event.dart';
-import 'package:ad_e_commerce/features/bottom_navigation/pages/main_shell_page.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class GuestOrdersUI extends StatelessWidget {
@@ -51,10 +50,13 @@ class GuestOrdersUI extends StatelessWidget {
                       fontcolor: AppColors.pureBlack,
                       backgroudColor: AppColors.pureWhite,
                       onPressed: () {
-                        Appnavigotor.pushnamed(context, RouteNames.phoneLogin, {
-                          "redirectRoute": RouteNames.mainShell,
-                          "redirectArgs": null,
-                        });
+                        context.pushNamed(
+                          RouteNames.phoneLogin,
+                          extra: {
+                            "redirectRoute": RouteNames.mainShell,
+                            "redirectArgs": null,
+                          },
+                        );
                       },
                       text: "Login",
                     ),
@@ -69,10 +71,13 @@ class GuestOrdersUI extends StatelessWidget {
                       height: 50,
                       borderRadius: 12,
                       onPressed: () {
-                        Appnavigotor.pushnamed(context, RouteNames.signup, {
-                          "redirectRoute": RouteNames.mainShell,
-                          "redirectArgs": null,
-                        });
+                        context.pushNamed(
+                          RouteNames.signup,
+                          extra: {
+                            "redirectRoute": RouteNames.mainShell,
+                            "redirectArgs": null,
+                          },
+                        );
                       },
                       text: "Create Account",
                     ),
@@ -83,7 +88,7 @@ class GuestOrdersUI extends StatelessWidget {
                   /// CONTINUE SHOPPING
                   TextButton(
                     onPressed: () {
-                      Navigator.pushNamed(context, "/home");
+                      context.goNamed(RouteNames.mainShell);
                     },
                     child: AppTexts.regular("Continue Shopping"),
                   ),
@@ -126,10 +131,13 @@ class GuestOrdersUI extends StatelessWidget {
                     fontcolor: AppColors.pureBlack,
                     backgroudColor: AppColors.pureWhite,
                     onPressed: () {
-                      Appnavigotor.pushnamed(context, RouteNames.phoneLogin, {
-                        "redirectRoute": RouteNames.mainShell,
-                        "redirectArgs": null,
-                      });
+                      context.pushNamed(
+                        RouteNames.phoneLogin,
+                        extra: {
+                          "redirectRoute": RouteNames.mainShell,
+                          "redirectArgs": null,
+                        },
+                      );
                     },
                     text: "Login",
                   ),
@@ -144,10 +152,13 @@ class GuestOrdersUI extends StatelessWidget {
                     height: 50,
                     borderRadius: 12,
                     onPressed: () {
-                      Appnavigotor.pushnamed(context, RouteNames.signup, {
-                        "redirectRoute": RouteNames.mainShell,
-                        "redirectArgs": null,
-                      });
+                      context.pushNamed(
+                        RouteNames.signup,
+                        extra: {
+                          "redirectRoute": RouteNames.mainShell,
+                          "redirectArgs": null,
+                        },
+                      );
                     },
                     text: "Create Account",
                   ),
@@ -161,7 +172,7 @@ class GuestOrdersUI extends StatelessWidget {
                     context.read<BottomNavBloc>().add(
                       BottomNavChanged(index: 0),
                     );
-                    Appnavigotor.pushreplace(context, MainShellPage());
+                    context.goNamed(RouteNames.mainShell);
                   },
                   child: AppTexts.regular("Continue Shopping"),
                 ),

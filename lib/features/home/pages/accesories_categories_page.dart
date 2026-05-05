@@ -2,7 +2,7 @@ import 'package:ad_e_commerce/core/constants/asset_constants.dart';
 import 'package:ad_e_commerce/core/enums/phone_condition.dart';
 import 'package:ad_e_commerce/core/enums/sub_category.dart';
 import 'package:ad_e_commerce/core/routes/route_names.dart';
-import 'package:ad_e_commerce/core/utils/navigator.dart';
+import 'package:go_router/go_router.dart';
 import 'package:ad_e_commerce/core/widgets/app_sliver_app_bar.dart';
 import 'package:ad_e_commerce/core/widgets/app_text.dart';
 import 'package:ad_e_commerce/core/widgets/common_option_card.dart';
@@ -35,12 +35,11 @@ class AccesoriesCategoriesPageUi extends StatelessWidget {
       OptionCard(
         isVertical: true,
         onTap: () {
-          Appnavigotor.pushnamed(
-            context,
+          context.pushNamed(
             RouteNames.categoryfiltredpage,
-            {
+            extra: {
               "condition": PhoneCondition.empty,
-              "SubCategory": SubCategory.casescover,
+              "subCategory": SubCategory.casescover,
               "isSubCategory": true,
               "isFlashSale": false,
             },
@@ -52,12 +51,11 @@ class AccesoriesCategoriesPageUi extends StatelessWidget {
       OptionCard(
         isVertical: true,
         onTap: () {
-          Appnavigotor.pushnamed(
-            context,
+          context.pushNamed(
             RouteNames.categoryfiltredpage,
-            {
+            extra: {
               "condition": PhoneCondition.empty,
-              "SubCategory": SubCategory.mobilechargers,
+              "subCategory": SubCategory.mobilechargers,
               "isSubCategory": true,
               "isFlashSale": false,
             },
@@ -69,12 +67,11 @@ class AccesoriesCategoriesPageUi extends StatelessWidget {
       OptionCard(
         isVertical: true,
         onTap: () {
-          Appnavigotor.pushnamed(
-            context,
+          context.pushNamed(
             RouteNames.categoryfiltredpage,
-            {
+            extra: {
               "condition": PhoneCondition.empty,
-              "SubCategory": SubCategory.speaker,
+              "subCategory": SubCategory.speaker,
               "isSubCategory": true,
               "isFlashSale": false,
             },
@@ -86,12 +83,11 @@ class AccesoriesCategoriesPageUi extends StatelessWidget {
       OptionCard(
         isVertical: true,
         onTap: () {
-          Appnavigotor.pushnamed(
-            context,
+          context.pushNamed(
             RouteNames.categoryfiltredpage,
-            {
+            extra: {
               "condition": PhoneCondition.empty,
-              "SubCategory": SubCategory.audio,
+              "subCategory": SubCategory.audio,
               "isSubCategory": true,
               "isFlashSale": false,
             },
@@ -103,12 +99,11 @@ class AccesoriesCategoriesPageUi extends StatelessWidget {
       OptionCard(
         isVertical: true,
         onTap: () {
-          Appnavigotor.pushnamed(
-            context,
+          context.pushNamed(
             RouteNames.categoryfiltredpage,
-            {
+            extra: {
               "condition": PhoneCondition.empty,
-              "SubCategory": SubCategory.powerbank,
+              "subCategory": SubCategory.powerbank,
               "isSubCategory": true,
               "isFlashSale": false,
             },
@@ -120,12 +115,11 @@ class AccesoriesCategoriesPageUi extends StatelessWidget {
       OptionCard(
         isVertical: true,
         onTap: () {
-          Appnavigotor.pushnamed(
-            context,
+          context.pushNamed(
             RouteNames.categoryfiltredpage,
-            {
+            extra: {
               "condition": PhoneCondition.empty,
-              "SubCategory": SubCategory.bag,
+              "subCategory": SubCategory.bag,
               "isSubCategory": true,
               "isFlashSale": false,
             },

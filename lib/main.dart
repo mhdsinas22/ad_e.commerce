@@ -1,5 +1,4 @@
 import 'package:ad_e_commerce/app.dart';
-import 'package:ad_e_commerce/core/services/app_links_service.dart';
 import 'package:ad_e_commerce/features/bottom_navigation/bloc/bottom_nav_bloc.dart';
 import 'package:ad_e_commerce/features/cart/bloc/cart_bloc.dart';
 import 'package:ad_e_commerce/features/cart/bloc/cart_event.dart';
@@ -26,14 +25,12 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
-import 'package:flutter_native_splash/flutter_native_splash.dart';
 
 const supabaseUrl = String.fromEnvironment('SUPABASE_URL');
 const supabaseAnonKey = String.fromEnvironment('SUPABASE_ANON_KEY');
 
 void main() async {
-  WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
-  FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
+  WidgetsFlutterBinding.ensureInitialized();
 
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   // Dotenv init
@@ -63,7 +60,6 @@ void main() async {
   final getflashsaleproductusecase = GetFlashsaleProductUsecase(
     productRepository,
   );
-  await AppLinksService.init();
   runApp(
     MultiBlocProvider(
       providers: [

@@ -3,7 +3,6 @@ import 'package:ad_e_commerce/core/constants/asset_constants.dart';
 import 'package:ad_e_commerce/core/routes/route_names.dart';
 import 'package:ad_e_commerce/core/theme/app_colors.dart';
 import 'package:ad_e_commerce/core/utils/helpers.dart';
-import 'package:ad_e_commerce/core/utils/navigator.dart';
 import 'package:ad_e_commerce/core/widgets/app_text.dart';
 import 'package:ad_e_commerce/core/widgets/circular_arrow_button.dart';
 import 'package:ad_e_commerce/features/cart/bloc/cart_bloc.dart';
@@ -17,6 +16,7 @@ import 'package:ad_e_commerce/features/product/domain/entites/product.dart';
 import 'package:ad_e_commerce/features/product/widgets/product_image_carousel.dart';
 import 'package:ad_e_commerce/features/product/widgets/product_shimmer.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:share_plus/share_plus.dart';
@@ -294,10 +294,8 @@ class _ProductPageState extends State<_ProductPage>
                         const SizedBox(width: 10),
                         GestureDetector(
                           onTap:
-                              () => Appnavigotor.pushnamed(
-                                context,
+                              () => context.pushNamed(
                                 RouteNames.search,
-                                {},
                               ),
                           child: Container(
                             width: 44,
@@ -313,10 +311,8 @@ class _ProductPageState extends State<_ProductPage>
                         const SizedBox(width: 10),
                         GestureDetector(
                           onTap:
-                              () => Appnavigotor.pushnamed(
-                                context,
+                              () => context.pushNamed(
                                 RouteNames.cart,
-                                {},
                               ),
                           child: Container(
                             width: 44,
@@ -458,7 +454,7 @@ class _ProductPageState extends State<_ProductPage>
             const SizedBox(width: 10),
             GestureDetector(
               onTap:
-                  () => Appnavigotor.pushnamed(context, RouteNames.search, {}),
+                  () => context.pushNamed(RouteNames.search),
               child: Container(
                 width: 50,
                 height: 50,
@@ -472,7 +468,7 @@ class _ProductPageState extends State<_ProductPage>
             ),
             const SizedBox(width: 10),
             GestureDetector(
-              onTap: () => Appnavigotor.pushnamed(context, RouteNames.cart, {}),
+              onTap: () => context.pushNamed(RouteNames.cart),
               child: Container(
                 width: 50,
                 height: 50,
@@ -679,7 +675,7 @@ class _ProductPageState extends State<_ProductPage>
           if (isInCart) {
             return OutlinedButton(
               onPressed: () async {
-                await Appnavigotor.pushnamed(context, RouteNames.cart, {});
+                context.pushNamed(RouteNames.cart);
               },
               style: OutlinedButton.styleFrom(
                 side: const BorderSide(color: Colors.black),
@@ -751,7 +747,7 @@ class _ProductPageState extends State<_ProductPage>
                         "directProduct": widget.product,
                       },
                     )
-                    : Appnavigotor.pushnamed(context, RouteNames.checkout, {
+                    : context.pushNamed(RouteNames.checkout, extra: {
                       "isMyaddressScreen": false,
                       "isDirectBuy": true,
                       "directProduct": widget.product,
@@ -772,20 +768,10 @@ class _ProductPageState extends State<_ProductPage>
   }
 
   void _handleBackAction() {
-    // Navigator.canPop() check cheyyunnathil oru kuzhappamundu.
-    // Direct Product Page-ilaanu app thurakkunnath-enkil stack empty aayirikkum.
-    // So, direct MainShell-ilekk push cheyyunnathaanu nallathu.
-
-    if (Navigator.of(context).canPop()) {
-      Navigator.of(context).pop();
+    if (context.canPop()) {
+      context.pop();
     } else {
-      // Stack empty aanel (Direct Deep Link)
-      // pushAndRemoveUntil upayogikkunnathu Home root aayi maarikan sahayikkum
-      Navigator.pushNamedAndRemoveUntil(
-        context,
-        RouteNames.mainShell,
-        (route) => false,
-      );
+      context.goNamed(RouteNames.mainShell);
     }
   }
 }

@@ -1,7 +1,6 @@
 import 'package:ad_e_commerce/core/routes/route_names.dart';
 import 'package:ad_e_commerce/core/theme/app_colors.dart';
 import 'package:ad_e_commerce/core/utils/app_logger.dart';
-import 'package:ad_e_commerce/core/utils/navigator.dart';
 import 'package:ad_e_commerce/core/widgets/app_text.dart';
 import 'package:ad_e_commerce/core/widgets/primary_button.dart';
 import 'package:ad_e_commerce/data/repositories/auth_repository.dart';
@@ -9,6 +8,7 @@ import 'package:ad_e_commerce/features/auth/bloc/login/login_bloc.dart';
 import 'package:ad_e_commerce/features/auth/bloc/login/login_event.dart';
 import 'package:ad_e_commerce/features/auth/bloc/login/login_state.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -61,10 +61,7 @@ class _PhoneLoginFormState extends State<_PhoneLoginForm> {
                 backgroudColor: AppColors.pureWhite,
                 text: "Skip",
                 onPressed: () {
-                  Appnavigotor.pushNamedAndRemoveUntil(
-                    context,
-                    RouteNames.mainShell,
-                  );
+                  context.goNamed(RouteNames.mainShell);
                 },
                 needBorder: true,
               ),
@@ -106,10 +103,9 @@ class _PhoneLoginFormState extends State<_PhoneLoginForm> {
               );
 
             if (widget.redirectRoute != null) {
-              Navigator.pushNamed(
-                context,
+              context.pushNamed(
                 RouteNames.otp,
-                arguments: {
+                extra: {
                   "phone": state.phone,
                   "name": "",
                   "redirectRoute": widget.redirectRoute,
@@ -118,10 +114,9 @@ class _PhoneLoginFormState extends State<_PhoneLoginForm> {
               );
             } else {
               // Navigate to Home
-              Navigator.pushNamed(
-                context,
+              context.pushNamed(
                 RouteNames.otp,
-                arguments: {"phone": state.phone, "name": ""},
+                extra: {"phone": state.phone, "name": ""},
               );
             }
           }
@@ -159,10 +154,7 @@ class _PhoneLoginFormState extends State<_PhoneLoginForm> {
                       Center(
                         child: TextButton(
                           onPressed: () {
-                            Navigator.pushReplacementNamed(
-                              context,
-                              RouteNames.onboardingstartpage,
-                            );
+                              context.pushReplacementNamed(RouteNames.onboardingstartpage);
                           },
                           child: AppTexts.medium("Cancel", color: Colors.grey),
                         ),

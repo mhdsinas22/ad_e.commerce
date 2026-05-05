@@ -7,6 +7,7 @@ import 'package:ad_e_commerce/features/cart/bloc/cart_state.dart';
 import 'package:ad_e_commerce/features/cart/presentation/widgets/cart_item_widget.dart';
 import 'package:ad_e_commerce/features/cart/presentation/widgets/cart_summary_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class CartPage extends StatelessWidget {
@@ -43,11 +44,11 @@ class _CartPageState extends State<_CartPage> {
         centerTitle: true,
 
         leading:
-            Navigator.canPop(context)
+            context.canPop()
                 ? Padding(
                   padding: const EdgeInsets.only(left: 16),
                   child: GestureDetector(
-                    onTap: () => Navigator.pop(context),
+                    onTap: () => context.pop(),
                     child: CircleAvatar(
                       backgroundColor: AppColors.offWhite,
                       child: const Icon(Icons.arrow_back, color: Colors.black),

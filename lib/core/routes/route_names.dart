@@ -14,7 +14,7 @@ class RouteNames {
   static const onboardingstartpage = "onboarding-start-page";
   static const mainShell = "main-shell";
   static const search = "search";
-  static const productpage = "productpage";
+  static const productpage = "product-details";
   static const warranty = "warranty";
   static const wallet = "wallet";
   static const account = "account";
@@ -30,4 +30,7 @@ class RouteNames {
   static const profileSetting = "profileSetting";
   static const supportlegelpage = "supportlegelpage";
   static const orderspage = "orderspage";
+  static const orderDetails = "order-details";
+  static const assuranceDetail = "assurance-detail";
+  static const imageZoom = "image-zoom";
 }

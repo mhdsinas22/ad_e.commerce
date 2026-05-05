@@ -1,7 +1,7 @@
+import 'package:go_router/go_router.dart';
+import 'package:ad_e_commerce/core/routes/route_names.dart';
 import 'package:ad_e_commerce/core/theme/app_colors.dart';
-import 'package:ad_e_commerce/core/utils/navigator.dart';
 import 'package:ad_e_commerce/core/widgets/app_cached_image.dart';
-import 'package:ad_e_commerce/features/imageviewr/pages/image_zoom_screen.dart';
 import 'package:ad_e_commerce/features/product/bloc/productimagesilder/product_image_silder_bloc.dart';
 import 'package:ad_e_commerce/features/product/bloc/productimagesilder/product_image_silder_state.dart';
 import 'package:ad_e_commerce/features/product/bloc/productimagesilder/product_image_slider_event.dart';
@@ -89,10 +89,12 @@ class _ProductImageCarouselState extends State<ProductImageCarouselUi> {
           }
         }
         if (_thumbnailScrollController.hasClients) {
-          final double itemWidth = 88.0; // width (80) + horizontal margins (4+4)
+          final double itemWidth =
+              88.0; // width (80) + horizontal margins (4+4)
           final double screenWidth = MediaQuery.of(context).size.width;
           final double targetOffset =
-              (state.currentIndex * itemWidth) + (itemWidth / 2) -
+              (state.currentIndex * itemWidth) +
+              (itemWidth / 2) -
               (screenWidth / 2);
 
           _thumbnailScrollController.animateTo(
@@ -111,9 +113,9 @@ class _ProductImageCarouselState extends State<ProductImageCarouselUi> {
             onTap: () {
               widget.isNeedBanner
                   ? null
-                  : Appnavigotor.push(
-                    context,
-                    ImageZoomScreen(images: widget.images),
+                  : context.pushNamed(
+                    RouteNames.imageZoom,
+                    extra: {"image": widget.images},
                   );
             },
             child: SizedBox(

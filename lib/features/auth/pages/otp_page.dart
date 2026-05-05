@@ -1,7 +1,6 @@
 import 'package:ad_e_commerce/core/routes/route_names.dart';
 import 'package:ad_e_commerce/core/services/notification_service.dart';
 import 'package:ad_e_commerce/core/theme/app_colors.dart';
-import 'package:ad_e_commerce/core/utils/navigator.dart';
 import 'package:ad_e_commerce/core/widgets/app_text.dart';
 import 'package:ad_e_commerce/features/auth/bloc/otp/otp_bloc.dart';
 import 'package:ad_e_commerce/features/auth/bloc/otp/otp_event.dart';
@@ -13,6 +12,7 @@ import 'package:ad_e_commerce/features/notification/data/datasource/notification
 import 'package:ad_e_commerce/features/notification/data/repositories/notification_repo_impl.dart';
 import 'package:ad_e_commerce/features/profile/data/datasource/wallet_remote_datasource_impl.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
@@ -98,16 +98,9 @@ class _OtpView extends StatelessWidget {
                 ),
               );
             if (redirectRoute != null) {
-              Appnavigotor.pushNamedAndRemoveUntil(
-                context,
-                redirectRoute!,
-                arguments: redirectArgs,
-              );
+              context.goNamed(redirectRoute!, extra: redirectArgs);
             } else {
-              Appnavigotor.pushNamedAndRemoveUntil(
-                context,
-                RouteNames.mainShell,
-              );
+              context.goNamed(RouteNames.mainShell);
             }
           }
         },

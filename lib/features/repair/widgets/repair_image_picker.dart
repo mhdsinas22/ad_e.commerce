@@ -1,5 +1,6 @@
 import 'package:ad_e_commerce/core/theme/app_colors.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
 import '../bloc/repair_image/repair_image_bloc.dart';
@@ -93,7 +94,7 @@ class RepairImagePicker extends StatelessWidget {
                   context.read<RepairImageBloc>().add(
                     const PickImage(ImageSource.gallery),
                   );
-                  Navigator.pop(context);
+                  context.pop();
                 },
               ),
               ListTile(
@@ -103,7 +104,7 @@ class RepairImagePicker extends StatelessWidget {
                   context.read<RepairImageBloc>().add(
                     const PickImage(ImageSource.camera),
                   );
-                  Navigator.pop(context);
+                  context.pop();
                 },
               ),
             ],

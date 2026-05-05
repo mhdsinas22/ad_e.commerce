@@ -1,7 +1,7 @@
 import 'package:ad_e_commerce/core/constants/app_animations.dart';
 import 'package:ad_e_commerce/core/routes/route_names.dart';
 import 'package:ad_e_commerce/core/utils/app_logger.dart';
-import 'package:ad_e_commerce/core/utils/navigator.dart';
+import 'package:go_router/go_router.dart';
 import 'package:ad_e_commerce/core/widgets/app_text.dart';
 import 'package:ad_e_commerce/core/widgets/primary_button.dart';
 import 'package:ad_e_commerce/features/cart/bloc/cart_bloc.dart';
@@ -153,10 +153,7 @@ class PaymentPageUi extends StatelessWidget {
                           height: 50,
                           text: "Done",
                           onPressed: () {
-                            Appnavigotor.pushNamedAndRemoveUntil(
-                              context,
-                              RouteNames.mainShell,
-                            );
+                            context.goNamed(RouteNames.mainShell);
                           },
                         ),
                       ],

@@ -3,6 +3,7 @@ import 'package:ad_e_commerce/features/repair/bloc/repair_image/repair_image_blo
 
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
 
@@ -69,7 +70,7 @@ class CameraContainer extends StatelessWidget {
                   parentContext.read<RepairImageBloc>().add(
                     UploadSingleImage(), // 🔥 THIS WAS MISSING
                   );
-                  Navigator.pop(sheetContext);
+                  sheetContext.pop();
                 },
               ),
               ListTile(
@@ -83,7 +84,7 @@ class CameraContainer extends StatelessWidget {
                     UploadSingleImage(), // 🔥
                   );
 
-                  Navigator.pop(sheetContext);
+                  sheetContext.pop();
                 },
               ),
             ],

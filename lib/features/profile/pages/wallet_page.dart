@@ -9,6 +9,7 @@ import 'package:ad_e_commerce/features/profile/data/repositories/wallet_repo_imp
 import 'package:ad_e_commerce/features/profile/widgets/wallet/transaction_history_list.dart';
 import 'package:ad_e_commerce/features/profile/widgets/wallet/wallet_credit_card.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
@@ -56,7 +57,7 @@ class WalletPageUi extends StatelessWidget {
         leading: Padding(
           padding: const EdgeInsets.only(left: 16),
           child: GestureDetector(
-            onTap: () => Navigator.pop(context),
+            onTap: () => context.pop(),
             child: Container(
               margin: const EdgeInsets.all(4),
               decoration: BoxDecoration(

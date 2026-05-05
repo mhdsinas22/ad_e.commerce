@@ -3,9 +3,10 @@ import 'package:ad_e_commerce/data/repositories/auth_repository.dart';
 import 'package:ad_e_commerce/features/auth/bloc/forgot_password/forgot_password_bloc.dart';
 import 'package:ad_e_commerce/features/auth/bloc/forgot_password/forgot_password_event.dart';
 import 'package:ad_e_commerce/features/auth/bloc/forgot_password/forgot_password_state.dart';
-import 'package:ad_e_commerce/features/auth/pages/password_recovery_page.dart';
 import 'package:ad_e_commerce/features/profile/widgets/profle_side_appbar.dart';
+import 'package:ad_e_commerce/core/routes/route_names.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
@@ -60,13 +61,9 @@ class _ForgotPasswordViewState extends State<ForgotPasswordView> {
       body: BlocListener<ForgotPasswordBloc, ForgotPasswordState>(
         listener: (context, state) {
           if (state.status == ForgotPasswordStatus.success) {
-            Navigator.of(context).push(
-              MaterialPageRoute(
-                builder:
-                    (context) => PasswordRecoveryPage(
-                      enteredmail: _emailController.text.trim(),
-                    ),
-              ),
+            context.pushNamed(
+              RouteNames.forgotPassword,
+              extra: _emailController.text.trim(),
             );
           } else if (state.status == ForgotPasswordStatus.failure) {
             ScaffoldMessenger.of(context).showSnackBar(
@@ -184,7 +181,7 @@ class _ForgotPasswordViewState extends State<ForgotPasswordView> {
                               const SizedBox(height: 16),
                               TextButton(
                                 onPressed: () {
-                                  Navigator.of(context).pop();
+                                  context.pop();
                                 },
                                 style: TextButton.styleFrom(
                                   foregroundColor: Colors.grey[600],

@@ -1,6 +1,5 @@
 import 'package:ad_e_commerce/core/routes/route_names.dart';
 import 'package:ad_e_commerce/core/theme/app_colors.dart';
-import 'package:ad_e_commerce/core/utils/navigator.dart';
 import 'package:ad_e_commerce/core/widgets/app_text.dart';
 import 'package:ad_e_commerce/core/widgets/app_text_form_field.dart';
 import 'package:ad_e_commerce/core/widgets/primary_button.dart';
@@ -8,6 +7,7 @@ import 'package:ad_e_commerce/features/auth/bloc/signup/signup_bloc.dart';
 import 'package:ad_e_commerce/features/auth/bloc/signup/signup_event.dart';
 import 'package:ad_e_commerce/features/auth/bloc/signup/signup_state.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
 
@@ -46,10 +46,9 @@ class _SignupFormState extends State<_SignupForm> {
       body: BlocListener<SignupBloc, SignupState>(
         listener: (context, state) {
           if (state is OtpSend) {
-            Navigator.pushNamed(
-              context,
+            context.pushNamed(
               RouteNames.otp,
-              arguments: {
+              extra: {
                 "phone": state.phone,
                 "name": state.name,
                 "redirectRoute": widget.redirectRoute,
@@ -88,10 +87,7 @@ class _SignupFormState extends State<_SignupForm> {
                               backgroudColor: AppColors.pureWhite,
                               text: "Skip",
                               onPressed: () {
-                                Appnavigotor.pushNamedAndRemoveUntil(
-                                  context,
-                                  RouteNames.mainShell,
-                                );
+                                context.goNamed(RouteNames.mainShell);
                               },
                               needBorder: true,
                             ),
@@ -133,8 +129,7 @@ class _SignupFormState extends State<_SignupForm> {
                       const SizedBox(height: 30),
                       InkWell(
                         onTap: () {
-                          Navigator.pushReplacementNamed(
-                            context,
+                          context.pushReplacementNamed(
                             RouteNames.onboardingstartpage,
                           );
                         },

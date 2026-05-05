@@ -1,5 +1,5 @@
 import 'package:ad_e_commerce/core/constants/app_icons.dart';
-import 'package:ad_e_commerce/core/utils/navigator.dart';
+import 'package:go_router/go_router.dart';
 import 'package:ad_e_commerce/core/widgets/app_text.dart';
 import 'package:ad_e_commerce/core/widgets/circular_arrow_button.dart';
 import 'package:ad_e_commerce/features/search/widgets/search_bar.dart';
@@ -41,7 +41,7 @@ class AppSliverAppBar extends StatelessWidget {
                 iconColor: AppColors.pureBlack,
                 icon: Icons.arrow_back,
                 backgroundColor: AppColors.lightGrey,
-                onTap: () => Navigator.pop(context),
+                onTap: () => context.pop(),
               )
               : null,
       elevation: 0,
@@ -75,11 +75,7 @@ class AppSliverAppBar extends StatelessWidget {
                         child: Center(
                           child: GestureDetector(
                             onTap: () {
-                              Appnavigotor.pushnamed(
-                                context,
-                                RouteNames.search,
-                                {},
-                              );
+                              context.pushNamed(RouteNames.search);
                             },
                             child: Center(
                               child: Container(
@@ -133,7 +129,7 @@ class AppSliverAppBar extends StatelessWidget {
                     padding: const EdgeInsets.all(8.0),
                     child: InkWell(
                       onTap: () {
-                        Navigator.pushNamed(context, RouteNames.search);
+                        context.pushNamed(RouteNames.search);
                       },
                       child: SvgPicture.asset(AppIcons.serachucon),
                     ),
@@ -141,7 +137,7 @@ class AppSliverAppBar extends StatelessWidget {
                 InkWell(
                   onTap:
                       onCartTap ??
-                      () => Navigator.pushNamed(context, RouteNames.cart),
+                      () => context.pushNamed(RouteNames.cart),
                   child: Padding(
                     padding: const EdgeInsets.only(right: 16.0),
                     child: SvgPicture.asset(

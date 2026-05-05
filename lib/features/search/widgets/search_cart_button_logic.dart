@@ -1,6 +1,6 @@
 import 'package:ad_e_commerce/core/routes/route_names.dart';
 import 'package:ad_e_commerce/core/theme/app_colors.dart';
-import 'package:ad_e_commerce/core/utils/navigator.dart';
+import 'package:go_router/go_router.dart';
 import 'package:ad_e_commerce/features/cart/bloc/cart_bloc.dart';
 import 'package:ad_e_commerce/features/cart/bloc/cart_event.dart';
 import 'package:ad_e_commerce/features/cart/bloc/cart_state.dart';
@@ -34,7 +34,7 @@ class SearchCartButtonLogic extends StatelessWidget {
             ),
             onPressed: () {
               if (isInCart) {
-                Appnavigotor.pushnamed(context, RouteNames.cart, []);
+                context.pushNamed(RouteNames.cart);
               } else {
                 context.read<CartBloc>().add(
                   AddToCartEvent(

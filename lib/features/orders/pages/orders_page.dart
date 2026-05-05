@@ -9,6 +9,7 @@ import 'package:ad_e_commerce/features/orders/pages/guest_order_page.dart';
 import 'package:ad_e_commerce/features/orders/widgets/order_item_widget.dart';
 import 'package:ad_e_commerce/features/profile/data/datasource/wallet_remote_datasource_impl.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
@@ -69,7 +70,7 @@ class OrderPageUi extends StatelessWidget {
                         color: AppColors.pureBlack,
                         size: 20,
                       ),
-                      onPressed: () => Navigator.pop(context),
+                      onPressed: () => context.pop(),
                       padding: EdgeInsets.zero,
                     ),
                   ),

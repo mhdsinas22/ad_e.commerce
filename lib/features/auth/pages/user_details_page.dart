@@ -14,6 +14,7 @@ import 'package:ad_e_commerce/features/profile/data/repositories/wallet_repo_imp
 import 'package:ad_e_commerce/features/repair/bloc/repair_image/repair_image_bloc.dart';
 import 'package:ad_e_commerce/features/repair/data/datasources/repair_storage_service.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
@@ -90,8 +91,7 @@ class _UserDetailsViewState extends State<_UserDetailsView> {
                     backgroundColor: Colors.green,
                   ),
                 );
-              Navigator.pushReplacementNamed(
-                context,
+              context.pushReplacementNamed(
                 RouteNames.emailVerification,
               );
             });
@@ -287,8 +287,7 @@ class _SaveButton extends StatelessWidget {
                 Center(
                   child: TextButton(
                     onPressed: () {
-                      Navigator.pushReplacementNamed(
-                        context,
+                      context.pushReplacementNamed(
                         RouteNames.onboardingstartpage,
                       );
                     },

@@ -2,6 +2,7 @@ import 'package:ad_e_commerce/core/routes/route_names.dart';
 import 'package:ad_e_commerce/data/repositories/auth_repository.dart';
 import 'package:ad_e_commerce/features/auth/bloc/email_verification/email_verification_bloc.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
@@ -34,11 +35,7 @@ class EmailVerificationPage extends StatelessWidget {
                         icon: const Icon(Icons.logout),
                         onPressed: () {
                           context.read<EmailVerificationBloc>().add(SignOut());
-                          Navigator.pushNamedAndRemoveUntil(
-                            context,
-                            RouteNames.login,
-                            (route) => false,
-                          );
+                          context.goNamed(RouteNames.login);
                         },
                       );
                     },
@@ -48,11 +45,7 @@ class EmailVerificationPage extends StatelessWidget {
               body: BlocListener<EmailVerificationBloc, EmailVerificationState>(
                 listener: (context, state) {
                   if (state.status == EmailVerificationStatus.success) {
-                    Navigator.pushNamedAndRemoveUntil(
-                      context,
-                      RouteNames.mainShell,
-                      (route) => false,
-                    );
+                    context.goNamed(RouteNames.mainShell);
                   } else if (state.status == EmailVerificationStatus.failure) {
                     ScaffoldMessenger.of(context).showSnackBar(
                       SnackBar(

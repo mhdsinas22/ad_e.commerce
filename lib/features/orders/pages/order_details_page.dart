@@ -6,6 +6,7 @@ import 'package:ad_e_commerce/features/orders/widgets/need_help_widget.dart';
 import 'package:ad_e_commerce/features/orders/widgets/tracking_product_card.dart';
 import 'package:ad_e_commerce/features/orders/widgets/tracking_timeline_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 class OrderDetailsPage extends StatelessWidget {
   final Orders order;
@@ -38,7 +39,7 @@ class OrderDetailsPage extends StatelessWidget {
                 color: AppColors.pureBlack,
                 size: 20,
               ),
-              onPressed: () => Navigator.pop(context),
+              onPressed: () => context.pop(),
               padding: EdgeInsets.zero,
             ),
           ),

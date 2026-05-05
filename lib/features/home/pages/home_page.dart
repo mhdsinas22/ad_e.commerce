@@ -3,7 +3,6 @@ import 'package:ad_e_commerce/core/enums/phone_condition.dart';
 import 'package:ad_e_commerce/core/enums/sub_category.dart';
 import 'package:ad_e_commerce/core/routes/route_names.dart';
 import 'package:ad_e_commerce/core/theme/app_colors.dart';
-import 'package:ad_e_commerce/core/utils/navigator.dart';
 import 'package:ad_e_commerce/core/widgets/app_sliver_app_bar.dart';
 import 'package:ad_e_commerce/core/widgets/app_text.dart';
 import 'package:ad_e_commerce/core/widgets/warranty_info_section.dart';
@@ -44,6 +43,7 @@ import 'package:ad_e_commerce/features/profile/data/repositories/wallet_repo_imp
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 class HomePage extends StatelessWidget {
@@ -172,11 +172,7 @@ class HomePageUi extends StatelessWidget {
                         child: Center(
                           child: GestureDetector(
                             onTap: () {
-                              Appnavigotor.pushnamed(
-                                context,
-                                RouteNames.search,
-                                {},
-                              );
+                              context.pushNamed(RouteNames.search);
                             },
                             child: Container(
                               constraints: const BoxConstraints(
@@ -256,10 +252,9 @@ class HomePageUi extends StatelessWidget {
                           AppTexts.medium("Flash Sale", fontSize: 18),
                           GestureDetector(
                             onTap: () {
-                              Appnavigotor.pushnamed(
-                                context,
+                              context.pushNamed(
                                 RouteNames.categoryfiltredpage,
-                                {
+                                extra: {
                                   "condition": PhoneCondition.empty,
                                   "SubCategory": SubCategory.empty,
                                   "isSubCategory": false,

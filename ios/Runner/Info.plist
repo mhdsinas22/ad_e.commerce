@@ -27,6 +27,7 @@
 			<dict>
 				<key>CFBundleURLSchemes</key>
 				<array>
+					<string>aerstore</string>
 					<string>razorpay</string>
 				</array>
 			</dict>

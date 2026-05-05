@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 class HeaderSection extends StatelessWidget {
   const HeaderSection({super.key});
@@ -10,7 +11,7 @@ class HeaderSection extends StatelessWidget {
       child: Row(
         children: [
           InkWell(
-            onTap: () => Navigator.pop(context),
+            onTap: () => context.pop(),
             child: Container(
               width: 40,
               height: 40,

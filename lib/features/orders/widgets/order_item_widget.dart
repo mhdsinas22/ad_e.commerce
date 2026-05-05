@@ -1,3 +1,4 @@
+import 'package:ad_e_commerce/core/routes/route_names.dart';
 import 'package:ad_e_commerce/core/theme/app_colors.dart';
 import 'package:ad_e_commerce/core/widgets/app_text.dart';
 import 'package:ad_e_commerce/core/widgets/primary_button.dart';
@@ -5,8 +6,8 @@ import 'package:ad_e_commerce/features/orders/bloc/order_bloc.dart';
 import 'package:ad_e_commerce/features/orders/bloc/order_event.dart';
 import 'package:ad_e_commerce/features/orders/domain/enities/order_item.dart';
 import 'package:ad_e_commerce/features/orders/domain/enities/orders.dart';
-import 'package:ad_e_commerce/features/orders/pages/order_details_page.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
@@ -103,7 +104,7 @@ class OrderItemWidget extends StatelessWidget {
                       children: [
                         Expanded(
                           child: OutlinedButton(
-                            onPressed: () => Navigator.pop(bottomSheetContext),
+                            onPressed: () => context.pop(),
                             style: OutlinedButton.styleFrom(
                               padding: const EdgeInsets.symmetric(vertical: 14),
                               side: const BorderSide(
@@ -130,7 +131,7 @@ class OrderItemWidget extends StatelessWidget {
                                   ),
                                 );
                               }
-                              Navigator.pop(bottomSheetContext);
+                              context.pop();
                             },
                             style: ElevatedButton.styleFrom(
                               backgroundColor: Colors.red,
@@ -427,15 +428,9 @@ class OrderItemWidget extends StatelessWidget {
                   height: 44,
                   text: "View Details",
                   onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder:
-                            (context) => OrderDetailsPage(
-                              order: orders,
-                              orderItem: orderItem,
-                            ),
-                      ),
+                    context.pushNamed(
+                      RouteNames.orderDetails,
+                      extra: {"order": orders, "orderItem": orderItem},
                     );
                   },
                   borderRadius: 12,

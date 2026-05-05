@@ -3,10 +3,10 @@ import 'package:ad_e_commerce/core/enums/category.dart';
 import 'package:ad_e_commerce/core/enums/phone_condition.dart';
 import 'package:ad_e_commerce/core/enums/sub_category.dart';
 import 'package:ad_e_commerce/core/utils/app_logger.dart';
-import 'package:ad_e_commerce/core/utils/navigator.dart';
-import 'package:ad_e_commerce/features/home/pages/category_filtred_page.dart';
 import 'package:ad_e_commerce/features/home/widgets/CategoryListSection/widgets/best_selling_category_card.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+import 'package:ad_e_commerce/core/routes/route_names.dart';
 
 class CategoryListSection extends StatelessWidget {
   const CategoryListSection({super.key});
@@ -20,14 +20,14 @@ class CategoryListSection extends StatelessWidget {
         "image": AssetConstants.bestsellingmobilepng,
         "onTap": () {
           AppLogger.info("Best Selling click ");
-          Appnavigotor.push(
-            context,
-            CategoryFiltredPage(
-              subCategory: SubCategory.empty,
-              condition: PhoneCondition.empty,
-              isBestSeller: true,
-              onlyPhones: true,
-            ),
+          context.pushNamed(
+            RouteNames.categoryfiltredpage,
+            extra: {
+              "subCategory": SubCategory.empty,
+              "condition": PhoneCondition.empty,
+              "isBestSeller": true,
+              "onlyPhones": true,
+            },
           );
         },
       },
@@ -37,15 +37,15 @@ class CategoryListSection extends StatelessWidget {
         "image": AssetConstants.bestsellinglaptoppng,
         "onTap": () {
           AppLogger.debug("LOOK it BEst Selling");
-          Appnavigotor.push(
-            context,
-            CategoryFiltredPage(
-              subCategory: SubCategory.empty,
-              condition: PhoneCondition.empty,
-              isBestSeller: true,
-              onlyPhones: false,
-              category: Category.laptop,
-            ),
+          context.pushNamed(
+            RouteNames.categoryfiltredpage,
+            extra: {
+              "subCategory": SubCategory.empty,
+              "condition": PhoneCondition.empty,
+              "isBestSeller": true,
+              "onlyPhones": false,
+              "category": Category.laptop,
+            },
           );
         },
       },
@@ -54,15 +54,15 @@ class CategoryListSection extends StatelessWidget {
         "subtitle": "Wearable",
         "image": AssetConstants.smartbestsellingpng,
         "onTap": () {
-          Appnavigotor.push(
-            context,
-            CategoryFiltredPage(
-              subCategory: SubCategory.empty,
-              condition: PhoneCondition.empty,
-              isBestSeller: true,
-              onlyPhones: false,
-              category: Category.wearables,
-            ),
+          context.pushNamed(
+            RouteNames.categoryfiltredpage,
+            extra: {
+              "subCategory": SubCategory.empty,
+              "condition": PhoneCondition.empty,
+              "isBestSeller": true,
+              "onlyPhones": false,
+              "category": Category.wearables,
+            },
           );
         },
       },
@@ -71,15 +71,15 @@ class CategoryListSection extends StatelessWidget {
         "subtitle": "Earbuds",
         "image": AssetConstants.earbudspng,
         "onTap": () {
-          Appnavigotor.push(
-            context,
-            CategoryFiltredPage(
-              subCategory: SubCategory.empty,
-              condition: PhoneCondition.empty,
-              isBestSeller: true,
-              onlyPhones: false,
-              category: Category.earbuds,
-            ),
+          context.pushNamed(
+            RouteNames.categoryfiltredpage,
+            extra: {
+              "subCategory": SubCategory.empty,
+              "condition": PhoneCondition.empty,
+              "isBestSeller": true,
+              "onlyPhones": false,
+              "category": Category.earbuds,
+            },
           );
         },
       },
@@ -88,15 +88,15 @@ class CategoryListSection extends StatelessWidget {
         "subtitle": "Tablet",
         "image": AssetConstants.samsungtablsellerpng,
         "onTap": () {
-          Appnavigotor.push(
-            context,
-            CategoryFiltredPage(
-              subCategory: SubCategory.empty,
-              condition: PhoneCondition.empty,
-              isBestSeller: true,
-              onlyPhones: false,
-              category: Category.tablet,
-            ),
+          context.pushNamed(
+            RouteNames.categoryfiltredpage,
+            extra: {
+              "subCategory": SubCategory.empty,
+              "condition": PhoneCondition.empty,
+              "isBestSeller": true,
+              "onlyPhones": false,
+              "category": Category.tablet,
+            },
           );
         },
       },
@@ -105,15 +105,15 @@ class CategoryListSection extends StatelessWidget {
         "subtitle": "Accessories",
         "image": AssetConstants.bestsellingCasespng,
         "onTap": () {
-          Appnavigotor.push(
-            context,
-            CategoryFiltredPage(
-              subCategory: SubCategory.empty,
-              condition: PhoneCondition.empty,
-              isBestSeller: true,
-              onlyPhones: false,
-              category: Category.accessories,
-            ),
+          context.pushNamed(
+            RouteNames.categoryfiltredpage,
+            extra: {
+              "subCategory": SubCategory.empty,
+              "condition": PhoneCondition.empty,
+              "isBestSeller": true,
+              "onlyPhones": false,
+              "category": Category.accessories,
+            },
           );
         },
       },

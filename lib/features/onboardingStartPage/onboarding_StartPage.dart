@@ -5,6 +5,7 @@ import 'package:ad_e_commerce/core/widgets/app_text.dart';
 import 'package:ad_e_commerce/core/widgets/circular_arrow_button.dart';
 import 'package:ad_e_commerce/core/widgets/primary_button.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 class OnboardingStartpage extends StatelessWidget {
   const OnboardingStartpage({super.key});
@@ -47,8 +48,7 @@ class OnboardingStartpage extends StatelessWidget {
                           width: double.infinity,
                           text: "Let's get started",
                           onPressed: () {
-                            Navigator.pushReplacementNamed(
-                              context,
+                            context.pushReplacementNamed(
                               RouteNames.signup,
                             );
                           },
@@ -60,8 +60,7 @@ class OnboardingStartpage extends StatelessWidget {
                         // Preserving exact logic: InkWell wraps row + Arrow Button functionality
                         InkWell(
                           onTap: () {
-                            Navigator.pushReplacementNamed(
-                              context,
+                            context.pushReplacementNamed(
                               RouteNames.phoneLogin,
                             );
                           },
@@ -85,8 +84,7 @@ class OnboardingStartpage extends StatelessWidget {
                                 iconSize: 18,
                                 backgroundColor: AppColors.primaryBlack,
                                 onTap: () {
-                                  Navigator.pushReplacementNamed(
-                                    context,
+                                  context.pushReplacementNamed(
                                     RouteNames.login,
                                   );
                                 },

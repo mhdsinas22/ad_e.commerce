@@ -1,5 +1,6 @@
 import 'package:ad_e_commerce/core/widgets/primary_button.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 class AssuranceDetailPage extends StatelessWidget {
   final String title;
@@ -44,7 +45,7 @@ class AssuranceDetailPage extends StatelessWidget {
               width: double.infinity,
               child: PrimaryButton(
                 text: "Got it",
-                onPressed: () => Navigator.pop(context),
+                onPressed: () => context.pop(),
               ),
             ),
           ],

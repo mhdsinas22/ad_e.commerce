@@ -2,7 +2,7 @@ import 'package:ad_e_commerce/core/constants/asset_constants.dart';
 import 'package:ad_e_commerce/core/enums/phone_condition.dart';
 import 'package:ad_e_commerce/core/enums/sub_category.dart';
 import 'package:ad_e_commerce/core/routes/route_names.dart';
-import 'package:ad_e_commerce/core/utils/navigator.dart';
+import 'package:go_router/go_router.dart';
 import 'package:ad_e_commerce/core/widgets/app_sliver_app_bar.dart';
 import 'package:ad_e_commerce/core/widgets/app_text.dart';
 import 'package:ad_e_commerce/core/widgets/common_option_card.dart';
@@ -76,12 +76,11 @@ class PhoneCategoriesPageUi extends StatelessWidget {
                             children: [
                               OptionCard(
                                 onTap: () {
-                                  Appnavigotor.pushnamed(
-                                    context,
+                                  context.pushNamed(
                                     RouteNames.categoryfiltredpage,
-                                    {
+                                    extra: {
                                       "condition": PhoneCondition.empty,
-                                      "SubCategory": SubCategory.fresh,
+                                      "subCategory": SubCategory.fresh,
                                       "isSubCategory": true,
                                       "isFlashSale": false,
                                     },
@@ -92,12 +91,11 @@ class PhoneCategoriesPageUi extends StatelessWidget {
                               ),
                               OptionCard(
                                 onTap: () {
-                                  Appnavigotor.pushnamed(
-                                    context,
+                                  context.pushNamed(
                                     RouteNames.categoryfiltredpage,
-                                    {
+                                    extra: {
                                       "condition": PhoneCondition.empty,
-                                      "SubCategory": SubCategory.second,
+                                      "subCategory": SubCategory.second,
                                       "isSubCategory": true,
                                       "isFlashSale": false,
                                     },

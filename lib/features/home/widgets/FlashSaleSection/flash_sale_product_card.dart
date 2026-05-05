@@ -1,10 +1,10 @@
 import 'package:ad_e_commerce/core/routes/route_names.dart';
 import 'package:ad_e_commerce/core/theme/app_colors.dart';
-import 'package:ad_e_commerce/core/utils/navigator.dart';
 import 'package:ad_e_commerce/core/widgets/app_cached_image.dart';
 import 'package:ad_e_commerce/core/widgets/app_text.dart';
 import 'package:ad_e_commerce/features/product/domain/entites/product.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 class FlashSaleCard extends StatelessWidget {
   final Product product;
@@ -39,9 +39,11 @@ class FlashSaleCard extends StatelessWidget {
             padding: const EdgeInsets.all(8.0),
             child: InkWell(
               onTap: () {
-                Appnavigotor.pushnamed(context, RouteNames.productpage, {
-                  "product": product,
-                });
+                context.pushNamed(
+                  RouteNames.productpage,
+                  pathParameters: {"id": product.id ?? ""},
+                  extra: {"product": product, "productId": product.id ?? ""},
+                );
               },
               child: Center(
                 child: AppCachedImage(

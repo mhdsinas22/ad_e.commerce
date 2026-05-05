@@ -3,6 +3,7 @@ import 'package:ad_e_commerce/features/auth/bloc/reset_password/reset_password_b
 import 'package:ad_e_commerce/features/auth/bloc/reset_password/reset_password_event.dart';
 import 'package:ad_e_commerce/features/auth/bloc/reset_password/reset_password_state.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:ad_e_commerce/core/routes/route_names.dart';
@@ -54,9 +55,7 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
               // Ideally, Supabase AuthState listener in main.dart will pick this up
               // if setting the password also signs them in (which it usually does).
               // But to be safe and provide good UX:
-              Navigator.of(
-                context,
-              ).pushNamedAndRemoveUntil(RouteNames.home, (route) => false);
+              context.goNamed(RouteNames.home);
             } else if (state.status == ResetPasswordStatus.failure) {
               ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(
@@ -256,7 +255,7 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
 
                     // Cancel Button
                     TextButton(
-                      onPressed: () => Navigator.pop(context),
+                      onPressed: () => context.pop(),
                       child: Text(
                         'Cancel',
                         style: TextStyle(

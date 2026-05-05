@@ -1,12 +1,12 @@
 import 'package:ad_e_commerce/core/routes/route_names.dart';
 import 'package:ad_e_commerce/core/theme/app_colors.dart';
 import 'package:ad_e_commerce/core/utils/helpers.dart';
-import 'package:ad_e_commerce/core/utils/navigator.dart';
 import 'package:ad_e_commerce/core/widgets/app_text.dart';
 import 'package:ad_e_commerce/features/cart/bloc/cart_bloc.dart';
 import 'package:ad_e_commerce/features/cart/bloc/cart_event.dart';
 import 'package:ad_e_commerce/features/cart/bloc/cart_state.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
@@ -70,10 +70,9 @@ class CartSummaryWidget extends StatelessWidget {
                                   redirectRoute: RouteNames.mainShell,
                                   redirectArgs: {"index": 2},
                                 )
-                                : Appnavigotor.pushnamed(
-                                  context,
+                                : context.pushNamed(
                                   RouteNames.checkout,
-                                  {
+                                  extra: {
                                     "isMyaddressScreen": false,
                                     "isDirectBuy": false,
                                     "directProduct": null,
@@ -224,7 +223,7 @@ void _showWalletBottomSheet(BuildContext context, CartState state) {
                                 ApplyWalletEvent(enteredAmount),
                               );
 
-                              Navigator.pop(context);
+                              context.pop();
                             },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: AppColors.primaryBlack,

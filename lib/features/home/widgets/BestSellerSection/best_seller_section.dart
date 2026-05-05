@@ -3,9 +3,9 @@ import 'package:ad_e_commerce/core/enums/category.dart';
 import 'package:ad_e_commerce/core/enums/phone_condition.dart';
 import 'package:ad_e_commerce/core/enums/sub_category.dart';
 
+import 'package:ad_e_commerce/core/routes/route_names.dart';
 import 'package:ad_e_commerce/core/theme/app_colors.dart';
-import 'package:ad_e_commerce/core/utils/navigator.dart';
-import 'package:ad_e_commerce/features/home/pages/category_filtred_page.dart';
+import 'package:go_router/go_router.dart';
 import 'package:ad_e_commerce/features/home/widgets/BestSellerSection/price_promo_card.dart';
 import 'package:flutter/material.dart';
 
@@ -67,16 +67,18 @@ class BestSellersSection extends StatelessWidget {
               imagePath: item["imagePath"]!,
               backgroundColor: AppColors.primaryBlack,
               onTap: () {
-                Appnavigotor.push(
-                  context,
-                  CategoryFiltredPage(
-                    condition: PhoneCondition.empty,
-                    subCategory: SubCategory.empty,
-                    isBestSeller: true,
-                    category: Category.phones,
-                    priceTYpe: item["label"],
-                    priceAmount: int.parse(item["price"]!.replaceAll(",", "")),
-                  ),
+                context.pushNamed(
+                  RouteNames.categoryfiltredpage,
+                  extra: {
+                    "condition": PhoneCondition.empty,
+                    "subCategory": SubCategory.empty,
+                    "isBestSeller": true,
+                    "category": Category.phones,
+                    "priceTYpe": item["label"],
+                    "priceAmount": int.parse(
+                      item["price"]!.replaceAll(",", ""),
+                    ),
+                  },
                 );
               },
             );

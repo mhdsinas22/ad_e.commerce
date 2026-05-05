@@ -1,7 +1,6 @@
 import 'package:ad_e_commerce/core/constants/app_animations.dart';
 import 'package:ad_e_commerce/core/routes/route_names.dart';
 import 'package:ad_e_commerce/core/theme/app_colors.dart';
-import 'package:ad_e_commerce/core/utils/navigator.dart';
 import 'package:ad_e_commerce/core/widgets/app_text.dart';
 import 'package:ad_e_commerce/core/widgets/primary_button.dart';
 import 'package:ad_e_commerce/features/cart/bloc/cart_bloc.dart';
@@ -28,6 +27,7 @@ import 'package:ad_e_commerce/features/product/bloc/proudctbloc/product_event.da
 import 'package:ad_e_commerce/features/product/domain/entites/product.dart';
 import 'package:ad_e_commerce/features/profile/data/datasource/wallet_remote_datasource_impl.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lottie/lottie.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -352,10 +352,7 @@ class _CheckoutPageState extends State<CheckoutPageUi> {
                               height: 30,
                               text: "Done",
                               onPressed: () {
-                                Appnavigotor.pushNamedAndRemoveUntil(
-                                  context,
-                                  RouteNames.mainShell,
-                                );
+                                context.goNamed(RouteNames.mainShell);
                               },
                             ),
                           ],
@@ -553,7 +550,7 @@ class _CheckoutPageState extends State<CheckoutPageUi> {
     context.read<AddressBloc>().add(SubmitAddressEvent(address));
 
     if (!goToPayment) {
-      Appnavigotor.pop(context); // back to My Address list
+      context.pop(); // back to My Address list
     }
   }
 
@@ -679,7 +676,7 @@ class _CheckoutPageState extends State<CheckoutPageUi> {
       );
 
       context.read<AddressBloc>().add(UpdateAddressEvent(updatedAddress));
-      Appnavigotor.pop(context);
+      context.pop();
       return;
     }
 
@@ -700,6 +697,6 @@ class _CheckoutPageState extends State<CheckoutPageUi> {
 
     context.read<AddressBloc>().add(DeleteAddressEvent(selectedAddress.id!));
 
-    Appnavigotor.pop(context); // back to address list
+    context.pop(); // back to address list
   }
 }

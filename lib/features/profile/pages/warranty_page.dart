@@ -17,6 +17,7 @@ import 'package:ad_e_commerce/features/profile/domain/enitites/wallet/warranty.d
 import 'package:ad_e_commerce/features/profile/widgets/coverage_item.dart';
 import 'package:ad_e_commerce/features/profile/widgets/warranty_digital_card.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
@@ -56,7 +57,7 @@ class WarrantyPage extends StatelessWidget {
               iconColor: AppColors.pureBlack,
               icon: Icons.arrow_back,
               backgroundColor: const Color(0xFFF5F5F5),
-              onTap: () => Navigator.pop(context),
+              onTap: () => context.pop(),
             ),
           ),
           title: AppTexts.extraBold("Warranty", fontSize: 18),
@@ -370,7 +371,7 @@ class WarrantyPage extends StatelessWidget {
                           onPressed: () {
                             final bottomNavBloc = context.read<BottomNavBloc>();
                             bottomNavBloc.add(BottomNavChanged(index: 3));
-                            Navigator.pop(context);
+                            context.pop();
                           },
                         ),
                         const SizedBox(height: 12),

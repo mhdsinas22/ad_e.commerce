@@ -1,11 +1,11 @@
 import 'package:ad_e_commerce/core/constants/asset_constants.dart';
 import 'package:ad_e_commerce/core/routes/route_names.dart';
 import 'package:ad_e_commerce/core/utils/helpers.dart';
-import 'package:ad_e_commerce/core/utils/navigator.dart';
 import 'package:ad_e_commerce/core/widgets/app_text.dart';
 import 'package:ad_e_commerce/features/profile/widgets/profile_menu_item.dart';
 import 'package:ad_e_commerce/features/profile/widgets/store_card.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 class ProfilePage extends StatelessWidget {
@@ -41,10 +41,9 @@ class ProfilePage extends StatelessWidget {
                             redirectRoute: RouteNames.mainShell,
                             redirectArgs: {"index": 0},
                           )
-                          : Appnavigotor.pushnamed(
-                            context,
+                          : context.pushNamed(
                             RouteNames.orderspage,
-                            {"isPushOnly": true},
+                            extra: {"isPushOnly": true},
                           );
                     },
                   ),
@@ -60,11 +59,7 @@ class ProfilePage extends StatelessWidget {
                             redirectRoute: RouteNames.mainShell,
                             redirectArgs: {"index": 0},
                           )
-                          : Appnavigotor.pushnamed(
-                            context,
-                            RouteNames.wallet,
-                            [],
-                          );
+                          : context.pushNamed(RouteNames.wallet);
                     },
                   ),
                   SizedBox(height: 10),
@@ -79,11 +74,7 @@ class ProfilePage extends StatelessWidget {
                             redirectRoute: RouteNames.mainShell,
                             redirectArgs: {"index": 0},
                           )
-                          : Appnavigotor.pushnamed(
-                            context,
-                            RouteNames.warranty,
-                            [],
-                          );
+                          : context.pushNamed(RouteNames.warranty);
                     },
                   ),
                   SizedBox(height: 10),
@@ -98,11 +89,7 @@ class ProfilePage extends StatelessWidget {
                             redirectRoute: RouteNames.mainShell,
                             redirectArgs: {"index": 0},
                           )
-                          : Appnavigotor.pushnamed(
-                            context,
-                            RouteNames.myaccountpage,
-                            [],
-                          );
+                          : context.pushNamed(RouteNames.myaccountpage);
                     },
                   ),
                   Padding(
@@ -155,7 +142,9 @@ class ProfilePage extends StatelessWidget {
                                             .from("places")
                                             .select();
                                     final mapLink = place[0]['map_link'];
-                                    Helpers.openStoreLocation(mapLink.toString());
+                                    Helpers.openStoreLocation(
+                                      mapLink.toString(),
+                                    );
                                   },
                                   onWhatsappTap: () {
                                     Helpers.openWhatsapp("+917511166623");

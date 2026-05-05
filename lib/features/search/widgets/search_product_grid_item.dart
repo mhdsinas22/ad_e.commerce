@@ -1,10 +1,10 @@
 import 'package:ad_e_commerce/core/routes/route_names.dart';
 import 'package:ad_e_commerce/core/theme/app_colors.dart';
-import 'package:ad_e_commerce/core/utils/navigator.dart';
 import 'package:ad_e_commerce/core/widgets/app_text.dart';
 import 'package:ad_e_commerce/features/product/domain/entites/product.dart';
 import 'package:ad_e_commerce/features/search/widgets/search_cart_button_logic.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 class SearchProductGridItem extends StatelessWidget {
   final Product product;
@@ -23,9 +23,11 @@ class SearchProductGridItem extends StatelessWidget {
         // Image Card
         GestureDetector(
           onTap:
-              () => Appnavigotor.pushnamed(context, RouteNames.productpage, {
-                "product": product,
-              }),
+              () => context.pushNamed(
+                RouteNames.productpage,
+                extra: {"product": product},
+                pathParameters: {"id": product.id ?? ""},
+              ),
           child: Container(
             width: double.infinity,
             padding: const EdgeInsets.all(16),

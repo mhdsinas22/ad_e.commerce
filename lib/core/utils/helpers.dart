@@ -3,11 +3,11 @@ import 'package:ad_e_commerce/core/enums/phone_condition.dart';
 import 'package:ad_e_commerce/core/enums/sub_category.dart';
 import 'package:ad_e_commerce/core/routes/route_names.dart';
 import 'package:ad_e_commerce/core/theme/app_colors.dart';
-import 'package:ad_e_commerce/core/utils/navigator.dart';
 import 'package:ad_e_commerce/core/widgets/primary_button.dart';
 import 'package:ad_e_commerce/features/home/models/category_model.dart';
 import 'package:ad_e_commerce/features/profile/domain/enitites/wallet/warranty.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class Helpers {
@@ -169,11 +169,14 @@ class Helpers {
                   borderRadius: 25,
                   text: "Create Account",
                   onPressed: () {
-                    Navigator.pop(context);
-                    Appnavigotor.pushnamed(context, RouteNames.signup, {
-                      "redirectRoute": redirectRoute,
-                      "redirectArgs": redirectArgs,
-                    });
+                    context.pop();
+                    context.pushNamed(
+                      RouteNames.signup,
+                      extra: {
+                        "redirectRoute": redirectRoute,
+                        "redirectArgs": redirectArgs,
+                      },
+                    );
                   },
                 ),
               ),
@@ -190,12 +193,15 @@ class Helpers {
                   needBorder: true,
                   text: "Login",
                   onPressed: () {
-                    Navigator.pop(context);
+                    context.pop();
 
-                    Appnavigotor.pushnamed(context, RouteNames.phoneLogin, {
-                      "redirectRoute": redirectRoute,
-                      "redirectArgs": redirectArgs,
-                    });
+                    context.pushNamed(
+                      RouteNames.phoneLogin,
+                      extra: {
+                        "redirectRoute": redirectRoute,
+                        "redirectArgs": redirectArgs,
+                      },
+                    );
                   },
                 ),
               ),
@@ -226,22 +232,22 @@ Map<String, String> splitWarrantyCode(String code) {
 void handleNavigation(BuildContext context, CategoryModel item) {
   switch (item.type) {
     case "phoneCategory":
-      Appnavigotor.pushnamed(context, RouteNames.phonecategories, {});
+      context.pushNamed(RouteNames.phonecategories);
       break;
     case "accessoriesCategory":
-      Appnavigotor.pushnamed(context, RouteNames.accessoriescategories, {});
+      context.pushNamed(RouteNames.accessoriescategories);
       break;
     case "earbudsCategory":
-      Appnavigotor.pushnamed(context, RouteNames.earbudsCategories, {});
+      context.pushNamed(RouteNames.earbudsCategories);
       break;
     case "laptopCategory":
-      Appnavigotor.pushnamed(context, RouteNames.laptopcategories, {});
+      context.pushNamed(RouteNames.laptopcategories);
       break;
     case "wearablesCategory":
-      Appnavigotor.pushnamed(context, RouteNames.wearablescategories, {});
+      context.pushNamed(RouteNames.wearablescategories);
       break;
     case "tabletCategory":
-      Appnavigotor.pushnamed(context, RouteNames.tabletcategories, {});
+      context.pushNamed(RouteNames.tabletcategories);
       break;
   }
 }

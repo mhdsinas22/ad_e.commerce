@@ -1,7 +1,6 @@
 import 'package:ad_e_commerce/core/constants/asset_constants.dart';
 import 'package:ad_e_commerce/core/routes/route_names.dart';
 import 'package:ad_e_commerce/core/theme/app_colors.dart';
-import 'package:ad_e_commerce/core/utils/navigator.dart';
 import 'package:ad_e_commerce/core/widgets/app_text.dart';
 import 'package:ad_e_commerce/features/legal/data/policy_content.dart';
 import 'package:ad_e_commerce/features/legal/widgets/policy_viewer_sheet.dart';
@@ -9,6 +8,7 @@ import 'package:ad_e_commerce/features/legal/widgets/policy_viewer_sheet.dart';
 import 'package:ad_e_commerce/features/profile/widgets/profile_menu_item.dart';
 import 'package:ad_e_commerce/features/profile/widgets/profle_side_appbar.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 class SupportLegelPage extends StatelessWidget {
@@ -110,7 +110,7 @@ class SupportLegelPage extends StatelessWidget {
                                         ),
                                       ),
                                       onPressed: () {
-                                        Appnavigotor.pop(context);
+                                        context.pop();
                                       },
                                       child: AppTexts.semiBold("Cancel"),
                                     ),
@@ -130,11 +130,7 @@ class SupportLegelPage extends StatelessWidget {
                                         final supbase =
                                             Supabase.instance.client;
                                         await supbase.auth.signOut();
-                                        Appnavigotor.pushNamedAndRemoveUntil(
-                                          // ignore: use_build_context_synchronously
-                                          context,
-                                          RouteNames.phoneLogin,
-                                        );
+                                        context.goNamed(RouteNames.phoneLogin);
                                       },
                                       child: AppTexts.semiBold(
                                         "LogOut",
@@ -224,7 +220,7 @@ class SupportLegelPage extends StatelessWidget {
                                                     ),
                                                   ),
                                                   onPressed: () {
-                                                    Appnavigotor.pop(context);
+                                                    context.pop();
                                                   },
                                                   child: AppTexts.semiBold(
                                                     "Cancel",
@@ -279,16 +275,13 @@ class SupportLegelPage extends StatelessWidget {
                                                       }
 
                                                       if (context.mounted) {
-                                                        Appnavigotor.pushNamedAndRemoveUntil(
-                                                          context,
+                                                        context.goNamed(
                                                           RouteNames.phoneLogin,
                                                         );
                                                       }
                                                     } catch (e) {
                                                       if (context.mounted) {
-                                                        Appnavigotor.pop(
-                                                          context,
-                                                        );
+                                                        context.pop();
                                                         ScaffoldMessenger.of(
                                                           context,
                                                         ).showSnackBar(
