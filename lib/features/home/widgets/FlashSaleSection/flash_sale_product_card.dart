@@ -1,8 +1,8 @@
-import 'package:ad_e_commerce/core/routes/route_names.dart';
-import 'package:ad_e_commerce/core/theme/app_colors.dart';
-import 'package:ad_e_commerce/core/widgets/app_cached_image.dart';
-import 'package:ad_e_commerce/core/widgets/app_text.dart';
-import 'package:ad_e_commerce/features/product/domain/entites/product.dart';
+import 'package:aerstore/core/routes/route_names.dart';
+import 'package:aerstore/core/theme/app_colors.dart';
+import 'package:aerstore/core/widgets/app_cached_image.dart';
+import 'package:aerstore/core/widgets/app_text.dart';
+import 'package:aerstore/features/product/domain/entites/product.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 

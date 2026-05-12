@@ -1,4 +1,4 @@
-import 'package:ad_e_commerce/features/orders/domain/enities/order_item.dart';
+import 'package:aerstore/features/orders/domain/enities/order_item.dart';
 
 class OrderItemModel extends OrderItem {
   OrderItemModel({

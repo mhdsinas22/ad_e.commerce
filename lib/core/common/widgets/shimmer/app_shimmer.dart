@@ -1,4 +1,4 @@
-import 'package:ad_e_commerce/core/common/widgets/shimmer/shimmer_wrapper.dart';
+import 'package:aerstore/core/common/widgets/shimmer/shimmer_wrapper.dart';
 import 'package:flutter/material.dart';
 
 class AppShimmer extends StatelessWidget {

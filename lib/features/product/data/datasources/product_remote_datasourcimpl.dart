@@ -1,8 +1,8 @@
-import 'package:ad_e_commerce/core/utils/app_logger.dart';
-import 'package:ad_e_commerce/features/product/data/datasources/product_remote_datasource.dart';
-import 'package:ad_e_commerce/features/home/domain/enitites/models/product_model.dart';
-import 'package:ad_e_commerce/features/home/domain/enitites/models/product_stock_model.dart';
-import 'package:ad_e_commerce/features/product/domain/entites/product.dart';
+import 'package:aerstore/core/utils/app_logger.dart';
+import 'package:aerstore/features/product/data/datasources/product_remote_datasource.dart';
+import 'package:aerstore/features/home/domain/enitites/models/product_model.dart';
+import 'package:aerstore/features/home/domain/enitites/models/product_stock_model.dart';
+import 'package:aerstore/features/product/domain/entites/product.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 class ProductRemoteDatasourceImpl implements ProductRemoteDatasource {

@@ -1,6 +1,6 @@
-import 'package:ad_e_commerce/features/profile/bloc/warranty/warranty_event.dart';
-import 'package:ad_e_commerce/features/profile/bloc/warranty/warranty_state.dart';
-import 'package:ad_e_commerce/features/profile/domain/repositories/warranty_repository.dart';
+import 'package:aerstore/features/profile/bloc/warranty/warranty_event.dart';
+import 'package:aerstore/features/profile/bloc/warranty/warranty_state.dart';
+import 'package:aerstore/features/profile/domain/repositories/warranty_repository.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 

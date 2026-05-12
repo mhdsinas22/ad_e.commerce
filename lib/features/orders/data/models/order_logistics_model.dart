@@ -1,4 +1,4 @@
-import 'package:ad_e_commerce/features/orders/domain/enities/order_logistics.dart';
+import 'package:aerstore/features/orders/domain/enities/order_logistics.dart';
 
 class OrderLogisticsModel extends OrderLogistics {
   OrderLogisticsModel({

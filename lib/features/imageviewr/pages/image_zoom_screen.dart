@@ -1,6 +1,6 @@
-import 'package:ad_e_commerce/features/imageviewr/bloc/image_viewer_bloc.dart';
-import 'package:ad_e_commerce/features/imageviewr/bloc/image_viewer_event.dart';
-import 'package:ad_e_commerce/features/imageviewr/bloc/image_viewer_state.dart';
+import 'package:aerstore/features/imageviewr/bloc/image_viewer_bloc.dart';
+import 'package:aerstore/features/imageviewr/bloc/image_viewer_event.dart';
+import 'package:aerstore/features/imageviewr/bloc/image_viewer_state.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';

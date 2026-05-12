@@ -1,14 +1,14 @@
-import 'package:ad_e_commerce/core/constants/asset_constants.dart';
-import 'package:ad_e_commerce/core/enums/phone_condition.dart';
-import 'package:ad_e_commerce/core/enums/sub_category.dart';
-import 'package:ad_e_commerce/core/routes/route_names.dart';
+import 'package:aerstore/core/constants/asset_constants.dart';
+import 'package:aerstore/core/enums/phone_condition.dart';
+import 'package:aerstore/core/enums/sub_category.dart';
+import 'package:aerstore/core/routes/route_names.dart';
 import 'package:go_router/go_router.dart';
-import 'package:ad_e_commerce/core/widgets/app_sliver_app_bar.dart';
-import 'package:ad_e_commerce/core/widgets/app_text.dart';
-import 'package:ad_e_commerce/core/widgets/common_option_card.dart';
+import 'package:aerstore/core/widgets/app_sliver_app_bar.dart';
+import 'package:aerstore/core/widgets/app_text.dart';
+import 'package:aerstore/core/widgets/common_option_card.dart';
 
-import 'package:ad_e_commerce/features/product/bloc/proudctbloc/product_bloc.dart';
-import 'package:ad_e_commerce/features/search/bloc/search_bloc.dart';
+import 'package:aerstore/features/product/bloc/proudctbloc/product_bloc.dart';
+import 'package:aerstore/features/search/bloc/search_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 

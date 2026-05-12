@@ -1,10 +1,10 @@
-import 'package:ad_e_commerce/core/constants/app_icons.dart';
-import 'package:ad_e_commerce/core/theme/app_colors.dart';
-import 'package:ad_e_commerce/core/widgets/app_text.dart';
-import 'package:ad_e_commerce/features/cart/bloc/cart_bloc.dart';
-import 'package:ad_e_commerce/features/cart/bloc/cart_event.dart';
-import 'package:ad_e_commerce/features/cart/domain/enities/cart_item.dart';
-import 'package:ad_e_commerce/features/cart/presentation/widgets/cart_counter_widget.dart';
+import 'package:aerstore/core/constants/app_icons.dart';
+import 'package:aerstore/core/theme/app_colors.dart';
+import 'package:aerstore/core/widgets/app_text.dart';
+import 'package:aerstore/features/cart/bloc/cart_bloc.dart';
+import 'package:aerstore/features/cart/bloc/cart_event.dart';
+import 'package:aerstore/features/cart/domain/enities/cart_item.dart';
+import 'package:aerstore/features/cart/presentation/widgets/cart_counter_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 

@@ -1,5 +1,5 @@
-import 'package:ad_e_commerce/core/theme/app_colors.dart';
-import 'package:ad_e_commerce/features/repair/bloc/repair_image/repair_image_bloc.dart';
+import 'package:aerstore/core/theme/app_colors.dart';
+import 'package:aerstore/features/repair/bloc/repair_image/repair_image_bloc.dart';
 
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';

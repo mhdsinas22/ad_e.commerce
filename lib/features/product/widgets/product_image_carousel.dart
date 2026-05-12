@@ -1,10 +1,10 @@
 import 'package:go_router/go_router.dart';
-import 'package:ad_e_commerce/core/routes/route_names.dart';
-import 'package:ad_e_commerce/core/theme/app_colors.dart';
-import 'package:ad_e_commerce/core/widgets/app_cached_image.dart';
-import 'package:ad_e_commerce/features/product/bloc/productimagesilder/product_image_silder_bloc.dart';
-import 'package:ad_e_commerce/features/product/bloc/productimagesilder/product_image_silder_state.dart';
-import 'package:ad_e_commerce/features/product/bloc/productimagesilder/product_image_slider_event.dart';
+import 'package:aerstore/core/routes/route_names.dart';
+import 'package:aerstore/core/theme/app_colors.dart';
+import 'package:aerstore/core/widgets/app_cached_image.dart';
+import 'package:aerstore/features/product/bloc/productimagesilder/product_image_silder_bloc.dart';
+import 'package:aerstore/features/product/bloc/productimagesilder/product_image_silder_state.dart';
+import 'package:aerstore/features/product/bloc/productimagesilder/product_image_slider_event.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';

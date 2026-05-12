@@ -1,9 +1,9 @@
-import 'package:ad_e_commerce/features/profile/data/datasource/wallet_remote_datasource.dart';
+import 'package:aerstore/features/profile/data/datasource/wallet_remote_datasource.dart';
 
-import 'package:ad_e_commerce/features/profile/domain/enitites/wallet/reward_points.dart';
-import 'package:ad_e_commerce/features/profile/domain/enitites/wallet/wallet.dart';
-import 'package:ad_e_commerce/features/profile/domain/enitites/wallet/wallet_transaction.dart';
-import 'package:ad_e_commerce/features/profile/domain/repositories/wallet_repo.dart';
+import 'package:aerstore/features/profile/domain/enitites/wallet/reward_points.dart';
+import 'package:aerstore/features/profile/domain/enitites/wallet/wallet.dart';
+import 'package:aerstore/features/profile/domain/enitites/wallet/wallet_transaction.dart';
+import 'package:aerstore/features/profile/domain/repositories/wallet_repo.dart';
 
 class WalletRepoImpl implements WalletRepo {
   final WalletRemoteDataSource remote;

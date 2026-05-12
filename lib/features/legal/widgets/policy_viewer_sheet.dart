@@ -1,5 +1,5 @@
-import 'package:ad_e_commerce/core/widgets/app_text.dart';
-import 'package:ad_e_commerce/features/legal/models/policy_model.dart';
+import 'package:aerstore/core/widgets/app_text.dart';
+import 'package:aerstore/features/legal/models/policy_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_markdown_plus/flutter_markdown_plus.dart';
 import 'package:url_launcher/url_launcher.dart';

@@ -1,10 +1,10 @@
-import 'package:ad_e_commerce/core/utils/app_logger.dart';
-import 'package:ad_e_commerce/data/models/user_model.dart';
-import 'package:ad_e_commerce/data/repositories/auth_repository.dart';
-import 'package:ad_e_commerce/data/repositories/user_repository.dart';
-import 'package:ad_e_commerce/features/auth/bloc/user_details/user_details_event.dart';
-import 'package:ad_e_commerce/features/auth/bloc/user_details/user_details_state.dart';
-import 'package:ad_e_commerce/features/profile/domain/repositories/wallet_repo.dart';
+import 'package:aerstore/core/utils/app_logger.dart';
+import 'package:aerstore/data/models/user_model.dart';
+import 'package:aerstore/data/repositories/auth_repository.dart';
+import 'package:aerstore/data/repositories/user_repository.dart';
+import 'package:aerstore/features/auth/bloc/user_details/user_details_event.dart';
+import 'package:aerstore/features/auth/bloc/user_details/user_details_state.dart';
+import 'package:aerstore/features/profile/domain/repositories/wallet_repo.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 

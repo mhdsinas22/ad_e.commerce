@@ -1,5 +1,5 @@
-import 'package:ad_e_commerce/features/product/domain/entites/product.dart';
-import 'package:ad_e_commerce/features/search/widgets/search_product_grid_item.dart';
+import 'package:aerstore/features/product/domain/entites/product.dart';
+import 'package:aerstore/features/search/widgets/search_product_grid_item.dart';
 import 'package:flutter/material.dart';
 
 class ProductGridSection extends StatelessWidget {

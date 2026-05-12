@@ -1,4 +1,4 @@
-import 'package:ad_e_commerce/features/home/domain/enitites/testimonials_entity.dart';
+import 'package:aerstore/features/home/domain/enitites/testimonials_entity.dart';
 
 enum TestimonialStatus { initial, loading, success, failure }
 

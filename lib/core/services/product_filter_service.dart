@@ -1,10 +1,10 @@
-import 'package:ad_e_commerce/core/constants/app_constants.dart';
-import 'package:ad_e_commerce/core/enums/category.dart';
-import 'package:ad_e_commerce/core/enums/phone_condition.dart';
-import 'package:ad_e_commerce/core/enums/sub_category.dart';
-import 'package:ad_e_commerce/core/utils/helpers.dart';
-import 'package:ad_e_commerce/features/product/bloc/proudctbloc/product_state.dart';
-import 'package:ad_e_commerce/features/product/domain/entites/product.dart';
+import 'package:aerstore/core/constants/app_constants.dart';
+import 'package:aerstore/core/enums/category.dart';
+import 'package:aerstore/core/enums/phone_condition.dart';
+import 'package:aerstore/core/enums/sub_category.dart';
+import 'package:aerstore/core/utils/helpers.dart';
+import 'package:aerstore/features/product/bloc/proudctbloc/product_state.dart';
+import 'package:aerstore/features/product/domain/entites/product.dart';
 
 class ProductFilterService {
   static List<Product> applyFilters({

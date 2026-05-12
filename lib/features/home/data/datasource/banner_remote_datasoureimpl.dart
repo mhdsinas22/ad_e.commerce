@@ -1,6 +1,6 @@
-import 'package:ad_e_commerce/core/error/exceptions.dart';
-import 'package:ad_e_commerce/features/home/data/datasource/banner_remote_datasource.dart';
-import 'package:ad_e_commerce/features/home/models/banner_model.dart';
+import 'package:aerstore/core/error/exceptions.dart';
+import 'package:aerstore/features/home/data/datasource/banner_remote_datasource.dart';
+import 'package:aerstore/features/home/models/banner_model.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 class BannerRemoteDataSourceImpl implements BannerRemoteDataSource {

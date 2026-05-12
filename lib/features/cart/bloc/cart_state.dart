@@ -1,4 +1,4 @@
-import 'package:ad_e_commerce/features/cart/domain/enities/cart_item.dart';
+import 'package:aerstore/features/cart/domain/enities/cart_item.dart';
 
 enum CartStatus { initial, loading, loaded, error }
 

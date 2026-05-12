@@ -1,6 +1,6 @@
-import 'package:ad_e_commerce/core/routes/route_names.dart';
-import 'package:ad_e_commerce/data/repositories/auth_repository.dart';
-import 'package:ad_e_commerce/features/auth/bloc/email_verification/email_verification_bloc.dart';
+import 'package:aerstore/core/routes/route_names.dart';
+import 'package:aerstore/data/repositories/auth_repository.dart';
+import 'package:aerstore/features/auth/bloc/email_verification/email_verification_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';

@@ -1,14 +1,14 @@
-import 'package:ad_e_commerce/core/common/widgets/shimmer/app_shimmer.dart';
-import 'package:ad_e_commerce/core/widgets/app_sliver_app_bar.dart';
-import 'package:ad_e_commerce/core/widgets/app_text.dart';
-import 'package:ad_e_commerce/features/home/data/category_data.dart';
-import 'package:ad_e_commerce/features/home/widgets/category_card.dart';
-import 'package:ad_e_commerce/features/home/widgets/category_grid.dart';
-import 'package:ad_e_commerce/features/product/bloc/proudctbloc/product_bloc.dart';
-import 'package:ad_e_commerce/features/search/bloc/search_bloc.dart';
-import 'package:ad_e_commerce/features/search/bloc/search_state.dart';
-import 'package:ad_e_commerce/features/search/widgets/search_bar.dart';
-import 'package:ad_e_commerce/features/search/widgets/search_product_grid_item.dart';
+import 'package:aerstore/core/common/widgets/shimmer/app_shimmer.dart';
+import 'package:aerstore/core/widgets/app_sliver_app_bar.dart';
+import 'package:aerstore/core/widgets/app_text.dart';
+import 'package:aerstore/features/home/data/category_data.dart';
+import 'package:aerstore/features/home/widgets/category_card.dart';
+import 'package:aerstore/features/home/widgets/category_grid.dart';
+import 'package:aerstore/features/product/bloc/proudctbloc/product_bloc.dart';
+import 'package:aerstore/features/search/bloc/search_bloc.dart';
+import 'package:aerstore/features/search/bloc/search_state.dart';
+import 'package:aerstore/features/search/widgets/search_bar.dart';
+import 'package:aerstore/features/search/widgets/search_product_grid_item.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';

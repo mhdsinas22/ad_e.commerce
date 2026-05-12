@@ -1,7 +1,7 @@
-import 'package:ad_e_commerce/core/utils/app_logger.dart';
-import 'package:ad_e_commerce/features/payment/domain/usecase/make_payment.dart';
-import 'package:ad_e_commerce/features/payment/presentation/bloc/payment_event.dart';
-import 'package:ad_e_commerce/features/payment/presentation/bloc/payment_state.dart';
+import 'package:aerstore/core/utils/app_logger.dart';
+import 'package:aerstore/features/payment/domain/usecase/make_payment.dart';
+import 'package:aerstore/features/payment/presentation/bloc/payment_event.dart';
+import 'package:aerstore/features/payment/presentation/bloc/payment_state.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class PaymentBloc extends Bloc<PaymentEvent, PaymentState> {

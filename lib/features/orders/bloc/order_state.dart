@@ -1,5 +1,5 @@
-import 'package:ad_e_commerce/features/orders/domain/enities/order_item.dart';
-import 'package:ad_e_commerce/features/orders/domain/enities/orders.dart';
+import 'package:aerstore/features/orders/domain/enities/order_item.dart';
+import 'package:aerstore/features/orders/domain/enities/orders.dart';
 
 enum OrdersStatus { initial, loading, success, failure }
 

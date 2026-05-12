@@ -1,5 +1,5 @@
-import 'package:ad_e_commerce/core/constants/asset_constants.dart';
-import 'package:ad_e_commerce/features/home/models/category_model.dart';
+import 'package:aerstore/core/constants/asset_constants.dart';
+import 'package:aerstore/features/home/models/category_model.dart';
 
 class CategoryData {
   static List<CategoryModel> categories = [

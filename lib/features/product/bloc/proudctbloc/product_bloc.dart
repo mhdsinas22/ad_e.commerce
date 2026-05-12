@@ -1,8 +1,8 @@
-import 'package:ad_e_commerce/features/product/bloc/proudctbloc/product_event.dart';
-import 'package:ad_e_commerce/features/product/bloc/proudctbloc/product_state.dart';
-import 'package:ad_e_commerce/features/product/domain/entites/product.dart';
-import 'package:ad_e_commerce/features/product/domain/usecases/get_flashsale_product_usecase.dart';
-import 'package:ad_e_commerce/features/product/domain/usecases/get_product_usecase.dart';
+import 'package:aerstore/features/product/bloc/proudctbloc/product_event.dart';
+import 'package:aerstore/features/product/bloc/proudctbloc/product_state.dart';
+import 'package:aerstore/features/product/domain/entites/product.dart';
+import 'package:aerstore/features/product/domain/usecases/get_flashsale_product_usecase.dart';
+import 'package:aerstore/features/product/domain/usecases/get_product_usecase.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class ProductBloc extends Bloc<ProductEvent, ProductState> {

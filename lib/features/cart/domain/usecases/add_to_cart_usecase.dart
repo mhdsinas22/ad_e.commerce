@@ -1,4 +1,4 @@
-import 'package:ad_e_commerce/features/cart/domain/repositories/cart_repository.dart';
+import 'package:aerstore/features/cart/domain/repositories/cart_repository.dart';
 
 class AddToCartUsecase {
   final CartRepository cartRepository;

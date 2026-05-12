@@ -1,4 +1,4 @@
-import 'package:ad_e_commerce/features/profile/domain/enitites/wallet/reward_points.dart';
+import 'package:aerstore/features/profile/domain/enitites/wallet/reward_points.dart';
 
 class RewardPointsModel extends RewardPoints {
   RewardPointsModel({super.id, required super.userId, required super.points});

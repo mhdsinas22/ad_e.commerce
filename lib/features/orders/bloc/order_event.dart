@@ -1,5 +1,5 @@
-import 'package:ad_e_commerce/features/orders/domain/enities/order_item.dart';
-import 'package:ad_e_commerce/features/orders/domain/enities/orders.dart';
+import 'package:aerstore/features/orders/domain/enities/order_item.dart';
+import 'package:aerstore/features/orders/domain/enities/orders.dart';
 
 abstract class OrderEvent {}
 
@@ -18,8 +18,5 @@ class CancelOrderEvent extends OrderEvent {
   final Orders order;
   final String reason;
 
-  CancelOrderEvent({
-    required this.order,
-    required this.reason,
-  });
+  CancelOrderEvent({required this.order, required this.reason});
 }

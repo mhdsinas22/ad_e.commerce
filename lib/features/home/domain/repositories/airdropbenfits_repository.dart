@@ -1,4 +1,4 @@
-import 'package:ad_e_commerce/features/home/domain/enitites/airdropbenfites_entity.dart';
+import 'package:aerstore/features/home/domain/enitites/airdropbenfites_entity.dart';
 
 abstract class AirdropbenfitsRepository {
   Future<List<AirdropbenfitesEntity>> getairdropBanners();

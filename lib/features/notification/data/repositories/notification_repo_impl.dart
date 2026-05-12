@@ -1,5 +1,5 @@
-import 'package:ad_e_commerce/features/notification/data/datasource/notification_remote_datasource.dart';
-import 'package:ad_e_commerce/features/notification/domain/repositories/notification_repository.dart';
+import 'package:aerstore/features/notification/data/datasource/notification_remote_datasource.dart';
+import 'package:aerstore/features/notification/domain/repositories/notification_repository.dart';
 
 class NotificationRepoImpl implements NotificationRepository {
   final NotificationRemoteDatasource remoteDatasource;

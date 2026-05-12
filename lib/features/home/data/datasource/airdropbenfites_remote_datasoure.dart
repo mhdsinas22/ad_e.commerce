@@ -1,5 +1,5 @@
-import 'package:ad_e_commerce/features/home/models/airdropbenfites_model.dart';
-import 'package:ad_e_commerce/features/home/domain/enitites/airdropbenfites_entity.dart';
+import 'package:aerstore/features/home/models/airdropbenfites_model.dart';
+import 'package:aerstore/features/home/domain/enitites/airdropbenfites_entity.dart';
 
 abstract class AirdropbenfitesRemoteDatasoure {
   Future<List<AirdropbenfitesEntity>> getairdropBanners();

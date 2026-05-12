@@ -1,4 +1,4 @@
-import 'package:ad_e_commerce/features/product/domain/entites/product.dart';
+import 'package:aerstore/features/product/domain/entites/product.dart';
 
 enum SearchStatus { initial, loading, loaded, error, empty }
 

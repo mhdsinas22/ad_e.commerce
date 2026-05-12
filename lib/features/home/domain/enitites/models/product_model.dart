@@ -1,6 +1,6 @@
-import 'package:ad_e_commerce/features/product/domain/entites/product.dart';
-import 'package:ad_e_commerce/features/product/domain/entites/product_stock.dart';
-import 'package:ad_e_commerce/features/product/data/models/prodcut_warranty_model.dart';
+import 'package:aerstore/features/product/domain/entites/product.dart';
+import 'package:aerstore/features/product/domain/entites/product_stock.dart';
+import 'package:aerstore/features/product/data/models/prodcut_warranty_model.dart';
 
 class ProductModel extends Product {
   ProductModel({

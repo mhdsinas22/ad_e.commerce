@@ -1,5 +1,5 @@
-import 'package:ad_e_commerce/features/orders/data/models/order_logistics_model.dart';
-import 'package:ad_e_commerce/features/orders/domain/enities/order_item.dart';
+import 'package:aerstore/features/orders/data/models/order_logistics_model.dart';
+import 'package:aerstore/features/orders/domain/enities/order_item.dart';
 
 class Orders {
   final String? id;

@@ -1,7 +1,7 @@
-import 'package:ad_e_commerce/features/product/data/datasources/product_warranty_datasource_impl.dart';
-import 'package:ad_e_commerce/features/product/data/models/prodcut_warranty_model.dart';
-import 'package:ad_e_commerce/features/product/domain/entites/product_warranty.dart';
-import 'package:ad_e_commerce/features/product/domain/repo/product_warranty_repository.dart';
+import 'package:aerstore/features/product/data/datasources/product_warranty_datasource_impl.dart';
+import 'package:aerstore/features/product/data/models/prodcut_warranty_model.dart';
+import 'package:aerstore/features/product/domain/entites/product_warranty.dart';
+import 'package:aerstore/features/product/domain/repo/product_warranty_repository.dart';
 
 class ProductWarrantyRepositoryImpl implements ProductWarrantyRepository {
   final ProductWarrantyRemoteDataSourceImpl remote;

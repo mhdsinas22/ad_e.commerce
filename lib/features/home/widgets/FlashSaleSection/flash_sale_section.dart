@@ -1,8 +1,8 @@
-import 'package:ad_e_commerce/core/common/widgets/shimmer/app_shimmer.dart';
-import 'package:ad_e_commerce/core/widgets/app_text.dart';
-import 'package:ad_e_commerce/features/home/widgets/FlashSaleSection/flash_sale_product_card.dart';
-import 'package:ad_e_commerce/features/product/bloc/proudctbloc/product_bloc.dart';
-import 'package:ad_e_commerce/features/product/bloc/proudctbloc/product_state.dart';
+import 'package:aerstore/core/common/widgets/shimmer/app_shimmer.dart';
+import 'package:aerstore/core/widgets/app_text.dart';
+import 'package:aerstore/features/home/widgets/FlashSaleSection/flash_sale_product_card.dart';
+import 'package:aerstore/features/product/bloc/proudctbloc/product_bloc.dart';
+import 'package:aerstore/features/product/bloc/proudctbloc/product_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 

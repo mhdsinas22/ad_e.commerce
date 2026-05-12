@@ -1,9 +1,9 @@
-import 'package:ad_e_commerce/features/product/data/datasources/product_remote_datasource.dart';
-import 'package:ad_e_commerce/features/home/domain/enitites/models/product_model.dart';
-import 'package:ad_e_commerce/features/home/domain/enitites/models/product_stock_model.dart';
-import 'package:ad_e_commerce/features/product/domain/entites/product.dart';
-import 'package:ad_e_commerce/features/product/domain/entites/product_stock.dart';
-import 'package:ad_e_commerce/features/home/domain/repositories/product_repository.dart';
+import 'package:aerstore/features/product/data/datasources/product_remote_datasource.dart';
+import 'package:aerstore/features/home/domain/enitites/models/product_model.dart';
+import 'package:aerstore/features/home/domain/enitites/models/product_stock_model.dart';
+import 'package:aerstore/features/product/domain/entites/product.dart';
+import 'package:aerstore/features/product/domain/entites/product_stock.dart';
+import 'package:aerstore/features/home/domain/repositories/product_repository.dart';
 
 class ProductRepositoryImpl implements ProductRepository {
   final ProductRemoteDatasource remote;

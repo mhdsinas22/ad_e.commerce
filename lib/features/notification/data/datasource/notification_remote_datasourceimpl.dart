@@ -1,7 +1,6 @@
 import 'dart:io';
-
-import 'package:ad_e_commerce/core/utils/app_logger.dart';
-import 'package:ad_e_commerce/features/notification/data/datasource/notification_remote_datasource.dart';
+import 'package:aerstore/core/utils/app_logger.dart';
+import 'package:aerstore/features/notification/data/datasource/notification_remote_datasource.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 class NotificationRemoteDatasourceimpl implements NotificationRemoteDatasource {

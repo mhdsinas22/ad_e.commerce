@@ -1,4 +1,4 @@
-import 'package:ad_e_commerce/core/theme/app_colors.dart';
+import 'package:aerstore/core/theme/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';

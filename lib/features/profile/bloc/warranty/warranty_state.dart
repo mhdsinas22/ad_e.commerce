@@ -1,5 +1,5 @@
-import 'package:ad_e_commerce/features/profile/domain/enitites/wallet/warranty.dart';
-import 'package:ad_e_commerce/features/profile/domain/enitites/warranty_card.dart';
+import 'package:aerstore/features/profile/domain/enitites/wallet/warranty.dart';
+import 'package:aerstore/features/profile/domain/enitites/warranty_card.dart';
 
 enum WarrantyStatus { inital, loading, success, failue }
 

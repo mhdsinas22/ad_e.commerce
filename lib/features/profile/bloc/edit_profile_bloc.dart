@@ -1,11 +1,11 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:ad_e_commerce/domain/entities/user_entity.dart';
+import 'package:aerstore/domain/entities/user_entity.dart';
 import 'package:fpdart/fpdart.dart';
-import 'package:ad_e_commerce/features/profile/bloc/edit_profile_event.dart';
-import 'package:ad_e_commerce/features/profile/bloc/edit_profile_state.dart';
-import 'package:ad_e_commerce/features/profile/domain/usecases/get_profile_usecase.dart';
-import 'package:ad_e_commerce/features/profile/domain/usecases/update_profile_usecase.dart';
-import 'package:ad_e_commerce/features/profile/domain/usecases/upload_image_usecase.dart';
+import 'package:aerstore/features/profile/bloc/edit_profile_event.dart';
+import 'package:aerstore/features/profile/bloc/edit_profile_state.dart';
+import 'package:aerstore/features/profile/domain/usecases/get_profile_usecase.dart';
+import 'package:aerstore/features/profile/domain/usecases/update_profile_usecase.dart';
+import 'package:aerstore/features/profile/domain/usecases/upload_image_usecase.dart';
 
 class EditProfileBloc extends Bloc<EditProfileEvent, EditProfileState> {
   final GetProfileUseCase getProfileUseCase;

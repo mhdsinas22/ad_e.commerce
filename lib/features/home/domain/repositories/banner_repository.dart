@@ -1,4 +1,4 @@
-import 'package:ad_e_commerce/features/home/domain/enitites/banner_entity.dart';
+import 'package:aerstore/features/home/domain/enitites/banner_entity.dart';
 
 abstract class BannerRepository {
   Future<List<BannerEntity>> getBanners();

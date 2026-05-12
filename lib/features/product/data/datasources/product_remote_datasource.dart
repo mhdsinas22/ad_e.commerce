@@ -1,6 +1,6 @@
-import 'package:ad_e_commerce/features/home/domain/enitites/models/product_model.dart';
-import 'package:ad_e_commerce/features/home/domain/enitites/models/product_stock_model.dart';
-import 'package:ad_e_commerce/features/product/domain/entites/product.dart';
+import 'package:aerstore/features/home/domain/enitites/models/product_model.dart';
+import 'package:aerstore/features/home/domain/enitites/models/product_stock_model.dart';
+import 'package:aerstore/features/product/domain/entites/product.dart';
 
 abstract class ProductRemoteDatasource {
   Future<void> addProduct(ProductModel model);

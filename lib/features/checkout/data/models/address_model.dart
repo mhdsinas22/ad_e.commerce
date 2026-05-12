@@ -1,4 +1,4 @@
-import 'package:ad_e_commerce/features/checkout/domain/enitites/address_entity.dart';
+import 'package:aerstore/features/checkout/domain/enitites/address_entity.dart';
 
 class AddressModel extends AddressEntity {
   AddressModel({

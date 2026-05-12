@@ -1,6 +1,6 @@
-import 'package:ad_e_commerce/features/home/bloc/testmonialsbloc/testimonial_event.dart';
-import 'package:ad_e_commerce/features/home/bloc/testmonialsbloc/testimonial_state.dart';
-import 'package:ad_e_commerce/features/home/domain/repositories/testmonial_repository.dart';
+import 'package:aerstore/features/home/bloc/testmonialsbloc/testimonial_event.dart';
+import 'package:aerstore/features/home/bloc/testmonialsbloc/testimonial_state.dart';
+import 'package:aerstore/features/home/domain/repositories/testmonial_repository.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class TestimonialBloc extends Bloc<TestimonialEvent, TestimonialState> {

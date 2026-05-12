@@ -1,12 +1,12 @@
-import 'package:ad_e_commerce/core/constants/asset_constants.dart';
-import 'package:ad_e_commerce/core/enums/category.dart';
-import 'package:ad_e_commerce/core/enums/phone_condition.dart';
-import 'package:ad_e_commerce/core/enums/sub_category.dart';
+import 'package:aerstore/core/constants/asset_constants.dart';
+import 'package:aerstore/core/enums/category.dart';
+import 'package:aerstore/core/enums/phone_condition.dart';
+import 'package:aerstore/core/enums/sub_category.dart';
 
-import 'package:ad_e_commerce/core/routes/route_names.dart';
-import 'package:ad_e_commerce/core/theme/app_colors.dart';
+import 'package:aerstore/core/routes/route_names.dart';
+import 'package:aerstore/core/theme/app_colors.dart';
 import 'package:go_router/go_router.dart';
-import 'package:ad_e_commerce/features/home/widgets/BestSellerSection/price_promo_card.dart';
+import 'package:aerstore/features/home/widgets/BestSellerSection/price_promo_card.dart';
 import 'package:flutter/material.dart';
 
 class BestSellersSection extends StatelessWidget {

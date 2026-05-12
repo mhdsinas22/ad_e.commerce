@@ -1,5 +1,5 @@
-import 'package:ad_e_commerce/features/profile/domain/enitites/wallet/wallet_transaction.dart';
-import 'package:ad_e_commerce/features/profile/widgets/wallet/transaction_item_card.dart';
+import 'package:aerstore/features/profile/domain/enitites/wallet/wallet_transaction.dart';
+import 'package:aerstore/features/profile/widgets/wallet/transaction_item_card.dart';
 import 'package:flutter/material.dart';
 
 class TransactionHistoryList extends StatelessWidget {

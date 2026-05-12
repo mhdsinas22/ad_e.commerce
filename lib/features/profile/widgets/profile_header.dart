@@ -1,5 +1,5 @@
 import 'dart:io';
-import 'package:ad_e_commerce/core/theme/app_colors.dart';
+import 'package:aerstore/core/theme/app_colors.dart';
 import 'package:flutter/material.dart';
 
 class ProfileHeader extends StatelessWidget {

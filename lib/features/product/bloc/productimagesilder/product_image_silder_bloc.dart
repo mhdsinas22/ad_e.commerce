@@ -1,7 +1,7 @@
 import 'dart:async';
 
-import 'package:ad_e_commerce/features/product/bloc/productimagesilder/product_image_silder_state.dart';
-import 'package:ad_e_commerce/features/product/bloc/productimagesilder/product_image_slider_event.dart';
+import 'package:aerstore/features/product/bloc/productimagesilder/product_image_silder_state.dart';
+import 'package:aerstore/features/product/bloc/productimagesilder/product_image_slider_event.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class ProductImageSilderBloc

@@ -1,6 +1,6 @@
-import 'package:ad_e_commerce/features/home/models/banner_model.dart';
-import 'package:ad_e_commerce/features/home/domain/enitites/banner_entity.dart';
-import 'package:ad_e_commerce/features/home/domain/repositories/banner_repository.dart';
+import 'package:aerstore/features/home/models/banner_model.dart';
+import 'package:aerstore/features/home/domain/enitites/banner_entity.dart';
+import 'package:aerstore/features/home/domain/repositories/banner_repository.dart';
 
 import '../../../../core/error/exceptions.dart';
 import '../datasource/banner_remote_datasource.dart';

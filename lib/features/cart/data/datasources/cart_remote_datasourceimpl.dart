@@ -1,7 +1,7 @@
-import 'package:ad_e_commerce/core/utils/app_logger.dart';
-import 'package:ad_e_commerce/features/cart/data/datasources/cart_remote_datasource.dart';
-import 'package:ad_e_commerce/features/cart/data/models/cart_item_model.dart';
-import 'package:ad_e_commerce/features/cart/domain/enities/cart_item.dart';
+import 'package:aerstore/core/utils/app_logger.dart';
+import 'package:aerstore/features/cart/data/datasources/cart_remote_datasource.dart';
+import 'package:aerstore/features/cart/data/models/cart_item_model.dart';
+import 'package:aerstore/features/cart/domain/enities/cart_item.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 class CartRemoteDatasourceimpl implements CartRemoteDataSource {

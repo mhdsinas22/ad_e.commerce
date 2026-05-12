@@ -1,4 +1,4 @@
-import 'package:ad_e_commerce/features/profile/domain/enitites/wallet/wallet.dart';
+import 'package:aerstore/features/profile/domain/enitites/wallet/wallet.dart';
 
 class WalletModel extends Wallet {
   WalletModel({

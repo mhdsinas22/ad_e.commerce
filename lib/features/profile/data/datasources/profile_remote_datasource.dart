@@ -1,7 +1,7 @@
 import 'dart:io';
 import 'package:supabase_flutter/supabase_flutter.dart';
-import 'package:ad_e_commerce/core/error/failures.dart';
-import 'package:ad_e_commerce/data/models/user_model.dart';
+import 'package:aerstore/core/error/failures.dart';
+import 'package:aerstore/data/models/user_model.dart';
 
 abstract class ProfileRemoteDataSource {
   Future<UserModel> getProfile(String userId);

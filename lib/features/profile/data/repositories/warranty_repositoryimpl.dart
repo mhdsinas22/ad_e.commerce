@@ -1,10 +1,10 @@
-import 'package:ad_e_commerce/core/utils/app_logger.dart';
-import 'package:ad_e_commerce/features/profile/data/datasource/warranty_remote_datasource.dart';
-import 'package:ad_e_commerce/features/profile/data/models/warranty_card_mode.dart';
-import 'package:ad_e_commerce/features/profile/data/models/warranty_model.dart';
-import 'package:ad_e_commerce/features/profile/domain/enitites/wallet/warranty.dart';
-import 'package:ad_e_commerce/features/profile/domain/enitites/warranty_card.dart';
-import 'package:ad_e_commerce/features/profile/domain/repositories/warranty_repository.dart';
+import 'package:aerstore/core/utils/app_logger.dart';
+import 'package:aerstore/features/profile/data/datasource/warranty_remote_datasource.dart';
+import 'package:aerstore/features/profile/data/models/warranty_card_mode.dart';
+import 'package:aerstore/features/profile/data/models/warranty_model.dart';
+import 'package:aerstore/features/profile/domain/enitites/wallet/warranty.dart';
+import 'package:aerstore/features/profile/domain/enitites/warranty_card.dart';
+import 'package:aerstore/features/profile/domain/repositories/warranty_repository.dart';
 
 class WarrantyRepositoryimpl implements WarrantyRepository {
   final WarrantyRemoteDatasource warrantyRemoteDatasource;

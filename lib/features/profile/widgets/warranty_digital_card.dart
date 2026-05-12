@@ -1,6 +1,6 @@
-import 'package:ad_e_commerce/core/constants/asset_constants.dart';
-import 'package:ad_e_commerce/core/theme/app_colors.dart';
-import 'package:ad_e_commerce/core/utils/helpers.dart';
+import 'package:aerstore/core/constants/asset_constants.dart';
+import 'package:aerstore/core/theme/app_colors.dart';
+import 'package:aerstore/core/utils/helpers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 

@@ -1,6 +1,6 @@
 // product_warranty_repository.dart
 
-import 'package:ad_e_commerce/features/product/domain/entites/product_warranty.dart';
+import 'package:aerstore/features/product/domain/entites/product_warranty.dart';
 
 abstract class ProductWarrantyRepository {
   /// Add warranties for a product

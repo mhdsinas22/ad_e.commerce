@@ -1,6 +1,6 @@
-import 'package:ad_e_commerce/features/orders/data/models/order_item_model.dart';
-import 'package:ad_e_commerce/features/orders/data/models/order_logistics_model.dart';
-import 'package:ad_e_commerce/features/orders/domain/enities/orders.dart';
+import 'package:aerstore/features/orders/data/models/order_item_model.dart';
+import 'package:aerstore/features/orders/data/models/order_logistics_model.dart';
+import 'package:aerstore/features/orders/domain/enities/orders.dart';
 
 class OrderModel extends Orders {
   OrderModel({

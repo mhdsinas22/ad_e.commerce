@@ -1,4 +1,4 @@
-import 'package:ad_e_commerce/features/repair/domain/entities/repair_request_entity.dart';
+import 'package:aerstore/features/repair/domain/entities/repair_request_entity.dart';
 
 class RepairRequestModel extends RepairRequestEntity {
   const RepairRequestModel({

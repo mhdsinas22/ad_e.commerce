@@ -1,8 +1,8 @@
-import 'package:ad_e_commerce/core/utils/app_logger.dart';
-import 'package:ad_e_commerce/features/home/bloc/banners/banner_event.dart';
-import 'package:ad_e_commerce/features/home/bloc/banners/banner_state.dart';
-import 'package:ad_e_commerce/features/home/domain/repositories/airdropbenfits_repository.dart';
-import 'package:ad_e_commerce/features/home/domain/repositories/banner_repository.dart';
+import 'package:aerstore/core/utils/app_logger.dart';
+import 'package:aerstore/features/home/bloc/banners/banner_event.dart';
+import 'package:aerstore/features/home/bloc/banners/banner_state.dart';
+import 'package:aerstore/features/home/domain/repositories/airdropbenfits_repository.dart';
+import 'package:aerstore/features/home/domain/repositories/banner_repository.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class BannerBloc extends Bloc<BannerEvent, BannerState> {

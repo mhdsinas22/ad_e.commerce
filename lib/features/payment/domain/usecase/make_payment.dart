@@ -1,5 +1,5 @@
-import 'package:ad_e_commerce/core/utils/app_logger.dart';
-import 'package:ad_e_commerce/features/payment/domain/repository/payment_repository.dart';
+import 'package:aerstore/core/utils/app_logger.dart';
+import 'package:aerstore/features/payment/domain/repository/payment_repository.dart';
 
 class MakePayment {
   final PaymentRepository repository;

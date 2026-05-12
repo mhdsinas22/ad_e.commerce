@@ -1,7 +1,7 @@
 // ignore: avoid_web_libraries_in_flutter
 import 'dart:js' as js;
 
-import 'package:ad_e_commerce/core/utils/app_logger.dart';
+import 'package:aerstore/core/utils/app_logger.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 class RazorpayWeb {

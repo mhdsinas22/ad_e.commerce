@@ -1,4 +1,4 @@
-import 'package:ad_e_commerce/core/common/widgets/shimmer/app_shimmer.dart';
+import 'package:aerstore/core/common/widgets/shimmer/app_shimmer.dart';
 import 'package:flutter/material.dart';
 
 class ShimmerProductGrid extends StatelessWidget {

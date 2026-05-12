@@ -1,8 +1,8 @@
-import 'package:ad_e_commerce/core/constants/asset_constants.dart';
-import 'package:ad_e_commerce/core/theme/app_colors.dart';
-import 'package:ad_e_commerce/core/widgets/app_text.dart';
-import 'package:ad_e_commerce/features/profile/bloc/wallet/wallet_bloc.dart';
-import 'package:ad_e_commerce/features/profile/bloc/wallet/wallet_state.dart';
+import 'package:aerstore/core/constants/asset_constants.dart';
+import 'package:aerstore/core/theme/app_colors.dart';
+import 'package:aerstore/core/widgets/app_text.dart';
+import 'package:aerstore/features/profile/bloc/wallet/wallet_bloc.dart';
+import 'package:aerstore/features/profile/bloc/wallet/wallet_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';

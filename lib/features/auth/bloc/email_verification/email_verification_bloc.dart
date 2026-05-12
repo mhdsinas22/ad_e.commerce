@@ -1,4 +1,4 @@
-import 'package:ad_e_commerce/data/repositories/auth_repository.dart';
+import 'package:aerstore/data/repositories/auth_repository.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 part 'email_verification_event.dart';

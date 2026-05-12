@@ -1,7 +1,7 @@
-import 'package:ad_e_commerce/core/theme/app_colors.dart';
-import 'package:ad_e_commerce/core/widgets/app_text.dart';
-import 'package:ad_e_commerce/features/checkout/domain/enitites/address_entity.dart';
-import 'package:ad_e_commerce/core/constants/indian_states.dart';
+import 'package:aerstore/core/theme/app_colors.dart';
+import 'package:aerstore/core/widgets/app_text.dart';
+import 'package:aerstore/features/checkout/domain/enitites/address_entity.dart';
+import 'package:aerstore/core/constants/indian_states.dart';
 import 'package:flutter/material.dart';
 
 class AddressSection extends StatefulWidget {

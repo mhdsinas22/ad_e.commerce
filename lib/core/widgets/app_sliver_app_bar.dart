@@ -1,8 +1,8 @@
-import 'package:ad_e_commerce/core/constants/app_icons.dart';
+import 'package:aerstore/core/constants/app_icons.dart';
 import 'package:go_router/go_router.dart';
-import 'package:ad_e_commerce/core/widgets/app_text.dart';
-import 'package:ad_e_commerce/core/widgets/circular_arrow_button.dart';
-import 'package:ad_e_commerce/features/search/widgets/search_bar.dart';
+import 'package:aerstore/core/widgets/app_text.dart';
+import 'package:aerstore/core/widgets/circular_arrow_button.dart';
+import 'package:aerstore/features/search/widgets/search_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import '../constants/asset_constants.dart';

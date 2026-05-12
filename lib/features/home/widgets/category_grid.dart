@@ -1,6 +1,6 @@
-import 'package:ad_e_commerce/core/utils/helpers.dart';
-import 'package:ad_e_commerce/features/home/models/category_model.dart';
-import 'package:ad_e_commerce/features/home/widgets/category_card.dart';
+import 'package:aerstore/core/utils/helpers.dart';
+import 'package:aerstore/features/home/models/category_model.dart';
+import 'package:aerstore/features/home/widgets/category_card.dart';
 import 'package:flutter/material.dart';
 
 class CategoryGrid extends StatelessWidget {

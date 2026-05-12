@@ -1,10 +1,10 @@
-import 'package:ad_e_commerce/core/widgets/circular_arrow_button.dart';
-import 'package:ad_e_commerce/data/repositories/auth_repository.dart';
-import 'package:ad_e_commerce/features/auth/bloc/forgot_password/forgot_password_bloc.dart';
-import 'package:ad_e_commerce/features/auth/bloc/forgot_password/forgot_password_event.dart';
-import 'package:ad_e_commerce/features/auth/bloc/forgot_password/forgot_password_state.dart';
-import 'package:ad_e_commerce/features/profile/widgets/profle_side_appbar.dart';
-import 'package:ad_e_commerce/core/routes/route_names.dart';
+import 'package:aerstore/core/widgets/circular_arrow_button.dart';
+import 'package:aerstore/data/repositories/auth_repository.dart';
+import 'package:aerstore/features/auth/bloc/forgot_password/forgot_password_bloc.dart';
+import 'package:aerstore/features/auth/bloc/forgot_password/forgot_password_event.dart';
+import 'package:aerstore/features/auth/bloc/forgot_password/forgot_password_state.dart';
+import 'package:aerstore/features/profile/widgets/profle_side_appbar.dart';
+import 'package:aerstore/core/routes/route_names.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';

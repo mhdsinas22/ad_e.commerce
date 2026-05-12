@@ -1,7 +1,7 @@
-import 'package:ad_e_commerce/core/theme/app_colors.dart';
-import 'package:ad_e_commerce/core/widgets/app_text_form_field.dart';
-import 'package:ad_e_commerce/features/search/bloc/search_bloc.dart';
-import 'package:ad_e_commerce/features/search/bloc/search_event.dart';
+import 'package:aerstore/core/theme/app_colors.dart';
+import 'package:aerstore/core/widgets/app_text_form_field.dart';
+import 'package:aerstore/features/search/bloc/search_bloc.dart';
+import 'package:aerstore/features/search/bloc/search_event.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';

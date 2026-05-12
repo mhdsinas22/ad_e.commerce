@@ -1,6 +1,6 @@
-import 'package:ad_e_commerce/features/home/data/datasource/testimonial_remote_datasoure.dart';
-import 'package:ad_e_commerce/features/home/data/repository/testimonials_model.dart';
-import 'package:ad_e_commerce/features/home/domain/repositories/testmonial_repository.dart';
+import 'package:aerstore/features/home/data/datasource/testimonial_remote_datasoure.dart';
+import 'package:aerstore/features/home/data/repository/testimonials_model.dart';
+import 'package:aerstore/features/home/domain/repositories/testmonial_repository.dart';
 
 class TestmonialRepositoryimpl implements TestmonialRepository {
   final TestimonialRemoteDatasoure remote;

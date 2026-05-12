@@ -1,6 +1,6 @@
-import 'package:ad_e_commerce/core/common/widgets/shimmer/app_shimmer.dart';
-import 'package:ad_e_commerce/core/widgets/app_text.dart';
-import 'package:ad_e_commerce/features/product/widgets/product_image_carousel.dart';
+import 'package:aerstore/core/common/widgets/shimmer/app_shimmer.dart';
+import 'package:aerstore/core/widgets/app_text.dart';
+import 'package:aerstore/features/product/widgets/product_image_carousel.dart';
 import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 

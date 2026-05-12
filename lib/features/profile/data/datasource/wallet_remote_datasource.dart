@@ -1,6 +1,6 @@
-import 'package:ad_e_commerce/features/profile/data/models/reward_points_model.dart';
-import 'package:ad_e_commerce/features/profile/data/models/wallet_model.dart';
-import 'package:ad_e_commerce/features/profile/data/models/wallet_transaction_model.dart';
+import 'package:aerstore/features/profile/data/models/reward_points_model.dart';
+import 'package:aerstore/features/profile/data/models/wallet_model.dart';
+import 'package:aerstore/features/profile/data/models/wallet_transaction_model.dart';
 
 abstract class WalletRemoteDataSource {
   Future<WalletModel> getWallet(String userId);

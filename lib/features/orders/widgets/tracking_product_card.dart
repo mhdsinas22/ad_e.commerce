@@ -1,7 +1,7 @@
-import 'package:ad_e_commerce/core/theme/app_colors.dart';
-import 'package:ad_e_commerce/core/widgets/app_text.dart';
-import 'package:ad_e_commerce/features/orders/domain/enities/order_item.dart';
-import 'package:ad_e_commerce/features/orders/domain/enities/orders.dart';
+import 'package:aerstore/core/theme/app_colors.dart';
+import 'package:aerstore/core/widgets/app_text.dart';
+import 'package:aerstore/features/orders/domain/enities/order_item.dart';
+import 'package:aerstore/features/orders/domain/enities/orders.dart';
 import 'package:flutter/material.dart';
 
 class TrackingProductCard extends StatelessWidget {

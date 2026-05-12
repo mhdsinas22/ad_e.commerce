@@ -1,10 +1,10 @@
 import 'dart:io';
 import 'package:fpdart/fpdart.dart';
-import 'package:ad_e_commerce/core/error/failures.dart';
-import 'package:ad_e_commerce/data/models/user_model.dart';
-import 'package:ad_e_commerce/domain/entities/user_entity.dart';
-import 'package:ad_e_commerce/features/profile/data/datasources/profile_remote_datasource.dart';
-import 'package:ad_e_commerce/features/profile/domain/repositories/profile_repository.dart';
+import 'package:aerstore/core/error/failures.dart';
+import 'package:aerstore/data/models/user_model.dart';
+import 'package:aerstore/domain/entities/user_entity.dart';
+import 'package:aerstore/features/profile/data/datasources/profile_remote_datasource.dart';
+import 'package:aerstore/features/profile/domain/repositories/profile_repository.dart';
 
 class ProfileRepositoryImpl implements ProfileRepository {
   final ProfileRemoteDataSource remoteDataSource;

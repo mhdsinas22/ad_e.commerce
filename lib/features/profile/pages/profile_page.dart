@@ -1,9 +1,9 @@
-import 'package:ad_e_commerce/core/constants/asset_constants.dart';
-import 'package:ad_e_commerce/core/routes/route_names.dart';
-import 'package:ad_e_commerce/core/utils/helpers.dart';
-import 'package:ad_e_commerce/core/widgets/app_text.dart';
-import 'package:ad_e_commerce/features/profile/widgets/profile_menu_item.dart';
-import 'package:ad_e_commerce/features/profile/widgets/store_card.dart';
+import 'package:aerstore/core/constants/asset_constants.dart';
+import 'package:aerstore/core/routes/route_names.dart';
+import 'package:aerstore/core/utils/helpers.dart';
+import 'package:aerstore/core/widgets/app_text.dart';
+import 'package:aerstore/features/profile/widgets/profile_menu_item.dart';
+import 'package:aerstore/features/profile/widgets/store_card.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';

@@ -1,8 +1,8 @@
-import 'package:ad_e_commerce/core/error/exceptions.dart';
-import 'package:ad_e_commerce/core/utils/app_logger.dart';
-import 'package:ad_e_commerce/features/home/data/datasource/airdropbenfites_remote_datasoure.dart';
-import 'package:ad_e_commerce/features/home/models/airdropbenfites_model.dart';
-import 'package:ad_e_commerce/features/home/domain/enitites/airdropbenfites_entity.dart';
+import 'package:aerstore/core/error/exceptions.dart';
+import 'package:aerstore/core/utils/app_logger.dart';
+import 'package:aerstore/features/home/data/datasource/airdropbenfites_remote_datasoure.dart';
+import 'package:aerstore/features/home/models/airdropbenfites_model.dart';
+import 'package:aerstore/features/home/domain/enitites/airdropbenfites_entity.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 class AirdropbenfitesRemoteDatasoureimpl

@@ -1,4 +1,4 @@
-import 'package:ad_e_commerce/features/product/domain/entites/warranty_types.dart';
+import 'package:aerstore/features/product/domain/entites/warranty_types.dart';
 
 class WarrantyTypesModel extends WarrantyTypes {
   const WarrantyTypesModel({super.id, required super.name});

@@ -1,12 +1,12 @@
-import 'package:ad_e_commerce/core/theme/app_colors.dart';
-import 'package:ad_e_commerce/features/auth/bloc/reset_password/reset_password_bloc.dart';
-import 'package:ad_e_commerce/features/auth/bloc/reset_password/reset_password_event.dart';
-import 'package:ad_e_commerce/features/auth/bloc/reset_password/reset_password_state.dart';
+import 'package:aerstore/core/theme/app_colors.dart';
+import 'package:aerstore/features/auth/bloc/reset_password/reset_password_bloc.dart';
+import 'package:aerstore/features/auth/bloc/reset_password/reset_password_event.dart';
+import 'package:aerstore/features/auth/bloc/reset_password/reset_password_state.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
-import 'package:ad_e_commerce/core/routes/route_names.dart';
+import 'package:aerstore/core/routes/route_names.dart';
 
 class ResetPasswordPage extends StatefulWidget {
   const ResetPasswordPage({super.key});

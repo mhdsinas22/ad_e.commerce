@@ -1,8 +1,8 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:ad_e_commerce/features/repair/domain/entities/repair_request_entity.dart';
-import 'package:ad_e_commerce/features/repair/domain/repositories/repair_repository.dart';
+import 'package:aerstore/features/repair/domain/entities/repair_request_entity.dart';
+import 'package:aerstore/features/repair/domain/repositories/repair_repository.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 // --- Events ---

@@ -1,7 +1,7 @@
-import 'package:ad_e_commerce/core/utils/app_logger.dart';
-import 'package:ad_e_commerce/features/profile/bloc/wallet/wallet_event.dart';
-import 'package:ad_e_commerce/features/profile/bloc/wallet/wallet_state.dart';
-import 'package:ad_e_commerce/features/profile/domain/repositories/wallet_repo.dart';
+import 'package:aerstore/core/utils/app_logger.dart';
+import 'package:aerstore/features/profile/bloc/wallet/wallet_event.dart';
+import 'package:aerstore/features/profile/bloc/wallet/wallet_state.dart';
+import 'package:aerstore/features/profile/domain/repositories/wallet_repo.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class WalletBloc extends Bloc<WalletEvent, WalletState> {

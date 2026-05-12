@@ -1,7 +1,7 @@
-import 'package:ad_e_commerce/features/product/bloc/proudctbloc/product_bloc.dart';
+import 'package:aerstore/features/product/bloc/proudctbloc/product_bloc.dart';
 
-import 'package:ad_e_commerce/features/search/bloc/search_event.dart';
-import 'package:ad_e_commerce/features/search/bloc/search_state.dart';
+import 'package:aerstore/features/search/bloc/search_event.dart';
+import 'package:aerstore/features/search/bloc/search_state.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class SearchBloc extends Bloc<SearchEvent, SearchState> {

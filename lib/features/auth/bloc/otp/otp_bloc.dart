@@ -1,10 +1,10 @@
 // ignore_for_file: unused_element
 import 'dart:async';
-import 'package:ad_e_commerce/core/services/notification_service.dart';
-import 'package:ad_e_commerce/features/auth/bloc/otp/otp_event.dart';
-import 'package:ad_e_commerce/features/auth/bloc/otp/otp_state.dart';
-import 'package:ad_e_commerce/features/cart/domain/repositories/cart_repository.dart';
-import 'package:ad_e_commerce/features/profile/data/datasource/wallet_remote_datasource.dart';
+import 'package:aerstore/core/services/notification_service.dart';
+import 'package:aerstore/features/auth/bloc/otp/otp_event.dart';
+import 'package:aerstore/features/auth/bloc/otp/otp_state.dart';
+import 'package:aerstore/features/cart/domain/repositories/cart_repository.dart';
+import 'package:aerstore/features/profile/data/datasource/wallet_remote_datasource.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 

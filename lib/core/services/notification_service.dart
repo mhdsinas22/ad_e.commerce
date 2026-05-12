@@ -1,5 +1,5 @@
-import 'package:ad_e_commerce/core/utils/app_logger.dart';
-import 'package:ad_e_commerce/features/notification/domain/repositories/notification_repository.dart';
+import 'package:aerstore/core/utils/app_logger.dart';
+import 'package:aerstore/features/notification/domain/repositories/notification_repository.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 
 class NotificationService {

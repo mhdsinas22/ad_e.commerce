@@ -1,5 +1,5 @@
-import 'package:ad_e_commerce/core/routes/router_confiq.dart';
-import 'package:ad_e_commerce/core/theme/app_colors.dart';
+import 'package:aerstore/core/routes/router_confiq.dart';
+import 'package:aerstore/core/theme/app_colors.dart';
 import 'package:flutter/material.dart';
 
 class MyApp extends StatefulWidget {

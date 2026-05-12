@@ -1,4 +1,4 @@
-import 'package:ad_e_commerce/features/home/models/banner_model.dart';
+import 'package:aerstore/features/home/models/banner_model.dart';
 
 abstract class BannerRemoteDataSource {
   Future<List<BannerModel>> getBanners();

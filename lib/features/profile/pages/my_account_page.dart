@@ -1,7 +1,7 @@
-import 'package:ad_e_commerce/core/routes/route_names.dart';
-import 'package:ad_e_commerce/core/utils/helpers.dart';
-import 'package:ad_e_commerce/features/profile/widgets/profile_menu_item.dart';
-import 'package:ad_e_commerce/features/profile/widgets/profle_side_appbar.dart';
+import 'package:aerstore/core/routes/route_names.dart';
+import 'package:aerstore/core/utils/helpers.dart';
+import 'package:aerstore/features/profile/widgets/profile_menu_item.dart';
+import 'package:aerstore/features/profile/widgets/profle_side_appbar.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
