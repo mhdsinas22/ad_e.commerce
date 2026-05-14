@@ -18,6 +18,7 @@ class AppTextFormField extends StatelessWidget {
   final double? height;
   final EdgeInsetsGeometry? padding;
   final FocusNode? focusNode;
+  final void Function(String)? onFieldSubmitted;
   const AppTextFormField({
     super.key,
     required this.hintText,
@@ -37,6 +38,7 @@ class AppTextFormField extends StatelessWidget {
     this.height,
     this.padding,
     this.focusNode,
+    this.onFieldSubmitted,
   });
 
   @override
@@ -55,6 +57,7 @@ class AppTextFormField extends StatelessWidget {
         obscureText: obscureText,
         validator: validator,
         onChanged: onChanged,
+        onFieldSubmitted: onFieldSubmitted,
         decoration: InputDecoration(
           hintText: hintText,
           prefixIcon: prefixIcon,

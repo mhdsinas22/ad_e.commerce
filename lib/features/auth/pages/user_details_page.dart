@@ -91,9 +91,7 @@ class _UserDetailsViewState extends State<_UserDetailsView> {
                     backgroundColor: Colors.green,
                   ),
                 );
-              context.pushReplacementNamed(
-                RouteNames.emailVerification,
-              );
+              context.pushReplacementNamed(RouteNames.emailVerification);
             });
             // Navigate to Home or Dashboard
           }

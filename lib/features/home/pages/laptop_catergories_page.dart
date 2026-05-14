@@ -34,14 +34,13 @@ class LaptopCatergoriesPageUi extends StatelessWidget {
     final List<Widget> cards = [
       OptionCard(
         onTap: () {
-          context.pushNamed(
-            RouteNames.categoryfiltredpage,
-            extra: {
-              "condition": PhoneCondition.empty,
-              "subCategory": SubCategory.macbook,
-              "isSubCategory": true,
-              "isFlashSale": false,
-            },
+          context.push(
+            '/${RouteNames.categoryfiltredpage}?'
+            'subcategory=${SubCategory.macbook.name}'
+            '&condition=${PhoneCondition.empty.name}'
+            '&isSubCategory=true'
+            '&isFlashSale=false'
+            '&search=',
           );
         },
         title: "Apple Macbook",
@@ -49,14 +48,13 @@ class LaptopCatergoriesPageUi extends StatelessWidget {
       ),
       OptionCard(
         onTap: () {
-          context.pushNamed(
-            RouteNames.categoryfiltredpage,
-            extra: {
-              "condition": PhoneCondition.empty,
-              "subCategory": SubCategory.windows,
-              "isSubCategory": true,
-              "isFlashSale": false,
-            },
+          context.push(
+            '/${RouteNames.categoryfiltredpage}?'
+            'subcategory=${SubCategory.windows.name}'
+            '&condition=${PhoneCondition.empty.name}'
+            '&isSubCategory=true'
+            '&isFlashSale=false'
+            '&search=',
           );
         },
         title: "Windows",

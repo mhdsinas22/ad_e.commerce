@@ -20,14 +20,13 @@ class CategoryListSection extends StatelessWidget {
         "image": AssetConstants.bestsellingmobilepng,
         "onTap": () {
           AppLogger.info("Best Selling click ");
-          context.pushNamed(
-            RouteNames.categoryfiltredpage,
-            extra: {
-              "subCategory": SubCategory.empty,
-              "condition": PhoneCondition.empty,
-              "isBestSeller": true,
-              "onlyPhones": true,
-            },
+          context.push(
+            '/${RouteNames.categoryfiltredpage}?'
+            'subcategory=${SubCategory.empty.name}'
+            '&condition=${PhoneCondition.empty.name}'
+            '&isBestSeller=true'
+            '&onlyPhones=true'
+            '&search=',
           );
         },
       },
@@ -37,15 +36,14 @@ class CategoryListSection extends StatelessWidget {
         "image": AssetConstants.bestsellinglaptoppng,
         "onTap": () {
           AppLogger.debug("LOOK it BEst Selling");
-          context.pushNamed(
-            RouteNames.categoryfiltredpage,
-            extra: {
-              "subCategory": SubCategory.empty,
-              "condition": PhoneCondition.empty,
-              "isBestSeller": true,
-              "onlyPhones": false,
-              "category": Category.laptop,
-            },
+          context.push(
+            '/${RouteNames.categoryfiltredpage}?'
+            'subcategory=${SubCategory.empty.name}'
+            '&condition=${PhoneCondition.empty.name}'
+            '&isBestSeller=true'
+            '&onlyPhones=false'
+            '&category=${Category.laptop.name}'
+            '&search=',
           );
         },
       },
@@ -54,15 +52,14 @@ class CategoryListSection extends StatelessWidget {
         "subtitle": "Wearable",
         "image": AssetConstants.smartbestsellingpng,
         "onTap": () {
-          context.pushNamed(
-            RouteNames.categoryfiltredpage,
-            extra: {
-              "subCategory": SubCategory.empty,
-              "condition": PhoneCondition.empty,
-              "isBestSeller": true,
-              "onlyPhones": false,
-              "category": Category.wearables,
-            },
+          context.push(
+            '/${RouteNames.categoryfiltredpage}?'
+            'subcategory=${SubCategory.empty.name}'
+            '&condition=${PhoneCondition.empty.name}'
+            '&isBestSeller=true'
+            '&onlyPhones=false'
+            '&category=${Category.wearables.name}'
+            '&search=',
           );
         },
       },
@@ -71,15 +68,14 @@ class CategoryListSection extends StatelessWidget {
         "subtitle": "Earbuds",
         "image": AssetConstants.earbudspng,
         "onTap": () {
-          context.pushNamed(
-            RouteNames.categoryfiltredpage,
-            extra: {
-              "subCategory": SubCategory.empty,
-              "condition": PhoneCondition.empty,
-              "isBestSeller": true,
-              "onlyPhones": false,
-              "category": Category.earbuds,
-            },
+          context.push(
+            '/${RouteNames.categoryfiltredpage}?'
+            'subcategory=${SubCategory.empty.name}'
+            '&condition=${PhoneCondition.empty.name}'
+            '&isBestSeller=true'
+            '&onlyPhones=false'
+            '&category=${Category.earbuds.name}'
+            '&search=',
           );
         },
       },
@@ -88,15 +84,14 @@ class CategoryListSection extends StatelessWidget {
         "subtitle": "Tablet",
         "image": AssetConstants.samsungtablsellerpng,
         "onTap": () {
-          context.pushNamed(
-            RouteNames.categoryfiltredpage,
-            extra: {
-              "subCategory": SubCategory.empty,
-              "condition": PhoneCondition.empty,
-              "isBestSeller": true,
-              "onlyPhones": false,
-              "category": Category.tablet,
-            },
+          context.push(
+            '/${RouteNames.categoryfiltredpage}?'
+            'subcategory=${SubCategory.empty.name}'
+            '&condition=${PhoneCondition.empty.name}'
+            '&isBestSeller=true'
+            '&onlyPhones=false'
+            '&category=${Category.tablet.name}'
+            '&search=',
           );
         },
       },
@@ -105,15 +100,14 @@ class CategoryListSection extends StatelessWidget {
         "subtitle": "Accessories",
         "image": AssetConstants.bestsellingCasespng,
         "onTap": () {
-          context.pushNamed(
-            RouteNames.categoryfiltredpage,
-            extra: {
-              "subCategory": SubCategory.empty,
-              "condition": PhoneCondition.empty,
-              "isBestSeller": true,
-              "onlyPhones": false,
-              "category": Category.accessories,
-            },
+          context.push(
+            '/${RouteNames.categoryfiltredpage}?'
+            'subcategory=${SubCategory.empty.name}'
+            '&condition=${PhoneCondition.empty.name}'
+            '&isBestSeller=true'
+            '&onlyPhones=false'
+            '&category=${Category.accessories.name}'
+            '&search=',
           );
         },
       },

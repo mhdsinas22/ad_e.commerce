@@ -18,25 +18,38 @@ import 'package:aerstore/features/product/domain/usecases/get_flashsale_product_
 import 'package:aerstore/features/product/domain/usecases/get_product_usecase.dart';
 import 'package:aerstore/features/profile/data/datasource/wallet_remote_datasource_impl.dart';
 import 'package:aerstore/features/profile/data/repositories/wallet_repo_impl.dart';
+import 'package:aerstore/features/orders/bloc/order_bloc.dart';
+import 'package:aerstore/features/orders/bloc/order_event.dart';
+import 'package:aerstore/features/orders/data/datasource/order_remote_datasouceimpl.dart';
+import 'package:aerstore/features/orders/data/repo/order_repo_impl.dart';
 import 'package:aerstore/firebase_options.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:go_router/go_router.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
+// ignore: depend_on_referenced_packages
+import 'package:flutter_web_plugins/url_strategy.dart';
 
 const supabaseUrl = String.fromEnvironment('SUPABASE_URL');
 const supabaseAnonKey = String.fromEnvironment('SUPABASE_ANON_KEY');
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  usePathUrlStrategy();
+  GoRouter.optionURLReflectsImperativeAPIs = true;
 
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   // Dotenv init
   await dotenv.load(fileName: ".env");
   // Supabase init
-  await Supabase.initialize(url: supabaseUrl, anonKey: supabaseAnonKey);
+  await Supabase.initialize(
+    url: "https://api.aerstore.in",
+    anonKey:
+        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InV1bXFoaXh2eXRka2lpaXV5aG5hIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjU3NzAxNTgsImV4cCI6MjA4MTM0NjE1OH0.lElvwN7psm2gaWpt2QFuAK6p2QR6-9RY1qWp_t9Y1Gw",
+  );
   // Hive init(Guest Cart)
   await Hive.initFlutter();
   await Hive.openBox("guest_cart");
@@ -57,6 +70,10 @@ void main() async {
   final getflashsaleproductusecase = GetFlashsaleProductUsecase(
     productRepository,
   );
+  final orderRepo = OrderRepoImpl(
+    remote: OrderRemoteDatasouceimpl(supabase: supabase),
+    walletRemoteDataSource: WalletRemoteDatasourceImpl(supabase),
+  );
   runApp(
     MultiBlocProvider(
       providers: [
@@ -65,6 +82,16 @@ void main() async {
               (context) =>
                   ProductBloc(getProductUsecase, getflashsaleproductusecase)
                     ..add(LoadProductsEvent()),
+        ),
+        BlocProvider(
+          create: (context) {
+            final bloc = OrderBloc(orderRepo);
+            final userid = supabase.auth.currentUser;
+            if (userid != null) {
+              bloc.add(LoadOrdersEvent(userid: userid.id));
+            }
+            return bloc;
+          },
         ),
         BlocProvider(
           create:

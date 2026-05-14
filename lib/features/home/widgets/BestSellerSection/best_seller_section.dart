@@ -67,18 +67,15 @@ class BestSellersSection extends StatelessWidget {
               imagePath: item["imagePath"]!,
               backgroundColor: AppColors.primaryBlack,
               onTap: () {
-                context.pushNamed(
-                  RouteNames.categoryfiltredpage,
-                  extra: {
-                    "condition": PhoneCondition.empty,
-                    "subCategory": SubCategory.empty,
-                    "isBestSeller": true,
-                    "category": Category.phones,
-                    "priceTYpe": item["label"],
-                    "priceAmount": int.parse(
-                      item["price"]!.replaceAll(",", ""),
-                    ),
-                  },
+                context.push(
+                  '/${RouteNames.categoryfiltredpage}?'
+                  'subcategory=${SubCategory.empty.name}'
+                  '&condition=${PhoneCondition.empty.name}'
+                  '&isBestSeller=true'
+                  '&category=${Category.phones.name}'
+                  '&priceTYpe=${item["label"]}'
+                  '&priceAmount=${int.parse(item["price"]!.replaceAll(",", ""))}'
+                  '&search=',
                 );
               },
             );

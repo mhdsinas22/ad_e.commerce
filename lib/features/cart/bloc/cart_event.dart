@@ -46,3 +46,15 @@ class ApplyWalletEvent extends CartEvent {
   final double walletAmount;
   ApplyWalletEvent(this.walletAmount);
 }
+
+class CartItemUpdateFailedEvent extends CartEvent {
+  final String error;
+  final List<dynamic> originalItems;
+  CartItemUpdateFailedEvent({required this.error, required this.originalItems});
+}
+
+class CartItemRemoveFailedEvent extends CartEvent {
+  final String error;
+  final List<dynamic> originalItems;
+  CartItemRemoveFailedEvent({required this.error, required this.originalItems});
+}

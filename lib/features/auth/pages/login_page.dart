@@ -100,7 +100,7 @@ class _LoginFormState extends State<_LoginForm> {
                         alignment: Alignment.centerRight,
                         child: TextButton(
                           onPressed: () {
-                              context.pushNamed(RouteNames.forgotPassword);
+                            context.pushNamed(RouteNames.forgotPassword);
                           },
                           child: AppTexts.medium(
                             "Forgot Password?",
@@ -122,7 +122,9 @@ class _LoginFormState extends State<_LoginForm> {
                       Center(
                         child: TextButton(
                           onPressed: () {
-                              context.pushReplacementNamed(RouteNames.onboardingstartpage);
+                            context.pushReplacementNamed(
+                              RouteNames.onboardingstartpage,
+                            );
                           },
                           child: AppTexts.medium("Cancel", color: Colors.grey),
                         ),

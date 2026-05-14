@@ -35,14 +35,13 @@ class AccesoriesCategoriesPageUi extends StatelessWidget {
       OptionCard(
         isVertical: true,
         onTap: () {
-          context.pushNamed(
-            RouteNames.categoryfiltredpage,
-            extra: {
-              "condition": PhoneCondition.empty,
-              "subCategory": SubCategory.casescover,
-              "isSubCategory": true,
-              "isFlashSale": false,
-            },
+          context.push(
+            '/${RouteNames.categoryfiltredpage}?'
+            'subcategory=${SubCategory.casescover.name}'
+            '&condition=${PhoneCondition.empty.name}'
+            '&isSubCategory=true'
+            '&isFlashSale=false'
+            '&search=',
           );
         },
         title: "Cases&\n Cover",
@@ -51,14 +50,13 @@ class AccesoriesCategoriesPageUi extends StatelessWidget {
       OptionCard(
         isVertical: true,
         onTap: () {
-          context.pushNamed(
-            RouteNames.categoryfiltredpage,
-            extra: {
-              "condition": PhoneCondition.empty,
-              "subCategory": SubCategory.mobilechargers,
-              "isSubCategory": true,
-              "isFlashSale": false,
-            },
+          context.push(
+            '/${RouteNames.categoryfiltredpage}?'
+            'subcategory=${SubCategory.mobilechargers.name}'
+            '&condition=${PhoneCondition.empty.name}'
+            '&isSubCategory=true'
+            '&isFlashSale=false'
+            '&search=',
           );
         },
         title: "Mobile\nChargers",
@@ -67,14 +65,13 @@ class AccesoriesCategoriesPageUi extends StatelessWidget {
       OptionCard(
         isVertical: true,
         onTap: () {
-          context.pushNamed(
-            RouteNames.categoryfiltredpage,
-            extra: {
-              "condition": PhoneCondition.empty,
-              "subCategory": SubCategory.speaker,
-              "isSubCategory": true,
-              "isFlashSale": false,
-            },
+          context.push(
+            '/${RouteNames.categoryfiltredpage}?'
+            'subcategory=${SubCategory.speaker.name}'
+            '&condition=${PhoneCondition.empty.name}'
+            '&isSubCategory=true'
+            '&isFlashSale=false'
+            '&search=',
           );
         },
         title: "Speaker",
@@ -83,14 +80,13 @@ class AccesoriesCategoriesPageUi extends StatelessWidget {
       OptionCard(
         isVertical: true,
         onTap: () {
-          context.pushNamed(
-            RouteNames.categoryfiltredpage,
-            extra: {
-              "condition": PhoneCondition.empty,
-              "subCategory": SubCategory.audio,
-              "isSubCategory": true,
-              "isFlashSale": false,
-            },
+          context.push(
+            '/${RouteNames.categoryfiltredpage}?'
+            'subcategory=${SubCategory.audio.name}'
+            '&condition=${PhoneCondition.empty.name}'
+            '&isSubCategory=true'
+            '&isFlashSale=false'
+            '&search=',
           );
         },
         title: "Audio",
@@ -99,14 +95,13 @@ class AccesoriesCategoriesPageUi extends StatelessWidget {
       OptionCard(
         isVertical: true,
         onTap: () {
-          context.pushNamed(
-            RouteNames.categoryfiltredpage,
-            extra: {
-              "condition": PhoneCondition.empty,
-              "subCategory": SubCategory.powerbank,
-              "isSubCategory": true,
-              "isFlashSale": false,
-            },
+          context.push(
+            '/${RouteNames.categoryfiltredpage}?'
+            'subcategory=${SubCategory.powerbank.name}'
+            '&condition=${PhoneCondition.empty.name}'
+            '&isSubCategory=true'
+            '&isFlashSale=false'
+            '&search=',
           );
         },
         title: "Power Bank",
@@ -115,14 +110,13 @@ class AccesoriesCategoriesPageUi extends StatelessWidget {
       OptionCard(
         isVertical: true,
         onTap: () {
-          context.pushNamed(
-            RouteNames.categoryfiltredpage,
-            extra: {
-              "condition": PhoneCondition.empty,
-              "subCategory": SubCategory.bag,
-              "isSubCategory": true,
-              "isFlashSale": false,
-            },
+          context.push(
+            '/${RouteNames.categoryfiltredpage}?'
+            'subcategory=${SubCategory.bag.name}'
+            '&condition=${PhoneCondition.empty.name}'
+            '&isSubCategory=true'
+            '&isFlashSale=false'
+            '&search=',
           );
         },
         title: "Bag",

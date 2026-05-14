@@ -38,16 +38,19 @@ class IssueSelectPage extends StatelessWidget {
                 childAspectRatio: 5.5,
                 crossAxisSpacing: 8,
                 mainAxisSpacing: 4,
-                children: issues.map((issue) {
-                  final isSelected = state.selectedIssues.contains(issue);
-                  return IssueRadioLikeTile(
-                    selected: isSelected,
-                    title: issue,
-                    onTap: () {
-                      context.read<IssueBloc>().add(ToggleIssue(issue: issue));
-                    },
-                  );
-                }).toList(),
+                children:
+                    issues.map((issue) {
+                      final isSelected = state.selectedIssues.contains(issue);
+                      return IssueRadioLikeTile(
+                        selected: isSelected,
+                        title: issue,
+                        onTap: () {
+                          context.read<IssueBloc>().add(
+                            ToggleIssue(issue: issue),
+                          );
+                        },
+                      );
+                    }).toList(),
               );
             } else if (isTablet) {
               // Tablet: 2-column grid of issue tiles
@@ -58,16 +61,19 @@ class IssueSelectPage extends StatelessWidget {
                 childAspectRatio: 5.5,
                 crossAxisSpacing: 8,
                 mainAxisSpacing: 4,
-                children: issues.map((issue) {
-                  final isSelected = state.selectedIssues.contains(issue);
-                  return IssueRadioLikeTile(
-                    selected: isSelected,
-                    title: issue,
-                    onTap: () {
-                      context.read<IssueBloc>().add(ToggleIssue(issue: issue));
-                    },
-                  );
-                }).toList(),
+                children:
+                    issues.map((issue) {
+                      final isSelected = state.selectedIssues.contains(issue);
+                      return IssueRadioLikeTile(
+                        selected: isSelected,
+                        title: issue,
+                        onTap: () {
+                          context.read<IssueBloc>().add(
+                            ToggleIssue(issue: issue),
+                          );
+                        },
+                      );
+                    }).toList(),
               );
             }
 
@@ -75,21 +81,22 @@ class IssueSelectPage extends StatelessWidget {
             return Align(
               alignment: Alignment.topLeft,
               child: Column(
-                children: issues.map((issue) {
-                  final isSelected = state.selectedIssues.contains(issue);
-                  return Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 2.0),
-                    child: IssueRadioLikeTile(
-                      selected: isSelected,
-                      title: issue,
-                      onTap: () {
-                        context.read<IssueBloc>().add(
-                          ToggleIssue(issue: issue),
-                        );
-                      },
-                    ),
-                  );
-                }).toList(),
+                children:
+                    issues.map((issue) {
+                      final isSelected = state.selectedIssues.contains(issue);
+                      return Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 2.0),
+                        child: IssueRadioLikeTile(
+                          selected: isSelected,
+                          title: issue,
+                          onTap: () {
+                            context.read<IssueBloc>().add(
+                              ToggleIssue(issue: issue),
+                            );
+                          },
+                        ),
+                      );
+                    }).toList(),
               ),
             );
           },

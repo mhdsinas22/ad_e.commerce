@@ -24,7 +24,8 @@ import '../widgets/repair_image_picker.dart';
 import '../widgets/repair_submit_button.dart';
 
 class RepairPage extends StatelessWidget {
-  const RepairPage({super.key});
+  final VoidCallback onCartTap;
+  const RepairPage({super.key, required this.onCartTap});
 
   @override
   Widget build(BuildContext context) {
@@ -44,13 +45,14 @@ class RepairPage extends StatelessWidget {
               ),
         ),
       ],
-      child: const RepairPageView(),
+      child: RepairPageView(onCartTap: onCartTap),
     );
   }
 }
 
 class RepairPageView extends StatefulWidget {
-  const RepairPageView({super.key});
+  final VoidCallback onCartTap;
+  const RepairPageView({super.key, required this.onCartTap});
 
   @override
   State<RepairPageView> createState() => _RepairPageViewState();
@@ -80,9 +82,9 @@ class _RepairPageViewState extends State<RepairPageView> {
   void _submitRepair(BuildContext context) {
     if (!_formKey.currentState!.validate()) return;
     if (_selectedLocation == null || _selectedLocation!.isEmpty) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Please select location')),
-      );
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(const SnackBar(content: Text('Please select location')));
       return;
     }
     final imageState = context.read<RepairImageBloc>().state;
@@ -152,7 +154,10 @@ class _RepairPageViewState extends State<RepairPageView> {
           key: _formKey,
           child: CustomScrollView(
             slivers: [
-              AppSliverAppBar(showSearchIcon: true),
+              AppSliverAppBar(
+                showSearchIcon: true,
+                onCartTap: widget.onCartTap,
+              ),
               SliverToBoxAdapter(
                 child: Center(
                   child: Container(
@@ -335,9 +340,7 @@ class _RepairPageViewState extends State<RepairPageView> {
                   color: AppColors.grayColor,
                 ),
                 const SizedBox(height: 16),
-                RepairSubmitButton(
-                  onPressed: () => _submitRepair(context),
-                ),
+                RepairSubmitButton(onPressed: () => _submitRepair(context)),
               ],
             ),
           ),
@@ -421,8 +424,7 @@ class _RepairPageViewState extends State<RepairPageView> {
             hintText: 'Enter Name',
             maxLines: 1,
             validator:
-                (value) =>
-                    Validators.requiredField(value, fieldName: 'Name'),
+                (value) => Validators.requiredField(value, fieldName: 'Name'),
           ),
           const SizedBox(height: 16),
           Padding(
@@ -472,9 +474,7 @@ class _RepairPageViewState extends State<RepairPageView> {
           ),
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 8.0),
-            child: RepairSubmitButton(
-              onPressed: () => _submitRepair(context),
-            ),
+            child: RepairSubmitButton(onPressed: () => _submitRepair(context)),
           ),
         ],
       ),

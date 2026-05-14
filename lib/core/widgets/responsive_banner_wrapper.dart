@@ -32,7 +32,12 @@ class ResponsiveBannerWrapper extends StatelessWidget {
             child: ConstrainedBox(
               constraints: const BoxConstraints(maxWidth: 1200),
               child: Padding(
-                padding: const EdgeInsets.only(bottom: 24.0, left: 24.0, right: 24.0, top: 16.0),
+                padding: const EdgeInsets.only(
+                  bottom: 24.0,
+                  left: 24.0,
+                  right: 24.0,
+                  top: 16.0,
+                ),
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
@@ -67,7 +72,10 @@ class ResponsiveBannerWrapper extends StatelessWidget {
                                 style: ElevatedButton.styleFrom(
                                   backgroundColor: AppColors.primaryBlack,
                                   foregroundColor: AppColors.pureWhite,
-                                  padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 16),
+                                  padding: const EdgeInsets.symmetric(
+                                    horizontal: 32,
+                                    vertical: 16,
+                                  ),
                                   shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(30),
                                   ),
@@ -76,9 +84,17 @@ class ResponsiveBannerWrapper extends StatelessWidget {
                                 child: Row(
                                   mainAxisSize: MainAxisSize.min,
                                   children: [
-                                    AppTexts.medium(buttonText!, fontSize: 16, color: AppColors.pureWhite),
+                                    AppTexts.medium(
+                                      buttonText!,
+                                      fontSize: 16,
+                                      color: AppColors.pureWhite,
+                                    ),
                                     const SizedBox(width: 8),
-                                    const Icon(Icons.arrow_forward, size: 18, color: AppColors.pureWhite),
+                                    const Icon(
+                                      Icons.arrow_forward,
+                                      size: 18,
+                                      color: AppColors.pureWhite,
+                                    ),
                                   ],
                                 ),
                               ),
@@ -105,7 +121,10 @@ class ResponsiveBannerWrapper extends StatelessWidget {
         if (width > 600) {
           // Tablet Layout (Slightly improved spacing & stacked)
           return Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 16.0),
+            padding: const EdgeInsets.symmetric(
+              horizontal: 24.0,
+              vertical: 16.0,
+            ),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -132,10 +151,7 @@ class ResponsiveBannerWrapper extends StatelessWidget {
                 AppTexts.medium(mobileTitle!, fontSize: 18),
                 const SizedBox(height: 16),
               ],
-              ClipRRect(
-                borderRadius: BorderRadius.circular(20),
-                child: child,
-              ),
+              ClipRRect(borderRadius: BorderRadius.circular(20), child: child),
             ],
           ),
         );

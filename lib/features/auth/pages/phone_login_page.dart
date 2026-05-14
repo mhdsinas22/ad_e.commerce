@@ -154,7 +154,9 @@ class _PhoneLoginFormState extends State<_PhoneLoginForm> {
                       Center(
                         child: TextButton(
                           onPressed: () {
-                              context.pushReplacementNamed(RouteNames.onboardingstartpage);
+                            context.pushReplacementNamed(
+                              RouteNames.onboardingstartpage,
+                            );
                           },
                           child: AppTexts.medium("Cancel", color: Colors.grey),
                         ),

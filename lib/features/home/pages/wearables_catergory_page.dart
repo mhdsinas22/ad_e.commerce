@@ -34,14 +34,13 @@ class WearablesCatergoryPageUi extends StatelessWidget {
     final List<Widget> cards = [
       OptionCard(
         onTap: () {
-          context.pushNamed(
-            RouteNames.categoryfiltredpage,
-            extra: {
-              "condition": PhoneCondition.empty,
-              "subCategory": SubCategory.applewatch,
-              "isSubCategory": true,
-              "isFlashSale": false,
-            },
+          context.push(
+            '/${RouteNames.categoryfiltredpage}?'
+            'subcategory=${SubCategory.applewatch.name}'
+            '&condition=${PhoneCondition.empty.name}'
+            '&isSubCategory=true'
+            '&isFlashSale=false'
+            '&search=',
           );
         },
         title: "Apple Watch",
@@ -49,14 +48,13 @@ class WearablesCatergoryPageUi extends StatelessWidget {
       ),
       OptionCard(
         onTap: () {
-          context.pushNamed(
-            RouteNames.categoryfiltredpage,
-            extra: {
-              "condition": PhoneCondition.empty,
-              "subCategory": SubCategory.smartwatch,
-              "isSubCategory": true,
-              "isFlashSale": false,
-            },
+          context.push(
+            '/${RouteNames.categoryfiltredpage}?'
+            'subcategory=${SubCategory.smartwatch.name}'
+            '&condition=${PhoneCondition.empty.name}'
+            '&isSubCategory=true'
+            '&isFlashSale=false'
+            '&search=',
           );
         },
         title: "Smart Watch",

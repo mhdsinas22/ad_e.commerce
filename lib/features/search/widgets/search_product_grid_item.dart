@@ -21,38 +21,39 @@ class SearchProductGridItem extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         // Image Card
-        GestureDetector(
-          onTap:
-              () => context.pushNamed(
-                RouteNames.productpage,
-                extra: {"product": product},
-                pathParameters: {"id": product.id ?? ""},
-              ),
-          child: Container(
-            width: double.infinity,
-            padding: const EdgeInsets.all(16),
-            decoration: BoxDecoration(
-              color: AppColors.pureWhite,
-              borderRadius: BorderRadius.circular(20),
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.black.withOpacity(0.08),
-                  blurRadius: 12,
-                  spreadRadius: 1,
-                  offset: Offset(0, 4),
+        Expanded(
+          child: GestureDetector(
+            onTap:
+                () => context.pushNamed(
+                  RouteNames.productpage,
+                  extra: {"product": product},
+                  pathParameters: {"id": product.id ?? ""},
                 ),
-              ],
-            ),
-            child: AspectRatio(
-              aspectRatio: 1,
-              child: Image.network(
-                product.imageUrls.isNotEmpty ? product.imageUrls.first : '',
-                fit: BoxFit.contain,
-                errorBuilder:
-                    (c, o, s) => const Icon(
-                      Icons.image_not_supported,
-                      color: Colors.grey,
-                    ),
+            child: Container(
+              width: double.infinity,
+              padding: const EdgeInsets.all(16),
+              decoration: BoxDecoration(
+                color: AppColors.pureWhite,
+                borderRadius: BorderRadius.circular(20),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black.withOpacity(0.08),
+                    blurRadius: 12,
+                    spreadRadius: 1,
+                    offset: const Offset(0, 4),
+                  ),
+                ],
+              ),
+              child: Center(
+                child: Image.network(
+                  product.imageUrls.isNotEmpty ? product.imageUrls.first : '',
+                  fit: BoxFit.contain,
+                  errorBuilder:
+                      (c, o, s) => const Icon(
+                        Icons.image_not_supported,
+                        color: Colors.grey,
+                      ),
+                ),
               ),
             ),
           ),

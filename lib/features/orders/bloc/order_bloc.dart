@@ -27,7 +27,8 @@ class OrderBloc extends Bloc<OrderEvent, OrderState> {
         "send-notification",
         body: {"type": "new_order"},
       );
-      emit(state.copyWith(status: OrdersStatus.success));
+      final orders = await orderRepo.getOrders(userId: event.orders.userId);
+      emit(state.copyWith(status: OrdersStatus.success, orders: orders));
     } catch (e) {
       AppLogger.error("Order Error:-${e.toString()}");
       emit(

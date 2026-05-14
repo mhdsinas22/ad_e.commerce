@@ -1,13 +1,9 @@
 import 'package:aerstore/core/theme/app_colors.dart';
 import 'package:aerstore/core/widgets/app_text.dart';
 import 'package:aerstore/features/orders/bloc/order_bloc.dart';
-import 'package:aerstore/features/orders/bloc/order_event.dart';
 import 'package:aerstore/features/orders/bloc/order_state.dart';
-import 'package:aerstore/features/orders/data/datasource/order_remote_datasouceimpl.dart';
-import 'package:aerstore/features/orders/data/repo/order_repo_impl.dart';
 import 'package:aerstore/features/orders/pages/guest_order_page.dart';
 import 'package:aerstore/features/orders/widgets/order_item_widget.dart';
-import 'package:aerstore/features/profile/data/datasource/wallet_remote_datasource_impl.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -24,22 +20,7 @@ class OrdersPage extends StatelessWidget {
     if (user == null) {
       return GuestOrdersUI(isScaffold: isPushOnly);
     }
-    final orderdatasourceimpl = OrderRemoteDatasouceimpl(supabase: supabase);
-    final walletRemotedatasourceimpl = WalletRemoteDatasourceImpl(supabase);
-    final orderRepo = OrderRepoImpl(
-      remote: orderdatasourceimpl,
-      walletRemoteDataSource: walletRemotedatasourceimpl,
-    );
-    return MultiBlocProvider(
-      providers: [
-        BlocProvider(
-          create:
-              (context) =>
-                  OrderBloc(orderRepo)..add(LoadOrdersEvent(userid: user.id)),
-        ),
-      ],
-      child: OrderPageUi(isPushOnly: isPushOnly),
-    );
+    return OrderPageUi(isPushOnly: isPushOnly);
   }
 }
 
@@ -135,12 +116,14 @@ class OrderPageUi extends StatelessWidget {
 
                   return GridView.builder(
                     padding: const EdgeInsets.all(16),
-                    gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
-                      maxCrossAxisExtent: 550, // Automatically adjusts columns
-                      mainAxisExtent: 290, // Safe height without overflow
-                      crossAxisSpacing: 16,
-                      mainAxisSpacing: 16,
-                    ),
+                    gridDelegate:
+                        const SliverGridDelegateWithMaxCrossAxisExtent(
+                          maxCrossAxisExtent:
+                              550, // Automatically adjusts columns
+                          mainAxisExtent: 290, // Safe height without overflow
+                          crossAxisSpacing: 16,
+                          mainAxisSpacing: 16,
+                        ),
                     itemCount: flatOrderItems.length,
                     itemBuilder: (context, index) {
                       final order = flatOrderItems[index]['order'];

@@ -4,7 +4,6 @@ import 'package:aerstore/core/theme/app_colors.dart';
 import 'package:aerstore/core/widgets/app_text.dart';
 import 'package:aerstore/features/legal/data/policy_content.dart';
 import 'package:aerstore/features/legal/widgets/policy_viewer_sheet.dart';
-
 import 'package:aerstore/features/profile/widgets/profile_menu_item.dart';
 import 'package:aerstore/features/profile/widgets/profle_side_appbar.dart';
 import 'package:flutter/material.dart';

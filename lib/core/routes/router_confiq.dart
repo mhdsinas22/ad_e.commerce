@@ -1,9 +1,13 @@
 import 'package:aerstore/core/enums/category.dart';
+import 'package:aerstore/features/cart/pages/cart_page.dart';
+import 'package:aerstore/features/home/pages/home_page.dart';
 import 'package:aerstore/features/imageviewr/pages/image_zoom_screen.dart';
 import 'package:aerstore/features/orders/domain/enities/order_item.dart';
 import 'package:aerstore/features/orders/domain/enities/orders.dart';
 import 'package:aerstore/features/orders/pages/order_details_page.dart';
 import 'package:aerstore/features/home/widgets/CategoryListSection/widgets/airdrop_assurcance/pages/assurance_detail_page.dart';
+import 'package:aerstore/features/profile/pages/profile_page.dart';
+import 'package:aerstore/features/repair/pages/repair_page.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:logger/logger.dart';
@@ -20,13 +24,11 @@ import 'package:aerstore/features/auth/pages/signup_page.dart';
 import 'package:aerstore/features/auth/pages/user_details_page.dart';
 import 'package:aerstore/features/auth/pages/email_verification_page.dart';
 import 'package:aerstore/features/bottom_navigation/pages/main_shell_page.dart';
-import 'package:aerstore/features/cart/pages/cart_page.dart';
 import 'package:aerstore/features/checkout/presentation/pages/checkout_page.dart';
 import 'package:aerstore/features/checkout/presentation/pages/paymet_page.dart';
 import 'package:aerstore/features/home/pages/accesories_categories_page.dart';
 import 'package:aerstore/features/home/pages/category_filtred_page.dart';
 import 'package:aerstore/features/home/pages/earbuds_catergory_page.dart';
-import 'package:aerstore/features/home/pages/home_page.dart';
 import 'package:aerstore/features/home/pages/laptop_catergories_page.dart';
 import 'package:aerstore/features/home/pages/phone_categories_page.dart';
 import 'package:aerstore/features/home/pages/tablet_categories_page.dart';
@@ -84,14 +86,75 @@ final goRouter = GoRouter(
     ),
 
     // Root/Home Path mapping to MainShell
-    GoRoute(
-      path: AppRoutes.mainshellpage,
-      name: RouteNames.mainShell,
-      builder: (context, state) {
-        final extra = state.extra as Map<String, dynamic>?;
-        final index = extra?["index"] ?? 0;
-        return MainShellPage(index: index);
+    StatefulShellRoute.indexedStack(
+      builder: (context, state, navigationShell) {
+        return MainShellPage(shell: navigationShell);
       },
+      branches: [
+        StatefulShellBranch(
+          routes: [
+            GoRoute(
+              path: "/",
+              name: RouteNames.mainShell,
+              builder: (context, state) {
+                return HomePage(
+                  oncCartTap: () {
+                    StatefulNavigationShell.of(context).goBranch(1);
+                  },
+                );
+              },
+            ),
+          ],
+        ),
+        StatefulShellBranch(
+          routes: [
+            GoRoute(
+              path: '/${RouteNames.cart}',
+              name: RouteNames.cart,
+              builder: (context, state) => const CartPage(),
+            ),
+          ],
+        ),
+        StatefulShellBranch(
+          routes: [
+            GoRoute(
+              path: '/${RouteNames.orderspage}',
+              name: RouteNames.orderspage,
+              builder: (context, state) {
+                final args = state.extra as Map<String, dynamic>?;
+                return OrdersPage(isPushOnly: args?["isPushOnly"] ?? false);
+              },
+            ),
+          ],
+        ),
+
+        StatefulShellBranch(
+          routes: [
+            GoRoute(
+              path: "/${RouteNames.service}",
+              name: RouteNames.service,
+              builder: (context, state) {
+                return RepairPage(
+                  onCartTap:
+                      () => StatefulNavigationShell.of(context).goBranch(1),
+                );
+              },
+            ),
+          ],
+        ),
+
+        StatefulShellBranch(
+          routes: [
+            GoRoute(
+              path: "/${RouteNames.profilepage}",
+              name: RouteNames.profilepage,
+              builder: (context, state) {
+                return ProfilePage();
+              },
+            ),
+          ],
+        ),
+      ],
     ),
 
     // Auth Routes
@@ -156,12 +219,6 @@ final goRouter = GoRouter(
       builder: (context, state) => const ResetPasswordPage(),
     ),
 
-    // Home & Categories
-    GoRoute(
-      path: '/home-page', // Distinct from root shell
-      name: RouteNames.home,
-      builder: (context, state) => const HomePage(),
-    ),
     GoRoute(
       path: '/${RouteNames.onboardingstartpage}',
       name: RouteNames.onboardingstartpage,
@@ -193,11 +250,6 @@ final goRouter = GoRouter(
     ),
 
     // Cart & Checkout
-    GoRoute(
-      path: '/${RouteNames.cart}',
-      name: RouteNames.cart,
-      builder: (context, state) => const CartPage(),
-    ),
     GoRoute(
       path: '/${RouteNames.checkout}',
       name: RouteNames.checkout,
@@ -258,32 +310,50 @@ final goRouter = GoRouter(
       path: '/${RouteNames.categoryfiltredpage}',
       name: RouteNames.categoryfiltredpage,
       builder: (context, state) {
-        final args = state.extra as Map<String, dynamic>;
+        final search = state.uri.queryParameters['search'];
+        final subCategoryName = state.uri.queryParameters['subcategory'];
+        final conditionName = state.uri.queryParameters['condition'];
+        final categoryName = state.uri.queryParameters["category"];
+        final subCategory = SubCategory.values.firstWhere(
+          (e) => e.name == subCategoryName,
+
+          orElse: () => SubCategory.empty,
+        );
+
+        final condition = PhoneCondition.values.firstWhere(
+          (e) => e.name == conditionName,
+
+          orElse: () => PhoneCondition.empty,
+        );
+        final category = Category.values.firstWhere(
+          (element) => element.name == categoryName,
+          orElse: () => Category.empty,
+        );
+        final isSubCategory =
+            state.uri.queryParameters["isSubCategory"] == "true";
+        final isFlashSale = state.uri.queryParameters["isFlashSale"] == "true";
+
+        final pricetype = state.uri.queryParameters["priceTYpe"];
+        final priceAmount =
+            int.tryParse(state.uri.queryParameters["priceAmount"] ?? "") ?? 0;
+        final isBestSeller =
+            state.uri.queryParameters["isBestSeller"] == "true";
+        final onlyphone = state.uri.queryParameters["onlyPhones"] == "true";
         return CategoryFiltredPage(
-          condition:
-              args["condition"] as PhoneCondition? ?? PhoneCondition.empty,
-          subCategory:
-              (args["subCategory"] ?? args["SubCategory"]) as SubCategory? ??
-              SubCategory.empty,
-          isSubCategory: args["isSubCategory"] ?? false,
-          isFlashSale: args["isFlashSale"] ?? false,
-          category: args["category"] as Category? ?? Category.empty,
-          priceTYpe: args["priceTYpe"],
-          priceAmount: args["priceAmount"],
-          isBestSeller: args["isBestSeller"] ?? false,
+          search: search,
+          condition: condition,
+          subCategory: subCategory,
+          isSubCategory: isSubCategory,
+          isFlashSale: isFlashSale,
+          category: category,
+          priceTYpe: pricetype,
+          priceAmount: priceAmount,
+          isBestSeller: isBestSeller,
+          onlyPhones: onlyphone,
         );
       },
     ),
-
     // Profile & Misc
-    GoRoute(
-      path: '/${RouteNames.orderspage}',
-      name: RouteNames.orderspage,
-      builder: (context, state) {
-        final args = state.extra as Map<String, dynamic>?;
-        return OrdersPage(isPushOnly: args?["isPushOnly"] ?? false);
-      },
-    ),
     GoRoute(
       path: '/${RouteNames.orderDetails}',
       name: RouteNames.orderDetails,
@@ -330,7 +400,7 @@ final goRouter = GoRouter(
     GoRoute(
       path: '/${RouteNames.warranty}',
       name: RouteNames.warranty,
-      builder: (context, state) => const WarrantyPage(),
+      builder: (context, state) => WarrantyPage(),
     ),
     GoRoute(
       path: "/${RouteNames.imageZoom}",
@@ -357,7 +427,7 @@ final goRouter = GoRouter(
             Text(state.error.toString(), textAlign: TextAlign.center),
             const SizedBox(height: 24),
             ElevatedButton(
-              onPressed: () => context.go(AppRoutes.mainshellpage),
+              onPressed: () => context.go("/"),
               child: const Text('Back to Home'),
             ),
           ],

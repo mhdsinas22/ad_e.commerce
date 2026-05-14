@@ -10,6 +10,8 @@ import 'package:aerstore/features/cart/data/datasources/cart_remote_datasourceim
 import 'package:aerstore/features/cart/data/repositories/cart_repository_impl.dart';
 import 'package:aerstore/features/notification/data/datasource/notification_remote_datasourceimpl.dart';
 import 'package:aerstore/features/notification/data/repositories/notification_repo_impl.dart';
+import 'package:aerstore/features/orders/bloc/order_bloc.dart';
+import 'package:aerstore/features/orders/bloc/order_event.dart';
 import 'package:aerstore/features/profile/data/datasource/wallet_remote_datasource_impl.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -97,11 +99,19 @@ class _OtpView extends StatelessWidget {
                   backgroundColor: Colors.green,
                 ),
               );
-            if (redirectRoute != null) {
-              context.goNamed(redirectRoute!, extra: redirectArgs);
-            } else {
-              context.goNamed(RouteNames.mainShell);
+            final userId = Supabase.instance.client.auth.currentUser?.id;
+
+            if (userId != null) {
+              context.read<OrderBloc>().add(LoadOrdersEvent(userid: userId));
             }
+
+            Future.microtask(() {
+              if (redirectRoute != null) {
+                context.goNamed(redirectRoute!, extra: redirectArgs);
+              } else {
+                context.goNamed(RouteNames.mainShell);
+              }
+            });
           }
         },
         child: SafeArea(

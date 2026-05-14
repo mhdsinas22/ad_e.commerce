@@ -15,14 +15,11 @@ import 'package:aerstore/features/checkout/presentation/widgets/product_summary_
 import 'package:aerstore/features/orders/bloc/order_bloc.dart';
 import 'package:aerstore/features/orders/bloc/order_event.dart';
 import 'package:aerstore/features/orders/bloc/order_state.dart';
-import 'package:aerstore/features/orders/data/datasource/order_remote_datasouceimpl.dart';
-import 'package:aerstore/features/orders/data/repo/order_repo_impl.dart';
 import 'package:aerstore/features/orders/domain/enities/order_item.dart';
 import 'package:aerstore/features/orders/domain/enities/orders.dart';
 import 'package:aerstore/features/product/bloc/proudctbloc/product_bloc.dart';
 import 'package:aerstore/features/product/bloc/proudctbloc/product_event.dart';
 import 'package:aerstore/features/product/domain/entites/product.dart';
-import 'package:aerstore/features/profile/data/datasource/wallet_remote_datasource_impl.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lottie/lottie.dart';
@@ -43,20 +40,11 @@ class PaymetPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final supabase = Supabase.instance.client;
-    final orderdatasourceimpl = OrderRemoteDatasouceimpl(supabase: supabase);
-    final walletRemotedatasourceimpl = WalletRemoteDatasourceImpl(supabase);
-    final orderRepo = OrderRepoImpl(
-      remote: orderdatasourceimpl,
-      walletRemoteDataSource: walletRemotedatasourceimpl,
-    );
-    return MultiBlocProvider(
-      providers: [BlocProvider(create: (context) => OrderBloc(orderRepo))],
-      child: PaymentPageUi(
-        supabase: supabase,
-        selectedAddress: selectedAddress,
-        isDirectBuy: isDirectBuy,
-        directProduct: directProduct,
-      ),
+    return PaymentPageUi(
+      supabase: supabase,
+      selectedAddress: selectedAddress,
+      isDirectBuy: isDirectBuy,
+      directProduct: directProduct,
     );
   }
 }
@@ -122,49 +110,59 @@ class PaymentPageUi extends StatelessWidget {
             context.read<CartBloc>().add(ClearCartEvent());
           }
           context.read<ProductBloc>().add(LoadProductsEvent());
-          showModalBottomSheet(
-            isScrollControlled: true,
-            backgroundColor: Colors.white,
-            context: context,
-            builder: (context) {
-              return SizedBox(
-                width: double.infinity,
-                height: double.infinity,
-                child: Center(
-                  child: Container(
-                    constraints: const BoxConstraints(maxWidth: 600),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Lottie.asset(
-                          repeat: false,
-                          AppAnimations.successAnimation,
-                          width: 200,
-                          height: 200,
-                        ),
-                        const SizedBox(height: 5),
-                        AppTexts.medium(
-                          "ThankYou for shopping with AerStore",
-                          fontSize: 14,
-                        ),
-                        const SizedBox(height: 10),
-                        PrimaryButton(
-                          width: 100,
-                          height: 50,
-                          text: "Done",
-                          onPressed: () {
-                            context.goNamed(RouteNames.mainShell);
-                          },
-                        ),
-                      ],
+
+          if (context.mounted && context.canPop()) {
+            context.pop(); // Dismiss loading bottom sheet
+          }
+
+          if (context.mounted) {
+            showModalBottomSheet(
+              isScrollControlled: true,
+              backgroundColor: Colors.white,
+              context: context,
+              builder: (context) {
+                return SizedBox(
+                  width: double.infinity,
+                  height: double.infinity,
+                  child: Center(
+                    child: Container(
+                      constraints: const BoxConstraints(maxWidth: 600),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Lottie.asset(
+                            repeat: false,
+                            AppAnimations.successAnimation,
+                            width: 200,
+                            height: 200,
+                          ),
+                          const SizedBox(height: 5),
+                          AppTexts.medium(
+                            "ThankYou for shopping with AerStore",
+                            fontSize: 14,
+                          ),
+                          const SizedBox(height: 10),
+                          PrimaryButton(
+                            width: 100,
+                            height: 50,
+                            text: "Done",
+                            onPressed: () {
+                              context.goNamed(RouteNames.mainShell);
+                            },
+                          ),
+                        ],
+                      ),
                     ),
                   ),
-                ),
-              );
-            },
-          );
+                );
+              },
+            );
+          }
         }
         if (state.status == OrdersStatus.failure) {
+          if (context.mounted && context.canPop()) {
+            context.pop(); // Dismiss loading bottom sheet
+          }
           ScaffoldMessenger.of(
             context,
           ).showSnackBar(SnackBar(content: Text(state.errormessege)));

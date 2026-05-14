@@ -123,10 +123,7 @@ class OrderRemoteDatasouceimpl implements OrderRemoteDatasource {
         updateData["cancelled_at"] = cancelledAt.toIso8601String();
       }
 
-      await supabase
-          .from("orders")
-          .update(updateData)
-          .eq("id", orderId);
+      await supabase.from("orders").update(updateData).eq("id", orderId);
     } catch (e) {
       AppLogger.error("UPDATE ORDER ERROR: ${e.toString()}");
       throw Exception("Updtae order failed: $e");

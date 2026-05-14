@@ -76,14 +76,13 @@ class PhoneCategoriesPageUi extends StatelessWidget {
                             children: [
                               OptionCard(
                                 onTap: () {
-                                  context.pushNamed(
-                                    RouteNames.categoryfiltredpage,
-                                    extra: {
-                                      "condition": PhoneCondition.empty,
-                                      "subCategory": SubCategory.fresh,
-                                      "isSubCategory": true,
-                                      "isFlashSale": false,
-                                    },
+                                  context.push(
+                                    '/${RouteNames.categoryfiltredpage}?'
+                                    'subcategory=${SubCategory.fresh.name}'
+                                    '&condition=${PhoneCondition.empty.name}'
+                                    '&isSubCategory=true'
+                                    '&isFlashSale=false'
+                                    '&search=',
                                   );
                                 },
                                 title: "Brand new",
@@ -91,14 +90,13 @@ class PhoneCategoriesPageUi extends StatelessWidget {
                               ),
                               OptionCard(
                                 onTap: () {
-                                  context.pushNamed(
-                                    RouteNames.categoryfiltredpage,
-                                    extra: {
-                                      "condition": PhoneCondition.empty,
-                                      "subCategory": SubCategory.second,
-                                      "isSubCategory": true,
-                                      "isFlashSale": false,
-                                    },
+                                  context.push(
+                                    '/${RouteNames.categoryfiltredpage}?'
+                                    'subcategory=${SubCategory.second.name}'
+                                    '&condition=${PhoneCondition.empty.name}'
+                                    '&isSubCategory=true'
+                                    '&isFlashSale=false'
+                                    '&search=',
                                   );
                                 },
                                 title: "Pre-Owned",

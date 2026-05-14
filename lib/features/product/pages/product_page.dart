@@ -129,7 +129,7 @@ class _ProductPageState extends State<_ProductPage>
                 children: [
                   const Icon(Icons.error_outline, size: 40, color: Colors.grey),
                   const SizedBox(height: 10),
-                  Text("Product details fetch aayilla."),
+                  Text("Product details doesn't found"),
                   Text("ID: ${widget.productId}"), // Debugging-nu sahayikkum
                   ElevatedButton(
                     onPressed: () {
@@ -293,10 +293,7 @@ class _ProductPageState extends State<_ProductPage>
                         ),
                         const SizedBox(width: 10),
                         GestureDetector(
-                          onTap:
-                              () => context.pushNamed(
-                                RouteNames.search,
-                              ),
+                          onTap: () => context.pushNamed(RouteNames.search),
                           child: Container(
                             width: 44,
                             height: 44,
@@ -310,10 +307,7 @@ class _ProductPageState extends State<_ProductPage>
                         ),
                         const SizedBox(width: 10),
                         GestureDetector(
-                          onTap:
-                              () => context.pushNamed(
-                                RouteNames.cart,
-                              ),
+                          onTap: () => context.goNamed(RouteNames.cart),
                           child: Container(
                             width: 44,
                             height: 44,
@@ -453,8 +447,7 @@ class _ProductPageState extends State<_ProductPage>
             ),
             const SizedBox(width: 10),
             GestureDetector(
-              onTap:
-                  () => context.pushNamed(RouteNames.search),
+              onTap: () => context.pushNamed(RouteNames.search),
               child: Container(
                 width: 50,
                 height: 50,
@@ -468,7 +461,7 @@ class _ProductPageState extends State<_ProductPage>
             ),
             const SizedBox(width: 10),
             GestureDetector(
-              onTap: () => context.pushNamed(RouteNames.cart),
+              onTap: () => context.goNamed(RouteNames.cart),
               child: Container(
                 width: 50,
                 height: 50,
@@ -747,11 +740,14 @@ class _ProductPageState extends State<_ProductPage>
                         "directProduct": widget.product,
                       },
                     )
-                    : context.pushNamed(RouteNames.checkout, extra: {
-                      "isMyaddressScreen": false,
-                      "isDirectBuy": true,
-                      "directProduct": widget.product,
-                    });
+                    : context.pushNamed(
+                      RouteNames.checkout,
+                      extra: {
+                        "isMyaddressScreen": false,
+                        "isDirectBuy": true,
+                        "directProduct": widget.product,
+                      },
+                    );
               },
       style: ElevatedButton.styleFrom(
         backgroundColor:

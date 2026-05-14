@@ -34,14 +34,13 @@ class EarbudsCatergoryPageUi extends StatelessWidget {
     final List<Widget> cards = [
       OptionCard(
         onTap: () {
-          context.pushNamed(
-            RouteNames.categoryfiltredpage,
-            extra: {
-              "condition": PhoneCondition.empty,
-              "subCategory": SubCategory.appleairpods,
-              "isSubCategory": true,
-              "isFlashSale": false,
-            },
+          context.push(
+            '/${RouteNames.categoryfiltredpage}?'
+            'subcategory=${SubCategory.appleairpods.name}'
+            '&condition=${PhoneCondition.empty.name}'
+            '&isSubCategory=true'
+            '&isFlashSale=false'
+            '&search=',
           );
         },
         title: "Apple Airpods",
@@ -49,14 +48,13 @@ class EarbudsCatergoryPageUi extends StatelessWidget {
       ),
       OptionCard(
         onTap: () {
-          context.pushNamed(
-            RouteNames.categoryfiltredpage,
-            extra: {
-              "condition": PhoneCondition.empty,
-              "subCategory": SubCategory.earbuds,
-              "isSubCategory": true,
-              "isFlashSale": false,
-            },
+          context.push(
+            '/${RouteNames.categoryfiltredpage}?'
+            'subcategory=${SubCategory.earbuds.name}'
+            '&condition=${PhoneCondition.empty.name}'
+            '&isSubCategory=true'
+            '&isFlashSale=false'
+            '&search=',
           );
         },
         title: "Earbuds",

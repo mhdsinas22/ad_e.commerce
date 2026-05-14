@@ -1,20 +1,20 @@
 import 'package:aerstore/core/constants/app_icons.dart';
 import 'package:aerstore/core/theme/app_colors.dart';
 import 'package:aerstore/features/bottom_navigation/bloc/bottom_nav_bloc.dart';
-import 'package:aerstore/features/bottom_navigation/bloc/bottom_nav_event.dart';
 import 'package:aerstore/features/bottom_navigation/bloc/bottom_nav_state.dart';
-import 'package:aerstore/features/cart/pages/cart_page.dart';
-import 'package:aerstore/features/home/pages/home_page.dart';
-import 'package:aerstore/features/orders/pages/orders_page.dart';
-import 'package:aerstore/features/profile/pages/profile_page.dart';
-import 'package:aerstore/features/repair/pages/repair_page.dart';
+import 'package:aerstore/features/orders/bloc/order_bloc.dart';
+import 'package:aerstore/features/orders/bloc/order_event.dart';
+import 'package:aerstore/features/cart/bloc/cart_bloc.dart';
+import 'package:aerstore/features/cart/bloc/cart_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:go_router/go_router.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
 class MainShellPage extends StatelessWidget {
-  final int index;
-  const MainShellPage({super.key, this.index = 0});
+  final StatefulNavigationShell shell;
+  const MainShellPage({super.key, required this.shell});
 
   @override
   Widget build(BuildContext context) {
@@ -32,9 +32,17 @@ class MainShellPage extends StatelessWidget {
             type: BottomNavigationBarType.fixed,
             backgroundColor: AppColors.pureWhite,
             onTap: (index) {
-              context.read<BottomNavBloc>().add(BottomNavChanged(index: index));
+              shell.goBranch(index);
+              if (index == 2) {
+                final user = Supabase.instance.client.auth.currentUser;
+                if (user != null) {
+                  context.read<OrderBloc>().add(
+                    LoadOrdersEvent(userid: user.id),
+                  );
+                }
+              }
             },
-            currentIndex: state.selectedIndex,
+            currentIndex: shell.currentIndex,
             items: [
               BottomNavigationBarItem(
                 activeIcon: Column(
@@ -65,26 +73,39 @@ class MainShellPage extends StatelessWidget {
               BottomNavigationBarItem(
                 activeIcon: Column(
                   children: [
-                    SvgPicture.asset(
-                      AppIcons.categoriesIcon,
-                      color: AppColors.primaryBlack,
+                    BlocBuilder<CartBloc, CartState>(
+                      builder: (context, state) {
+                        return Badge(
+                          label: Text('${state.cartitems.length}'),
+                          isLabelVisible: state.cartitems.isNotEmpty,
+                          backgroundColor: AppColors.primaryBlack,
+                          child: SvgPicture.asset(
+                            AppIcons.categoriesIcon,
+                            colorFilter: const ColorFilter.mode(
+                              AppColors.primaryBlack,
+                              BlendMode.srcIn,
+                            ),
+                          ),
+                        );
+                      },
                     ),
-                    // SizedBox(height: 5),
-                    // AnimatedContainer(
-                    //   duration: const Duration(milliseconds: 200),
-                    //   curve: Curves.easeInOut,
-                    //   width: 18,
-                    //   height: 3,
-                    //   decoration: BoxDecoration(
-                    //     color: AppColors.grayColor,
-                    //     borderRadius: BorderRadius.circular(2),
-                    //   ),
-                    // ),
                   ],
                 ),
-                icon: SvgPicture.asset(
-                  AppIcons.categoriesIcon,
-                  color: AppColors.grayColor,
+                icon: BlocBuilder<CartBloc, CartState>(
+                  builder: (context, state) {
+                    return Badge(
+                      label: Text('${state.cartitems.length}'),
+                      isLabelVisible: state.cartitems.isNotEmpty,
+                      backgroundColor: AppColors.primaryBlack,
+                      child: SvgPicture.asset(
+                        AppIcons.categoriesIcon,
+                        colorFilter: const ColorFilter.mode(
+                          AppColors.grayColor,
+                          BlendMode.srcIn,
+                        ),
+                      ),
+                    );
+                  },
                 ),
                 label: 'Cart',
               ),
@@ -170,16 +191,7 @@ class MainShellPage extends StatelessWidget {
               ),
             ],
           ),
-          body: IndexedStack(
-            index: state.selectedIndex,
-            children: [
-              HomePage(),
-              CartPage(),
-              OrdersPage(),
-              RepairPage(),
-              ProfilePage(),
-            ],
-          ),
+          body: shell,
         );
       },
     );

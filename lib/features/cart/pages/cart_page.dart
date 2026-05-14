@@ -2,7 +2,6 @@ import 'package:aerstore/core/common/widgets/shimmer/app_shimmer.dart';
 import 'package:aerstore/core/theme/app_colors.dart';
 import 'package:aerstore/core/widgets/app_text.dart';
 import 'package:aerstore/features/cart/bloc/cart_bloc.dart';
-import 'package:aerstore/features/cart/bloc/cart_event.dart';
 import 'package:aerstore/features/cart/bloc/cart_state.dart';
 import 'package:aerstore/features/cart/presentation/widgets/cart_item_widget.dart';
 import 'package:aerstore/features/cart/presentation/widgets/cart_summary_widget.dart';
@@ -30,7 +29,6 @@ class _CartPageState extends State<_CartPage> {
   @override
   void initState() {
     super.initState();
-    context.read<CartBloc>().add(GetCartItemsEvent());
   }
 
   @override

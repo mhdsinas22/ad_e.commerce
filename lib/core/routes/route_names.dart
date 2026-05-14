@@ -17,6 +17,7 @@ class RouteNames {
   static const productpage = "product-details";
   static const warranty = "warranty";
   static const wallet = "wallet";
+  static const service = "service";
   static const account = "account";
   static const myorders = "myorders";
   static const phonecategories = "phonecategories";
@@ -33,4 +34,5 @@ class RouteNames {
   static const orderDetails = "order-details";
   static const assuranceDetail = "assurance-detail";
   static const imageZoom = "image-zoom";
+  static const profilepage = "profilepage";
 }

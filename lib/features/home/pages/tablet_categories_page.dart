@@ -34,14 +34,13 @@ class TabletCategoriesPageUi extends StatelessWidget {
     final List<Widget> cards = [
       OptionCard(
         onTap: () {
-          context.pushNamed(
-            RouteNames.categoryfiltredpage,
-            extra: {
-              "condition": PhoneCondition.empty,
-              "subCategory": SubCategory.appleipad,
-              "isSubCategory": true,
-              "isFlashSale": false,
-            },
+          context.push(
+            '/${RouteNames.categoryfiltredpage}?'
+            'subcategory=${SubCategory.appleipad.name}'
+            '&condition=${PhoneCondition.empty.name}'
+            '&isSubCategory=true'
+            '&isFlashSale=false'
+            '&search=',
           );
         },
         title: "Apple iPad",
@@ -49,14 +48,13 @@ class TabletCategoriesPageUi extends StatelessWidget {
       ),
       OptionCard(
         onTap: () {
-          context.pushNamed(
-            RouteNames.categoryfiltredpage,
-            extra: {
-              "condition": PhoneCondition.empty,
-              "subCategory": SubCategory.tab,
-              "isSubCategory": true,
-              "isFlashSale": false,
-            },
+          context.push(
+            '/${RouteNames.categoryfiltredpage}?'
+            'subcategory=${SubCategory.tab.name}'
+            '&condition=${PhoneCondition.empty.name}'
+            '&isSubCategory=true'
+            '&isFlashSale=false'
+            '&search=',
           );
         },
         title: "Tab",

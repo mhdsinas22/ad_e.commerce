@@ -2,9 +2,10 @@ import 'package:aerstore/core/theme/app_colors.dart';
 import 'package:aerstore/core/widgets/app_text_form_field.dart';
 import 'package:aerstore/features/search/bloc/search_bloc.dart';
 import 'package:aerstore/features/search/bloc/search_event.dart';
-
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 
 class SearchBarw extends StatefulWidget {
   final bool isNeedSearchFocus;
@@ -38,8 +39,27 @@ class _SearchBarwState extends State<SearchBarw> {
         padding: const EdgeInsets.symmetric(horizontal: 16.0),
         child: AppTextFormField(
           focusNode: widget.isNeedSearchFocus ? searchFocus : null,
+
           onChanged: (value) {
             context.read<SearchBloc>().add(SerachTextChanged(query: value));
+
+            if (kIsWeb) {
+              final currentUri = Uri.base;
+
+              final newQuery = Map<String, String>.from(
+                currentUri.queryParameters,
+              );
+
+              if (value.isNotEmpty) {
+                newQuery['search'] = value;
+              } else {
+                newQuery.remove('search');
+              }
+
+              final updatedUri = currentUri.replace(queryParameters: newQuery);
+
+              context.replace(updatedUri.toString());
+            }
           },
           width: double.infinity,
           borderradiusno: 12,

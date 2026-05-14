@@ -1,4 +1,5 @@
 import 'package:aerstore/core/common/widgets/shimmer/app_shimmer.dart';
+import 'package:aerstore/core/routes/route_names.dart';
 import 'package:aerstore/core/theme/app_colors.dart';
 import 'package:aerstore/core/utils/date_formatter.dart';
 import 'package:aerstore/core/utils/helpers.dart';
@@ -6,8 +7,6 @@ import 'package:aerstore/core/widgets/app_text.dart';
 import 'package:aerstore/core/widgets/circular_arrow_button.dart';
 import 'package:aerstore/core/widgets/primary_button.dart';
 import 'package:aerstore/core/widgets/store_call_bottom_sheet.dart';
-import 'package:aerstore/features/bottom_navigation/bloc/bottom_nav_bloc.dart';
-import 'package:aerstore/features/bottom_navigation/bloc/bottom_nav_event.dart';
 import 'package:aerstore/features/profile/bloc/warranty/warranty_bloc.dart';
 import 'package:aerstore/features/profile/bloc/warranty/warranty_event.dart';
 import 'package:aerstore/features/profile/bloc/warranty/warranty_state.dart';
@@ -213,8 +212,14 @@ class WarrantyPage extends StatelessWidget {
                           text: "Ear Speaker, Loudspeaker & Microphone",
                           isCovered: true,
                         ),
-                        const CoverageItem(text: "Charging Port", isCovered: true),
-                        const CoverageItem(text: "Vibration Motor", isCovered: true),
+                        const CoverageItem(
+                          text: "Charging Port",
+                          isCovered: true,
+                        ),
+                        const CoverageItem(
+                          text: "Vibration Motor",
+                          isCovered: true,
+                        ),
                         const CoverageItem(
                           text: "All Device Buttons (Power, Volume, etc.)",
                           isCovered: true,
@@ -239,7 +244,10 @@ class WarrantyPage extends StatelessWidget {
 
                         const SizedBox(height: 16),
                         // Biometric & Security Features
-                        AppTexts.bold("Biometric & Security Features", fontSize: 16),
+                        AppTexts.bold(
+                          "Biometric & Security Features",
+                          fontSize: 16,
+                        ),
                         const SizedBox(height: 8),
                         const CoverageItem(
                           text:
@@ -252,7 +260,8 @@ class WarrantyPage extends StatelessWidget {
                         AppTexts.bold("Battery Support", fontSize: 16),
                         const SizedBox(height: 8),
                         const CoverageItem(
-                          text: "Battery warranty valid for 6 months from purchase",
+                          text:
+                              "Battery warranty valid for 6 months from purchase",
                           isCovered: true,
                         ),
                         const CoverageItem(
@@ -271,13 +280,17 @@ class WarrantyPage extends StatelessWidget {
                         AppTexts.bold("Software & Performance", fontSize: 16),
                         const SizedBox(height: 8),
                         const CoverageItem(
-                          text: "Software warranty coverage for 6 months from purchase",
+                          text:
+                              "Software warranty coverage for 6 months from purchase",
                           isCovered: true,
                         ),
 
                         const SizedBox(height: 16),
                         // Service Quality Assurance
-                        AppTexts.bold("Service Quality Assurance", fontSize: 16),
+                        AppTexts.bold(
+                          "Service Quality Assurance",
+                          fontSize: 16,
+                        ),
                         const SizedBox(height: 8),
                         const CoverageItem(
                           text:
@@ -292,10 +305,14 @@ class WarrantyPage extends StatelessWidget {
 
                         const SizedBox(height: 16),
                         // Customer Protection Benefits
-                        AppTexts.bold("Customer Protection Benefits", fontSize: 16),
+                        AppTexts.bold(
+                          "Customer Protection Benefits",
+                          fontSize: 16,
+                        ),
                         const SizedBox(height: 8),
                         const CoverageItem(
-                          text: "2-Month Replacement Warranty for defective devices",
+                          text:
+                              "2-Month Replacement Warranty for defective devices",
                           isCovered: true,
                         ),
                         const CoverageItem(
@@ -343,7 +360,10 @@ class WarrantyPage extends StatelessWidget {
                         ),
 
                         const SizedBox(height: 8),
-                        AppTexts.bold("Tampering / Seal Violation:", fontSize: 15),
+                        AppTexts.bold(
+                          "Tampering / Seal Violation:",
+                          fontSize: 15,
+                        ),
                         const CoverageItem(
                           text:
                               "Warranty will be void if the device seal is broken or the official AER monogram sticker is removed or tampered with.",
@@ -351,7 +371,10 @@ class WarrantyPage extends StatelessWidget {
                         ),
 
                         const SizedBox(height: 8),
-                        AppTexts.bold("Manufacturer Warranty Claims:", fontSize: 15),
+                        AppTexts.bold(
+                          "Manufacturer Warranty Claims:",
+                          fontSize: 15,
+                        ),
                         const CoverageItem(
                           text:
                               "Any claims under the brand's authorized warranty will be handled exclusively by the respective authorized service center. AER holds no responsibility or involvement in such cases.",
@@ -369,9 +392,7 @@ class WarrantyPage extends StatelessWidget {
                           backgroudColor: AppColors.primaryBlack,
                           fontcolor: Colors.white,
                           onPressed: () {
-                            final bottomNavBloc = context.read<BottomNavBloc>();
-                            bottomNavBloc.add(BottomNavChanged(index: 3));
-                            context.pop();
+                            context.goNamed(RouteNames.service);
                           },
                         ),
                         const SizedBox(height: 12),

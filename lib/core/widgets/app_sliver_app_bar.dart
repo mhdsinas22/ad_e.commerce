@@ -1,4 +1,7 @@
 import 'package:aerstore/core/constants/app_icons.dart';
+import 'package:aerstore/features/cart/bloc/cart_bloc.dart';
+import 'package:aerstore/features/cart/bloc/cart_state.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:aerstore/core/widgets/app_text.dart';
 import 'package:aerstore/core/widgets/circular_arrow_button.dart';
@@ -18,6 +21,7 @@ class AppSliverAppBar extends StatelessWidget {
   final bool removeLogo;
   final bool isDesktop;
   final bool isNeedSearchWidget;
+
   const AppSliverAppBar({
     super.key,
     this.showCart = true,
@@ -75,7 +79,7 @@ class AppSliverAppBar extends StatelessWidget {
                         child: Center(
                           child: GestureDetector(
                             onTap: () {
-                              context.pushNamed(RouteNames.search);
+                              context.push('/${RouteNames.search}');
                             },
                             child: Center(
                               child: Container(
@@ -135,14 +139,21 @@ class AppSliverAppBar extends StatelessWidget {
                     ),
                   ),
                 InkWell(
-                  onTap:
-                      onCartTap ??
-                      () => context.pushNamed(RouteNames.cart),
+                  onTap: onCartTap ?? () => context.goNamed(RouteNames.cart),
                   child: Padding(
                     padding: const EdgeInsets.only(right: 16.0),
-                    child: SvgPicture.asset(
-                      AssetConstants.carticonpng,
-                      height: 40,
+                    child: BlocBuilder<CartBloc, CartState>(
+                      builder: (context, state) {
+                        return Badge(
+                          label: Text('${state.cartitems.length}'),
+                          isLabelVisible: state.cartitems.isNotEmpty,
+                          backgroundColor: AppColors.primaryBlack,
+                          child: SvgPicture.asset(
+                            AssetConstants.carticonpng,
+                            height: 40,
+                          ),
+                        );
+                      },
                     ),
                   ),
                 ),

@@ -1,6 +1,7 @@
 import 'package:aerstore/core/enums/category.dart';
 import 'package:aerstore/core/enums/phone_condition.dart';
 import 'package:aerstore/core/enums/sub_category.dart';
+import 'package:aerstore/core/routes/route_names.dart';
 import 'package:aerstore/core/services/product_filter_service.dart';
 import 'package:aerstore/core/widgets/app_sliver_app_bar.dart';
 import 'package:aerstore/core/widgets/app_text.dart';
@@ -13,9 +14,10 @@ import 'package:aerstore/features/product/bloc/proudctbloc/product_state.dart';
 import 'package:aerstore/features/search/bloc/search_bloc.dart';
 import 'package:aerstore/features/search/bloc/search_state.dart';
 import 'package:aerstore/features/search/widgets/search_bar.dart';
-
+import 'package:flutter/foundation.dart' hide Category;
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 
 class CategoryFiltredPage extends StatelessWidget {
   final PhoneCondition condition;
@@ -27,6 +29,7 @@ class CategoryFiltredPage extends StatelessWidget {
   final String? priceTYpe;
   final int? priceAmount;
   final bool onlyPhones;
+  final String? search;
   const CategoryFiltredPage({
     super.key,
     required this.condition,
@@ -38,6 +41,7 @@ class CategoryFiltredPage extends StatelessWidget {
     this.priceTYpe,
     this.onlyPhones = false,
     this.category = Category.empty,
+    this.search,
   });
 
   @override
@@ -84,7 +88,12 @@ class CategoryFiltredPage extends StatelessWidget {
           return Scaffold(
             body: CustomScrollView(
               slivers: [
-                AppSliverAppBar(removeLogo: true),
+                AppSliverAppBar(
+                  removeLogo: true,
+                  onCartTap: () {
+                    context.goNamed(RouteNames.cart);
+                  },
+                ),
                 SliverToBoxAdapter(
                   child: Center(
                     child: Container(
@@ -119,18 +128,26 @@ class CategoryFiltredPage extends StatelessWidget {
                                       query: "",
                                     );
                                 return BlocBuilder<SearchBloc, SearchState>(
-                                  builder: (context, state) {
-                                    final query = state.query.toLowerCase();
+                                  builder: (context, searchState) {
+                                    final query =
+                                        kIsWeb
+                                            ? (search ?? "")
+                                                .toLowerCase()
+                                                .trim()
+                                            : searchState.query
+                                                .toLowerCase()
+                                                .trim();
+
                                     final finallist =
                                         basefilteredlist.where((product) {
-                                          if (query.isEmpty) return true;
+                                          if (query.isEmpty) {
+                                            return true;
+                                          }
+
                                           return product.title
-                                                  .toLowerCase()
-                                                  .contains(query) ||
-                                              product.price
-                                                  .toString()
-                                                  .toLowerCase()
-                                                  .contains(query);
+                                              .toLowerCase()
+                                              .trim()
+                                              .contains(query);
                                         }).toList();
                                     return Center(
                                       child: Container(

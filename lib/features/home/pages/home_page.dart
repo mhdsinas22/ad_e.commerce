@@ -47,7 +47,8 @@ import 'package:go_router/go_router.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 class HomePage extends StatelessWidget {
-  const HomePage({super.key});
+  final VoidCallback oncCartTap;
+  const HomePage({super.key, required this.oncCartTap});
 
   @override
   Widget build(BuildContext context) {
@@ -107,14 +108,19 @@ class HomePage extends StatelessWidget {
                   CartBloc(addtoCartUsecase, cartRepository, walletrepo),
         ),
       ],
-      child: HomePageUi(supabase: supabase),
+      child: HomePageUi(supabase: supabase, oncCartTap: oncCartTap),
     );
   }
 }
 
 class HomePageUi extends StatelessWidget {
   final SupabaseClient supabase;
-  const HomePageUi({super.key, required this.supabase});
+  final VoidCallback oncCartTap;
+  const HomePageUi({
+    super.key,
+    required this.supabase,
+    required this.oncCartTap,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -131,7 +137,7 @@ class HomePageUi extends StatelessWidget {
           child: CustomScrollView(
             slivers: [
               // 🔹 APP BAR
-              AppSliverAppBar(isDesktop: isDesktop),
+              AppSliverAppBar(isDesktop: isDesktop, onCartTap: oncCartTap),
               CupertinoSliverRefreshControl(
                 builder: (
                   context,
@@ -252,14 +258,13 @@ class HomePageUi extends StatelessWidget {
                           AppTexts.medium("Flash Sale", fontSize: 18),
                           GestureDetector(
                             onTap: () {
-                              context.pushNamed(
-                                RouteNames.categoryfiltredpage,
-                                extra: {
-                                  "condition": PhoneCondition.empty,
-                                  "SubCategory": SubCategory.empty,
-                                  "isSubCategory": false,
-                                  "isFlashSale": true,
-                                },
+                              context.push(
+                                '/${RouteNames.categoryfiltredpage}?'
+                                'subcategory=${SubCategory.empty.name}'
+                                '&condition=${PhoneCondition.empty.name}'
+                                '&isSubCategory=false'
+                                '&isFlashSale=true'
+                                '&search=',
                               );
                             },
                             child: AppTexts.medium(

@@ -48,9 +48,7 @@ class OnboardingStartpage extends StatelessWidget {
                           width: double.infinity,
                           text: "Let's get started",
                           onPressed: () {
-                            context.pushReplacementNamed(
-                              RouteNames.signup,
-                            );
+                            context.pushReplacementNamed(RouteNames.signup);
                           },
                         ),
 
@@ -60,9 +58,7 @@ class OnboardingStartpage extends StatelessWidget {
                         // Preserving exact logic: InkWell wraps row + Arrow Button functionality
                         InkWell(
                           onTap: () {
-                            context.pushReplacementNamed(
-                              RouteNames.phoneLogin,
-                            );
+                            context.pushReplacementNamed(RouteNames.phoneLogin);
                           },
                           splashColor: Colors.transparent,
                           highlightColor: Colors.transparent,

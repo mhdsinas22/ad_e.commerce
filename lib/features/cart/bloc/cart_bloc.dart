@@ -22,6 +22,8 @@ class CartBloc extends Bloc<CartEvent, CartState> {
     on<ClearCartEvent>(_clearCart);
     on<ApplyWalletEvent>(_applyWallet);
     on<ClearCartErrorEvent>(_clearCartError);
+    on<CartItemUpdateFailedEvent>(_onCartItemUpdateFailed);
+    on<CartItemRemoveFailedEvent>(_onCartItemRemoveFailed);
   }
 
   Future<void> _addTocart(AddToCartEvent event, Emitter<CartState> emit) async {
@@ -122,12 +124,11 @@ class CartBloc extends Bloc<CartEvent, CartState> {
         ),
       );
 
-      // 2. Perform API call
-      await cartRepository.removCartitem(cartitemid: event.cartitemid);
-
-      // Optional: Re-fetch to accept server state, or trust local if success
-      // final items = await cartRepository.getCartItems();
-      // emit(state.copyWith(cartitem: items));
+      // 2. Perform API call without awaiting to avoid blocking the queue
+      cartRepository.removCartitem(cartitemid: event.cartitemid).catchError((e) {
+        AppLogger.error("Remove Cart Item Error:-${e.toString()}");
+        add(CartItemRemoveFailedEvent(error: e.toString(), originalItems: originalItems));
+      });
     } catch (e) {
       AppLogger.error("Remove Cart Item Error:-${e.toString()}");
       // Revert on error
@@ -144,6 +145,22 @@ class CartBloc extends Bloc<CartEvent, CartState> {
         ),
       );
     }
+  }
+
+  void _onCartItemRemoveFailed(CartItemRemoveFailedEvent event, Emitter<CartState> emit) {
+    final originalItems = event.originalItems.cast<CartItem>();
+    final totals = _calculateTotals(originalItems);
+    emit(
+      state.copyWith(
+        status: CartStatus.error,
+        error: event.error,
+        cartitems: originalItems,
+        subTotal: totals['subTotal'],
+        voucherAmount: totals['voucherAmount'],
+        deliveryFee: totals['deliveryFee'],
+        totalAmount: totals['totalAmount'],
+      ),
+    );
   }
 
   Future<void> _updateCartItem(
@@ -219,13 +236,13 @@ class CartBloc extends Bloc<CartEvent, CartState> {
         ),
       );
 
-      // Call API
-      await cartRepository.updateCartitem(
+      // Call API without awaiting to avoid blocking the queue
+      cartRepository.updateCartitem(
         cartitemid: event.cartItemid,
         quantity: event.currentQty,
-      );
-
-      // We do NOT re-fetch the entire list to avoid flicker/loading.
+      ).catchError((e) {
+        add(CartItemUpdateFailedEvent(error: e.toString(), originalItems: originalItems));
+      });
     } catch (e) {
       final totals = _calculateTotals(originalItems);
       emit(
@@ -240,6 +257,22 @@ class CartBloc extends Bloc<CartEvent, CartState> {
         ),
       );
     }
+  }
+
+  void _onCartItemUpdateFailed(CartItemUpdateFailedEvent event, Emitter<CartState> emit) {
+    final originalItems = event.originalItems.cast<CartItem>();
+    final totals = _calculateTotals(originalItems);
+    emit(
+      state.copyWith(
+        status: CartStatus.error,
+        error: event.error,
+        cartitems: originalItems,
+        subTotal: totals['subTotal'],
+        voucherAmount: totals['voucherAmount'],
+        deliveryFee: totals['deliveryFee'],
+        totalAmount: totals['totalAmount'],
+      ),
+    );
   }
 
   Future<void> _getCartItem(
