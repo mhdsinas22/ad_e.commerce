@@ -15,12 +15,16 @@ class OrdersPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final supabase = Supabase.instance.client;
-    final user = supabase.auth.currentUser;
-    if (user == null) {
-      return GuestOrdersUI(isScaffold: isPushOnly);
-    }
-    return OrderPageUi(isPushOnly: isPushOnly);
+    return StreamBuilder<AuthState>(
+      stream: Supabase.instance.client.auth.onAuthStateChange,
+      builder: (context, snapshot) {
+        final user = Supabase.instance.client.auth.currentUser;
+        if (user == null) {
+          return GuestOrdersUI(isScaffold: isPushOnly);
+        }
+        return OrderPageUi(isPushOnly: isPushOnly);
+      },
+    );
   }
 }
 

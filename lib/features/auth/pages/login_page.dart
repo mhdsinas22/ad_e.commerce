@@ -5,6 +5,10 @@ import 'package:aerstore/data/repositories/auth_repository.dart';
 import 'package:aerstore/features/auth/bloc/login/login_bloc.dart';
 import 'package:aerstore/features/auth/bloc/login/login_event.dart';
 import 'package:aerstore/features/auth/bloc/login/login_state.dart';
+import 'package:aerstore/features/cart/bloc/cart_bloc.dart';
+import 'package:aerstore/features/cart/bloc/cart_event.dart';
+import 'package:aerstore/features/orders/bloc/order_bloc.dart';
+import 'package:aerstore/features/orders/bloc/order_event.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -71,6 +75,13 @@ class _LoginFormState extends State<_LoginForm> {
                   backgroundColor: Colors.green,
                 ),
               );
+            final userId = Supabase.instance.client.auth.currentUser?.id;
+            if (userId != null) {
+              context.read<CartBloc>().add(
+                GetCartItemsEvent(forceLoading: true),
+              );
+              context.read<OrderBloc>().add(LoadOrdersEvent(userid: userId));
+            }
             // Navigate to Home
             context.goNamed(RouteNames.mainShell);
           }

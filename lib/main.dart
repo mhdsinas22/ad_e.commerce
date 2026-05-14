@@ -74,6 +74,15 @@ void main() async {
     remote: OrderRemoteDatasouceimpl(supabase: supabase),
     walletRemoteDataSource: WalletRemoteDatasourceImpl(supabase),
   );
+  final orderBloc = OrderBloc(orderRepo);
+  final userid = supabase.auth.currentUser;
+  if (userid != null) {
+    orderBloc.add(LoadOrdersEvent(userid: userid.id));
+  }
+
+  final cartBloc = CartBloc(addtoCartusecase, cartRepository, walletrepo)
+    ..add(GetCartItemsEvent());
+
   runApp(
     MultiBlocProvider(
       providers: [
@@ -83,22 +92,8 @@ void main() async {
                   ProductBloc(getProductUsecase, getflashsaleproductusecase)
                     ..add(LoadProductsEvent()),
         ),
-        BlocProvider(
-          create: (context) {
-            final bloc = OrderBloc(orderRepo);
-            final userid = supabase.auth.currentUser;
-            if (userid != null) {
-              bloc.add(LoadOrdersEvent(userid: userid.id));
-            }
-            return bloc;
-          },
-        ),
-        BlocProvider(
-          create:
-              (context) =>
-                  CartBloc(addtoCartusecase, cartRepository, walletrepo)
-                    ..add(GetCartItemsEvent()),
-        ),
+        BlocProvider.value(value: orderBloc),
+        BlocProvider.value(value: cartBloc),
         BlocProvider(
           create:
               (context) =>

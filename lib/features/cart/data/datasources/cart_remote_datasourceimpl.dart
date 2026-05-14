@@ -133,7 +133,10 @@ class CartRemoteDatasourceimpl implements CartRemoteDataSource {
 
   @override
   Future<void> clearCart() async {
-    final userId = supabase.auth.currentUser!.id;
+    final user = supabase.auth.currentUser;
+    if (user == null) return;
+    
+    final userId = user.id;
 
     // 1️ get active cart
     final cart =

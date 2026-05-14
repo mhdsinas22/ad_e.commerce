@@ -38,7 +38,12 @@ class UpdateCartItemEvent extends CartEvent {
   UpdateCartItemEvent({required this.cartItemid, required this.currentQty});
 }
 
-class GetCartItemsEvent extends CartEvent {}
+class GetCartItemsEvent extends CartEvent {
+  final bool forceLoading;
+  GetCartItemsEvent({this.forceLoading = false});
+}
+
+class SetCartLoadingEvent extends CartEvent {}
 
 class ClearCartEvent extends CartEvent {}
 

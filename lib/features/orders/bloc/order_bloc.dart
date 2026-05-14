@@ -11,6 +11,11 @@ class OrderBloc extends Bloc<OrderEvent, OrderState> {
     on<CreateOrderEvent>(_createOrder);
     on<LoadOrdersEvent>(_loadOrders);
     on<CancelOrderEvent>(_cancelOrder);
+    on<ClearOrdersEvent>(_clearOrders);
+  }
+
+  void _clearOrders(ClearOrdersEvent event, Emitter<OrderState> emit) {
+    emit(OrderState());
   }
   Future<void> _createOrder(
     CreateOrderEvent event,

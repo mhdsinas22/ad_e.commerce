@@ -5,6 +5,8 @@ import 'package:aerstore/core/widgets/app_text.dart';
 import 'package:aerstore/features/auth/bloc/otp/otp_bloc.dart';
 import 'package:aerstore/features/auth/bloc/otp/otp_event.dart';
 import 'package:aerstore/features/auth/bloc/otp/otp_state.dart';
+import 'package:aerstore/features/cart/bloc/cart_bloc.dart';
+import 'package:aerstore/features/cart/bloc/cart_event.dart';
 import 'package:aerstore/features/cart/data/datasources/cart_local_datasource.dart';
 import 'package:aerstore/features/cart/data/datasources/cart_remote_datasourceimpl.dart';
 import 'package:aerstore/features/cart/data/repositories/cart_repository_impl.dart';
@@ -103,6 +105,9 @@ class _OtpView extends StatelessWidget {
 
             if (userId != null) {
               context.read<OrderBloc>().add(LoadOrdersEvent(userid: userId));
+              context.read<CartBloc>().add(
+                GetCartItemsEvent(forceLoading: true),
+              );
             }
 
             Future.microtask(() {

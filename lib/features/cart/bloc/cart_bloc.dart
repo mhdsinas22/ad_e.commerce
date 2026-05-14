@@ -24,6 +24,7 @@ class CartBloc extends Bloc<CartEvent, CartState> {
     on<ClearCartErrorEvent>(_clearCartError);
     on<CartItemUpdateFailedEvent>(_onCartItemUpdateFailed);
     on<CartItemRemoveFailedEvent>(_onCartItemRemoveFailed);
+    on<SetCartLoadingEvent>((event, emit) => emit(state.copyWith(status: CartStatus.loading)));
   }
 
   Future<void> _addTocart(AddToCartEvent event, Emitter<CartState> emit) async {
@@ -31,7 +32,6 @@ class CartBloc extends Bloc<CartEvent, CartState> {
     // but here we might want to just load.
     emit(
       state.copyWith(
-        status: CartStatus.loading,
         isAdding: true,
         loadingProductid: event.productid,
       ),
@@ -279,6 +279,9 @@ class CartBloc extends Bloc<CartEvent, CartState> {
     GetCartItemsEvent event,
     Emitter<CartState> emit,
   ) async {
+    if (state.cartitems.isEmpty || event.forceLoading) {
+      emit(state.copyWith(status: CartStatus.loading));
+    }
     try {
       final items = await cartRepository.getCartItems();
       final totals = _calculateTotals(items);

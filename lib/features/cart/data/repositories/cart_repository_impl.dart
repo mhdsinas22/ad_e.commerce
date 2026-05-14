@@ -117,11 +117,17 @@ class CartRepositoryImpl implements CartRepository {
       if (user == null) return;
       final hiveitems = await cartLocalDatasource.getCartItems();
       for (var item in hiveitems) {
-        await remote.addToCart(
-          productId: item.productId,
-          storeName: item.storename,
-          price: item.price,
-        );
+        try {
+          await remote.addToCart(
+            productId: item.productId,
+            storeName: item.storename,
+            price: item.price,
+          );
+        } catch (e) {
+          AppLogger.error("Failed to sync item ${item.productId}: ${e.toString()}");
+        }
+      }
+      if (hiveitems.isNotEmpty) {
         await cartLocalDatasource.clearCart();
       }
     } catch (e) {

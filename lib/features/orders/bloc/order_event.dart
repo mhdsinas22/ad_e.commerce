@@ -20,3 +20,5 @@ class CancelOrderEvent extends OrderEvent {
 
   CancelOrderEvent({required this.order, required this.reason});
 }
+
+class ClearOrdersEvent extends OrderEvent {}
