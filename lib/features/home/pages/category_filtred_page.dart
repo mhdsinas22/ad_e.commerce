@@ -14,7 +14,6 @@ import 'package:aerstore/features/product/bloc/proudctbloc/product_state.dart';
 import 'package:aerstore/features/search/bloc/search_bloc.dart';
 import 'package:aerstore/features/search/bloc/search_state.dart';
 import 'package:aerstore/features/search/widgets/search_bar.dart';
-import 'package:flutter/foundation.dart' hide Category;
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -130,13 +129,17 @@ class CategoryFiltredPage extends StatelessWidget {
                                 return BlocBuilder<SearchBloc, SearchState>(
                                   builder: (context, searchState) {
                                     final query =
-                                        kIsWeb
-                                            ? (search ?? "")
+                                        (searchState.query.isNotEmpty)
+                                            ? searchState.query
                                                 .toLowerCase()
                                                 .trim()
-                                            : searchState.query
-                                                .toLowerCase()
-                                                .trim();
+                                            : Uri.decodeComponent(
+                                              (search ?? "").replaceAll(
+                                                '+',
+                                                ' ',
+                                              ),
+                                            ) // '+' maatti space aakkunnu
+                                            .toLowerCase().trim();
 
                                     final finallist =
                                         basefilteredlist.where((product) {

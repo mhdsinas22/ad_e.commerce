@@ -109,11 +109,10 @@ class _CheckoutPageState extends State<CheckoutPageUi> {
   String _selectedSaveAs = "home";
   String? _selectedState;
   String? _selectedDistrict;
-  int _selectedAddressIndex =
-      0; // Default to 'Add New' (index 2 based on previous logic)
   bool _isEditingAddress = false;
   bool get _isFormValid {
     final addresses = context.read<AddressBloc>().state.addresses;
+    final selectedAddressIndex = context.read<AddressBloc>().state.selectedAddressIndex;
     final addNewIndex = addresses.length;
 
     // No saved addresses → must validate form
@@ -122,7 +121,7 @@ class _CheckoutPageState extends State<CheckoutPageUi> {
     }
 
     // Existing address selected → VALID
-    if (_selectedAddressIndex != addNewIndex) {
+    if (selectedAddressIndex != addNewIndex) {
       return true;
     }
 
@@ -191,12 +190,13 @@ class _CheckoutPageState extends State<CheckoutPageUi> {
         BlocListener<PaymentBloc, PaymentState>(
           listener: (context, state) {
             final addresses = context.read<AddressBloc>().state.addresses;
+            final selectedAddressIndex = context.read<AddressBloc>().state.selectedAddressIndex;
             final addNewIndex = addresses.length;
 
             AddressModel? selectedAddress;
-            if (_selectedAddressIndex != addNewIndex) {
+            if (selectedAddressIndex != addNewIndex && selectedAddressIndex >= 0 && selectedAddressIndex < addresses.length) {
               selectedAddress = AddressModel.fromEntity(
-                addresses[_selectedAddressIndex],
+                addresses[selectedAddressIndex],
               );
             }
             if (state.status == PaymentStatus.success) {
@@ -406,14 +406,14 @@ class _CheckoutPageState extends State<CheckoutPageUi> {
                           _selectedDistrict = value;
                         });
                       },
-                      selectedAddressIndex: _selectedAddressIndex,
+                      selectedAddressIndex: state.selectedAddressIndex < 0 ? 0 : state.selectedAddressIndex,
                       onAddressSelected: (index) {
                         final addresses = state.addresses;
                         final addNewIndex = addresses.length;
 
-                        setState(() {
-                          _selectedAddressIndex = index;
+                        context.read<AddressBloc>().add(SelectAddressEvent(index));
 
+                        setState(() {
                           if (index == addNewIndex) {
                             // Add New
                             _isEditingAddress = true;
@@ -449,9 +449,9 @@ class _CheckoutPageState extends State<CheckoutPageUi> {
                           _selectedState = address.state;
                           _selectedDistrict = address.district;
                           _selectedSaveAs = address.saveAs;
-                          _selectedAddressIndex = index;
                           _isEditingAddress = true;
                         });
+                        context.read<AddressBloc>().add(SelectAddressEvent(index));
                       },
                     );
                   },
@@ -471,15 +471,6 @@ class _CheckoutPageState extends State<CheckoutPageUi> {
               context.read<PaymentBloc>().add(
                 StartPayment(amount: amountInPaise),
               );
-            }
-            if (state.addresses.isNotEmpty) {
-              setState(() {
-                _selectedAddressIndex = 0;
-              });
-            } else {
-              setState(() {
-                _selectedAddressIndex = 0;
-              });
             }
           },
           child: BlocBuilder<AddressBloc, AddressState>(
@@ -556,34 +547,50 @@ class _CheckoutPageState extends State<CheckoutPageUi> {
 
   void _onNextPressed(AddressState state) {
     final addresses = state.addresses;
+    final selectedAddressIndex = state.selectedAddressIndex;
     final addNewIndex = addresses.length;
-    final amountInPaise = _getPaymentAmountInPaise(); // ✅
+
     final cartstate = context.read<CartBloc>().state;
-    if (cartstate.totalAmount == 0) {
+
+    // ✅ NEW ADDRESS FLOW
+    if (selectedAddressIndex == addNewIndex) {
+      final shouldPayOnline = cartstate.totalAmount > 0;
+
+      _shouldTriggerPayment = shouldPayOnline;
+
+      _submitNewAddress(state, goToPayment: shouldPayOnline);
+
+      return;
+    }
+
+    // ✅ SAFETY CHECK
+    if (selectedAddressIndex >= addresses.length || selectedAddressIndex < 0) {
+      return;
+    }
+
+    // ✅ WALLET FULL PAYMENT
+    if (cartstate.totalAmount <= 0) {
       _createOrderDirect();
       return;
     }
 
-    if (_selectedAddressIndex != addNewIndex) {
-      // ✅ Existing address → direct payment
-      context.read<PaymentBloc>().add(StartPayment(amount: amountInPaise));
-      return;
-    }
-    _shouldTriggerPayment = true;
-    // ✅ New address → save first
-    _submitNewAddress(state, goToPayment: true);
+    // ✅ ONLINE PAYMENT
+    final amountInPaise = _getPaymentAmountInPaise();
+
+    context.read<PaymentBloc>().add(StartPayment(amount: amountInPaise));
   }
 
   void _createOrderDirect() {
     final cartstate = context.read<CartBloc>().state;
     final addresses = context.read<AddressBloc>().state.addresses;
+    final selectedAddressIndex = context.read<AddressBloc>().state.selectedAddressIndex;
     final addNewIndex = addresses.length;
 
     AddressModel? selectedAddress;
 
-    if (_selectedAddressIndex != addNewIndex) {
+    if (selectedAddressIndex != addNewIndex && selectedAddressIndex >= 0 && selectedAddressIndex < addresses.length) {
       selectedAddress = AddressModel.fromEntity(
-        addresses[_selectedAddressIndex],
+        addresses[selectedAddressIndex],
       );
     }
 
@@ -627,11 +634,12 @@ class _CheckoutPageState extends State<CheckoutPageUi> {
 
   void _saveAddress(AddressState state) {
     final addresses = state.addresses;
+    final selectedAddressIndex = state.selectedAddressIndex;
     final addNewIndex = addresses.length;
 
     // Existing address selected
-    if (_selectedAddressIndex != addNewIndex) {
-      final entity = addresses[_selectedAddressIndex];
+    if (selectedAddressIndex != addNewIndex && selectedAddressIndex >= 0 && selectedAddressIndex < addresses.length) {
+      final entity = addresses[selectedAddressIndex];
 
       final updatedAddress = AddressModel.fromEntity(entity).copyWith(
         pincode:
@@ -686,14 +694,15 @@ class _CheckoutPageState extends State<CheckoutPageUi> {
 
   void _deleteAddress(AddressState state) {
     final addresses = state.addresses;
+    final selectedAddressIndex = state.selectedAddressIndex;
     final addNewIndex = addresses.length;
 
     // ❌ Add New selected → delete allowed alla
-    if (_selectedAddressIndex == addNewIndex) {
+    if (selectedAddressIndex == addNewIndex || selectedAddressIndex < 0 || selectedAddressIndex >= addresses.length) {
       return;
     }
 
-    final selectedAddress = addresses[_selectedAddressIndex];
+    final selectedAddress = addresses[selectedAddressIndex];
 
     context.read<AddressBloc>().add(DeleteAddressEvent(selectedAddress.id!));
 

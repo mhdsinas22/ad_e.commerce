@@ -81,7 +81,7 @@ class OnboardingStartpage extends StatelessWidget {
                                 backgroundColor: AppColors.primaryBlack,
                                 onTap: () {
                                   context.pushReplacementNamed(
-                                    RouteNames.login,
+                                    RouteNames.phoneLogin,
                                   );
                                 },
                               ),

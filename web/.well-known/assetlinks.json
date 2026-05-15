@@ -7,7 +7,9 @@
       "namespace": "android_app",
       "package_name": "com.aerstore.app",
       "sha256_cert_fingerprints": [
-        "8C:45:4B:8A:08:FA:BE:A6:99:6A:06:B6:DD:DA:FD:A5:1C:C9:3C:DC:30:D0:75:F1:AD:74:24:30:F5:69:53:E6"
+        "8C:45:4B:8A:08:FA:BE:A6:99:6A:06:B6:DD:DA:FD:A5:1C:C9:3C:DC:30:D0:75:F1:AD:74:24:30:F5:69:53:E6",
+        "C1:57:88:2C:BB:ED:B7:3A:E9:93:36:03:19:A8:7D:48:EA:BA:CA:6A:61:C6:F9:EA:97:80:4E:6C:21:2F:81:B5",
+        "80:21:1A:01:A9:40:73:1A:6D:68:22:C0:49:E1:A2:C3:6B:FD:60:A6:52:0F:37:64:69:81:A7:6D:A5:24:C2:12"
       ]
     }
   }

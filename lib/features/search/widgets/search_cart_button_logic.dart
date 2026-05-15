@@ -34,7 +34,7 @@ class SearchCartButtonLogic extends StatelessWidget {
             ),
             onPressed: () {
               if (isInCart) {
-                context.pushNamed(RouteNames.cart);
+                context.goNamed(RouteNames.cart);
               } else {
                 context.read<CartBloc>().add(
                   AddToCartEvent(

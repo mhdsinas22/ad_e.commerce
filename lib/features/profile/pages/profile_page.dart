@@ -135,7 +135,7 @@ class ProfilePage extends StatelessWidget {
                                 child: StoreCard(
                                   image: AssetConstants.kozhikodestorephonto,
                                   title: "Kozhikode AER Store",
-                                  phone: "+917511166623",
+                                  phone: "+917511166624",
                                   onLocationTap: () async {
                                     final place =
                                         await Supabase.instance.client
@@ -147,10 +147,10 @@ class ProfilePage extends StatelessWidget {
                                     );
                                   },
                                   onWhatsappTap: () {
-                                    Helpers.openWhatsapp("+917511166623");
+                                    Helpers.openWhatsapp("+917511166624");
                                   },
                                   onCallTap: () {
-                                    Helpers.makePhoneCall("+917511166623");
+                                    Helpers.makePhoneCall("+917511166624");
                                   },
                                 ),
                               ),
@@ -185,7 +185,7 @@ class ProfilePage extends StatelessWidget {
                               StoreCard(
                                 image: AssetConstants.kozhikodestorephonto,
                                 title: "Kozhikode AER Store",
-                                phone: "+917511166623",
+                                phone: "+917511166624",
                                 onLocationTap: () async {
                                   final place =
                                       await Supabase.instance.client
@@ -195,10 +195,10 @@ class ProfilePage extends StatelessWidget {
                                   Helpers.openStoreLocation(mapLink.toString());
                                 },
                                 onWhatsappTap: () {
-                                  Helpers.openWhatsapp("+917511166623");
+                                  Helpers.openWhatsapp("+917511166624");
                                 },
                                 onCallTap: () {
-                                  Helpers.makePhoneCall("+917511166623");
+                                  Helpers.makePhoneCall("+917511166624");
                                 },
                               ),
                             ],

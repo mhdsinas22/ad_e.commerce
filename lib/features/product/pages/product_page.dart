@@ -662,13 +662,17 @@ class _ProductPageState extends State<_ProductPage>
           final isInCart = state.cartitems.any(
             (element) => element.productId == widget.product.id,
           );
-          if (state.status == CartStatus.loading) {
-            return const Center(child: CircularProgressIndicator());
+          final isLoading =
+              state.isAdding && state.loadingProductid == widget.product.id;
+          if (isLoading) {
+            return const Center(
+              child: CircularProgressIndicator(color: AppColors.pureBlack),
+            );
           }
           if (isInCart) {
             return OutlinedButton(
               onPressed: () async {
-                context.pushNamed(RouteNames.cart);
+                context.goNamed(RouteNames.cart);
               },
               style: OutlinedButton.styleFrom(
                 side: const BorderSide(color: Colors.black),

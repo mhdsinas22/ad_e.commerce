@@ -42,7 +42,7 @@ class _SplashScreenState extends State<SplashScreen> {
         routerState.uri.path; // Ithu '/productpage/ID' mathrame tharu
 
     // Path empty aanel allenkil splash aanel mathram Home-lekk viduka
-    if (path == "/" || path.isEmpty || path == AppRoutes.splashpage) {
+    if (path.isEmpty || path == AppRoutes.splashpage) {
       context.goNamed(RouteNames.mainShell);
     } else {
       // Deep link path ippo GoRouter automatically handle cheytholum.

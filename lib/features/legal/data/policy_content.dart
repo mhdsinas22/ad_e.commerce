@@ -23,7 +23,7 @@ Melmuri, Malappuram (P.O)
 Kerala – 676517
 India\n
 **Email**: aerstorellp@gmail.com\n
-**Phone**: [+91 7511166623](tel:+917511166623)\n
+**Phone**: [+91 7511166623](tel:+917511166624)\n
 **Website**: www.aerstore.in\n
 
 ---
@@ -133,7 +133,7 @@ However, no system can guarantee absolute security.
 Users may request account deletion by contacting our support team.
 To request account deletion, contact:
 Email: aerstorellp@gmail.com
-**Phone**: [+91 7511166623](tel:+917511166623)\n
+**Phone**: [+91 7511166623](tel:+917511166624)\n
 Once verified, your account and related personal information will be deleted within a
 reasonable period unless required for legal or business purposes.
 
@@ -160,7 +160,7 @@ AER LLP
 Melmuri, Malappuram – 676517
 Kerala, India
 Email: aerstorellp@gmail.com\n
-**Phone**: [+91 7511166623](tel:+917511166623)\n
+**Phone**: [+91 7511166623](tel:+917511166624)\n
 Website: www.aerstore.in
 """,
   );
@@ -184,7 +184,7 @@ By accessing or using our services, you agree to comply with these Terms.
 Melmuri, Malappuram (P.O) – 676517
 Kerala, India\n
 **Email:** [aerstorellp@gmail.com](mailto:aerstorellp@gmail.com)\n
-**Phone:** [+91 7511166623](tel:+917511166623)\n
+**Phone:** [+91 7511166623](tel:+917511166624)\n
 ---
 # 2. Services Provided
 AER provides the following services through the app and website:\n
@@ -285,7 +285,7 @@ If the wrong product is delivered due to an error from our side, AER will:\n
 # 3. Order Cancellation
 Orders can be cancelled by contacting customer support.
 Contact:\n
-**Phone:** [+91 7511166623](tel:+917511166623)\n
+**Phone:** [+91 7511166623](tel:+917511166624)\n
 **Email:** aerstorellp@gmail.com\n
 Cancellation eligibility depends on the order processing stage.\n
 
@@ -381,7 +381,7 @@ After verification, AER will provide further instructions.''',
     effectiveDate: "",
     content: '''
 **Trade name:** AER LLP\n
-**Phone:** [+91 7511166623](tel:+917511166623)\n
+**Phone:** [+91 7511166623](tel:+917511166624)\n
 **Email:** [aerstorellp@gmail.com](mailto:aerstorellp@gmail.com)\n
 **Physical address:** 28/204/B, Near Yan Engineering, Melmuri, Malappuram – 676517
 Kerala, India''',

@@ -18,7 +18,7 @@ class AddressRemoteDatasoureimpl implements AddressRemoteDatasource {
       return response.map((e) => AddressModel.fromJson(e)).toList();
     } catch (e) {
       AppLogger.error("get AddesEEROR:_${e.toString()}");
-      return [];
+      rethrow;
     }
   }
 

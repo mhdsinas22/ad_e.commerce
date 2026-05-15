@@ -46,13 +46,13 @@ void main() async {
   await dotenv.load(fileName: ".env");
   // Supabase init
   await Supabase.initialize(
-    url: "https://api.aerstore.in",
-    anonKey:
-        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InV1bXFoaXh2eXRka2lpaXV5aG5hIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjU3NzAxNTgsImV4cCI6MjA4MTM0NjE1OH0.lElvwN7psm2gaWpt2QFuAK6p2QR6-9RY1qWp_t9Y1Gw",
+    url: dotenv.env['SUPABASE_URL']!,
+    anonKey: dotenv.env['SUPABASE_ANON_KEY']!,
   );
   // Hive init(Guest Cart)
   await Hive.initFlutter();
   await Hive.openBox("guest_cart");
+  await Hive.openBox("address_cache");
   final supabase = Supabase.instance.client;
   final cartRepository = CartRepositoryImpl(
     CartRemoteDatasourceimpl(supabase),
