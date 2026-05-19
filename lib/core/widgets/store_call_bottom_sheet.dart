@@ -39,7 +39,7 @@ class StoreCallBottomSheet {
                   borderRadius: 12,
                   text: "Calicut",
                   onPressed: () {
-                    Helpers.makePhoneCall("+917511166623");
+                    Helpers.makePhoneCall("+917511166624");
                   },
                 ),
               ],

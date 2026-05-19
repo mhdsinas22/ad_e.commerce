@@ -112,7 +112,8 @@ class _CheckoutPageState extends State<CheckoutPageUi> {
   bool _isEditingAddress = false;
   bool get _isFormValid {
     final addresses = context.read<AddressBloc>().state.addresses;
-    final selectedAddressIndex = context.read<AddressBloc>().state.selectedAddressIndex;
+    final selectedAddressIndex =
+        context.read<AddressBloc>().state.selectedAddressIndex;
     final addNewIndex = addresses.length;
 
     // No saved addresses → must validate form
@@ -190,11 +191,14 @@ class _CheckoutPageState extends State<CheckoutPageUi> {
         BlocListener<PaymentBloc, PaymentState>(
           listener: (context, state) {
             final addresses = context.read<AddressBloc>().state.addresses;
-            final selectedAddressIndex = context.read<AddressBloc>().state.selectedAddressIndex;
+            final selectedAddressIndex =
+                context.read<AddressBloc>().state.selectedAddressIndex;
             final addNewIndex = addresses.length;
 
             AddressModel? selectedAddress;
-            if (selectedAddressIndex != addNewIndex && selectedAddressIndex >= 0 && selectedAddressIndex < addresses.length) {
+            if (selectedAddressIndex != addNewIndex &&
+                selectedAddressIndex >= 0 &&
+                selectedAddressIndex < addresses.length) {
               selectedAddress = AddressModel.fromEntity(
                 addresses[selectedAddressIndex],
               );
@@ -212,12 +216,15 @@ class _CheckoutPageState extends State<CheckoutPageUi> {
                   orderId: "",
                   productId: widget.directProduct!.id!,
                   productName: widget.directProduct!.title,
-                  productImage: widget.directProduct!.imageUrls.first,
+                  productImage:
+                      widget.directProduct!.imageUrls.isEmpty
+                          ? widget.directProduct!.imageUrls[0]
+                          : "",
                   sku: "sku1",
                   price: widget.directProduct!.price,
                   quantity: 1,
                   productStorge: widget.directProduct!.storage,
-                  productColor: "", // if available
+                  productColor: widget.directProduct!.color, // if available
                   productModelNumber: widget.directProduct!.modelNumber,
                   productrating: widget.directProduct!.rating.toString(),
                   productNoOfRating:
@@ -406,12 +413,17 @@ class _CheckoutPageState extends State<CheckoutPageUi> {
                           _selectedDistrict = value;
                         });
                       },
-                      selectedAddressIndex: state.selectedAddressIndex < 0 ? 0 : state.selectedAddressIndex,
+                      selectedAddressIndex:
+                          state.selectedAddressIndex < 0
+                              ? 0
+                              : state.selectedAddressIndex,
                       onAddressSelected: (index) {
                         final addresses = state.addresses;
                         final addNewIndex = addresses.length;
 
-                        context.read<AddressBloc>().add(SelectAddressEvent(index));
+                        context.read<AddressBloc>().add(
+                          SelectAddressEvent(index),
+                        );
 
                         setState(() {
                           if (index == addNewIndex) {
@@ -451,7 +463,9 @@ class _CheckoutPageState extends State<CheckoutPageUi> {
                           _selectedSaveAs = address.saveAs;
                           _isEditingAddress = true;
                         });
-                        context.read<AddressBloc>().add(SelectAddressEvent(index));
+                        context.read<AddressBloc>().add(
+                          SelectAddressEvent(index),
+                        );
                       },
                     );
                   },
@@ -551,10 +565,17 @@ class _CheckoutPageState extends State<CheckoutPageUi> {
     final addNewIndex = addresses.length;
 
     final cartstate = context.read<CartBloc>().state;
+    // ACTUAL AMOUNT CALCULATION (cart Or Direct Buy)
+    double amoutToPay = 0;
+    if (widget.isDirectBuy && widget.directProduct != null) {
+      amoutToPay = widget.directProduct!.price;
+    } else {
+      amoutToPay = cartstate.totalAmount;
+    }
 
     // ✅ NEW ADDRESS FLOW
     if (selectedAddressIndex == addNewIndex) {
-      final shouldPayOnline = cartstate.totalAmount > 0;
+      final shouldPayOnline = amoutToPay > 0;
 
       _shouldTriggerPayment = shouldPayOnline;
 
@@ -569,7 +590,7 @@ class _CheckoutPageState extends State<CheckoutPageUi> {
     }
 
     // ✅ WALLET FULL PAYMENT
-    if (cartstate.totalAmount <= 0) {
+    if (amoutToPay <= 0) {
       _createOrderDirect();
       return;
     }
@@ -583,12 +604,15 @@ class _CheckoutPageState extends State<CheckoutPageUi> {
   void _createOrderDirect() {
     final cartstate = context.read<CartBloc>().state;
     final addresses = context.read<AddressBloc>().state.addresses;
-    final selectedAddressIndex = context.read<AddressBloc>().state.selectedAddressIndex;
+    final selectedAddressIndex =
+        context.read<AddressBloc>().state.selectedAddressIndex;
     final addNewIndex = addresses.length;
 
     AddressModel? selectedAddress;
 
-    if (selectedAddressIndex != addNewIndex && selectedAddressIndex >= 0 && selectedAddressIndex < addresses.length) {
+    if (selectedAddressIndex != addNewIndex &&
+        selectedAddressIndex >= 0 &&
+        selectedAddressIndex < addresses.length) {
       selectedAddress = AddressModel.fromEntity(
         addresses[selectedAddressIndex],
       );
@@ -596,40 +620,77 @@ class _CheckoutPageState extends State<CheckoutPageUi> {
 
     if (selectedAddress == null) return;
 
-    final orderitems =
-        cartstate.cartitems
-            .map(
-              (e) => OrderItem(
-                orderId: "",
-                productId: e.productId,
-                productName: e.title,
-                productImage: e.imageUrl,
-                sku: "sku1",
-                price: e.price,
-                quantity: e.quantity,
-                productStorge: e.storeage,
-                productColor: e.color,
-                productModelNumber: e.modelNumber,
-                productrating: e.rating,
-                productNoOfRating: e.noOfRating,
-              ),
-            )
-            .toList();
+    if (widget.isDirectBuy && widget.directProduct != null) {
+      final orderItem = OrderItem(
+        orderId: "",
+        productId: widget.directProduct!.id!,
+        productName: widget.directProduct!.title,
+        productImage: widget.directProduct!.imageUrls[0],
+        sku: "sku1",
+        price: widget.directProduct!.price,
+        quantity: 1,
+        productStorge: widget.directProduct!.storage,
+        productColor: widget.directProduct!.color,
+        productModelNumber: widget.directProduct!.modelNumber,
+        productrating: widget.directProduct!.rating.toString(),
+        productNoOfRating: widget.directProduct!.noofreviews.toString(),
+      );
 
-    context.read<OrderBloc>().add(
-      CreateOrderEvent(
-        orders: Orders(
-          userId: Supabase.instance.client.auth.currentUser!.id,
-          totalAmount: 0,
-          status: "placed",
-          paymentMethod: "wallet",
-          shippingAddress: selectedAddress.toJson(),
-          orderItems: [],
-          walletUsed: cartstate.walletUsed,
+      context.read<OrderBloc>().add(
+        CreateOrderEvent(
+          orderitems: [
+            orderItem,
+          ], // ✅ ITEM WILL BE ADDED HERE (No items error varilla)
+          orders: Orders(
+            userId: Supabase.instance.client.auth.currentUser!.id,
+            totalAmount:
+                widget
+                    .directProduct!
+                    .price, // ✅ Backend price safe aayi pass cheyyam
+            status: "placed",
+            paymentMethod: "wallet", // (Price 0 anengil mathram bypass aavan)
+            shippingAddress: selectedAddress.toJson(),
+            orderItems: [],
+            walletUsed: 0,
+          ),
         ),
-        orderitems: orderitems,
-      ),
-    );
+      );
+    } else {
+      final orderitems =
+          cartstate.cartitems
+              .map(
+                (e) => OrderItem(
+                  orderId: "",
+                  productId: e.productId,
+                  productName: e.title,
+                  productImage: e.imageUrl,
+                  sku: "sku1",
+                  price: e.price,
+                  quantity: e.quantity,
+                  productStorge: e.storeage,
+                  productColor: e.color,
+                  productModelNumber: e.modelNumber,
+                  productrating: e.rating,
+                  productNoOfRating: e.noOfRating,
+                ),
+              )
+              .toList();
+
+      context.read<OrderBloc>().add(
+        CreateOrderEvent(
+          orders: Orders(
+            userId: Supabase.instance.client.auth.currentUser!.id,
+            totalAmount: 0,
+            status: "placed",
+            paymentMethod: "wallet",
+            shippingAddress: selectedAddress.toJson(),
+            orderItems: [],
+            walletUsed: cartstate.walletUsed,
+          ),
+          orderitems: orderitems,
+        ),
+      );
+    }
   }
 
   void _saveAddress(AddressState state) {
@@ -638,7 +699,9 @@ class _CheckoutPageState extends State<CheckoutPageUi> {
     final addNewIndex = addresses.length;
 
     // Existing address selected
-    if (selectedAddressIndex != addNewIndex && selectedAddressIndex >= 0 && selectedAddressIndex < addresses.length) {
+    if (selectedAddressIndex != addNewIndex &&
+        selectedAddressIndex >= 0 &&
+        selectedAddressIndex < addresses.length) {
       final entity = addresses[selectedAddressIndex];
 
       final updatedAddress = AddressModel.fromEntity(entity).copyWith(
@@ -698,7 +761,9 @@ class _CheckoutPageState extends State<CheckoutPageUi> {
     final addNewIndex = addresses.length;
 
     // ❌ Add New selected → delete allowed alla
-    if (selectedAddressIndex == addNewIndex || selectedAddressIndex < 0 || selectedAddressIndex >= addresses.length) {
+    if (selectedAddressIndex == addNewIndex ||
+        selectedAddressIndex < 0 ||
+        selectedAddressIndex >= addresses.length) {
       return;
     }
 
