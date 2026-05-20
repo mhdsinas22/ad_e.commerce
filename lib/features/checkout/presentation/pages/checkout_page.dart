@@ -217,7 +217,7 @@ class _CheckoutPageState extends State<CheckoutPageUi> {
                   productId: widget.directProduct!.id!,
                   productName: widget.directProduct!.title,
                   productImage:
-                      widget.directProduct!.imageUrls.isEmpty
+                      widget.directProduct!.imageUrls.isNotEmpty
                           ? widget.directProduct!.imageUrls[0]
                           : "",
                   sku: "sku1",
